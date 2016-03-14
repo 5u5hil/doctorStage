@@ -1,0 +1,103 @@
+<ion-view class="category-list-view">
+  <ion-nav-title>
+    <span>Test Results</span>
+</ion-nav-title>
+
+  <ion-content>
+ <div class="tabcontainer">
+
+                        <div class="row cbtn3">
+                            <button class="col button" ng-controller="PlaintestCtrl" ng-click="modal.show()">
+                                <span class="icon ion-plus-circled"></span> Plain Text
+                            </button>
+                            <button class="col button" ng-controller="LoincCtrl" ng-click="modal.show()">
+                                <span class="icon ion-plus-circled"></span> Loinc
+                            </button>
+
+                        </div>
+
+                        <div class="posts-list" >
+                            <div  class="list card post-item">
+                                <div class="post-content item item-text-wrap p0">
+                                    <div  class="card-content paraspacing">
+                                        <div class="cardheading">Plain Text <div class="edit-btn">
+                                                <a ui-sref="#" ng-controller="PlaintestCtrl" ng-click="modal.show()"><i class="ion-edit"></i></a></div></div>
+                                        <p>Plain text 1,  Plain text 2, Plain text 1</p>
+
+                                        <div class="clr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="posts-list">
+                            <div  class="list card post-item">
+                                <div class="post-content item item-text-wrap p0">
+                                    <div  class="card-content paraspacing">
+                                        <div class="cardheading">Loinc <div class="edit-btn">
+                                                <a ui-sref="#" ng-controller="LoincCtrl" ng-click="modal.show()"><i class="ion-edit"></i></a></div></div>
+                                        <p>Loinc 1,  Loinc 2, Loinc 1</p>
+                                        <div class="clr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+              
+
+  </ion-content>
+      <div class="fixedbar">
+		<a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> Cancel</a>
+	  <div class="button btn-add"><i class="ion-checkmark"></i> Save</div>
+	 </div>
+  
+  
+  
+</ion-view>
+
+	  
+	<script id="addeval" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Plain Text</h1>
+   
+        </ion-header-bar>
+        <ion-content class="padding">
+        <div class="list">
+        <label class="item item-input">
+        <textarea ng-model="" type="text" col="" rows="10" placeholder="Enter"></textarea>
+        </label>
+        <div class="mtb20">
+        <ion-checkbox ng-model="filter.makesummary">Mark as Summary </ion-checkbox>
+        </div>
+   
+        </div>
+        </ion-content>
+		
+	<div class="fixedbar">
+			<div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+	  <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+	</div>
+		
+        </ion-modal-view>
+</script>
+	  
+   <script id="loinc" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Loinc</h1>	 
+        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list list-inset">
+        <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search">
+        </label>
+        </div>
+        </ion-content>
+        </ion-modal-view>
+    </script>

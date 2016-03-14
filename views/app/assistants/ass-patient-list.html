@@ -1,0 +1,71 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Patients list</span>
+    </ion-nav-title>
+    <ion-content>
+
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search" ng-model="search">
+            </label>
+        </div>
+        <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" >
+            <div class="item item-divider">{{header}}</div>
+            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.ass-patient" ui-sref-opts="{reload: true}">
+                <h2>{{users.fname}} {{users.lname}}</h2>
+                <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
+            </a>
+        </div>
+    </ion-content>
+ <div class="fixedbar">
+   <div class="button btn-add" ng-click="modal.show()"> <i class="icon ion-plus-circled"></i> Add</div>
+	</div>
+</ion-view>
+
+<script id="assaddp" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Add Patient</h1>
+   <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
+    </ion-header-bar>
+    <ion-content >
+  <div class="item item-divider">Name</div>
+                        <label class="item item-input">
+                            <input type="text" placeholder="Name">
+                        </label>
+                      
+
+                        <div class="item item-divider">Aadhar Id</div>
+
+                        <label class="item item-input">
+                            <input type="number" placeholder="Aadhar Id">
+                        </label>
+
+                         <div class="item item-divider">Mobile</div>  
+                        <label class="item item-input">
+                            <input type="number" placeholder="Mobile">
+                        </label> 
+						
+					 <div class="item item-divider">Gender</div> 	
+			       <ion-list>
+                            <div class="row">
+                                <div class="col cradio"><ion-radio ng-model="casetype" name="" ng-value="'1'"  value="1" >Male</ion-radio></div>
+                                <div class="col cradio"> <ion-radio ng-model="casetype" name="" ng-value="'0'" value="0">Female</ion-radio></div>
+                            </div>
+                  </ion-list>			
+					<div class="item item-divider">Date Of Birth</div> 	
+					 <label class="item item-input">
+                            <input type="date" placeholder="DOB">
+                        </label> 
+						
+						
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-add" ng-click="modal.hide()" >Submit</div>
+    </div>
+    </ion-modal-view>
+</script>
+
+
+

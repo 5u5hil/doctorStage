@@ -1,0 +1,51 @@
+<ion-view class="login-view auth-view" cache-view="false">
+    <ion-content scroll="false">
+        <div class="row">
+            <div class="col col-center">
+                <div class="card login-container" content-tabs tabsdata='tabsdata'>
+                    <form name="login_form" class="" novalidate ng-cloak id="loginuser" ng-submit="doLogIn()">
+                        <my-tabs>
+                            <my-tab title="Login">
+                                <div class="list">
+                                    <label class="item item-input">
+                                        <input type="email" placeholder="Mobile or Email" id="useremail" name="user" ng-model="user.email" required>
+                                        
+                                    </label>
+
+                                    <label class="item item-input" show-hide-container>
+                                        <input type="password" placeholder="Password" id="password" name="password" ng-model="user.password" required show-hide-input>                                        
+                                    </label>                                    
+                                </div>
+                                <div class='error text-center' ><span class='error text-center' style="color:#e42012;" ng-model='loginError' ng-bind-html='loginError' ></span></div>
+                                <div class="item item-body bottom-content">
+                                    <button type="submit" class="button button-positive button-block" ng-click="" ng-disabled="(selected_tab == 'Login') ? (login_form.email.$invalid || login_form.password.$invalid) : ((selected_tab == 'Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
+                                        Log In
+                                    </button>
+                                </div>
+                            </my-tab>
+                         <!--    <my-tab title="Social">
+                                <div class="txtcenter mtb20">
+                                    <h2 class="txtcenter">Login with Social Media</h2>
+                                    <div class="row">
+                                        <div class="col ion-social-facebook iconbuttons " data-pack="social" data-tags="facebook"></div>
+                                        <div class="col ion-social-tumblr iconbuttons" data-pack="social" data-tags="twitter"></div>
+                                        <div class="col ion-social-google iconbuttons " data-pack="social" data-tags="google"></div>
+                                    </div>
+                                </div>
+                            </my-tab> -->
+                        </my-tabs>
+
+                    </form>
+                </div>
+                <div class="alternative-actions">
+                   <!--  <a class="forgot-password button button-small button-clear button-light" ui-sref="auth.forgot-password">
+                        Forgot Password?
+                    </a> -->
+                    <!---<a class="sign-up button button-small button-clear button-light" ui-sref="auth.signup">
+                        Sign Up
+                    </a>--->
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

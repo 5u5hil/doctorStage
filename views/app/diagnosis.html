@@ -1,0 +1,262 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Diagnosis</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="ctab">
+            <ion-tabs class="tabs-positive tabs-icon-top">                
+                <!-- =========== Upcoming ===========-->
+				 <ion-tab title="Measurement" >
+				  <div class="tabcon2">
+				   <div class="item item-divider">Field Label1</div>
+					<label class="item item-input">
+					<input type="text" placeholder="Enter text">
+					</label>
+					<div class="item item-divider">Filter Labels-2</div>
+					 <label class="item item-input">
+						<textarea placeholder="Description"></textarea>
+					  </label>	
+					
+					<div class="item item-divider">Filter Labels-3</div>
+				
+					<li class="item item-toggle">
+						 Option1
+						 <label class="toggle toggle-assertive">
+						   <input type="checkbox">
+						   <div class="track">
+							 <div class="handle"></div>
+						   </div>
+						 </label>
+					  </li>
+					
+						<div class="item item-divider">Filter Labels-4</div>  
+						<label class="item item-input item-select">
+							<div class="input-label">
+							Select
+							</div>
+							<select>
+							  <option selected> option1</option>
+							  <option >option2</option>
+							  <option>option3</option>
+							</select>
+						  </label>  
+					<div class="item item-divider">Filter Labels-5</div>
+					<ion-list>
+					<div class="row">
+						<div class="col cradio"><ion-radio ng-model="choice" ng-value="'A'" checked>Choose A</ion-radio></div>
+						<div class="col cradio"> <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio></div>
+					</div>
+					</ion-list>
+					
+					
+				  </div>
+				 </ion-tab>
+                <ion-tab title="Observation" >
+                    <div class="tabcon2"> 
+					 
+					 
+					 <div class="row cbtn3">
+					
+						<button class="col button" ng-controller="PlaintestCtrl" ng-click="modal.show()">
+						 <span class="icon ion-plus-circled"></span> Plain Text
+						</button>
+					<button class="col button" ng-controller="SnowmedtCtrl" ng-click="modal.show()">
+						 <span class="icon ion-plus-circled"></span> Snowmed
+					</button>
+					<button class="col button " ng-controller="IcdCtrl" ng-click="modal.show()">
+						  <span class="icon ion-plus-circled"></span> ICD
+						</button>
+					</div>
+					 
+				 <div class="posts-list" >
+					<div  class="list card post-item">
+						<div class="post-content item item-text-wrap p0">
+							<div  class="card-content paraspacing">
+								<div class="cardheading">Plain Text <div class="edit-btn">
+								<a ui-sref="#" ng-controller="PlaintestCtrl" ng-click="modal.show()"><i class="ion-edit"></i></a></div></div>
+								<p>Plain text 1,  Plain text 2, Plain text 1</p>
+								
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				 <div class="posts-list">
+					<div  class="list card post-item">
+						<div class="post-content item item-text-wrap p0">
+							<div  class="card-content paraspacing">
+								<div class="cardheading">Snowmed <div class="edit-btn">
+								<a ui-sref="#" ng-controller="SnowmedtCtrl" ng-click="modal.show()"><i class="ion-edit"></i></a></div></div>
+								<p>Snowmed 1,  Snowmed 2, Snowmed 1</p>
+								
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				 <div class="posts-list">
+					<div  class="list card post-item">
+						<div class="post-content item item-text-wrap p0">
+							<div  class="card-content paraspacing">
+								<div class="cardheading">ICD <div class="edit-btn">
+								<a ui-sref="#" ng-controller="IcdCtrl" ng-click="modal.show()"><i class="ion-edit"></i></a>
+									</div></div>
+								<p>ICD 1,  ICD 2, ICD 1</p>
+								
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
+				</div>		
+						
+						
+						
+					 </div>
+                </ion-tab>
+
+                <ion-tab title="Test Results" >
+                    <div class="tabcontainer">
+						 
+				 <div class="row cbtn3">
+				<button class="col button" ng-controller="PlaintestCtrl" ng-click="modal.show()">
+					 <span class="icon ion-plus-circled"></span> Plain Text
+					</button>
+				<button class="col button" ng-controller="LoincCtrl" ng-click="modal.show()">
+					 <span class="icon ion-plus-circled"></span> Loinc
+				</button>
+				
+				</div>
+					 
+				 <div class="posts-list" >
+					<div  class="list card post-item">
+						<div class="post-content item item-text-wrap p0">
+							<div  class="card-content paraspacing">
+								<div class="cardheading">Plain Text <div class="edit-btn">
+								<a ui-sref="#" ng-controller="PlaintestCtrl" ng-click="modal.show()"><i class="ion-edit"></i></a></div></div>
+								<p>Plain text 1,  Plain text 2, Plain text 1</p>
+								
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				 <div class="posts-list">
+					<div  class="list card post-item">
+						<div class="post-content item item-text-wrap p0">
+							<div  class="card-content paraspacing">
+								<div class="cardheading">Loinc <div class="edit-btn">
+								<a ui-sref="#" ng-controller="LoincCtrl" ng-click="modal.show()"><i class="ion-edit"></i></a></div></div>
+								<p>Loinc 1,  Loinc 2, Loinc 1</p>
+								<div class="clr"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				 </div>
+                
+				</ion-tab>
+              
+            </ion-tabs>
+        </div>
+    </ion-content>
+
+    <div class="footerbar divider-2">
+        <a class="button" ui-sref="#" style="width:50%">Skip</a>
+        <a class="button" ui-sref="#" style="width:50%">Save & Proceed <i class="icon ion-arrow-right-c"></i></a>
+    </div>
+
+	
+<script id="addeval" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+           <h1 class="title">Plain Text</h1>
+        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+            <label class="item item-input">
+              <textarea ng-model="" type="text" col="" rows="10" placeholder="Enter"></textarea>
+            </label>
+           
+		     <div class="mtb20">
+			<ion-checkbox ng-model="filter.makesummary">Make as Summary </ion-checkbox>
+				</div>
+		   
+            <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
+          </div>
+		
+        </ion-content>
+		
+		
+      </ion-modal-view>
+</script>
+	
+	
+	
+	<script id="snomed" type="text/ng-template">
+		<ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+           <h1 class="title">Snomed</h1>	 
+		<button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+         <!-- <div class="item item-input-inset">
+			<label class="item-input-wrapper">
+			  <input type="text" placeholder="Email">
+			</label>
+			<button class="button button-small">
+			  Submit
+			</button>
+		 </div>-->
+		  
+		  <div class="list list-inset">
+		  <label class="item item-input">
+			<i class="icon ion-search placeholder-icon"></i>
+			<input type="text" placeholder="Search">
+		  </label>
+		</div>
+		 <div class="list">
+		  <ion-list>
+		<ion-checkbox ng-model="filter.snomed1">Snomed1</ion-checkbox>
+		  <ion-checkbox ng-model="filter.snomed2">Snomed2</ion-checkbox>
+		  <ion-checkbox ng-model="filter.snomed3">Snomed3</ion-checkbox>
+		  <ion-checkbox ng-model="filter.snomed4">Snomed4</ion-checkbox>
+		  <ion-checkbox ng-model="filter.snomed5">Snomed5</ion-checkbox>
+		  <ion-checkbox ng-model="filter.snomed6">Snomed6</ion-checkbox>
+		</ion-list>
+	
+		<p class="mtb20">
+		<ion-checkbox ng-model="filter.makesummary">Make as Summary </ion-checkbox>
+		</p>
+	
+		<button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
+		 </div>
+	  </ion-content>
+      </ion-modal-view>
+	</script>
+	
+	
+	<script id="icd" type="text/ng-template">
+	<ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+           <h1 class="title">ICD</h1>	 
+		<button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list list-inset">
+		  <label class="item item-input">
+			<i class="icon ion-search placeholder-icon"></i>
+			<input type="text" placeholder="Search">
+		  </label>
+		</div>
+
+	
+	  </ion-content>
+      </ion-modal-view>
+	</script>
+</ion-view>
+

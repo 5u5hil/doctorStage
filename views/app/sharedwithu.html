@@ -1,0 +1,54 @@
+<ion-view class="category-detail-view">
+    <ion-nav-title>
+        <span>Bhavana</span>
+    </ion-nav-title>
+    <ion-content>
+   
+
+		<div class="row tabnav">
+		<div class="col"><a ui-sref="app.createdbyu">Created by you</a></div>
+		<div class="col"><a ui-sref="app.sharedwithu" class="active">Shared with you</a></div>
+	 </div>	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        <div class="list cdetail-list">
+          
+            <div class="crecordlist">
+               
+                <a  class="item"  ui-sref="#">
+                    <span class="title">Allergies</span>	
+                    <span class="count">5</span>	
+                </a>
+				
+				
+				 <a  class="item"  ui-sref="#">
+                    <span class="title">Bills</span>	
+                    <span class="count">5</span>	
+                </a>
+
+            </div>
+        </div>  
+
+    </ion-content>
+
+  <div class="footerbar">
+        <a class="button btn-delete" ui-sref="#"><i class="icon ion-trash-b"></i> Delete</a>
+		
+        <a class="button btn-share" ui-sref="app.share" ><i class="icon ion-android-share-alt" ></i> Share</a>
+		
+        <!-- <a class="button" ng-controller="AdsCtrl" ng-click="manageAdMob()" ><i class="icon ion-android-add-circle"></i> Add</a> -->
+		
+		 <a class="button btn-add" ng-click="modal.show()" ><i class="icon ion-android-add-circle"></i> Add</a>
+	</div>
+</ion-view>

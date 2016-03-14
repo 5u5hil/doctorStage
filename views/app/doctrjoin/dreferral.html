@@ -1,0 +1,148 @@
+<ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Referral</h1>   
+
+    </ion-header-bar>
+
+  <ion-content>
+
+     <div class="mtop20"> 
+             <div class="row cbtn3">
+                <button class="col button" ng-controller="AddtreatmenttCtrl" ng-click="modal.show()">
+                     <span class="icon ion-plus-circled"></span> Add 
+                    </button>
+                
+                </div>
+                     
+                 <div class="posts-list" >
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div  class="card-content paraspacing">
+                                <div class="cardheading mb5">Medication 1</div>
+                                <div class="row txt-left">
+                                    <div class="col">
+                                        <p><strong>Name</strong>:  Leena</p>
+                                        <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                        
+                                        </div>
+                                    <div class="col">
+                                    <p><strong>Age</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                        </div>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="posts-list" >
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div  class="card-content paraspacing">
+                                <div class="cardheading mb5">Medication 2</div>
+                                <div class="row txt-left">
+                                    <div class="col">
+                                        <p><strong>Name</strong>:  Leena</p>
+                                        <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                        
+                                        </div>
+                                    <div class="col">
+                                    <p><strong>Age</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                        </div>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                 <div class="posts-list" >
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div  class="card-content paraspacing">
+                                <div class="cardheading mb5">Medication 3</div>
+                                <div class="row txt-left">
+                                    <div class="col">
+                                        <p><strong>Name</strong>:  Leena</p>
+                                        <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                        
+                                        </div>
+                                    <div class="col">
+                                    <p><strong>Age</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                        </div>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                 </div>   
+
+  </ion-content>
+
+		<div class="button btn-delete iframeclose" nav-clear  ><i class="ion-close"></i></div>
+
+</ion-view>
+
+<script id="add-treatmentplan" type="text/ng-template">
+      <ion-modal-view>
+      <ion-header-bar class="bar app-top-bar">
+           <h1 class="title">Add New Procedure</h1>
+        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+          <div class="list">
+             <div class="item item-divider">Name</div>
+                    <label class="item item-input">
+                    <input type="text" placeholder="Enter Name">
+                    </label>
+                    <div class="item item-divider">Age</div>
+                     <label class="item item-input">
+                    <input type="text" placeholder="Age">
+                    </label>
+                    
+                    <div class="item item-divider">Field Labels</div>
+                
+                    <li class="item item-toggle">
+                         Option1
+                         <label class="toggle toggle-assertive">
+                           <input type="checkbox">
+                           <div class="track">
+                             <div class="handle"></div>
+                           </div>
+                         </label>
+                      </li>
+                    
+                        <div class="item item-divider">Field Labels</div>  
+                        <label class="item item-input item-select">
+                            <div class="input-label">
+                            Select
+                            </div>
+                            <select>
+                              <option selected> option1</option>
+                              <option >option2</option>
+                              <option>option3</option>
+                            </select>
+                          </label>  
+                    <div class="item item-divider">Field Labels</div>
+                    <ion-list>
+                    <div class="row">
+                        <div class="col cradio"><ion-radio ng-model="choice" ng-value="'A'" checked>Choose A</ion-radio></div>
+                        <div class="col cradio"> <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio></div>
+                    </div>
+                    </ion-list>
+        
+           
+                   <br/>
+                 <div class="button-bar ">
+                  <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
+                  <a class="button button-positive">Submit</a>
+                </div>  
+             </div>
+        
+        </ion-content>
+     </ion-modal-view>
+</script>

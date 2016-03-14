@@ -1,0 +1,197 @@
+<ion-view class="rjoin-view" >
+    <ion-nav-title>
+        <span> {{user[0].fname}} {{user[0].lname}}</span>
+    </ion-nav-title>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear" ng-click="exitVideo()"> Exit</button>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader cbar">
+        <div class="row">
+            <div class="col txt-centre"><h5><a  ui-sref="#">Appointment at {{app[0].appointments.scheduled_start_time|time}}</a></h5></div>
+			<div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
+        </div>
+    </div>
+    <ion-content>
+        <div class="fltr-mesg"> &nbsp;</div>
+        <div class="mediascreen"  >
+            <!--<iframe class="videochat" ng-src="{{trustSrc(oToken)}}" ></iframe>-->
+            <div id='myPublisherDiv' style="position:absolute;right: 10px;bottom:10px"></div> 
+            <div id='subscribersDiv' class="subscribediv">Waiting for patient to join!</div> 
+        </div>
+    </ion-content>
+    <div class="sticyfooter joinfooter">
+        <div class="tabs tabs-icon-top">
+            <div class="tab-item muteMic" onclick="classtoggle(this)">
+				<i class="icon ion-ios-mic"></i>
+                <i class="icon ion-ios-mic-off"></i>
+                Mic
+            </div>
+           <!--   <div class="tab-item" onclick="classtoggle(this)" >
+                <i class="icon ion-videocamera"></i>
+                Video
+            </div>
+           <a class="tab-item" >
+                <i class="icon ion-refresh"></i>
+                Switch
+            </a>
+            <a class="tab-item muteSub" >
+                <i class="icon ion-volume-low"></i>
+                Valume
+            </a> -->
+        </div>
+    </div>
+	
+
+
+
+<div class="slideupdiv">
+<div class="button iframeclose" ng-click="removenoteslide()"> X </div>
+<div class="button iframesubmit" ng-click="removenoteslide()"> <i class="ion-checkmark"></i>  Save </div>
+
+<div class="ctitlebar">Consultation Note</div>
+    <div class="slideupcontent">
+	<ion-list>
+			<div class="row">
+				<div class="col cradio">
+				<ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio>
+				</div>
+				<div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
+			</div>
+		</ion-list>
+		
+	<label class="item item-input" id="newcase">
+		<input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+	</label>
+	<div class="mt15">
+	<div class="row tabnav bgwhite">
+	<div class="col brdrht"><a class="nbtn ion-image" onclick="showpopup('selectfile')" > Images</a></div>
+	<div class="col brdrht"><div class="nbtn ion-medkit" onclick="showpopup('selectnote')"> Notes</div></div>
+	<div class="col"><div class="nbtn ion-thermometer" onclick="showpopup('selectappointment')"> Treatment Plan</div></div>
+	</div>
+	</div>
+	</div>
+    </div>
+    <div class="ciframecontainer">
+        <!--<div class="closeifrme">X</div>-->
+       <iframe src="#/dpatient"></iframe>
+    </div>
+</ion-view>
+
+
+
+<div class="custpopup-container" id="selectfile">
+<div class="custpopup">
+
+<div class="attachcontainer">
+   <h3 class="heading3">Attach File</h3>
+
+<div class="row">
+<div class="col"> 
+<div class="filelabel">
+<input type="file" placeholder="Attachments" class="ng-pristine ng-untouched ng-valid">
+<label for="attachfile">Select Files</label>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col"><div class="btncamera">Camera</div></div>
+</div>
+
+<div class="row">
+<div class="col"><div class="btncamera">Clear (0 Files)</div></div>
+</div>
+
+<div class="ncbtn txt-center" onclick="close_popup('selectfile')"><i class="ion-close"></i></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="custpopup-container" id="selectnote">
+<div class="custpopup">
+<div class="ncbtn" onclick="close_popup('selectnote')"><i class="ion-close"></i></div>
+   <h3 class="heading3">Background</h3>
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dpatient')"><span class="icon ion-plus-circled"></span> Patient</div> 
+    </div>
+ <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dfamily-history')"><span class="icon ion-plus-circled"></span>  Family</div> 
+    </div>
+    </div>
+  <h3 class="heading3">Evaluation</h3>
+     <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dmeasurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
+    </div>
+
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dtestresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
+    </div>
+    </div>  
+
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dobservation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
+    </div>
+    </div>
+
+     <h3 class="heading3">Diagnosis</h3>
+      
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small"  ng-click="golink('#/dsnomed')"><span class="icon ion-plus-circled"></span> SNOMED</div> 
+    </div>
+
+    <div class="col">
+    <div class="Cstmbutn button-small"  ng-click="golink('#/dicd')"><span class="icon ion-plus-circled"></span> ICD</div> 
+    </div>
+    </div>       
+
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dtext')"> <span class="icon ion-plus-circled"></span> Text</div> 
+    </div>
+    </div>
+</div>
+</div>
+
+
+
+<div class="custpopup-container" id="selectappointment">
+<div class="custpopup">
+<div class="ncbtn" onclick="close_popup('selectappointment')"><i class="ion-close"></i></div>
+     <h3 class="heading3">Treatment Plan</h3>  
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dinvestigations')"><span class="icon ion-plus-circled"></span> Investigation</div> 
+    </div>
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dmedication')"><span class="icon ion-plus-circled"></span> Medication</div> 
+    </div>
+    </div>
+
+    <div class="row cbtn3 ">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dprocedure')"><span class="icon ion-plus-circled"></span> Procedure</div> </div>
+
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/ddietplan')"> <span class="icon ion-plus-circled"></span> Diet Plan</div> 
+    </div>
+    </div>
+
+
+
+    <div class="row cbtn3">
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dlifestyle')"><span class="icon ion-plus-circled"></span> Lifestyle</div> 
+    </div>
+
+    <div class="col">
+    <div class="Cstmbutn button-small" ng-click="golink('#/dreferral')"><span class="icon ion-plus-circled"></span> Referral</div> 
+    </div>
+    </div>
+</div>
+</div>

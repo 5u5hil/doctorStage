@@ -1,0 +1,80 @@
+<ion-view class="category-list-view">
+  <ion-nav-title>
+    <span>Measurement</span>
+</ion-nav-title>
+
+  <ion-content>
+  <div class="tabcon2">
+                        <div class="item item-divider">Blood Pressure</div>
+                        <label class="item item-input">
+                            <input type="text" placeholder="Systolic">
+                        </label>
+                         <label class="item item-input">
+                            <input type="text" placeholder="Diastolic">
+                        </label>	
+
+                        <div class="item item-divider">Pulse</div>
+
+                        <label class="item item-input">
+                            <input type="number" placeholder="Pulse">
+                        </label>
+
+                       <div class="item item-divider">Temperature</div>  
+                        <label class="item item-input">
+                            <input type="number" placeholder="Temperature" step="0.01">
+                        </label> 
+						
+						
+						<!-- <div class="item item-divider">Temperature</div>
+						<label class="item item-input item-floating-label">
+						<span class="input-label">Temperature</span>
+						<input type="number" placeholder="Some number">
+						</label> -->
+										
+						
+						
+                      <div class="item item-divider">Glucose</div>
+					  
+					   <label class="item item-input">
+                            <input type="number" placeholder="Glucose">
+						</label>
+					  
+					  
+					  	<label class="item item-input item-select">
+						<div class="input-label">
+						Type
+						</div>
+						<select>
+						  <option selected>Fasting</option>
+						  <option >Pre Breakfast</option>
+						  <option >Post Breakfast</option>
+						  <option>Pre Lunch</option>
+						  <option>Post Lunch</option>
+						  <option>Pre Dinner</option>
+						  <option>Post Dinner</option>
+						</select>
+					  </label>	
+					  
+					  
+					  
+                    <!--     <ion-list>
+                            <div class="row">
+                                <div class="col cradio"><ion-radio ng-model="choice" ng-value="'A'" checked>Choose A</ion-radio></div>
+                                <div class="col cradio"> <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio></div>
+                            </div>
+                        </ion-list> -->
+
+
+                    </div>
+                              
+	  
+	  
+ 
+  </ion-content>
+  
+  <div class="fixedbar">
+<a class="button btn-delete" ui-sref="app.consultations-note" ><i class="ion-close"></i> Cancel</a>
+	    <a class="button btn-add" ui-sref="app.consultations-note" ><i class="ion-checkmark"></i> Save</a>
+	</div>
+  
+</ion-view>

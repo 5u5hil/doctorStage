@@ -1,0 +1,62 @@
+<ion-view class="category-list-view">
+    <ion-nav-title>
+        <span>Diet Plan</span>
+    </ion-nav-title>
+
+    <ion-content>
+        <div class="tabcon2">
+            <div class="item item-divider">Basic Information</div>  
+            <div class="fields" ng-repeat="field in fields">
+                <div ng-if="field.field == 'Created By'">
+                    <label class="item item-input item-select" >
+                        <div class="input-label">Doctor</div>
+                        <select ng-model="formSelect" name="{{field.name}}" ng-change="getDrId(formSelect)">
+                            <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == userId}}" value="{{doc.id}}">{{doc.fname}}</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div ng-if="field.field_types.value == 'date'">
+                    <label class="item item-input item-stacked-label blabel" ng-if="field.field == 'End Date'">
+                        <span class='input-label'>{{field.field}}</span>
+                        <input type="date"  placeholder="" ng-model="endtime" value="{{curTime|dateFormat1}}" name="{{field.name}}" />                            
+                    </label>
+                    <label class="item item-input item-stacked-label blabel" ng-if="field.field != 'End Date'">
+                        <span class='input-label'>{{field.field}}</span>
+                        <input type="date"  placeholder="" ng-model="curTime" value="{{curTime|dateFormat1}}" name="{{field.name}}" />                            
+                    </label>
+                </div>
+            </div>
+            <div class="item item-divider">Attachments</div> 
+            <div class="row mt15">
+                <div class="col col-50 pl0"> 
+                    <div class="filelabel">
+                        <input type="file" placeholder="" name="df" onchange="" id="presciption" ng-model="prescription" />
+                        <label for="attachfile">File Selector</label>
+                    </div><br/>
+                    <div id="image-holder"></div>
+                </div>
+                <div class="col col-50">
+                    <div class="btncamera" ng-click=""><i class="ion-android-camera"></i> Camera</div>
+                </div>
+                <div id="camera-status"></div>
+            </div>
+            <div class="item item-divider">Detail diet plan</div> 
+            <div class="row">
+                <div class="col">
+                    <a ui-sref="app.dietplan-list" class="Cstmbutn button-small mb15"><span class="icon ion-plus-circled"></span> Add </a>
+                </div>
+            </div>
+            <ul class="clist">
+                <li class="">Day 1,</li>
+                <li class="">Day 2,</li>
+                <li class="">Day 3</li>
+            </ul>
+        </div>
+    </ion-content>
+
+    <div class="fixedbar">
+        <a class="button btn-add" ui-sref="app.dietplan-list" ><i class="ion-checkmark"></i> Save & Continue</a>
+    </div>
+
+</ion-view>

@@ -1,0 +1,281 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Consultation Note</span>
+    </ion-nav-title>
+
+
+    <ion-content>
+        <div class="tabcon2">
+			
+						<label class="item item-input item-select">
+						   <div class="input-label">
+							Patient
+							</div>
+							<select>
+							  <option selected>Patient</option>
+							  <option >Patient</option>
+							  <option>Patient</option>
+							  <option>Patient</option>
+							  <option>Patient</option>
+							</select>
+						  </label>	
+						  
+						  
+						  <label class="item item-input item-select">
+						   <div class="input-label">
+							Doctor
+							</div>
+							<select>
+							  <option selected>Doctor</option>
+							  <option >Doctor</option>
+							  <option>Doctor</option>
+							  <option>Doctor</option>
+							  <option>Doctor</option>
+							</select>
+						  </label>	 
+						   
+
+					     <label class="item item-input ">
+							<span class="input-label">Date</span>
+							<input type="date">
+						 </label>
+							
+						 <label class="item item-input">
+							<span class="input-label">Time</span>
+							<input type="time">
+						 </label>
+						 
+						 <label class="item item-input item-select">
+						<div class="input-label">
+							Mode
+						</div>
+						<select>
+						  <option selected>Video</option>
+						  <option >Clinic</option>
+						  <option>Home</option>
+						  <option>Phone</option>
+						  <option>Chat</option>
+						</select>
+					  </label>
+						 
+					<!--    <label class="item item-input item-select">
+						<div class="input-label">
+						Type
+						</div>
+						<select>
+						  <option selected>Outpatient</option>
+						  <option >Inpatient</option>
+						  <option>Emergency</option>
+						  <option>Investigations</option>
+						</select>
+					  </label>  -->
+		
+				<!-- 	<div class="item item-divider">Case Details</div> -->
+						<ion-list>
+							<div class="row">
+							<div class="col cradio"><ion-radio ng-model="choice" ng-value="'A'" checked>New Case</ion-radio></div>
+							<div class="col cradio"> <ion-radio ng-model="choice" ng-value="'B'">Ongoing Case</ion-radio></div>
+							</div>
+						</ion-list>
+					 
+					   
+					    <label class="item item-input">
+                            <input type="text" placeholder="Plain Text">
+                        </label>
+						
+						
+					  <label class="item item-input item-select">
+						<select class="cselect">
+						  <option selected>Dropdown</option>
+						  <option >Inpatient</option>
+						  <option>Emergency</option>
+						  <option>Investigations</option>
+						</select>
+					  </label> 
+		
+		
+		
+		
+		
+		
+		
+                        <div class="item item-divider">History</div>
+						  <div class="row cbtn3 mtb15">
+								<div class="col">
+									<a class="custombtn" ui-sref="app.about">Patient</a> 
+								</div>
+								
+								<div class="col">
+									<a class="custombtn" ui-sref="app.family-history">Family</a> 
+								</div>
+								
+								
+							</div>	
+
+							
+						<div class="item item-divider">Images</div> 
+							
+							<div class="row cbtn3 mtb15">
+								<div class="col">
+									<div class="custombtn" >File Selector</div> 
+								</div>
+								<div class="col">
+									<div class="custombtn">Camera</div> 
+								</div>
+								
+							</div>	
+							
+							
+							
+							
+                        <div class="item item-divider">Evaluation</div>
+
+							  <div class="row cbtn3 mtb15">
+								<div class="col">
+									<a class="custombtn" ui-sref="app.measurement">Measurements</a> 
+								</div>
+								<div class="col">
+									<a class="custombtn" ui-sref="app.observation">Observations</a> 
+								</div>
+								
+								<div class="col">
+									<a class="custombtn" ui-sref="app.testresult">Test Results</a> 
+								</div>
+							</div>	
+
+                        <div class="item item-divider">Diagnosis</div>  
+							  <div class="row cbtn3 mtb15">
+								<div class="col">
+									<div class="custombtn" ng-controller="PlaintestCtrl" ng-click="modal.show()">Plain Text</div> 
+								</div>
+								<div class="col">
+									<div class="custombtn" ng-controller="SnowmedtCtrl" ng-click="modal.show()">Snomed</div> 
+								</div>
+								
+								<div class="col">
+									<div class="custombtn" ng-controller="IcdCtrl" ng-click="modal.show()">ICD</div> 
+								</div>
+							</div>		 
+                      <div class="item item-divider">Treatment Plan</div>  
+							 <div class="row cbtn3 mtb15">
+								<div class="col">
+									<a class="custombtn" ui-sref="app.investigations">Investigation</a> 
+								</div>
+								<div class="col">
+									<a class="custombtn" ui-sref="app.medication">Medication</a> 
+								</div>
+								
+								<div class="col">
+									<a class="custombtn" ui-sref="app.procedure">Procedure</a> 
+								</div>
+							</div>
+
+						    
+                    </div>
+  </ion-content>
+
+    <div class="footerbar">
+	<div class="button button-positive"  style="width:100%">Submit</div>
+    </div>
+	
+</ion-view>
+
+
+
+
+ <script id="addeval" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Plain Text</h1>
+     
+        </ion-header-bar>
+        <ion-content class="padding">
+        <div class="list">
+        <label class="item item-input">
+        <textarea ng-model="" type="text" col="" rows="10" placeholder="Enter"></textarea>
+        </label>
+        <div class="mtb20">
+        <ion-checkbox ng-model="filter.makesummary">Mark as Summary</ion-checkbox>
+        </div>
+     
+        </div>
+        </ion-content>
+			<div class="fixedbar">
+						<div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+				  <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+				</div>
+        </ion-modal-view>
+</script>
+
+ <script id="snomed" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Snomed</h1>	 
+      
+        </ion-header-bar>
+        <ion-content>
+        <!-- <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+        <input type="text" placeholder="Email">
+        </label>
+        <button class="button button-small">
+        Submit
+        </button>
+        </div>-->
+
+        <div class="list list-inset">
+        <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search">
+        </label>
+        </div>
+        <div class="list">
+        <ion-list>
+        <ion-checkbox ng-model="filter.snomed1">Snomed1</ion-checkbox>
+        <ion-checkbox ng-model="filter.snomed2">Snomed2</ion-checkbox>
+        <ion-checkbox ng-model="filter.snomed3">Snomed3</ion-checkbox>
+        <ion-checkbox ng-model="filter.snomed4">Snomed4</ion-checkbox>
+        <ion-checkbox ng-model="filter.snomed5">Snomed5</ion-checkbox>
+        <ion-checkbox ng-model="filter.snomed6">Snomed6</ion-checkbox>
+        </ion-list>
+
+        <p class="mtb20">
+        <ion-checkbox ng-model="filter.makesummary">Make as Summary </ion-checkbox>
+        </p>
+
+        </div>
+        </ion-content>
+		<div class="fixedbar">
+		<div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+				  <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+				</div>
+		
+        </ion-modal-view>
+    </script>
+
+	    <script id="icd" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">ICD</h1>	 
+     
+        </ion-header-bar>
+        <ion-content>
+        <div class="list list-inset">
+        <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="Search">
+        </label>
+        </div>
+        </ion-content>
+		<div class="fixedbar">
+						<div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+				  <div class="button btn-add" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
+				</div>
+        </ion-modal-view>
+		
+</script>
+
+
+
+
+

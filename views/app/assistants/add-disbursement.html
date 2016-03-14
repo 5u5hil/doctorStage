@@ -1,0 +1,53 @@
+<ion-view cache-view="false" class="records-view">
+    <ion-nav-title>
+        <span>Disbursement</span>
+    </ion-nav-title>
+    <ion-content>
+		  <div class="list list-inset txt-center">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search" ng-model="search">
+            </label>
+			<button class="button button-positive mt15">Search</button>	
+        </div>
+	
+
+		<div class="item item-divider ng-binding">Search Results</div>
+<div class="item newlist-item">
+<div ng-click="showPopup()" class="hreflink"><h2 class="ng-binding">Crocin 
+<span class="flt-right">5 strips</span></h2></div>
+<div class="uinfo" ng-click="modal.show();"><i class="ion-ios-information"></i></div>
+</div>
+			
+
+<div class="item newlist-item">
+<div ng-click="showPopup()" class="hreflink"><h2 class="ng-binding">Crocin 
+<span class="flt-right">10 strips</span></h2></div>
+<div class="uinfo" ng-click="modal.show();"><i class="ion-ios-information"></i></div>
+</div>
+</ion-content>
+	
+	<div class="fixedbar">
+	<a class="button btn-delete" ui-sref="app.disbursement">Cancel</a>
+	<a class="button btn-add" ui-sref="app.disbursement">Save </a>
+	</div>
+</ion-view>
+
+<script id="infomedicine" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+	<h1 class="title">Crocin</h1>	 
+<button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i></button>
+    </ion-header-bar>
+    <ion-content>
+
+	<div class="item item-divider ng-binding">Treatment Plan</div>
+	<p class="p15">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+
+	<div class="item item-divider ng-binding">Side Effect</div>
+	<p class="p15">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+
+
+    </ion-content>
+    </ion-modal-view>
+</script>

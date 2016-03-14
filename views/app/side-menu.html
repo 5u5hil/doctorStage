@@ -1,0 +1,53 @@
+<ion-side-menus enable-menu-with-back-views="false">
+    <ion-side-menu-content class="post-size-14px">
+        <ion-nav-bar class="bar app-top-bar">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+                </button>
+            </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <a ui-sref="app.doctor-settings"><button class="button button-icon button-clear icon ion-gear-a"></button></a>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left" class="main-menu" expose-aside-when="large">
+        <ion-content>
+            <ion-list>
+                <ion-item class="heading-item item item-avatar" nav-clear menu-close ui-sref="app.profile" style="padding:0;">
+                    <div class="user-image-container">
+                        <pre-img ratio="_1_1" helper-class="rounded-image" >
+                            <img class="user-image" ng-if="userimage != ''" ng-src="{{imgpath}}{{userimage}}" spinner-on-load>
+                            <img class="user-image" ng-if="userimage == ''" ng-src="img/default-user.jpg" spinner-on-load>
+                        </pre-img>
+                    </div>
+                    <h2 class="greeting">Hi {{username}} </h2>
+                    <p class="message">Welcome</p>
+                </ion-item>
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.homepage">
+                    <i class="icon ion-home"></i>
+                    <h2 class="menu-text">Home</h2>
+                </ion-item>
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.doctor-consultations">
+                    <i class="icon ion-medkit"></i>
+                    <h2 class="menu-text">Consultations</h2>
+                </ion-item> 
+
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.dietplan">
+                    <i class="icon ion-medkit"></i>
+                    <h2 class="menu-text">Diet Plan</h2>
+                </ion-item> 
+
+                <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == 1" ng-click="logout()" >
+                    <i class="icon ion-android-unlock"></i>
+                    <h2 class="menu-text">Logout</h2>
+                </ion-item>
+
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

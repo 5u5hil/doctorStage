@@ -1,0 +1,41 @@
+<ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Snomed</h1>   
+
+    </ion-header-bar>
+
+  <ion-content>
+
+      <div class="list list-inset">
+    <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search">
+    </label>
+    </div>
+    <div class="list">
+    <ion-list>
+    <ion-checkbox ng-model="filter.snomed1">Snomed1</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed2">Snomed2</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed3">Snomed3</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed4">Snomed4</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed5">Snomed5</ion-checkbox>
+    <ion-checkbox ng-model="filter.snomed6">Snomed6</ion-checkbox>
+    </ion-list>
+
+    <p class="mtb20">
+    <ion-checkbox ng-model="filter.makesummary">Make as Summary </ion-checkbox>
+    </p>
+
+    </div>         
+
+  </ion-content>
+
+		<div class="button btn-delete iframeclose" nav-clear  ><i class="ion-close"></i></div>
+	  <div class="button btn-add iframesubmit"><i class="ion-checkmark"></i> Save</div>
+	
+  
+  
+  
+</ion-view>
+
+	  

@@ -1,0 +1,142 @@
+<ion-view cache-view="false" class="records-view">
+    <ion-nav-title>
+        <span>Consultations</span>
+    </ion-nav-title>
+    <!--   <ion-nav-buttons side="right">
+          <button class="button button-icon button-clear ion-person"></button>
+      </ion-nav-buttons> -->
+    <ion-content>
+			<div class="row tabnav">
+			<div class="col"><a nav-clear menu-close ui-sref="app.doctor-consultations" >Active</a></div>
+			<div class="col"><a nav-clear menu-close ui-sref="app.consultation-past" class="active">Past</a></div>
+		 </div>	
+		 
+	<div class="ctab page-data">
+	 <ion-tabs class="tabs-positive tabs-icon-top">
+
+                                <ion-tab title="Today({{todays_app_past.length}})" >
+                                    <div class="tabcontainer p0">
+                                        <h4 class="txt-center"> {{todays_app_past.length==0? 'No appointments': ''}}</h4>
+                                        <div class="posts-list" ng-repeat="app in todays_app_past" ><!--| orderBy: '-appointments.scheduled_start_time'-->
+                                            <div  class="list card post-item" ng-repeat="prod_past in todays_products_past[$index]">
+                                                <div class="post-content item item-text-wrap p0">
+                                                    <a ui-sref="#" class="card-content">
+                                                        <p ng-repeat="user in todays_usersData_past[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
+                                                        <div class="row">
+                                                            <div class="col" ng-if="app.appointments.mode == 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
+                                                                    Valid Till {{app.appointments.scheduled_end_time|datetime}} </p></div>
+                                                            <div class="col" ng-if="app.appointments.mode != 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
+                                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                                            <div class="col"><p><strong>Mode</strong> <br/> 
+                                                                    {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
+                                                        </div>
+
+                                                        <div class="clr"></div>
+                                                    </a>
+                                                     <div class="post-actions  post-footer p0">
+                                                        <div class="row cardbtn-small p0">
+                                                       <div class="cardpast-bar {{app.appointments.status==3?'fgreen':'fred'}}"><i class="{{app.appointments.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.appointments.status==3?'Consulted':app.appointments.status==4?'Cancelled':app.appointments.status==6?'Patient no-show':app.appointments.status==7?'Doctor no-show':''}}</div>
+                                                        </div>
+                                                     </div>
+                                                
+												
+												</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ion-tab>
+
+                                <ion-tab title="This Week({{week_app_past.length}})" >
+                                    <div class="tabcontainer p0">
+                                        <h4 class="txt-center"> {{week_app.length==0? 'No appointments': ''}}</h4> 
+                                        <div class="posts-list" ng-repeat="app in week_app_past" > <!--| orderBy: '-appointments.scheduled_start_time'-->
+                                            <div  class="list card post-item" ng-repeat="prod in week_products_past[$index]">
+                                                <div class="post-content item item-text-wrap p0"> 
+                                                    <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})" class="card-content">
+                                                        <p ng-repeat="user in week_usersData_past[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
+                                                        <div class="row">
+                                                            <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
+                                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                                            <div class="col"><p><strong>Mode</strong> <br/> 
+                                                                    {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
+                                                        </div>                                                        
+                                                        <div class="clr"></div>
+                                                    </a>
+                                                    <div class="post-actions  post-footer p0">
+                                                        <div class="row cardbtn-small p0">
+                                                       <div class="cardpast-bar {{app.appointments.status==3?'fgreen':'fred'}}"><i class="{{app.appointments.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.appointments.status==3?'Consulted':app.appointments.status==4?'Cancelled':app.appointments.status==6?'Patient no-show':app.appointments.status==7?'Doctor no-show':''}}</div>
+                                                        </div>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ion-tab>
+
+                                <ion-tab title="All({{all_app_past.length}})" >
+                                    <div class="tabcontainer p0">
+                                        <h4 class="txt-center"> {{all_app_past.length==0? 'No appointments': ''}}</h4>
+                                        <div class="posts-list" ng-repeat="app in all_app_past | orderBy: '-appointments.scheduled_start_time'" ><!---->
+                                            <div  class="list card post-item" ng-repeat="prod in all_products_past[$index]">
+                                                <div class="post-content item item-text-wrap p0">
+                                                    <a ui-sref="" class="card-content">
+                                                        <p ng-repeat="user in all_usersData_past[$parent.$index]| orderBy: '-appointments.scheduled_start_time'"><strong> {{user.fname}} {{user.lname}}</strong></p>
+                                                        <div class="row">
+                                                            <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
+                                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                                            <div class="col"><p><strong>Mode</strong> <br/> 
+                                                                    {{app.appointments.mode==1? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
+                                                        </div>
+                                                        <div class="clr"></div>
+                                                    </a>
+                                                    <div class="post-actions  post-footer p0">
+                                                        <div class="row cardbtn-small p0">
+                                                       <div class="cardpast-bar {{app.appointments.status==3?'fgreen':'fred'}}"><i class="{{app.appointments.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.appointments.status==3?'Consulted':app.appointments.status==4?'Cancelled':app.appointments.status==6?'Patient no-show':app.appointments.status==7?'Doctor no-show':''}}</div>
+                                                        </div>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ion-tab>
+                            </ion-tabs>
+	</div>
+                        
+    </ion-content>
+
+    <!--   <div class="footerbar">
+          <a class="button" ui-sref="#" style="width:50%"><i class="icon ion-funnel"></i> Filter</a>
+          <a class="button" ui-sref="#" style="width:50%" ><i class="ion"></i> Sort </a>
+      </div> -->
+
+
+    <script id="canceldctr" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Doctor Consultations</h1>	 
+        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list">
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" value="4">Your No Show</ion-radio><ion-radio ng-model="can.opt" class="can-opt" name="can-option" value="3">Patient No Show</ion-radio><ion-radio ng-model="can.option" name="can-opt" value="2">Cancelled by Patient</ion-radio><ion-radio ng-model="can.opt" name="can-option" value="1">Cancelled by you</ion-radio>
+        </div>
+        <button class="button button-full button-positive" ng-click="submitmodal(canoption)">Submit</button>
+        </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="canceldr" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Doctor Consultations</h1>	 
+        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list">
+        <ion-radio ng-model="can.opt" name="can-option" class="can-opt" value="2">Cancelled by Patient</ion-radio><ion-radio ng-model="can.opt" class="can-opt" name="can-option" value="1">Cancelled by you</ion-radio>
+        </div>
+        <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
+        </ion-content>
+        </ion-modal-view>
+    </script>
+</ion-view>
+

@@ -1,0 +1,68 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Patients list</span>
+    </ion-nav-title>
+    <ion-content>
+
+        <div class="list list-inset">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search" ng-model="search">
+            </label>
+        </div>
+
+        <div class="list mb0" ng-repeat="(header,data) in users" ng-if="users.length != 0">
+            <div class="item item-divider">{{header}}</div>
+            <a class="item" ng-repeat="users in data| filter:search| orderBy:['fname', 'lname']" ui-sref="app.patient({'id':users.id})" ui-sref-opts="{reload: true}">
+                <h2>{{users.fname}} {{users.lname}}</h2>
+                <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
+            </a>
+        </div> 
+        <div class="list mb0" ng-if="users.length == 0">
+            <p>No patients</p>
+        </div>
+    </ion-content>
+    <div class="bar bar-footer bar-positive">
+        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Add</div>
+    </div>
+</ion-view>
+
+
+<script id="addp" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Actions</h1>	 
+    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    </ion-header-bar>
+    <form id="addPatientForm" name="addpatient" novalidate>
+    <ion-content>
+    <input type="hidden" name="doctrid" value="{{userId}}" ng-model="userId" />
+    <label class="item item-input item-floating-label">
+    <span class="input-label" >Name</span>
+    <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
+    <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
+    <div ng-show="addpatient.name.$error.required" class="serror">Your Name is required.</div>
+    </label>
+
+    <label class="item item-input item-floating-label">
+    <span class="input-label">Email</span>
+    <input type="email" placeholder="Email" name="email" ng-model="email" required />
+    <div ng-show="addpatient.email.$error.required" class="serror">Email is required.</div>
+    <div ng-show="addpatient.email.$error.email" class="serror">Email is invalid</div>
+    </label>
+
+    <label class="item item-input item-floating-label">
+    <span class="input-label">Mobile</span>
+    <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" />
+    <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
+    </label>
+
+    </ion-content>
+    <div class="fixedbar">
+    <button type="submit" class="button btn-add nav-clear" ng-click="savePatient()" ng-disabled="addpatient.$invalid" > <i class="ion-check"></i>  Submit</button>
+    </div>
+    </form>
+    </ion-modal-view>
+</script>
+
+

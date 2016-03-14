@@ -1,0 +1,114 @@
+<ion-view class="category-list-view">
+    <ion-nav-title>
+        <span>Details Of Diet Plan</span>
+    </ion-nav-title>
+
+    <ion-content>
+        <div class="item item-divider txtcenter"> From 10/04/16 to 14/04/2016</div> 
+        <div class="list mb0" >
+            <div class="posts-list"  ng-click="modal.show()">
+                <div  class="list card post-item mb15">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading">Day 1  
+                                <div class="flt-right">10/04/16</div>
+                            </div>
+                            <div class="add-diet"> <i class="ion-plus-circled"></i> Add Diet Plan</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="posts-list">
+                <div  class="list card post-item mb15">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading">Day 2 
+                                <div class="flt-right">11/04/16</div>
+                            </div>
+                            <div class="card-diet">
+                                <p><strong>Breakfast : </strong> simply dummy text</p>
+                                <p><strong>Lunch : </strong> simply dummy text  and typesetting industry</p>
+                                <p><strong>Snacks : </strong> simply dummy text</p>
+                                <p><strong>Dinner : </strong> simply dummy text  and typesetting industry</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>	
+            <div class="posts-list">
+                <div  class="list card post-item mb15">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading">Day 3
+                                <div class="flt-right">12/04/16</div>
+                            </div>
+                            <div class="card-diet">
+                                <p><strong>Breakfast : </strong> simply dummy text</p>
+                                <p><strong>Lunch : </strong> simply dummy text  and typesetting industry</p>
+
+                                <p><strong>Dinner : </strong> simply dummy text  and typesetting industry</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posts-list">
+                <div  class="list card post-item mb15">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading">Day 4
+                                <div class="flt-right">13/04/16 </div>
+                            </div>
+                            <div class="card-diet">
+                                <p><strong>Breakfast : </strong> simply dummy text</p>
+                                <p><strong>Lunch : </strong> simply dummy text  and typesetting industry</p>
+
+                                <p><strong>Dinner : </strong> simply dummy text  and typesetting industry</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ion-content>
+    <div class="fixedbar">
+        <a class="button btn-add" ui-sref="app.dietplan" ><i class="ion-checkmark"></i> Save & Continue</a>
+    </div>
+
+</ion-view>
+
+<script id="add-diet" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">10-04-2016</h1>	 
+
+    </ion-header-bar>
+    <ion-content>
+    <div class="item item-divider">Breakfast</div> 
+    <label class="item item-input">
+    <textarea ng-model="diet.breakFast" type="text" col="" rows="3" placeholder="Enter"></textarea>
+    </label>
+
+    <div class="item item-divider">Lunch</div> 
+    <label class="item item-input">
+    <textarea ng-model="diet.lunch" type="text" col="" rows="3" placeholder="Enter"></textarea>
+    </label>
+
+    <div class="item item-divider">Snacks</div> 
+    <label class="item item-input">
+    <textarea ng-model="diet.snacks" type="text" col="" rows="3" placeholder="Enter"></textarea>
+    </label>
+
+    <div class="item item-divider">Dinner</div> 
+    <label class="item item-input">
+    <textarea ng-model="diet.dinner" type="text" col="" rows="3" placeholder="Enter"></textarea>
+    </label>
+
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-add"  ng-click="modal.hide()" ><i class="ion-checkmark"></i> Save</div>
+    </div>
+    </ion-modal-view>
+</script>

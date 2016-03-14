@@ -1,0 +1,50 @@
+<ion-view class="rjoin-view">
+    <ion-nav-title>
+        <span>Chat</span>
+    </ion-nav-title>
+
+    <ion-content>
+        <div class="row tabnav bgwhite">
+            <div class="col brdrht"><a  ui-sref="app.createdbyu" ><i class="icon ion-folder"></i> Record</a></div>
+            <div class="col brdrht"><a  ui-sref="app.consultations-note"><i class="icon ion-plus-circled"></i> Note</a></div>
+            <div class="col"><a  ui-sref="#"><i class="icon ion-plus-circled"></i> Appt</a></div>
+        </div>	
+        <section id="chat">
+            <!-- <ul  class="chat-bubble">
+                <div ng-repeat="cm in chatMsgs">
+                    <li ng-if="cm.sender_id==partId">
+                        <div class="item item-avatar b-none me" href="#">
+                            <div class="usricon"></div>
+                            <div class="text-xs">
+                                <span class="font-bold m-r-sm ng-binding">Me</span>
+                            </div>
+                            <div class="bubble">
+                                <i class="icon-tail"></i>
+                                <span class="content">
+                                    {{cm.message}}
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li ng-if="cm.sender_id!=partId">
+                        <div class="item item-avatar b-none" href="#">
+                            <div class="usricon"></div>
+                            <div class="text-xs">
+                                <span class="font-bold m-r-sm ng-binding">{{otherUser.fname}}</span>
+                            </div>
+                            <div class="bubble">
+                                <i class="icon-tail"></i>
+                                <span class="content">
+                                    {{cm.message}}
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </div>
+            </ul> -->
+       
+	   </section>
+        <section class="hide" id="connected-as" style="position: absolute; top: 500px; width: 100px;"> </section>
+        <div class="clr"></div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,84 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Naresh</span>
+    </ion-nav-title>
+    <ion-content>
+
+        <div class="">
+
+		</div>
+		 <my-tabs class="themetabs">
+
+                  <my-tab  icon="ion-calendar tabicon" title="Scheduled Video">
+                                    <div class="tabc2">
+
+
+                                        <div class="item-price">Price : INR 500</div>
+                                        <div class="mt15"> 
+                                            <ul class="clist">
+                                                <li>Video Chat</li>
+                                            </ul>
+
+                                            <div class="clr"></div>
+                                            <div class="item item-body p0 brd-0">
+
+                                              <div class="sche-date">
+                                                    <div class="leftarrow">Earliest Slot</div> 
+                                                    <input type="date"  value="03/08/2016"/>
+                                                    
+                                                    <div class="rightarrow">Next Slot</div>
+                                                </div>
+                                              
+                                                    <ul class="timesheet">
+                                                        <li>03:00</li>
+                                                        <li>03:30</li>
+                                                        <li>04:00</li>
+                                                        <li>04:30</li>
+                                                        <li>05:00</li>
+                                                        <li>05:30</li>
+                                                        <li>06:00</li>
+                                                        <li>06:30</li>
+                                                    </ul>
+                                               
+                                            </div>
+                                            <div class="section-footer">   
+                                                <a class="button button-full button-positive">Proceed</a>
+                                            </div>	
+                                        </div>
+                                    </div>
+					</my-tab>
+				
+					
+				<my-tab title="Instant Video" icon="ion-ios-videocam tabicon" ng-click="doit();">
+						<div class="tabc2">
+                                        <div class="item-price">Price : INR {{instVideo.interfacePrice}}</div>
+                                        <div class="tabcontainer"> 
+                                            <ul class="clist">
+                                                <li><strong>Instant video consult</strong></li>
+
+                                            </ul>
+
+                                            <p>
+
+
+                                                <button class="button button-block button-positive" ng-click="checkAvailability(instVideo.user_id, instVideo.id)"> Proceed</button>
+
+
+
+
+                                            </p>
+                                        </div>
+                                    </div>
+					</my-tab>
+					</my-tabs>
+		
+
+
+    </ion-content>
+ 
+</ion-view>
+
+
+
+
+

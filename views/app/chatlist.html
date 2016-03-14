@@ -1,0 +1,36 @@
+<ion-view class="category-detail-view">
+    <ion-nav-title>
+        <span>Chat</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="row tabnav">
+            <div class="col"><a  ui-sref="app.chatlist" class="active" ui-sref-opts="{reload: true}" >Patients</a></div>
+            <div class="col"><a  ui-sref="app.peers" ui-sref-opts="{reload: true}">Peers</a></div>
+        </div>
+        <div class="row tabnav mytabs">
+            <div class="col mytab"><a  ui-sref="app.chatlist" class="active" ui-sref-opts="{reload: true}" >Active</a></div>
+            <div class="col mytab"><a  ui-sref="app.past-chatlist" ui-sref-opts="{reload: true}">Past</a></div>
+        </div>
+        <div class="list cdetail-list">
+            <div class="chatlist">
+                <a class="item item-icon-left item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
+                    <i class="icon ion-ionic"></i>
+                    <span class="title">{{participant[$index][0].fname}}</span>
+                    <div ng-if="msg[$index] != ''" >
+                        <p class="description">{{msg[$index].message}}</p>
+                        <span class="listright">{{msg[$index].tstamp|time}}</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </ion-content>
+
+    <div class="footerbar fixedbar">
+        <a class="button btn-share" ><i class="icon ion-android-add-circle"></i> New</a>
+    </div>
+
+</ion-view>
+
+
+
+

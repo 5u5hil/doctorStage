@@ -1,0 +1,78 @@
+<ion-view class="category-detail-view">
+    <ion-nav-title>
+        <span>Bhavana</span>
+    </ion-nav-title>
+    <ion-content>
+   
+
+		<div class="row tabnav">
+		<div class="col"><a  ui-sref="app.createdbyu" class="active" >Created by you</a></div>
+		<div class="col"><a  ui-sref="app.sharedwithu">Shared with you</a></div>
+	 </div>	
+		
+		
+	
+		
+		
+        <div class="list cdetail-list">
+           <div class="crecordlist">
+               
+                <a  class="item"  ui-sref="#">
+                    <span class="title">Allergies</span>	
+                    <span class="count">5</span>	
+                </a>
+				
+				
+				 <a  class="item"  ui-sref="#">
+                    <span class="title">Bills</span>	
+                    <span class="count">5</span>	
+                </a>
+
+            </div>
+        </div>  
+
+    </ion-content>
+
+<script id="addrecord.html" type="text/ng-template">
+		<div class="modal">
+        <header class="bar bar-header bar-positive">
+		<h1 class="title">Select Category </h1>
+          
+        </header>
+<content has-header="true" padding="true" class="fullwh" style="position: absolute; height: 100%;
+    width: 100%;
+overflow: auto;">
+		<div class="mcontent">
+        <div class="list" >
+			<div class="item f17bold" ng-repeat="cat in cats"  ng-click="addRecord({{cat.id}})"  >{{cat.category}}</div>
+		</div>
+		</div>
+		
+		
+		</content>
+		</div>
+<div class="bar bar-footer p0" style="z-index:999;">
+<div class="button bar btn-delete brdradious0" style="width:100%;" ng-click="modal.hide()">
+			<!-- <span class="icon ion-close"></span> --> Cancel</div>
+			
+			</div>
+
+</script>
+	
+	
+	
+    <div class="footerbar">
+        <a class="button btn-delete" ui-sref="#"><i class="icon ion-trash-b"></i> Delete</a>
+		
+        <a class="button btn-share" ui-sref="app.share"><i class="icon ion-android-share-alt" ></i> Share</a>
+		
+        <!-- <a class="button" ng-controller="AdsCtrl" ng-click="manageAdMob()" ><i class="icon ion-android-add-circle"></i> Add</a> -->
+		
+		 <a class="button btn-add" ><i class="icon ion-android-add-circle"></i> Add</a>
+	</div>
+
+</ion-view>
+
+
+
+

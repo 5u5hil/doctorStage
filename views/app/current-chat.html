@@ -1,0 +1,64 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span> {{user[0].fname}} {{user[0].lname}}</span>
+    </ion-nav-title>
+
+
+
+    <ion-content>
+        <div class="tabcontainer p0 mt0">
+            <div class="posts-list" >
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+
+                            <p><strong > {{user[0].fname}} {{user[0].lname}}</strong></p>
+                            <p><strong>Appointment Date : </strong> {{app[0].appointments.scheduled_start_time|dateFormat}} <br/> Valid Till {{app[0].appointments.scheduled_end_time|datetime}} </p>
+                            <p><strong>Mode: </strong> {{app[0].appointments.mode==1 ? 'Video': app[0].appointments.mode==3? 'Clinic': app[0].appointments.mode==4? 'Home': app[0].appointments.mode==2? 'Chat':''}}</p>
+                            <p><strong>Languages: </strong>
+                                <span ng-repeat="lang in user[0].languages">
+                                    {{lang.language}}{{$last==true? '': ',&nbsp;'}}
+                                </span></p>
+                            <div class="clr"></div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="ctab commontab">
+            <ion-tabs class="tabs-positive tabs-icon-top">
+
+                <ion-tab title="Record " >
+                    <div class="tabcontainer">
+                        <p class="txt-centre">2 Records Created by you</p>
+                        <p class="txt-centre">3 Records  Shared by Patient</p>
+
+                        <p class="txt-centre">
+                            <button class="button button-positive">View / Share</button>	
+                        </p>
+
+                    </div>
+                </ion-tab>
+
+                <ion-tab title="Prev-Appointment" >
+                    <div class="tabcontainer">
+                        <p>Shared by you</p>
+                        <p>Shared by Dr.ABC</p>
+                    </div>
+                </ion-tab>
+
+
+            </ion-tabs>
+        </div>  
+
+    </ion-content>
+
+    <div class="footerbar">
+        <a class="button" ui-sref="app.join-chat({'id': app[0].appointment_id, 'mode': app[0].appointments.mode})"> Start Chat</a>
+    </div>
+
+</ion-view>
+
