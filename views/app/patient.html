@@ -1,153 +1,152 @@
 <ion-view class="patient-view">
     <ion-nav-title>
-        <span>Bhavana</span>
+        <span>{{patientDetails.fname}}</span>
     </ion-nav-title>
 
     <ion-content>
-		<div class="list mb0" >
-            
-            	<div class="posts-list">
-					<div  class="list card post-item mb15">
-						<div class="post-content item item-text-wrap p0">
-							<div  class="card-content paraspacing">
-								<div class="cardheading txtcenter">Bhavana  <button style="float:right;"><i class="icon ion-android-create"></i></button></div>
-								<div class="row">
-								<div class="col txt-left">Female</div>	
-								<div class="col txt-right">+91 123456789</div>	
-								</div>
-								
-								<div class="row">
-								<div class="col txt-left">27 years</div>	
-								<div class="col txt-right">bhavana@infiniteit.biz</div>	
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+        <div class="list mb0" >
+            <div class="posts-list">
+                <div  class="list card post-item mb15">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading txtcenter">{{patientDetails.fname}}  <button style="float:right;"><i class="icon ion-android-create"></i></button></div>
+                            <div class="row">
+                                <div class="col txt-left">{{patientDetails.gender == 1? 'Male':'Female'}}</div>	
+                                <div class="col txt-right">+91 {{patientDetails.phone}}</div>	
+                            </div>
+
+                            <div class="row">
+                                <div class="col txt-left">{{age}}</div>	
+                                <div class="col txt-right">{{patientDetails.email}}</div>	
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>				
-			
-			
-			
-		 <div class="item item-divider"><i class="icon ion-person"></i> Background</div>
-		<div class="list twocolumn">
-			<a class="item" ui-sref="#"><h2 class="ctitle">Patient</h2></a>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Family</h2></a>
-			
-		</div>	
-			
-				
-		<div class="item item-divider"><i class="icon ion-folder"></i> Records</div>
-		<div class="list twocolumn">
-			<a class="item" ui-sref="app.createdbyu"><h2 class="ctitle">Created by you    <span class="count2">15</span></h2></a>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Shared with you <span class="count2">10</span></h2></a>
-			
-		</div>			
-				
-				
-		<div class="item item-divider"><i class="icon ion-android-contacts"></i> Consultations</div>
-		<div class="list twocolumn">
-			<a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">15</span></h2></a>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">10</span></h2></a>
-			
-		</div>			
-				
-		<div class="item item-divider"><i class="icon ion-chatbubbles"></i> Chats</div>
-		<div class="list twocolumn">
-			<a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">15</span></h2></a>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">10</span></h2></a>
-		</div>			
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-	<!-- 			
-		<div class="row categories-list">
-		<div class="col col-50">
-		<a class="sbox" ui-sref="">
-			<div class="bxtitle">
-			15<br/><span class="bxspan">Records</span>
-			</div>
-		</a>
-			</div>	
-		<div class="col col-50">
-		<a class="sbox" ui-sref="">
-				<div class="bxtitle">
-			05<br/><span class="bxspan">Chats</span>
-			</div>
-			</a>
-			
-			</div>	
-		</div>		
-			
-		
-		
-	<div class="row categories-list">
-		<div class="col">
-		<a class="sbox" ui-sref="">
-			<div class="row">
-			<div class="flexcont">
-			<div class="col col-50 brdright"><div class="sboxcontent">2<br/>Upcoming</div></div>
-			<div class="col col-50"><div class="sboxcontent">10<br/>Past</div></div>
-			</div>
-			</div>
-		<h5 style="font-size:18px; margin-top:0;"><span class="bxspan">Consultations</span></h5>	
-		</a>
-			</div>	
-		
-		</div>
-		
-		
-		 -->
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-			
-			
-			
-<!-- 	  <div class="ctab">		
-	 <ion-tabs class="tabs-positive tabs-icon-top">  
 
-		<ion-tab title="About">
-		 <div class="tabcon2"> fasdf</div>
-		
-	  </ion-tab>
 
-	  <ion-tab title="History" >
-	 <div class="tabcon2"> fasdf 123</div>
-		
-		</ion-tab>
 
-	  <ion-tab title="Family History" >
-		 <div class="tabcon2"> fasdf</div>
-	  </ion-tab>
+        <div class="item item-divider"><i class="icon ion-person"></i> Background</div>
+        <div class="list twocolumn">
+            <a class="item" ui-sref="#"><h2 class="ctitle">Patient</h2></a>
+            <a class="item" ui-sref="#"><h2 class="ctitle">Family</h2></a>
 
-	</ion-tabs>		
-	  </div> -->	
-			
-						
- </ion-content>
-   <div class="footerbar">
-   <div  class="button bar btn-add" ng-controller="PatientAddCtrl" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> Add</div>
-       <!--  <a  ui-sref="app.patient-record" class="button">Records</a>
-        <a ui-sref="app.patient-consult" class="button">Consult </a>
-        <a ui-sref="app.patient-chat" class="button"> Chat</a> -->
+        </div>	
+
+
+        <div class="item item-divider"><i class="icon ion-folder"></i> Records</div>
+        <div class="list twocolumn">
+            <a class="item" ui-sref="app.createdbyu"><h2 class="ctitle">Created by you    <span class="count2">15</span></h2></a>
+            <a class="item" ui-sref="#"><h2 class="ctitle">Shared with you <span class="count2">10</span></h2></a>
+
+        </div>			
+
+
+        <div class="item item-divider"><i class="icon ion-android-contacts"></i> Consultations</div>
+        <div class="list twocolumn">
+            <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
+            <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">{{pastAppCnt}}</span></h2></a>
+
+        </div>			
+
+        <div class="item item-divider"><i class="icon ion-chatbubbles"></i> Chats</div>
+        <div class="list twocolumn">
+            <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">15</span></h2></a>
+            <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">10</span></h2></a>
+        </div>			
+
+
+
+
+
+
+
+
+
+
+
+        <!-- 			
+                <div class="row categories-list">
+                <div class="col col-50">
+                <a class="sbox" ui-sref="">
+                        <div class="bxtitle">
+                        15<br/><span class="bxspan">Records</span>
+                        </div>
+                </a>
+                        </div>	
+                <div class="col col-50">
+                <a class="sbox" ui-sref="">
+                                <div class="bxtitle">
+                        05<br/><span class="bxspan">Chats</span>
+                        </div>
+                        </a>
+                        
+                        </div>	
+                </div>		
+                        
+                
+                
+        <div class="row categories-list">
+                <div class="col">
+                <a class="sbox" ui-sref="">
+                        <div class="row">
+                        <div class="flexcont">
+                        <div class="col col-50 brdright"><div class="sboxcontent">2<br/>Upcoming</div></div>
+                        <div class="col col-50"><div class="sboxcontent">10<br/>Past</div></div>
+                        </div>
+                        </div>
+                <h5 style="font-size:18px; margin-top:0;"><span class="bxspan">Consultations</span></h5>	
+                </a>
+                        </div>	
+                
+                </div>
+                
+                
+        -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- 	  <div class="ctab">		
+                 <ion-tabs class="tabs-positive tabs-icon-top">  
+        
+                        <ion-tab title="About">
+                         <div class="tabcon2"> fasdf</div>
+                        
+                  </ion-tab>
+        
+                  <ion-tab title="History" >
+                 <div class="tabcon2"> fasdf 123</div>
+                        
+                        </ion-tab>
+        
+                  <ion-tab title="Family History" >
+                         <div class="tabcon2"> fasdf</div>
+                  </ion-tab>
+        
+                </ion-tabs>		
+                  </div> -->	
+
+
+    </ion-content>
+    <div class="footerbar">
+        <div  class="button bar btn-add" ng-controller="PatientAddCtrl" ng-click="modal.show()" ><i class="icon ion-plus-circled"></i> Add</div>
+        <!--  <a  ui-sref="app.patient-record" class="button">Records</a>
+         <a ui-sref="app.patient-consult" class="button">Consult </a>
+         <a ui-sref="app.patient-chat" class="button"> Chat</a> -->
     </div>
 </ion-view>
 
@@ -155,36 +154,36 @@
 
 
 <script id="patient-add" type="text/ng-template">
-        <ion-modal-view>
-        <ion-header-bar class="bar app-top-bar">
-        <h1 class="title">Actions</h1>	 
-		</ion-header-bar>
-        <ion-content>
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Actions</h1>	 
+    </ion-header-bar>
+    <ion-content>
 
     <div class="item item-divider">Book Appointment</div>
-				 
-		<div class="list">
-			<a class="item" ui-sref="#"><h2 class="ctitle">Video</h2></a>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Clinic</h2></a>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Home</h2></a>
-		</div>	
-			<div class="list">
-			<div class="item item-divider">Start Chat</div>
-			<a class="item" ui-sref="#"><h2 class="ctitle">New Chat</h2></a>
-		</div>					
-						
-	 	<div class="list">
-		 <div class="item item-divider">Add Record</div>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Allergy</h2></a>
-			<a class="item" ui-sref="#"><h2 class="ctitle">Bill</h2></a>
-		</div>						
-							
-    </ion-content>
-	<div class="fixedbar">
-	<div class="button btn-delete"  ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
 
-		</div>
-        </ion-modal-view>
+    <div class="list">
+    <a class="item" ui-sref="#"><h2 class="ctitle">Video</h2></a>
+    <a class="item" ui-sref="#"><h2 class="ctitle">Clinic</h2></a>
+    <a class="item" ui-sref="#"><h2 class="ctitle">Home</h2></a>
+    </div>	
+    <div class="list">
+    <div class="item item-divider">Start Chat</div>
+    <a class="item" ui-sref="#"><h2 class="ctitle">New Chat</h2></a>
+    </div>					
+
+    <div class="list">
+    <div class="item item-divider">Add Record</div>
+    <a class="item" ui-sref="#"><h2 class="ctitle">Allergy</h2></a>
+    <a class="item" ui-sref="#"><h2 class="ctitle">Bill</h2></a>
+    </div>						
+
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete"  ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+
+    </div>
+    </ion-modal-view>
 </script>
 
 

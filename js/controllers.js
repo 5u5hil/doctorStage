@@ -116,7 +116,7 @@ angular.module('your_app_name.controllers', [])
         })
 
 
-  
+
 
         .controller('CreatedbyuCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -146,7 +146,7 @@ angular.module('your_app_name.controllers', [])
 
             };
         })
-      
+
 
         .controller('SharedwithuCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
@@ -320,7 +320,7 @@ angular.module('your_app_name.controllers', [])
                 params: {userId: $scope.userId}
             }).then(function successCallback(response) {
                 console.log(response.data.length);
-                if (response.data.length>0) {
+                if (response.data.length > 0) {
                     var data = response.data;
                     $scope.users = _.reduce(
                             data,
@@ -596,35 +596,84 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
-            $scope.patientId = '282';
-            $scope.doctorId = window.localStorage.getItem('id');
-            $rootScope.patientId = '282';
-            $rootScope.doctorId = window.localStorage.getItem('id');
+                .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.appId = $stateParams.appId;
+            $scope.mode = '';
             $scope.catId = '';
             $scope.userId = window.localStorage.getItem('id');
-            window.localStorage.setItem('patientId', '282');
-            window.localStorage.setItem('doctorId', $scope.doctorId);
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
-            $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
-            $http({
-                method: 'GET',
-                url: domain + 'doctrsrecords/get-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.record = response.data.record;
-                $scope.fields = response.data.fields;
-                $scope.problems = response.data.problems;
-                $scope.doctrs = response.data.doctrs;
-                $scope.patients = response.data.patients;
-                $scope.cases = response.data.cases;
-            }, function errorCallback(response) {
-                console.log(response);
-            });
+            if ($scope.appId != 0) {
+                console.log('get appointment details' + $scope.appId);
+                $http({
+                    method: "GET",
+                    url: domain + "doctrsrecords/get-app-details",
+                    params: {appId: $scope.appId}
+                }).then(function successCallback(response) {
+                    console.log(response.data.patient.id);
+                    $scope.patientId = response.data.patient.id;
+                    $scope.doctorId = response.data.doctr.id
+                    $scope.app = response.data.app;
+                    if (response.data.app.mode == 1) {
+                        $scope.mode = 'Video';
+                    } else if (response.data.app.mode == 2) {
+                        $scope.mode = 'Chat';
+                    } else if (response.data.app.mode = 3) {
+                        $scope.mode = 'Clinic'
+                    } else if (response.data.app.mode == 4) {
+                        $scope.mode = 'Home';
+                    }
+                    console.log($scope.mode);
+                    $scope.conDate = response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'HH:mm');
+                    window.localStorage.setItem('patientId', $scope.patientId);
+                    window.localStorage.setItem('doctorId', $scope.doctorId);
+                    console.log($scope.conDate);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-fields',
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.record = response.data.record;
+                        $scope.fields = response.data.fields;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.doctrs;
+                        $scope.patients = response.data.patients;
+                        $scope.cases = response.data.cases;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+
+
+            } else {
+                $scope.patientId = '282';
+                $scope.doctorId = window.localStorage.getItem('id');
+                window.localStorage.setItem('patientId', '282');
+                window.localStorage.setItem('doctorId', $scope.doctorId);
+                $scope.conDate = new Date();
+                $scope.curTime = new Date();
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.record = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.patients = response.data.patients;
+                    $scope.cases = response.data.cases;
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            }
             $scope.gotopage = function (glink) {
                 $state.go(glink);
             };
@@ -982,36 +1031,42 @@ angular.module('your_app_name.controllers', [])
                 $scope.todays_products = response.data.todays_products;
                 $scope.todays_time = response.data.todays_time;
                 $scope.todays_end_time = response.data.todays_end_time;
+                $scope.todays_note = response.data.todays_note;
                 //past section
                 $scope.todays_app_past = response.data.todays_appointments_past;
                 $scope.todays_usersData_past = response.data.todays_usersData_past;
                 $scope.todays_products_past = response.data.todays_products_past;
                 $scope.todays_time_past = response.data.todays_time_past;
                 $scope.todays_end_time_past = response.data.todays_end_time_past;
+                $scope.todays_note_past = response.data.todays_note_past;
                 // end past section //
                 $scope.week_app = response.data.week_appointments;
                 $scope.week_usersData = response.data.week_usersData;
                 $scope.week_products = response.data.week_products;
                 $scope.week_time = response.data.week_time;
                 $scope.week_end_time = response.data.week_end_time;
+                $scope.week_note = response.data.week_note;
                 //past section 
                 $scope.week_app_past = response.data.week_appointments_past;
                 $scope.week_usersData_past = response.data.week_usersData_past;
                 $scope.week_products_past = response.data.week_products_past;
                 $scope.week_time_past = response.data.week_time_past;
                 $scope.week_end_time_past = response.data.week_end_time_past;
+                $scope.week_note_past = response.data.week_note_past;
                 //end past section
                 $scope.all_app = response.data.all_appointments;
                 $scope.all_usersData = response.data.all_usersData;
                 $scope.all_products = response.data.all_products;
                 $scope.all_time = response.data.all_time;
                 $scope.all_end_time = response.data.all_end_time;
+                $scope.all_note = response.data.all_note;
                 //past section //
                 $scope.all_app_past = response.data.all_appointments_past;
                 $scope.all_usersData_past = response.data.all_usersData_past;
                 $scope.all_products_past = response.data.all_products_past;
                 $scope.all_time_past = response.data.all_time_past;
                 $scope.all_end_time_past = response.data.all_end_time_past;
+                $scope.all_note_past = response.data.all_note_past;
                 //end past section//
             }, function errorCallback(e) {
                 console.log(e);
@@ -1078,6 +1133,12 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     alert("You can join video before 15 minutes.");
                 }
+            };
+            //Go to consultation add page
+            $scope.addCnote = function (appId) {
+                alert(appId);
+                store({'appId': appId});
+                $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
         })
 
@@ -1430,32 +1491,34 @@ angular.module('your_app_name.controllers', [])
 
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $timeout, $stateParams, $ionicHistory, $ionicPopup, $state, $window) {
-			
-            $scope.adjquery=function(){
-                     jQuery(function(){
-                    var b= jQuery('iframe').contents().find('body .iframeclose');
-                     console.log(b);
-                        $(b).on("click", function(){
-                     jQuery('.ciframecontainer').removeClass('active');
-                      
-                    })
-                     })
-                }
-                
-                $scope.golink=function(fsrc){
-                    console.log(fsrc);
-                  jQuery('iframe').attr('src',fsrc);
-                  jQuery('.ciframecontainer').addClass('active');
-                 // jQuery('.ciframecontainer').append('<iframe src="'+fsrc+'" id="'+fsrc+'"></iframe>');
-                  jQuery('.custpopup-container').removeClass('active');
-                  $scope.adjquery();
-                }
 
-                $scope.closeiframe=function(){
-                     jQuery('.ciframecontainer').removeClass('active');
-                     }
-                 $timeout(function () {$scope.adjquery();}, 4000);
-                    
+            $scope.adjquery = function () {
+                jQuery(function () {
+                    var b = jQuery('iframe').contents().find('body .iframeclose');
+                    console.log(b);
+                    $(b).on("click", function () {
+                        jQuery('.ciframecontainer').removeClass('active');
+
+                    })
+                })
+            }
+
+            $scope.golink = function (fsrc) {
+                console.log(fsrc);
+                jQuery('iframe').attr('src', fsrc);
+                jQuery('.ciframecontainer').addClass('active');
+                // jQuery('.ciframecontainer').append('<iframe src="'+fsrc+'" id="'+fsrc+'"></iframe>');
+                jQuery('.custpopup-container').removeClass('active');
+                $scope.adjquery();
+            }
+
+            $scope.closeiframe = function () {
+                jQuery('.ciframecontainer').removeClass('active');
+            }
+            $timeout(function () {
+                $scope.adjquery();
+            }, 4000);
+
 
 
 
@@ -1555,23 +1618,23 @@ angular.module('your_app_name.controllers', [])
                     $state.go('app.doctor-consultations', {}, {reload: true});
                 }
             };
-			
-			$scope.addnote=function(){
-				jQuery('.mediascreen').toggleClass('minscreen');
-				jQuery('.slideupdiv').toggleClass('active');
-			}
-			
-			$scope.removenoteslide=function(){
+
+            $scope.addnote = function () {
+                jQuery('.mediascreen').toggleClass('minscreen');
+                jQuery('.slideupdiv').toggleClass('active');
+            }
+
+            $scope.removenoteslide = function () {
                 jQuery('.mediascreen').removeClass('minscreen');
                 jQuery('.slideupdiv').removeClass('active');
             }
 
         })
-		
-		
-    .controller('docjnPatientCtrl', function($scope, $http, $stateParams, $ionicModal){
 
-         $ionicModal.fromTemplateUrl('docjn-patient', {
+
+        .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+
+            $ionicModal.fromTemplateUrl('docjn-patient', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
@@ -1579,14 +1642,14 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-    })
+        })
 
 
 
 
-	.controller('docImageoptionCtrl',function($ionicLoading, $scope, $http, $stateParams,  $ionicPopup, $state){
-		
-		$scope.showPopup = function () {
+        .controller('docImageoptionCtrl', function ($ionicLoading, $scope, $http, $stateParams, $ionicPopup, $state) {
+
+            $scope.showPopup = function () {
                 $scope.data = {};
                 // An elaborate, custom popup
                 var myPopup = $ionicPopup.show({
@@ -1595,7 +1658,7 @@ angular.module('your_app_name.controllers', [])
                     scope: $scope,
                     buttons: [
                         {text: 'Cancel'},
-                        {  text: '<b>Ok</b>',
+                        {text: '<b>Ok</b>',
                             type: 'button-positive ',
                             onTap: function (e) {
                                 if (!$scope.data.wifi) {
@@ -1613,26 +1676,26 @@ angular.module('your_app_name.controllers', [])
                     console.log('Tapped!', res);
                 });
             };
-	})	
-		
-		
-		
-	/* doctor join  controllers */	
-		
-		.controller('DjoinpatientCtrl', function ($scope, $http, $stateParams) {
-          
         })
-		
-		
-	/* end doctor join  controllers */    
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+        /* doctor join  controllers */
+
+        .controller('DjoinpatientCtrl', function ($scope, $http, $stateParams) {
+
+        })
+
+
+        /* end doctor join  controllers */
+
+
+
+
+
+
+
+
 
         .controller('DoctorChatAppsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout) {
             $scope.drId = get('id');
