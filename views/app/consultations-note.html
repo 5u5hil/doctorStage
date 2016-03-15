@@ -50,7 +50,7 @@
                         <div ng-if="field.field_types.value == 'date'">
                             <div ng-if="field.field == 'Consultation Date'">
                                 <label class="item item-input listreq"><span class='input-label'>{{field.field}}</span>
-                                    <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat1}}"  name="{{field.name}}" required />                            
+                                    <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate}}"  name="{{field.name}}" required />                            
                                 </label>
                             </div>
                             <div ng-if="field.field == 'Valid till'">
