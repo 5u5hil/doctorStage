@@ -596,7 +596,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-                .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.appId = $stateParams.appId;
             $scope.mode = '';
             $scope.catId = '';
@@ -711,9 +711,15 @@ angular.module('your_app_name.controllers', [])
                         if (angular.isObject(response.records)) {
                             $scope.image = [];
                             alert("Consultation Note added successfully!");
-//                            $timeout(function () {
-//                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
-//                            }, 1000);
+                            if ($scope.appId != 0) {
+                                $timeout(function () {
+                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {}, {reload: true});
+                                }, 1000);
+                            } else {
+                                $timeout(function () {
+                                    $state.go('app.homepage', {}, {reload: true});
+                                }, 1000);
+                            }
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -725,9 +731,15 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             alert("Consultation Note added successfully!");
-//                            $timeout(function () {
-//                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
-//                            }, 1000);
+                            if ($scope.appId != 0) {
+                                $timeout(function () {
+                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                                }, 1000);
+                            } else {
+                                $timeout(function () {
+                                    $state.go('app.homepage', {}, {reload: true});
+                                }, 1000);
+                            }
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1648,7 +1660,6 @@ angular.module('your_app_name.controllers', [])
 
 
         .controller('docImageoptionCtrl', function ($ionicLoading, $scope, $http, $stateParams, $ionicPopup, $state) {
-
             $scope.showPopup = function () {
                 $scope.data = {};
                 // An elaborate, custom popup
@@ -1677,25 +1688,10 @@ angular.module('your_app_name.controllers', [])
                 });
             };
         })
-
-
-
         /* doctor join  controllers */
-
         .controller('DjoinpatientCtrl', function ($scope, $http, $stateParams) {
-
         })
-
-
         /* end doctor join  controllers */
-
-
-
-
-
-
-
-
 
         .controller('DoctorChatAppsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout) {
             $scope.drId = get('id');
