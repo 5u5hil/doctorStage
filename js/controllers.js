@@ -1148,7 +1148,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Go to consultation add page
             $scope.addCnote = function (appId) {
-                alert(appId);
+                //alert(appId);
                 store({'appId': appId});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
