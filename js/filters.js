@@ -88,6 +88,20 @@ angular.module('your_app_name.filters', [])
 
             };
         })
+        .filter('dateFormat4', function ($filter)
+        {
+            return function (input)
+            {
+                if (input == null) {
+                    return "";
+                }
+
+                var _date = $filter('date')(new Date(input), 'dd/MM/yyyy');
+
+                return _date.toUpperCase();
+
+            };
+        })
         .filter('time', function ($filter)
         {
             return function (input)

@@ -145,100 +145,100 @@ angular.module('your_app_name', [
                         }
                     })
 
-                        /* doctor join */
-                        .state('dpatient', {
+                    /* doctor join */
+                    .state('dpatient', {
                         url: "/dpatient",
                         templateUrl: "views/app/doctrjoin/dpatient.html",
                         controller: 'PatientHistoryCtrl'
-                           })
+                    })
 
-                        .state('dfamily-history', {
+                    .state('dfamily-history', {
                         url: "/dfamily-history",
                         templateUrl: "views/app/doctrjoin/dfamily-history.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                           .state('dmeasurement', {
+                    .state('dmeasurement', {
                         url: "/dmeasurement",
                         templateUrl: "views/app/doctrjoin/dmeasurement.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                         .state('dtestresult', {
+                    .state('dtestresult', {
                         url: "/dtestresult",
                         templateUrl: "views/app/doctrjoin/dtestresult.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                            .state('dobservation', {
+                    .state('dobservation', {
                         url: "/dobservation",
                         templateUrl: "views/app/doctrjoin/dobservation.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                      .state('dsnomed', {
+                    .state('dsnomed', {
                         url: "/dsnomed",
                         templateUrl: "views/app/doctrjoin/dsnomed.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                      .state('dicd', {
+                    .state('dicd', {
                         url: "/dsnomed",
                         templateUrl: "views/app/doctrjoin/dicd.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
-                            
+                    })
 
-                      .state('dtext', {
+
+                    .state('dtext', {
                         url: "/dtext",
                         templateUrl: "views/app/doctrjoin/dtext.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
-                      .state('dinvestigations', {
+                    })
+                    .state('dinvestigations', {
                         url: "/dinvestigations",
                         templateUrl: "views/app/doctrjoin/dinvestigations.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                        .state('dmedication', {
+                    .state('dmedication', {
                         url: "/dmedication",
                         templateUrl: "views/app/doctrjoin/dmedication.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
                     .state('dprocedure', {
                         url: "/dprocedure",
                         templateUrl: "views/app/doctrjoin/dprocedure.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                     .state('dlifestyle', {
+                    .state('dlifestyle', {
                         url: "/dlifestyle",
                         templateUrl: "views/app/doctrjoin/dlifestyle.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
-                      .state('dreferral', {
+                    .state('dreferral', {
                         url: "/dreferral",
                         templateUrl: "views/app/doctrjoin/dreferral.html",
                         controller: 'ConsultationsNoteCtrl'
-                           })
+                    })
 
 
                     .state('ddietplan', {
                         url: "/ddietplan",
                         templateUrl: "views/app/doctrjoin/ddietplan.html",
                         controller: 'DietplanCtrl'
-                           })
+                    })
 
                     .state('ddietplan-list', {
                         url: "/ddietplan-list",
                         templateUrl: "views/app/doctrjoin/ddietplan-list.html",
                         controller: 'DietplanListCtrl'
-                           })
+                    })
 
 
-                        /* doctor join */
+                    /* doctor join */
 
 
 
@@ -261,6 +261,26 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 templateUrl: "views/app/consultations/consultations-past.html",
                                 controller: 'DoctorConsultationsCtrl'
+                            }
+                        }
+                    })
+                    .state('app.patient-app-list', {
+                        cache: false,
+                        url: "/patient-app-list/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patients/patient-app-list.html",
+                                controller: 'PatientAppointmentListCtrl'
+                            }
+                        }
+                    })
+                    .state('app.patient-past-app-list', {
+                        cache: false,
+                        url: "/patient-past-app-list/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/patients/patient-past-app-list.html",
+                                controller: 'PatientAppointmentListCtrl'
                             }
                         }
                     })
@@ -330,6 +350,15 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.view-note', {
+                        url: "/view-note/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/view-consultations-note.html",
+                                controller: 'ViewConsultationsNoteCtrl'
+                            }
+                        }
+                    })
                     .state('app.consultations-note', {
                         url: "/consultations-note/{appId:int}",
                         views: {

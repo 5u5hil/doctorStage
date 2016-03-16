@@ -11,61 +11,40 @@
                         <div  class="card-content paraspacing">
                             <div class="cardheading txtcenter">{{patientDetails.fname}}  <button style="float:right;"><i class="icon ion-android-create"></i></button></div>
                             <div class="row">
-                                <div class="col txt-left">{{patientDetails.gender == 1? 'Male':'Female'}}</div>	
+                                <div class="col txt-left">{{patientDetails.gender == 1? 'Male':patientDetails.gender == 2? 'Female':'Na'}}</div>	
                                 <div class="col txt-right">+91 {{patientDetails.phone}}</div>	
                             </div>
 
                             <div class="row">
-                                <div class="col txt-left">{{age}}</div>	
-                                <div class="col txt-right">{{patientDetails.email}}</div>	
+                                <div class="col txt-left">{{dob}}</div>	
+                                <div class="col txt-right">{{patientDetails.email===null ? 'Na': patientDetails.email}}</div>	
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>				
-
-
-
+        </div>	
         <div class="item item-divider"><i class="icon ion-person"></i> Background</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="#"><h2 class="ctitle">Patient</h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Family</h2></a>
-
         </div>	
-
-
         <div class="item item-divider"><i class="icon ion-folder"></i> Records</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.createdbyu"><h2 class="ctitle">Created by you    <span class="count2">15</span></h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Shared with you <span class="count2">10</span></h2></a>
-
-        </div>			
-
-
+        </div>
         <div class="item item-divider"><i class="icon ion-android-contacts"></i> Consultations</div>
         <div class="list twocolumn">
-            <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
-            <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">{{pastAppCnt}}</span></h2></a>
-
-        </div>			
+            <a class="item" ui-sref="app.patient-app-list({id: patientDetails.id })"><h2 class="ctitle">Active   <span class="count2">{{activeAppCnt}}</span></h2></a>
+            <a class="item" ui-sref="app.patient-past-app-list({id: patientDetails.id })"><h2 class="ctitle">Past <span class="count2">{{pastAppCnt}}</span></h2></a>
+        </div>
 
         <div class="item item-divider"><i class="icon ion-chatbubbles"></i> Chats</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">15</span></h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">10</span></h2></a>
-        </div>			
-
-
-
-
-
-
-
-
-
-
-
+        </div>
         <!-- 			
                 <div class="row categories-list">
                 <div class="col col-50">
