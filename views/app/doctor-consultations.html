@@ -15,7 +15,7 @@
                 <ion-tab title="Today({{todays_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_app.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in todays_app" ><!--| orderBy: '-appointments.scheduled_start_time'-->
+                        <div class="posts-list" ng-repeat="app in todays_app" ><!---->
                             <div  class="list card post-item" ng-repeat="prod in todays_products[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content">
@@ -67,7 +67,7 @@
                 <ion-tab title="This Week({{week_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{week_app.length==0? 'No appointments': ''}}</h4> 
-                        <div class="posts-list" ng-repeat="app in week_app" > <!--| orderBy: '-appointments.scheduled_start_time'-->
+                        <div class="posts-list" ng-repeat="app in week_app" > <!---->
                             <div  class="list card post-item" ng-repeat="prod in week_products[$index]">
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content">
@@ -117,7 +117,7 @@
                 <ion-tab title="All({{all_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in all_app| orderBy: '-appointments.scheduled_start_time'" ><!---->
+                        <div class="posts-list" ng-repeat="app in all_app"><!---->
                             <div  class="list card post-item" ng-repeat="prod in all_products[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content">
@@ -137,7 +137,7 @@
                                             </a>
                                         </div>
                                         <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})">
-                                            <p ng-repeat="user in all_usersData[$parent.$index]| orderBy: '-appointments.scheduled_start_time'"><strong> {{user.fname}} {{user.lname}}</strong></p>
+                                            <p ng-repeat="user in all_usersData[$parent.$index]"><strong> {{user.fname}} {{user.lname}}</strong></p>
                                             <div class="row">
                                                 <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
                                                         {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>

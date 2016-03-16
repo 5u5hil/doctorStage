@@ -76,7 +76,23 @@
 
     </form>
 </ion-view>
+<script id="filesview.html" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <!-- <iframe  type="text/html" style="width:100%; position:absolute; height:80%; top:100px;" scrolling="yes" ng-src="{{trustSrc(value)}}" allowfullscreen frameborder="0">       
+    </iframe> -->
+    <div class="viewattachfile">
+    <img src="{{value}}">
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div></div>
 
+</script>
 
 <script id="addeval" type="text/ng-template">
     <ion-modal-view>
