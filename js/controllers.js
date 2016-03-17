@@ -765,7 +765,7 @@ angular.module('your_app_name.controllers', [])
                     }
                     console.log($scope.mode);
                     $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
-                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'HH:mm');
+                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
                     window.localStorage.setItem('patientId', $scope.patientId);
                     window.localStorage.setItem('doctorId', $scope.doctorId);
                     console.log($scope.conDate);
@@ -794,7 +794,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 $scope.conDate = new Date();
                 $scope.curTime = new Date();
-                $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-fields',
@@ -1067,7 +1067,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-about-fields',
@@ -1165,7 +1165,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
-            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-about-fields',

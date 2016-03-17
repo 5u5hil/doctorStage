@@ -93,7 +93,7 @@
                             <div ng-if="appId == 0">
                                 <label class="item item-input listreq">
                                     <span class="input-label" >{{field.field}} </span>
-                                    <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />                            
+                                    <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo|time1}}" name="{{field.name}}" />                            
                                 </label>
                             </div>
                         </div>
