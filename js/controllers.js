@@ -1866,7 +1866,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
             $scope.submit = function () {
-                //$ionicLoading.show({template: 'Adding...'});
+                $ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
                 if ($scope.tempImgs.length > 0) {
                     angular.forEach($scope.tempImgs, function (value, key) {
@@ -1882,7 +1882,7 @@ angular.module('your_app_name.controllers', [])
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
                         console.log(response);
-                        //$ionicLoading.hide();
+                        $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             $scope.image = [];
                             $scope.records = response.data.records;
@@ -1907,7 +1907,7 @@ angular.module('your_app_name.controllers', [])
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
                         console.log(response);
-                        //$ionicLoading.hide();
+                        $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             $scope.records = response.data.records;
                             $scope.recordDetails = response.data.recordDetails;
