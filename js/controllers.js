@@ -1145,6 +1145,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Save Patient History
             $scope.savePatientHistory = function () {
+                $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addRecordForm")[0]);
                 callAjax("POST", domain + "doctrsrecords/save-patient-history", data, function (response) {
                     console.log(response);
