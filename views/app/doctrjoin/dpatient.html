@@ -1,11 +1,10 @@
 <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Patient</h1>   
-
+        <h1 class="title">Patient</h1>
     </ion-header-bar>
-    <ion-content>
-
-     <div class="pb30" >
+    <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
+        <ion-content>
+            <div class="pb30" >
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
                 <input type="hidden" value="Patient History" name="rectype" />
                 <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
@@ -183,32 +182,30 @@
                     </div>
                 </div>
             </div>
+        </ion-content>
+        <div class="button btn-delete iframeclose"><i class="ion-close"></i></div>
+        <button class="button btn-add iframesubmit" ng-click="savePatientHistory()" ><i class="ion-checkmark"></i> Save</button>
+    </form>
+</ion-modal-view>
+
+
+<script id="knowcondition" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Known Conditions</h1>  
+    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    </ion-header-bar>
+    <ion-content>
+
+    <ion-list>
+    <ion-checkbox ng-repeat="con in conditions track by $index" ng-model="conId[con.id]" ng-click="getCondition({{con.id}},'{{con.condition}}')" ng-checked="getPreCon({{con.id}})" >{{con.condition}}</ion-checkbox>
+    </ion-list>
+
 
     </ion-content>
-   
-    <div class="button btn-delete iframeclose"><i class="ion-close"></i></div>
-    <div class="button btn-add iframesubmit" ng-click="submitmodal()"><i class="ion-checkmark"></i> Save</div>
-   
+    <div class="fixedbar">
+    <div class="button btn-add"  ng-click="modal.hide()" ><i class="ion-check"></i> Submit</div>
+
+    </div>
     </ion-modal-view>
-
-    
-<script id="knowcondition" type="text/ng-template">
-<ion-modal-view>
-<ion-header-bar class="bar app-top-bar">
-<h1 class="title">Known Conditions</h1>  
-<div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
-</ion-header-bar>
-<ion-content>
-
-<ion-list>
-<ion-checkbox ng-repeat="con in conditions track by $index" ng-model="conId[con.id]" ng-click="getCondition({{con.id}},'{{con.condition}}')" ng-checked="getPreCon({{con.id}})" >{{con.condition}}</ion-checkbox>
-</ion-list>
-
-
-</ion-content>
-<div class="fixedbar">
-<div class="button btn-add"  ng-click="modal.hide()" ><i class="ion-check"></i> Submit</div>
-
-</div>
-</ion-modal-view>
 </script>
