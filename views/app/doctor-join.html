@@ -155,12 +155,7 @@
                                 <div class="btncamera" ng-repeat="rec in recordDetails track by $index" ng-if="rec.fields.field == 'Attachments'">Previous Files
                                     <div ng-repeat="attach in rec.attachments" >
                                         <div ng-init="selData = (attach.orginial_name).split('.')">
-                                            <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
-                                                    <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                                </a>
-                                            </div>
-                                            <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                            <div >
                                                 <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
                                                     <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                 </a>
