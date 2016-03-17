@@ -764,7 +764,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.mode = 'Home';
                     }
                     console.log($scope.mode);
-                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'yyyy-MM-dd'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
                     $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'HH:mm');
                     window.localStorage.setItem('patientId', $scope.patientId);
                     window.localStorage.setItem('doctorId', $scope.doctorId);
@@ -819,12 +819,42 @@ angular.module('your_app_name.controllers', [])
                 $scope.patientId = pid;
                 $rootScope.patientId = pid;
                 window.localStorage.setItem('patientId', pid);
+                if ($scope.doctorId) {
+                    if ($scope.patientId != 0) {
+                        console.log('call cases');
+                        $http({
+                            method: 'GET',
+                            url: domain + 'assistrecords/get-cases',
+                            params: {patient: $scope.patientId, doctrId: $scope.doctorId}
+                        }).then(function successCallback(response) {
+                            console.log(response);
+                            $scope.cases = response.data;
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
+                    }
+                }
             };
             $scope.getDrId = function (did) {
                 console.log(did);
                 $scope.doctorId = did;
                 $rootScope.doctorId = did;
                 window.localStorage.setItem('doctorId', did);
+                if ($scope.doctorId) {
+                    if ($scope.patientId != 0) {
+                        console.log('call cases');
+                        $http({
+                            method: 'GET',
+                            url: domain + 'assistrecords/get-cases',
+                            params: {patientId: $scope.patientId, doctrId: $scope.doctorId}
+                        }).then(function successCallback(response) {
+                            console.log(response);
+                            $scope.cases = response.data;
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
+                    }
+                }
             };
             //Save FormData
             $scope.submit = function () {
