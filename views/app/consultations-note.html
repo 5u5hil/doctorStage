@@ -33,16 +33,15 @@
                     <div ng-if="field.field != 'Case Id'">
                         <div ng-if="field.field_types.value == 'text'">
                             <div ng-if="appId != 0">
-                                <label class="item item-input item-select" ng-if="field.field == 'Patient'">
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Patient'">
                                     <div class="input-label">Patient</div>
                                     <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)" disabled="disabled">
-                                        <option value="0"> Select {{field.field}}</option>
                                         <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
                                     </select>
                                 </label>
-                                <label class="item item-input item-select" ng-if="field.field == 'Consultant'">
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Consultant'">
                                     <div class="input-label">Doctor </div>
-                                    <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)" disabled="disabled">
+                                    <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)" disabled="disabled">                                        
                                         <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
                                 </label>
@@ -51,13 +50,14 @@
                                 <label class="item item-input item-select" ng-if="field.field == 'Patient'">
                                     <div class="input-label">Patient</div>
                                     <select ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)">
-                                        <option value="0"> Select {{field.field}}</option>
+                                        <option value=""> Select {{field.field}}</option>
                                         <option ng-repeat="pat in patients" ng-selected="{{pat.id == patientId}}" value="{{pat.id}}">{{pat.fname}} {{pat.lname}}</option>
                                     </select>
                                 </label>
                                 <label class="item item-input item-select" ng-if="field.field == 'Consultant'">
                                     <div class="input-label">Doctor </div>
                                     <select ng-model="doctorId" name="{{field.name}}" ng-change="getDrId(doctorId)">
+                                        <option value=""> Select {{field.field}}</option>
                                         <option ng-repeat="doc in doctrs" ng-selected="{{doc.id == doctorId}}" value="{{doc.id}}">{{doc.fname}}</option>
                                     </select>
                                 </label>
@@ -66,7 +66,7 @@
                         <div ng-if="field.field_types.value == 'date'">
                             <div ng-if="appId != 0">
                                 <div ng-if="field.field == 'Consultation Date'">
-                                    <label class="item item-input listreq"><span class='input-label'>{{field.field}}</span>
+                                    <label class="item item-input listreq hide"><span class='input-label'>{{field.field}}</span>
                                         <input type="text" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate}}"  name="{{field.name}}" required disabled="disabled" />                            
                                     </label>
                                 </div>
@@ -86,7 +86,7 @@
                         </div>
                         <div ng-if="field.field_types.value == 'time'">
                             <div ng-if="appId != 0">
-                                <label class="item item-input listreq">
+                                <label class="item item-input listreq hide">
                                     <span class="input-label" >{{field.field}} </span>
                                     <input type="text" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" disabled="disabled" />                            
                                 </label>
@@ -100,14 +100,14 @@
                         </div>
                         <div ng-if="field.field_types.value == 'select'">
                             <div ng-if="appId != 0">
-                                <label class="item item-input item-select" ng-if="field.field == 'Mode'" >
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Mode'" >
                                     <div class="input-label"> {{field.field}}</div>
                                     <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" disabled="disabled">
                                         <option value="0"> Select {{field.field}}</option>
                                         <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
                                     </select>
                                 </label>
-                                <label class="item item-input item-select" ng-if="field.field == 'Patient Type'" >
+                                <label class="item item-input item-select hide" ng-if="field.field == 'Patient Type'" >
                                     <div class="input-label"> {{field.field}}</div>
                                     <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" disabled="disabled">
                                         <option value="0"> Select {{field.field}}</option>

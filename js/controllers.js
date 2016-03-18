@@ -768,6 +768,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.mode = 'Home';
                     }
                     console.log($scope.mode);
+                    $scope.pType = 'Outpatient';
                     $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
                     $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
                     window.localStorage.setItem('patientId', $scope.patientId);
