@@ -1079,6 +1079,7 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Patient History';
             $scope.conId = [];
             $scope.conIds = [];
+            $scope.gend = '';
             $scope.selConditions = [];
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
@@ -1111,8 +1112,10 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     if (response.data.patients[0].gender == 1) {
                         $scope.gender = 'On';
+                        $scope.gend = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
                         $scope.gender = 'On';
+                        $scope.gend = 'Female';
                     }
                 }
                 console.log($scope.gender);

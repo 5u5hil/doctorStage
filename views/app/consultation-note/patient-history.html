@@ -114,7 +114,9 @@
                             <ion-list>
                                 <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData"> 
                                     <div class="col"><span class="input-label" style="padding: 7px 10px 7px 7px;">{{field.field}}</span></div>
-                                    <div class="col cradio" ng-repeat="rad in radioData"><ion-radio  name="{{field.name}}" value="{{rad}}" >{{rad}}</ion-radio></div>
+                                    <div class="col cradio" ng-repeat="rad in radioData">
+                                        <ion-radio ng-model="gen[rad]" name="{{field.name}}" ng-checked="rad == gend" ng-value="{{rad}}" value="{{rad}}" >{{rad}}</ion-radio>
+                                    </div>
                                 </div>
                             </ion-list>
                         </div>
