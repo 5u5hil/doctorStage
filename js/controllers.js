@@ -734,7 +734,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-
+        
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             var imgCnt = 0;
             $scope.appId = $stateParams.appId;
