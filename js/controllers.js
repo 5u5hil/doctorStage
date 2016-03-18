@@ -735,7 +735,8 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            var imgCnt = 0;
             $scope.appId = $stateParams.appId;
             window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
@@ -936,7 +937,7 @@ angular.module('your_app_name.controllers', [])
             $scope.takePict = function (name) {
                 //console.log(name);
                 var camimg_holder = $("#camera-status");
-                camimg_holder.empty();
+                //camimg_holder.empty();
                 // 2
                 var options = {
                     destinationType: Camera.DestinationType.FILE_URI,
@@ -977,8 +978,10 @@ angular.module('your_app_name.controllers', [])
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
-                        camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
-                        $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
+                        imgCnt++;
+                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+                        camimg_holder.append(btnhtml);
+                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
                     }
                     function fail(error) {
                         console.log("fail: " + error.code);
@@ -1058,6 +1061,14 @@ angular.module('your_app_name.controllers', [])
                         reader.readAsDataURL(element.files[0]);
                     }
                 }
+            };
+            $scope.removeCamFile = function (img) {
+                var arrInd = (img - 1);
+                var index = $scope.tempImgs.indexOf(arrInd);
+                $scope.tempImgs.splice(index, 1);
+                console.log('camera file removed');
+                console.log($scope.tempImgs);
+                jQuery('.remcam-' + img).remove();
             };
         })
 
@@ -1178,11 +1189,6 @@ angular.module('your_app_name.controllers', [])
                     if (angular.isObject(response.records)) {
                         alert("Patient History saved successfully!");
                         console.log('remove slide');
-                        jQuery('.mediascreen').removeClass('minscreen');
-                        jQuery('.slideupdiv').removeClass('active');
-                        jQuery('.ciframecontainer').addClass('active');
-                // jQuery('.ciframecontainer').append('<iframe src="'+fsrc+'" id="'+fsrc+'"></iframe>');
-                jQuery('.custpopup-container').removeClass('active');
 //                            $timeout(function () {
 //                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
 //                            }, 1000);
@@ -1732,7 +1738,8 @@ angular.module('your_app_name.controllers', [])
             }, 1000);
         })
 
-        .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $timeout, $stateParams, $ionicHistory, $ionicPopup, $state, $window, $filter) {
+        .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
+            var imgCnt = 0;
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -1981,7 +1988,7 @@ angular.module('your_app_name.controllers', [])
             $scope.takePict = function (name) {
                 //console.log(name);
                 var camimg_holder = $("#camera-status");
-                camimg_holder.empty();
+                //camimg_holder.empty();
                 // 2
                 var options = {
                     destinationType: Camera.DestinationType.FILE_URI,
@@ -2022,8 +2029,10 @@ angular.module('your_app_name.controllers', [])
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
-                        camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
-                        $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
+                        imgCnt++;
+                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
+                        camimg_holder.append(btnhtml);
+                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
                     }
                     function fail(error) {
                         console.log("fail: " + error.code);
@@ -2044,6 +2053,14 @@ angular.module('your_app_name.controllers', [])
                 }, function (err) {
                     console.log(err);
                 });
+            };
+            $scope.removeCamFile = function (img) {
+                var arrInd = (img - 1);
+                var index = $scope.tempImgs.indexOf(arrInd);
+                $scope.tempImgs.splice(index, 1);
+                console.log('camera file removed');
+                console.log($scope.tempImgs);
+                jQuery('.remcam-' + img).remove();
             };
             $scope.uploadPicture = function () {
                 //$ionicLoading.show({template: 'Uploading..'});
@@ -2104,6 +2121,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
+
             //End Consultaion code
             $scope.exitVideo = function () {
                 try {
