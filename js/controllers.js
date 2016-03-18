@@ -1168,6 +1168,29 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+            //Save Patient History
+            $scope.vsavePatientHistory = function () {
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addRecordForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-patient-history", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (angular.isObject(response.records)) {
+                        alert("Patient History saved successfully!");
+                        console.log('remove slide');
+                        jQuery('.mediascreen').removeClass('minscreen');
+                        jQuery('.slideupdiv').removeClass('active');
+                        jQuery('.ciframecontainer').addClass('active');
+                // jQuery('.ciframecontainer').append('<iframe src="'+fsrc+'" id="'+fsrc+'"></iframe>');
+                jQuery('.custpopup-container').removeClass('active');
+//                            $timeout(function () {
+//                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
+//                            }, 1000);
+                    } else if (response.err != '') {
+                        //alert('Please fill mandatory fields');
+                    }
+                });
+            };
         })
 
         .controller('DietplanCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {

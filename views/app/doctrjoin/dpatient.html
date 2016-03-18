@@ -166,25 +166,11 @@
                     <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
                     <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
                 </div>
-                <div class="flexcont">
-                    <div class="innerdiv col-50 brdright">
-                        <div class="item item-divider">Allergies</div>
-                        <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
-                            <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
-                        </div>
-                    </div>
-                    <div class="innerdiv col-50">
-                        <div class="item item-divider">Vaccinations</div>
-                        <div class="p10">
-                            <button class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>    
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </ion-content>
         <div class="button btn-delete iframeclose"><i class="ion-close"></i></div>
-        <button class="button btn-add iframesubmit" ng-click="savePatientHistory()" ><i class="ion-checkmark"></i> Save</button>
+        <button class="button btn-add iframesubmit" ng-click="vsavePatientHistory()" ><i class="ion-checkmark"></i> Save</button>
     </form>
 </ion-modal-view>
 
