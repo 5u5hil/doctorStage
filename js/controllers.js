@@ -737,6 +737,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.appId = $stateParams.appId;
+            window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
             $scope.catId = '';
             $scope.userId = window.localStorage.getItem('id');
@@ -1062,6 +1063,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
             $scope.catId = 'Patient History';
             $scope.conId = [];
             $scope.conIds = [];
@@ -1094,6 +1096,12 @@ angular.module('your_app_name.controllers', [])
                             $scope.gender = val.value;
                         }
                     });
+                } else {
+                    if (response.data.patients[0].gender == 1) {
+                        $scope.gender = 'On';
+                    } else if (response.data.patients[0].gender == 2) {
+                        $scope.gender = 'On';
+                    }
                 }
                 console.log($scope.gender);
                 $scope.selCondition = response.data.knConditions;
@@ -1153,7 +1161,7 @@ angular.module('your_app_name.controllers', [])
                     if (angular.isObject(response.records)) {
                         alert("Patient History saved successfully!");
 //                            $timeout(function () {
-//                                $state.go('app.records-view', {'id': $scope.categoryId}, {}, {reload: true});
+//                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
 //                            }, 1000);
                     } else if (response.err != '') {
                         //alert('Please fill mandatory fields');
