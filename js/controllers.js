@@ -927,11 +927,11 @@ angular.module('your_app_name.controllers', [])
             $scope.getCase = function (type) {
                 console.log(type);
                 if (type == 1) {
-                    jQuery("#precase").addClass('hide');
-                    jQuery("#newcase").removeClass('hide');
+                    jQuery(".fields #precase").addClass('hide');
+                    jQuery(".fields #newcase").removeClass('hide');
                 } else if (type == 0) {
-                    jQuery("#precase").removeClass('hide');
-                    jQuery("#newcase").addClass('hide');
+                    jQuery(".fields #precase").removeClass('hide');
+                    jQuery(".fields #newcase").addClass('hide');
                 }
             };
             //Take images with camera
@@ -976,6 +976,23 @@ angular.module('your_app_name.controllers', [])
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
                         });
+                        if ($scope.tempImgs.length == 0) {
+                            if (($("#image-holder").html) == '') {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            } else {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            }
+                        } else {
+                            if (($("#image-holder").html) != '') {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            } else {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            }
+                        }
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
@@ -1037,13 +1054,23 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
-                    jQuery('#convalid').removeClass('hide');
-                    jQuery('#coninprec').removeClass('hide');
+                    if (($("#camera-status").html) == '') {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    }
                     //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    jQuery('#convalid').addClass('hide');
-                    jQuery('#coninprec').addClass('hide');
+                    if (($("#camera-status").html) != '') {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    } else {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    }
                     //jQuery('#valid-till').attr('required', false);
                 }
 
@@ -1070,6 +1097,23 @@ angular.module('your_app_name.controllers', [])
                 console.log('camera file removed');
                 console.log($scope.tempImgs);
                 jQuery('.remcam-' + img).remove();
+                if ($scope.tempImgs.length == 0) {
+                    if (($("#image-holder").html) == '') {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    }
+                } else {
+                    if (($("#image-holder").html) != '') {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    } else {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    }
+                }
             };
         })
 
@@ -1175,9 +1219,9 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
                         alert("Patient History saved successfully!");
-//                            $timeout(function () {
-//                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
-//                            }, 1000);
+                        $timeout(function () {
+                            $state.go('app.consultations-note', {'appId': $scope.appId}, {}, {reload: true});
+                        }, 1000);
                     } else if (response.err != '') {
                         //alert('Please fill mandatory fields');
                     }
@@ -1874,7 +1918,7 @@ angular.module('your_app_name.controllers', [])
                         if (val.fields.field == 'Case Id') {
                             $scope.caseId = val.value;
                             $scope.casetype = 0;
-                            jQuery('#precase').removeClass('hide');
+                            jQuery('.fields #precase').removeClass('hide');
                         }
                     });
                     $scope.recId = response.data.record.id;
@@ -1939,7 +1983,7 @@ angular.module('your_app_name.controllers', [])
                                     if (val.fields.field == 'Case Id') {
                                         $scope.caseId = val.value;
                                         $scope.casetype = 0;
-                                        jQuery('#precase').removeClass('hide');
+                                        jQuery('.fields #precase').removeClass('hide');
                                     }
                                 });
                                 $scope.recId = response.data.records.id;
@@ -1963,7 +2007,7 @@ angular.module('your_app_name.controllers', [])
                                     if (val.fields.field == 'Case Id') {
                                         $scope.caseId = val.value;
                                         $scope.casetype = 0;
-                                        jQuery('#precase').removeClass('hide');
+                                        jQuery('.fields #precase').removeClass('hide');
                                     }
                                 });
                                 $scope.recId = response.data.records.id;
@@ -1985,11 +2029,11 @@ angular.module('your_app_name.controllers', [])
             $scope.getCase = function (type) {
                 console.log(type);
                 if (type == 1) {
-                    jQuery("#precase").addClass('hide');
-                    jQuery("#newcase").removeClass('hide');
+                    jQuery(".fields #precase").addClass('hide');
+                    jQuery(".fields #newcase").removeClass('hide');
                 } else if (type == 0) {
-                    jQuery("#precase").removeClass('hide');
-                    jQuery("#newcase").addClass('hide');
+                    jQuery(".fields #precase").removeClass('hide');
+                    jQuery(".fields #newcase").addClass('hide');
                 }
             };
             //Take images with camera
@@ -2034,6 +2078,23 @@ angular.module('your_app_name.controllers', [])
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
                         });
+                        if ($scope.tempImgs.length == 0) {
+                            if (($("#image-holder").html) == '') {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            } else {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            }
+                        } else {
+                            if (($("#image-holder").html) != '') {
+                                jQuery('#convalid').removeClass('hide');
+                                jQuery('#coninprec').removeClass('hide');
+                            } else {
+                                jQuery('#convalid').addClass('hide');
+                                jQuery('#coninprec').addClass('hide');
+                            }
+                        }
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
                         $scope.ftLoad = true;
@@ -2069,6 +2130,23 @@ angular.module('your_app_name.controllers', [])
                 console.log('camera file removed');
                 console.log($scope.tempImgs);
                 jQuery('.remcam-' + img).remove();
+                if ($scope.tempImgs.length == 0) {
+                    if (($("#image-holder").html) == '') {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    }
+                } else {
+                    if (($("#image-holder").html) != '') {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    } else {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    }
+                }
             };
             $scope.uploadPicture = function () {
                 //$ionicLoading.show({template: 'Uploading..'});
@@ -2103,13 +2181,23 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
-                    jQuery('#convalid').addClass('hide');
-                    jQuery('#coninprec').addClass('hide');
+                    if (($("#camera-status").html) == '') {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    } else {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    }
                     //jQuery('#valid-till').attr('required', true);
-                    image_holder.append('<button class="button button-positive remove" onclick="removeFile()" title="Remove Files">X</button><br/>');
+                    image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    jQuery('#convalid').addClass('hide');
-                    jQuery('#coninprec').addClass('hide');
+                    if (($("#camera-status").html) != '') {
+                        jQuery('#convalid').removeClass('hide');
+                        jQuery('#coninprec').removeClass('hide');
+                    } else {
+                        jQuery('#convalid').addClass('hide');
+                        jQuery('#coninprec').addClass('hide');
+                    }
                     //jQuery('#valid-till').attr('required', false);
                 }
 
