@@ -976,8 +976,10 @@ angular.module('your_app_name.controllers', [])
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
                         });
+                        console.log($scope.tempImgs.length);
                         if ($scope.tempImgs.length == 0) {
-                            if (($("#image-holder").html) == '') {
+                            console.log($("#image-holder").html());
+                            if (($("#image-holder").html()) == '') {
                                 jQuery('#convalid').addClass('hide');
                                 jQuery('#coninprec').addClass('hide');
                             } else {
@@ -985,13 +987,8 @@ angular.module('your_app_name.controllers', [])
                                 jQuery('#coninprec').removeClass('hide');
                             }
                         } else {
-                            if (($("#image-holder").html) != '') {
-                                jQuery('#convalid').removeClass('hide');
-                                jQuery('#coninprec').removeClass('hide');
-                            } else {
-                                jQuery('#convalid').addClass('hide');
-                                jQuery('#coninprec').addClass('hide');
-                            }
+                            jQuery('#convalid').removeClass('hide');
+                            jQuery('#coninprec').removeClass('hide');
                         }
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
@@ -1054,17 +1051,13 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
-                    if (($("#camera-status").html) == '') {
-                        jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    } else {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    }
+                    console.log($("#camera-status").html());
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
                     //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    if (($("#camera-status").html) != '') {
+                    if (($("#camera-status").html()) != '') {
                         jQuery('#convalid').removeClass('hide');
                         jQuery('#coninprec').removeClass('hide');
                     } else {
@@ -1073,7 +1066,6 @@ angular.module('your_app_name.controllers', [])
                     }
                     //jQuery('#valid-till').attr('required', false);
                 }
-
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < element.files.length; i++) {
@@ -1098,7 +1090,7 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.tempImgs);
                 jQuery('.remcam-' + img).remove();
                 if ($scope.tempImgs.length == 0) {
-                    if (($("#image-holder").html) == '') {
+                    if (($("#image-holder").html()) == '') {
                         jQuery('#convalid').addClass('hide');
                         jQuery('#coninprec').addClass('hide');
                     } else {
@@ -1106,13 +1098,8 @@ angular.module('your_app_name.controllers', [])
                         jQuery('#coninprec').removeClass('hide');
                     }
                 } else {
-                    if (($("#image-holder").html) != '') {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    } else {
-                        jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    }
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
                 }
             };
         })
@@ -2078,8 +2065,10 @@ angular.module('your_app_name.controllers', [])
                         $scope.$apply(function () {
                             $scope.tempImgs.push(imageName);
                         });
+                        console.log($scope.tempImgs.length);
                         if ($scope.tempImgs.length == 0) {
-                            if (($("#image-holder").html) == '') {
+                            console.log($("#image-holder").html());
+                            if (($("#image-holder").html()) == '') {
                                 jQuery('#convalid').addClass('hide');
                                 jQuery('#coninprec').addClass('hide');
                             } else {
@@ -2087,13 +2076,8 @@ angular.module('your_app_name.controllers', [])
                                 jQuery('#coninprec').removeClass('hide');
                             }
                         } else {
-                            if (($("#image-holder").html) != '') {
-                                jQuery('#convalid').removeClass('hide');
-                                jQuery('#coninprec').removeClass('hide');
-                            } else {
-                                jQuery('#convalid').addClass('hide');
-                                jQuery('#coninprec').addClass('hide');
-                            }
+                            jQuery('#convalid').removeClass('hide');
+                            jQuery('#coninprec').removeClass('hide');
                         }
                         $scope.picData = getImgUrl(imageName);
                         //alert($scope.picData);
@@ -2131,7 +2115,7 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.tempImgs);
                 jQuery('.remcam-' + img).remove();
                 if ($scope.tempImgs.length == 0) {
-                    if (($("#image-holder").html) == '') {
+                    if (($("#image-holder").html()) == '') {
                         jQuery('#convalid').addClass('hide');
                         jQuery('#coninprec').addClass('hide');
                     } else {
@@ -2139,13 +2123,8 @@ angular.module('your_app_name.controllers', [])
                         jQuery('#coninprec').removeClass('hide');
                     }
                 } else {
-                    if (($("#image-holder").html) != '') {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    } else {
-                        jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    }
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
                 }
             };
             $scope.uploadPicture = function () {
@@ -2181,17 +2160,13 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
-                    if (($("#camera-status").html) == '') {
-                        jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    } else {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    }
+                    console.log($("#camera-status").html());
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
                     //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    if (($("#camera-status").html) != '') {
+                    if (($("#camera-status").html()) != '') {
                         jQuery('#convalid').removeClass('hide');
                         jQuery('#coninprec').removeClass('hide');
                     } else {
@@ -2200,7 +2175,6 @@ angular.module('your_app_name.controllers', [])
                     }
                     //jQuery('#valid-till').attr('required', false);
                 }
-
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
                     for (var i = 0; i < element.files.length; i++) {
