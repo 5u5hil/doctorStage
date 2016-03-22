@@ -870,32 +870,33 @@ angular.module('your_app_name.controllers', [])
                         $scope.picData = getImgUrl(value);
                         var imgName = value.substr(value.lastIndexOf('/') + 1);
                         $scope.ftLoad = true;
-                        $scope.uploadPicture();
+                        var imup = $scope.uploadPicture();
+                        alert("Image upload var "+imup);
                         $scope.image.push(imgName);
                         console.log($scope.image);
                     });
                     jQuery('#camfilee').val($scope.image);
                     console.log($scope.images);
                     var data = new FormData(jQuery("#addRecordForm")[0]);
-                    callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
-                        console.log(response);
-                        $ionicLoading.hide();
-                        if (angular.isObject(response.records)) {
-                            $scope.image = [];
-                            alert("Consultation Note added successfully!");
-                            if ($scope.appId != 0) {
-                                $timeout(function () {
-                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {}, {reload: true});
-                                }, 1000);
-                            } else {
-                                $timeout(function () {
-                                    $state.go('app.homepage', {}, {reload: true});
-                                }, 1000);
-                            }
-                        } else if (response.err != '') {
-                            alert('Please fill mandatory fields');
-                        }
-                    });
+//                    callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
+//                        console.log(response);
+//                        $ionicLoading.hide();
+//                        if (angular.isObject(response.records)) {
+//                            $scope.image = [];
+//                            alert("Consultation Note added successfully!");
+//                            if ($scope.appId != 0) {
+//                                $timeout(function () {
+//                                    $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {}, {reload: true});
+//                                }, 1000);
+//                            } else {
+//                                $timeout(function () {
+//                                    $state.go('app.homepage', {}, {reload: true});
+//                                }, 1000);
+//                            }
+//                        } else if (response.err != '') {
+//                            alert('Please fill mandatory fields');
+//                        }
+//                    });
                 } else {
                     var data = new FormData(jQuery("#addRecordForm")[0]);
                     callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
@@ -1031,8 +1032,8 @@ angular.module('your_app_name.controllers', [])
 //                params.value1 = "someparams";
 //                params.value2 = "otherparams";
 //                options.params = params;
-                var uploadSuccess = function (response) {
-                    alert('Success  ====== ');
+                var uploadSuccess = function (r) {
+                    alert('Upload Success !!!');
                     console.log("Code = " + r.responseCode);
                     console.log("Response = " + r.response);
                     console.log("Sent = " + r.bytesSent);
@@ -1041,6 +1042,7 @@ angular.module('your_app_name.controllers', [])
                 }
                 var ft = new FileTransfer();
                 ft.upload(fileURL, encodeURI(domain + 'doctrsrecords/upload-attachment'), uploadSuccess, function (error) {
+                    console.log("Error in uploading!!!");
                     //$ionicLoading.show({template: 'Error in connecting...'});
                     //$ionicLoading.hide();
                 }, options);
@@ -2141,7 +2143,7 @@ angular.module('your_app_name.controllers', [])
 //                params.value2 = "otherparams";
 //                options.params = params;
                 var uploadSuccess = function (response) {
-                    alert('Success  ====== ');
+                    alert('Upload Success  ');
                     console.log("Code = " + r.responseCode);
                     console.log("Response = " + r.response);
                     console.log("Sent = " + r.bytesSent);
@@ -2150,6 +2152,7 @@ angular.module('your_app_name.controllers', [])
                 }
                 var ft = new FileTransfer();
                 ft.upload(fileURL, encodeURI(domain + 'doctrsrecords/upload-attachment'), uploadSuccess, function (error) {
+                    console.log("Error in uploading!!!");
                     //$ionicLoading.show({template: 'Error in connecting...'});
                     //$ionicLoading.hide();
                 }, options);

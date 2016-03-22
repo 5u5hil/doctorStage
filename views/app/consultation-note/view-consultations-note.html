@@ -21,7 +21,7 @@
                             <div>{{patients[$index].fname}} {{patients[$index].lname}}</div>
                         </div >
                         <div ng-if="rec.fields.field == 'Mode'">
-                            {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value=='Video'? 'Video': rec.value=='Chat'? 'Chat': rec.value=='Clinic'? 'Clinic': rec.value=='Home'? 'Home': '' }}
+                            {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value=='Video'? 'Video': rec.value}}
                         </div>
                         <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Attachments' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Case Id'">
                             <div ng-if="rec.fields.field_type == 8">
