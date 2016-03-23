@@ -78,7 +78,7 @@
                         </ion-list>
                         <label class="item item-input item-select" id="precase">
                             <div class="input-label">{{field.field}}</div>
-                            <select name="pre-{{field.name}}">
+                            <select name="pre-{{field.name}}" ng-model="cases">
                                 <option value="" >Select </option>
                                 <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
                             </select>

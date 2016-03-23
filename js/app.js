@@ -239,11 +239,6 @@ angular.module('your_app_name', [
 
 
                     /* doctor join */
-
-
-
-
-
                     .state('app.doctor-consultations', {
                         cache: false,
                         url: "/doctor-consultations",
@@ -370,7 +365,7 @@ angular.module('your_app_name', [
                     })
 
                     /* inventory */
-                       .state('app.inventory', {
+                    .state('app.inventory', {
                         url: "/inventory",
                         views: {
                             'menuContent': {
@@ -389,7 +384,7 @@ angular.module('your_app_name', [
                         }
                     })
 
-                        .state('app.search-location', {
+                    .state('app.search-location', {
                         url: "/inventory/search-location",
                         views: {
                             'menuContent': {
@@ -530,7 +525,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.createdbyu', {
-                        url: "/createdbyu",
+                        url: "/createdbyu/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/createdbyu.html",
@@ -539,8 +534,31 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.records-view', {
+                        cache: false,
+                        url: "/records-view/{id:int}/{patientId:int}/{shared:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/records/records-view.html",
+                                controller: 'RecordsViewCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.record-details', {
+                        cache: false,
+                        url: "/record-details/{id:int}/{patientId:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/records/record-details.html",
+                                controller: 'RecordDetailsCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.sharedwithu', {
-                        url: "/sharedwithu",
+                        cache: false,
+                        url: "/sharedwithu/{id:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/sharedwithu.html",
@@ -548,6 +566,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
 
                     .state('app.treatment-plan-list', {
                         url: "/treatmentplan-list",

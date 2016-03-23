@@ -1,54 +1,56 @@
 <ion-view class="category-detail-view">
     <ion-nav-title>
-        <span>Bhavana</span>
+        <span>{{patient.fname}} {{patient.lname}}</span>
     </ion-nav-title>
     <ion-content>
-   
-
-		<div class="row tabnav">
-		<div class="col"><a ui-sref="app.createdbyu">Created by you</a></div>
-		<div class="col"><a ui-sref="app.sharedwithu" class="active">Shared with you</a></div>
-	 </div>	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+        <div class="row tabnav">
+            <div class="col"><a ui-sref="app.createdbyu({id:patient.id})">Created by you</a></div>
+            <div class="col"><a ui-sref="app.sharedwithu({id:patient.id})" class="active">Shared with you</a></div>
+        </div>
         <div class="list cdetail-list">
-          
-            <div class="crecordlist">
-               
-                <a  class="item"  ui-sref="#">
-                    <span class="title">Allergies</span>	
-                    <span class="count">5</span>	
-                </a>
-				
-				
-				 <a  class="item"  ui-sref="#">
-                    <span class="title">Bills</span>	
-                    <span class="count">5</span>	
+            <div class="mt15 pt50p" ng-if="userRecords.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
+            <div class="crecordlist" ng-repeat="cat in userRecords| orderBy: 'category'">
+                <!--                <a class="item"  ui-sref="#">
+                                    <span class="title">Allergies</span>	
+                                    <span class="count">5</span>	
+                                </a>
+                                <a class="item"  ui-sref="#">
+                                    <span class="title">Bills</span>	
+                                    <span class="count">5</span>	
+                                </a>-->
+                <div class="clistck">
+                    <ion-checkbox ng-model="catId[cat.id]" ng-value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" class="chkcat">Checkbox Label</ion-checkbox>
+                    <!--<input type="checkbox" class="chkcat" id="{{cat.id}}" value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" />-->
+                </div>
+                <a  class="item item-icon-left item-icon-right " ui-sref="app.records-view({'id' : cat.id, 'patientId': patient.id, 'shared': shared,  'res' : 'json'})">
+                    <span class="title">{{cat.category}}</span>	
+                    <span class="count">{{cat.count}}</span>	
                 </a>
 
             </div>
-        </div>  
-
+        </div>
     </ion-content>
-
-  <div class="footerbar">
-        <a class="button btn-delete" ui-sref="#"><i class="icon ion-trash-b"></i> Delete</a>
-		
-        <a class="button btn-share" ui-sref="app.share" ><i class="icon ion-android-share-alt" ></i> Share</a>
-		
+    <div class="footerbar button-bar">
+        <a class="button btn-delete" ng-click="delete()" ><i class="icon ion-trash-b"></i> Delete</a>
+        <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt" ></i> Share</a>
         <!-- <a class="button" ng-controller="AdsCtrl" ng-click="manageAdMob()" ><i class="icon ion-android-add-circle"></i> Add</a> -->
-		
-		 <a class="button btn-add" ng-click="modal.show()" ><i class="icon ion-android-add-circle"></i> Add</a>
-	</div>
+        <!--<a class="button btn-add" ng-click="modal.show()" ><i class="icon ion-android-add-circle"></i> Add</a>-->
+    </div>
 </ion-view>
+<script id="share" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Share</h1>	 
+
+    </ion-header-bar>
+    <ion-content>
+    <ion-list class="sharelist">
+    <ion-radio ng-repeat="doc in doctrs" ng-model="docShare[doc.id]" ng-change="getDocId('{{doc.id}}')" ng-value="{{doc.id}}" >{{doc.fname}}<br/><span class="f13" ng-repeat="spec in doc.specializations">{{spec.specialization}}{{$last==true? '': ',&nbsp;'}}</span></ion-radio>
+    </ion-list>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" ng-click="modal.hide()"><i class="icon ion-close"></i> Cancel</div>
+    <div class="button btn-share" ng-click="share()" ><i class="icon ion-android-share-alt" ></i> Share</div>
+    </div>
+    </ion-modal-view>
+</script>

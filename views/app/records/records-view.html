@@ -1,0 +1,102 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Records</span> 
+        <!--        <button class="button" ng-click="print()">Print</button>-->
+    </ion-nav-title>
+
+    <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
+        <select class="selectheader" ng-model="catId" ng-change="getRecords(catId)">
+            <option ng-repeat="cat in category" value="{{cat.id}}" ng-selected="{{catId == cat.id}}" >{{cat.category}}</option>
+        </select>
+    </div>
+    <!--    <div class="bar bar-subheader cbar divider-2" style="margin-top:45px;">
+            <div class="row">
+                <div class="col-50"><a  ui-sref="app.filter"><h4 class="subhead"><i class="icon ion-funnel"></i> Filter</h4></a></div>
+                <div class="col-50"><h4 class="subhead">Sort <i class="icon ion-ios-arrow-thin-down"></i></h4> </div>
+            </div>
+        </div>-->
+
+    <ion-content>
+        <div class="list recordview" style="margin-top: 50px;" >
+            <div class="mt15" ng-if="records.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
+            <div class="posts-list"  ng-repeat="rec in records track by $index" ng-if="records.length > 0">
+                <div  class="list card post-item">
+                    <a ui-sref="app.record-details({'id' : rec.id, 'patientId': patientId, 'res' : 'json'})" class="post-content item item-text-wrap">
+                        <div class="row pr-b10">
+                            <div class="col" ng-repeat="detail in rec.record_metadata| limitTo: limit">
+                                <!--{{$index == 0 ? '<p>': ''}} -->
+                                <p>
+                                    <strong>{{detail.fields.field| capitalize}}</strong><br/>
+                                    <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
+                                        {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
+                                    </span>
+                                    <span ng-if="detail.fields.field == 'Related Problem'" >
+                                        {{problems[$parent.$parent.$index].value}}
+                                    </span>
+                                    <span ng-if="detail.fields.field == 'Patient'" >
+                                        {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}}
+                                    </span>
+                                    <span ng-if="detail.fields.field == 'Case Id'" >
+                                        {{cases[$parent.$parent.$index].value}}
+                                    </span>
+                                    <span ng-if="detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                        <span ng-if="detail.fields.field_type == 8">{{detail.value|dateFormat4}}</span>
+                                        <span ng-if="detail.fields.field_type == 12">{{detail.value|time1}}</span>
+                                        <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12">{{detail.value}}</span>
+                                    </span>
+                                </p>
+                                <!--{{$index % 2 == 0|| $index == limit? '</p>' : ''}}
+                                {{$index % 2 == 0 && $index < limit ? '<p>' : ''}} -->
+                            </div>	
+                        </div>
+                        <div class="post-actions row post-footer">
+                            <span>Created {{rec.created_at| datetime3 }} by {{userId==createdby[$index].id? 'You': createdby[$index].fname}}</span>
+                        </div>
+                        <div class="attachcard" ng-if="rec.attachments.length != 0">
+                            <i class="ion-paperclip"></i></div>
+                    </a>
+
+                    <div class="row recordrow">
+                        <div class="col selectrecord"><ion-checkbox onclick="selectcheckbox(this)" ng-model="recId[rec.id]" ng-value="{{rec.id}}" ng-change="getRecIds('{{rec.id}}')"> Select</ion-checkbox></div>
+                        <div class="col btview"><a ui-sref="app.record-details({'id' : rec.id, 'patientId': patientId, 'res' : 'json'})" ><div class="card-viewbtn button-positive">View</div></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+
+
+    <div class="footerbar button-bar" id="rec1" >
+        <a class="button btn-delete" style="width:50%;" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> Delete</a>
+        <a class="button btn-share" style="width:50%;"  ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> Share</a> 
+    </div>
+
+    <div class="footerbar button-bar rec2" id="rec2">        
+        <a class="button btn-delete" ng-click="CancelAction()"><i class="icon ion-android-close"></i> Cancel</a>
+        <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt"></i> Share</a>
+    </div>
+    <div class="footerbar button-bar rec3" id="rec3">        
+        <a class="button btn-share" ng-click="CancelAction()"><i class="icon ion-android-close"></i> Cancel</a>
+        <a class="button btn-delete" ng-click="delete()"><i class="icon ion-trash-b"></i> Delete</a>
+    </div>
+
+</ion-view>
+<script id="share" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Share</h1>	 
+
+    </ion-header-bar>
+    <ion-content>
+    <ion-list class="sharelist">
+    <ion-radio ng-repeat="doc in doctrs" ng-model="docShare[doc.id]" ng-change="getDocId('{{doc.id}}')" ng-value="{{doc.id}}" >{{doc.fname}}<br/><span class="f13" ng-repeat="spec in doc.specializations">{{spec.specialization}}{{$last==true? '': ',&nbsp;'}}</span></ion-radio>
+    </ion-list>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" ng-click="modal.hide()"><i class="icon ion-close"></i> Cancel</div>
+    <div class="button btn-share" ng-click="share()" ><i class="icon ion-android-share-alt" ></i> Share</div>
+    </div>
+    </ion-modal-view>
+</script>
+
