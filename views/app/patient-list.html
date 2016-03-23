@@ -1,6 +1,6 @@
 <ion-view class="records-view">
     <ion-nav-title>
-        <span>Patients list</span>
+        <span>Patient List</span>
     </ion-nav-title>
     <ion-content>
 
@@ -10,51 +10,65 @@
                 <input type="text" placeholder="Search" ng-model="search">
             </label>
         </div>
-
-        <div class="list mb0" ng-repeat="(header,data) in users" ng-if="users.length != 0">
+        <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
             <div class="item item-divider">{{header}}</div>
-            <a class="item" ng-repeat="users in data| filter:search| orderBy:['fname', 'lname']" ui-sref="app.patient({'id':users.id})" ui-sref-opts="{reload: true}">
+            <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.patient({id:{{users.id}}})" ui-sref-opts="{reload: true}">
                 <h2>{{users.fname}} {{users.lname}}</h2>
                 <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
             </a>
-        </div> 
+        </div>
+
+
         <div class="list mb0" ng-if="users.length == 0">
             <p>No patients</p>
         </div>
+
     </ion-content>
     <div class="bar bar-footer bar-positive">
-        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Add</div>
+        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Add </div>
     </div>
 </ion-view>
 
-
 <script id="addp" type="text/ng-template">
-    <ion-modal-view>
+  <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Actions</h1>	 
-    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    <h1 class="title">Add Patient</h1>
+    <button class="button button-clear" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> </button>
     </ion-header-bar>
     <form id="addPatientForm" name="addpatient" novalidate>
     <ion-content>
-    <input type="hidden" name="doctrid" value="{{userId}}" ng-model="userId" />
-    <label class="item item-input item-floating-label">
-    <span class="input-label" >Name</span>
+    
+    <div class="item item-divider">Name</div>
+    <label class="item item-input">
     <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
     <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
     <div ng-show="addpatient.name.$error.required" class="serror">Your Name is required.</div>
     </label>
-
-    <label class="item item-input item-floating-label">
-    <span class="input-label">Email</span>
-    <input type="email" placeholder="Email" name="email" ng-model="email" required />
-    <div ng-show="addpatient.email.$error.required" class="serror">Email is required.</div>
-    <div ng-show="addpatient.email.$error.email" class="serror">Email is invalid</div>
+    <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
+    <input type="hidden" name="doctrid" value="{{userId}}" />
+    <div class="item item-divider">Aadhaar Id</div>
+    <label class="item item-input">
+    <input type="number" name="adhar" placeholder="Aadhaar Id" ng-model="adhar" required />
+    <div ng-show="addpatient.adhar.$error.minlength" class="serror">Aadhaar Id is required.</div>
     </label>
 
-    <label class="item item-input item-floating-label">
-    <span class="input-label">Mobile</span>
-    <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" />
+    <div class="item item-divider">Mobile</div>  
+    <label class="item item-input">
+    <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" ng-maxlength="10" />
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
+    </label> 
+
+    <div class="item item-divider">Gender</div> 	
+    <ion-list>
+    <div class="row">
+    <div class="col cradio"><ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'1'"  value="1" >Male</ion-radio></div>
+    <div class="col cradio"> <ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'2'" value="2">Female</ion-radio></div>
+    <div ng-show="addpatient.gender.$error.required" class="serror">Your Name is required.</div>
+    </div>
+    </ion-list>			
+    <div class="item item-divider">Date Of Birth</div> 	
+    <label class="item item-input">
+    <input type="date" placeholder="DOB" value={{curTime|dateFormat4}} ng-model="curTime" name="dob">
     </label>
 
     </ion-content>
