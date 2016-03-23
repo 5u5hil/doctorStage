@@ -259,7 +259,7 @@ angular.module('your_app_name', [
                         url: "/consultations/past",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/consultations/consultations-past.html",
+                                templateUrl: "views/app/consultations-past.html",
                                 controller: 'DoctorConsultationsCtrl'
                             }
                         }

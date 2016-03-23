@@ -2,7 +2,7 @@
     <ion-header-bar class="bar app-top-bar">
         <h1 class="title">Patient</h1>
     </ion-header-bar>
-    <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
+    <form name="adddPatientForm" id="adddPatientForm" enctype="multipart/form-data" novalidate >
         <ion-content>
             <div class="pb30" >
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
@@ -114,7 +114,9 @@
                             <ion-list>
                                 <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData"> 
                                     <div class="col"><span class="input-label" style="padding: 7px 10px 7px 7px;">{{field.field}}</span></div>
-                                    <div class="col cradio" ng-repeat="rad in radioData"><ion-radio  name="{{field.name}}" value="{{rad}}" >{{rad}}</ion-radio></div>
+                                    <div class="col cradio" ng-repeat="rad in radioData">
+                                        <ion-radio ng-model="gen[rad]" name="{{field.name}}" ng-checked="rad == gend" ng-value="{{rad}}" value="{{rad}}" >{{rad}}</ion-radio>
+                                    </div>
                                 </div>
                             </ion-list>
                         </div>
@@ -125,8 +127,7 @@
                                 <div ng-if="ab.fields.field == 'Blood Group'">
                                     <label class="item item-input item-select">
                                         <div class="input-label">{{field.field}}</div>
-                                        <select class="cselect" ng-model="blood" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
-                                            <option value="0" ng-selected="1"> Select {{field.field}}</option>
+                                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required>
                                             <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="sel == ab.value"> {{sel}} </option>
                                         </select>
                                     </label>
@@ -166,7 +167,21 @@
                     <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
                     <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
                 </div>
-
+                <div class="flexcont">
+                    <div class="innerdiv col-50 brdright">
+                        <div class="item item-divider">Allergies</div>
+                        <div class="p10">
+                            <button  class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add</button>
+                            <!--<div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
+                        </div>
+                    </div>
+                    <div class="innerdiv col-50">
+                        <div class="item item-divider">Vaccinations</div>
+                        <div class="p10">
+                            <button class="Cstmbutn button-small mb15" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
+                        </div>
+                    </div>
+                </div>
             </div>
         </ion-content>
         <div class="button btn-delete iframeclose"><i class="ion-close"></i></div>

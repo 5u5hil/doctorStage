@@ -1227,16 +1227,14 @@ angular.module('your_app_name.controllers', [])
             //Save Patient History
             $scope.vsavePatientHistory = function () {
                 $ionicLoading.show({template: 'Adding...'});
-                var data = new FormData(jQuery("#addRecordForm")[0]);
+                var data = new FormData(jQuery("#adddPatientForm")[0]);
                 callAjax("POST", domain + "doctrsrecords/save-patient-history", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
                         alert("Patient History saved successfully!");
                         console.log('remove slide');
-//                            $timeout(function () {
-//                                $state.go('app.consultations-note', {'appId':$scope.appId}, {}, {reload: true});
-//                            }, 1000);
+                        jQuery('.ciframecontainer').removeClass('active');
                     } else if (response.err != '') {
                         //alert('Please fill mandatory fields');
                     }
@@ -1973,8 +1971,8 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             $scope.image = [];
-                            $scope.records = response.data.records;
-                            $scope.recordDetails = response.data.recordDetails;
+                            $scope.records = response.records;
+                            $scope.recordDetails = response.recordDetails;
                             if ($scope.recordDetails.length > 0) {
                                 angular.forEach($scope.recordDetails, function (val, key) {
                                     if (val.fields.field == 'Case Id') {
@@ -1983,7 +1981,7 @@ angular.module('your_app_name.controllers', [])
                                         jQuery('.fields #precase').removeClass('hide');
                                     }
                                 });
-                                $scope.recId = response.data.records.id;
+                                $scope.recId = response.records.id;
                             }
                             alert("Consultation Note added successfully!");
                             $scope.removenoteslide();
@@ -1997,8 +1995,8 @@ angular.module('your_app_name.controllers', [])
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
-                            $scope.records = response.data.records;
-                            $scope.recordDetails = response.data.recordDetails;
+                            $scope.records = response.records;
+                            $scope.recordDetails = response.recordDetails;
                             if ($scope.recordDetails.length > 0) {
                                 angular.forEach($scope.recordDetails, function (val, key) {
                                     if (val.fields.field == 'Case Id') {
@@ -2007,7 +2005,7 @@ angular.module('your_app_name.controllers', [])
                                         jQuery('.fields #precase').removeClass('hide');
                                     }
                                 });
-                                $scope.recId = response.data.records.id;
+                                $scope.recId = response.records.id;
                             }
                             alert("Consultation Note added successfully!");
                             $scope.removenoteslide();
