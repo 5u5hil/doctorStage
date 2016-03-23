@@ -23,7 +23,7 @@
                         <div ng-if="rec.fields.field == 'Mode'">
                             {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value=='Video'? 'Video': rec.value}}
                         </div>
-                        <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Attachments' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Case Id'">
+                        <div ng-if="rec.fields.field != 'Mode' && rec.fields.field != 'Patient' && rec.fields.field != 'Attachments' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Case Id'">
                             <div ng-if="rec.fields.field_type == 8">
                                 <div ng-if="rec.value == ''">NA</div>
                                 <div ng-if="rec.value == '0000-00-00'"> NA </div>

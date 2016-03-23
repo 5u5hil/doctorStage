@@ -1202,15 +1202,13 @@ angular.module('your_app_name.controllers', [])
             //Save Patient History
             $scope.savePatientHistory = function () {
                 $ionicLoading.show({template: 'Adding...'});
-                var data = new FormData(jQuery("#addRecordForm")[0]);
+                var data = new FormData(jQuery("#addPatientForm")[0]);
                 callAjax("POST", domain + "doctrsrecords/save-patient-history", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
                     if (angular.isObject(response.records)) {
                         alert("Patient History saved successfully!");
-                        $timeout(function () {
                             $state.go('app.consultations-note', {'appId': $scope.appId}, {}, {reload: true});
-                        }, 1000);
                     } else if (response.err != '') {
                         //alert('Please fill mandatory fields');
                     }
