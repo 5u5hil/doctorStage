@@ -124,6 +124,16 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
+        .controller('InventoryCtrl',function($scope){
+            
+        })
+
+         .controller('InventorySearchCtrl',function($scope){
+
+        })
+
+
+
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $ionicModal.fromTemplateUrl('addp', {
                 scope: $scope

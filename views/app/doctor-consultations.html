@@ -6,167 +6,210 @@
           <button class="button button-icon button-clear ion-person"></button>
       </ion-nav-buttons> -->
     <ion-content>
-        <div class="row tabnav">
-            <div class="col"><a nav-clear menu-close ui-sref="app.doctor-consultations" class="active" >Active</a></div>
-            <div class="col"><a nav-clear menu-close ui-sref="app.consultation-past">Past</a></div>
-        </div>	
-        <div class="ctab page-data">
-            <ion-tabs class="tabs-positive tabs-icon-top">
-                <ion-tab title="Today({{todays_app.length}})" >
-                    <div class="tabcontainer p0">
-                        <h4 class="txt-center"> {{todays_app.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in todays_app" ><!---->
-                            <div  class="list card post-item" ng-repeat="prod in todays_products[$index]">
-                                <div class="post-content item item-text-wrap p0">
-                                    <div class="card-content">
-                                        <div ng-if="todays_note[$parent.$index].length > 0">
-                                            <a class="btn cnote" ng-click="viewNote(todays_note[$parent.$parent.$index][0].id)">
-                                                <span class="icon ion-plus-circled"></span> View Note
-                                            </a>
-                                        </div>
-                                        <div ng-if="todays_note[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
-                                                <span class="icon ion-plus-circled"></span> Note
-                                            </a>
-                                        </div>
-                                        <div ng-if="todays_note.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
-                                                <span class="icon ion-plus-circled"></span> Note
-                                            </a>
-                                        </div>
-                                        <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})">
-                                            <p ng-repeat="user in todays_usersData[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
-                                            <div class="row">
-                                                <div class="col" ng-if="app.appointments.mode == 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                        Valid Till {{app.appointments.scheduled_end_time|datetime}} </p></div>
-                                                <div class="col" ng-if="app.appointments.mode != 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                        {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
-                                                <div class="col"><p><strong>Mode</strong> <br/> 
-                                                        {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
-                                            </div>
+    <div class="row tabnav">
+        <div class="col"><a nav-clear menu-close ui-sref="app.doctor-consultations" class="active" >Active</a></div>
+        <div class="col"><a nav-clear menu-close ui-sref="app.consultation-past">Past</a></div>
+         </div> 
+    <div class="ctab page-data">
+     <ion-tabs class="tabs-positive tabs-icon-top">
 
-                                            <div class="clr"></div>
-                                        </a>
-                                    </div>
-                                    <div class="post-actions  post-footer p0">
-                                        <div class="row cardbtn-small p0">
-                                            <div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="cancelAppointment(app.appointment_id,prod.user_id,app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.appointment_id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
-                                            <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
-                                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
-                                            <div class="col" ng-if="app.appointments.mode == 1"><a ng-click="joinVideo(app.appointments.mode, todays_time[$index], todays_end_time[$index], app.appointment_id)" class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
-                                            <div class="col" ng-if="app.appointments.mode == 2"><a ui-sref="#" class="cbtn"><i class="ion-chatbubble"></i> Chat</a></div>
-                                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn reschedule">Conduct</a></div>
-                                        </div><!----   ng-if="curTime>=todays_time[$index] && curTime<=todays_end_time[$index]" ui-sref="app.doctor-join({'id': app.appointment_id, 'res': 'json'})"   --->
-                                    </div>
-                                </div>
+            <ion-tab title="Today({{todays_app.length}})" >
+                <div class="tabcontainer p0">
+            <h4 class="txt-center"> {{todays_app.length==0? 'No appointments': ''}}</h4>
+            <div class="posts-list" ng-repeat="app in todays_app" ><!--| orderBy: '-appointments.scheduled_start_time'-->
+                <div  class="list card post-item" ng-repeat="prod in todays_products[$index]">
+                    <div class="post-content item item-text-wrap p0">
+                        <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})" class="card-content p0">
+                        <div class="item item-divider">
+                          <span ng-if="app.appointments.mode == 2">
+                            {{app.appointments.scheduled_start_time|dateFormat3}} 
+                                    Valid Till {{app.appointments.scheduled_end_time|datetime}} 
+                        </span>
+                        <span ng-if="app.appointments.mode != 2">
+                          {{app.appointments.scheduled_start_time|dateFormat3}} 
+                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} 
+                        </span>
+                        <div class="cardmode"><span class="{{app.appointments.mode==1 ? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'ion-chatbubbles':''}}"></span></div>
+                      </div>
+
+                <div class="p5">
+                    <div class="row" ng-repeat="user in todays_usersData[$parent.$index]">
+                        <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
+                        <div class="col txt-right">  
+                            <div ng-if="todays_note[$parent.$index].length > 0">
+                                <a  class="btn crdview" ng-click="viewNote(todays_note[$parent.$parent.$index][0].id)">
+                                    <span class="icon ion-eye"></span> View Note
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                </ion-tab>
 
-                <ion-tab title="This Week({{week_app.length}})" >
-                    <div class="tabcontainer p0">
-                        <h4 class="txt-center"> {{week_app.length==0? 'No appointments': ''}}</h4> 
-                        <div class="posts-list" ng-repeat="app in week_app" > <!---->
-                            <div  class="list card post-item" ng-repeat="prod in week_products[$index]">
-                                <div class="post-content item item-text-wrap p0"> 
-                                    <div class="card-content">
-                                        <div ng-if="week_note[$parent.$index].length > 0">
-                                            <a class="btn cnote" ng-click="viewNote(week_note[$parent.$parent.$index][0].id)">
-                                                <span class="icon ion-plus-circled"></span>View Note
-                                            </a>
-                                        </div>
-                                        <div ng-if="week_note[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
-                                                <span class="icon ion-plus-circled"></span> Note
-                                            </a>
-                                        </div>
-                                        <div ng-if="week_note.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
-                                                <span class="icon ion-plus-circled"></span> Note
-                                            </a>
-                                        </div>
-                                        <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})">
-                                            <p ng-repeat="user in week_usersData[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
-                                            <div class="row">
-                                                <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                        {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
-                                                <div class="col"><p><strong>Mode</strong> <br/> 
-                                                        {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
-                                            </div>                                                        
-                                            <div class="clr"></div>
-                                        </a>
-                                    </div>
-                                    <div class="post-actions  post-footer p0">
-                                        <div class="row cardbtn-small p0">
-                                            <div class="col"ng-if="app.appointments.mode == 1">
-                                                <a confirmed-click="cancelAppointment(app.appointment_id,prod.user_id,app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.appointment_id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
-                                            <!---div class="col"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
-                                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
-                                            <div class="col" ng-if="app.appointments.mode == 1"><a ng-click="joinVideo(app.appointments.mode, week_time[$parent.$index], week_end_time[$parent.$index], app.appointment_id)" class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
-
-                                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                         <div ng-if="todays_note[$parent.$index].length == 0">
+                            <a ng-click="addCnote(app.appointment_id)" class="btn crdview-plus">
+                                <span class="icon ion-plus-circled"></span> Note
+                            </a>
                         </div>
-                    </div>
-                </ion-tab>
 
-                <ion-tab title="All({{all_app.length}})" >
-                    <div class="tabcontainer p0">
-                        <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in all_app"><!---->
-                            <div  class="list card post-item" ng-repeat="prod in all_products[$index]">
-                                <div class="post-content item item-text-wrap p0">
-                                    <div class="card-content">
-                                        <div ng-if="all_note[$parent.$index].length > 0">
-                                            <a class="btn cnote" ng-click="viewNote(all_note[$parent.$parent.$index][0].id)">
-                                                <span class="icon ion-plus-circled"></span>View Note
-                                            </a>
-                                        </div>
-                                        <div ng-if="all_note[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
-                                                <span class="icon ion-plus-circled"></span> Note
-                                            </a>
-                                        </div>
-                                        <div ng-if="all_note.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
-                                                <span class="icon ion-plus-circled"></span> Note
-                                            </a>
-                                        </div>
-                                        <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})">
-                                            <p ng-repeat="user in all_usersData[$parent.$index]"><strong> {{user.fname}} {{user.lname}}</strong></p>
-                                            <div class="row">
-                                                <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                        {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
-                                                <div class="col"><p><strong>Mode</strong> <br/> 
-                                                        {{app.appointments.mode==1? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
-                                            </div>
-                                            <div class="clr"></div>
-                                        </a>
-                                    </div>
-                                    <div class="post-actions  post-footer p0">
-                                        <div class="row cardbtn-small p0">
-                                            <div class="col" ng-if="app.appointments.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
-                                            <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
-                                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
-                                            <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
-                                            <div class="col" ng-if="app.appointments.mode == 1"><a  ng-click="joinVideo(app.appointments.mode, all_time[$parent.$index], all_end_time[$parent.$index], app.appointment_id)"  class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
-                                            <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
-                                        </div><!--------  ng-if="curTime >= all_time[$index] && curTime <= all_end_time[$index]" ui-sref="app.doctor-join({'id': app.appointment_id, 'res': 'json'})"   --->
-                                    </div>
-                                </div>
-                            </div>
+                        <div ng-if="todays_note.length == 0">
+                            <a ng-click="addCnote(app.appointment_id)" class="btn crdview-plus">
+                                <span class="icon ion-plus-circled"></span> Note
+                            </a>
                         </div>
+
+                       
                     </div>
-                </ion-tab>
-            </ion-tabs>
+                    </div> 
+                 </div>
+            <div class="clr"></div>
+        </a>
+        <div class="post-actions  post-footer p0">
+            <div class="row cardbtn-small p0">
+                <div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="cancelAppointment(app.appointment_id,prod.user_id,app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.appointment_id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
+                <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
+                <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
+                <div class="col" ng-if="app.appointments.mode == 1"><a ng-click="joinVideo(app.appointments.mode, todays_time[$index], todays_end_time[$index], app.appointment_id)" class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
+                <div class="col" ng-if="app.appointments.mode == 2"><a ui-sref="#" class="cbtn"><i class="ion-chatbubble"></i> Chat</a></div>
+                <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn reschedule">Conduct</a></div>
+            </div>
+            <!----   ng-if="curTime>=todays_time[$index] && curTime<=todays_end_time[$index]" ui-sref="app.doctor-join({'id': app.appointment_id, 'res': 'json'})"   -->
         </div>
+    </div>
+</div>
+</div>
+</div>
+</ion-tab>
+
+<ion-tab title="This Week({{week_app.length}})" >
+<div class="tabcontainer p0">
+<h4 class="txt-center"> {{week_app.length==0? 'No appointments': ''}}</h4> 
+<div class="posts-list" ng-repeat="app in week_app" > <!--| orderBy: '-appointments.scheduled_start_time'-->
+<div  class="list card post-item" ng-repeat="prod in week_products[$index]">
+<div class="post-content item item-text-wrap p0"> 
+<a ui-sref="app.doctor-current-tab({'id': app.appointment_id})" class="card-content p0">
+
+<div class="item item-divider">
+    <span>
+    {{app.appointments.scheduled_start_time|dateFormat3}} 
+    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}}
+    </span>
+   <div class="cardmode"><span class=" {{app.appointments.mode==1 ? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'ion-chatbubbles':''}}"></span></div>
+
+ </div>
+
+ <div class="p5">
+    <div class="row" ng-repeat="user in week_usersData[$parent.$index]">
+        <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
+        <div class="col txt-right">  
+
+             <div ng-if="week_note[$parent.$index].length > 0">
+                <a class="btn crdview-plus" ng-click="viewNote(week_note[$parent.$parent.$index][0].id)">
+                    <span class="icon ion-eye"></span>View Note
+                </a>
+            </div>
+            <div ng-if="week_note[$parent.$index].length == 0">
+                <a ng-click="addCnote(app.appointment_id)" class="btn crdview-plus">
+                    <span class="icon ion-plus-circled"></span> Note
+                </a>
+            </div>
+            <div ng-if="week_note.length == 0">
+                <a ng-click="addCnote(app.appointment_id)" class="btn crdview-plus">
+                    <span class="icon ion-plus-circled"></span> Note
+                </a>
+            </div>
 
 
 
+    </div>
+    </div> 
+ </div>
+
+
+
+                                                       
+<div class="clr"></div>
+</a>
+<div class="post-actions  post-footer p0">
+<div class="row cardbtn-small p0">
+    <div class="col"ng-if="app.appointments.mode == 1">
+        <a confirmed-click="cancelAppointment(app.appointment_id,prod.user_id,app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.appointment_id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
+    <!---div class="col"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
+    <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
+    <div class="col" ng-if="app.appointments.mode == 1"><a ng-click="joinVideo(app.appointments.mode, week_time[$parent.$index], week_end_time[$parent.$index], app.appointment_id)" class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
+
+    <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</ion-tab>
+
+<ion-tab title="All({{all_app.length}})" >
+<div class="tabcontainer p0">
+<h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
+<div class="posts-list" ng-repeat="app in all_app | orderBy: '-appointments.scheduled_start_time'" ><!---->
+    <div  class="list card post-item" ng-repeat="prod in all_products[$index]">
+        <div class="post-content item item-text-wrap p0">
+            <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})" class="card-content p0">
+
+            <div class="item item-divider">
+                <span>
+                  {{app.appointments.scheduled_start_time|dateFormat3}} 
+                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}}
+                </span>
+
+               <div class="cardmode"><span class="{{app.appointments.mode==1? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'ion-chatbubbles':''}}"></span></div>
+            </div>     
+
+             <div class="p5">
+                <div class="row" ng-repeat="user in all_usersData[$parent.$index]| orderBy: '-appointments.scheduled_start_time'">
+                    <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
+                    <div class="col txt-right">
+
+                          <div ng-if="all_note[$parent.$index].length > 0">
+                            <a class="btn crdview-plus" ng-click="viewNote(all_note[$parent.$parent.$index][0].id)"><span class="icon ion-eye"></span> View Note
+                            </a>
+                        </div>
+                        <div ng-if="all_note[$parent.$index].length == 0">
+                            <a ng-click="addCnote(app.appointment_id)" class="btn crdview">
+                                <span class="icon ion-plus-circled"></span> Note
+                            </a>
+                        </div>
+                        <div ng-if="all_note.length == 0">
+                            <a ng-click="addCnote(app.appointment_id)" class="btn crdview">
+                                <span class="icon ion-plus-circled"></span> Note
+                            </a>
+                        </div>
+
+
+
+                </div>
+                </div> 
+             </div>
+
+
+                <div class="clr"></div>
+            </a>
+            <div class="post-actions  post-footer p0">
+                <div class="row cardbtn-small p0">
+                    <div class="col" ng-if="app.appointments.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
+                    <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
+                    <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)"><i class="ion-close"></i> Cancel</a></div>
+                    <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
+                    <div class="col" ng-if="app.appointments.mode == 1"><a  ng-click="joinVideo(app.appointments.mode, all_time[$parent.$index], all_end_time[$parent.$index], app.appointment_id)"  class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
+                    <div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
+                </div>
+                <!-------- ng-if="curTime >= all_time[$index] && curTime <= all_end_time[$index]" ui-sref="app.doctor-join({'id': app.appointment_id, 'res': 'json'})"   -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</ion-tab>
+</ion-tabs>
+</div>
+
+        
+    
     </ion-content>
 
     <!--   <div class="footerbar">
@@ -178,7 +221,7 @@
     <script id="canceldctr" type="text/ng-template">
         <ion-modal-view>
         <ion-header-bar class="bar app-top-bar">
-        <h1 class="title">Doctor Consultations</h1>	 
+        <h1 class="title">Doctor Consultations</h1>  
         <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
         </ion-header-bar>
         <ion-content>
@@ -192,7 +235,7 @@
     <script id="canceldr" type="text/ng-template">
         <ion-modal-view>
         <ion-header-bar class="bar app-top-bar">
-        <h1 class="title">Doctor Consultations</h1>	 
+        <h1 class="title">Doctor Consultations</h1>  
         <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
         </ion-header-bar>
         <ion-content>
@@ -204,4 +247,3 @@
         </ion-modal-view>
     </script>
 </ion-view>
-
