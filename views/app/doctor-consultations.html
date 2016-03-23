@@ -147,7 +147,8 @@
                                                 <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
                                                 <div class="col txt-right">
                                                     <div ng-if="all_note[$parent.$parent.$index].length > 0">
-                                                        <a class="btn crdview-plus" ng-click="viewNote(all_note[$parent.$parent.$parent.$index][0].id)"><span class="icon ion-eye"></span> View Note
+                                                        <a class="btn crdview-plus" ng-click="viewNote(all_note[$parent.$parent.$parent.$index][0].id)">
+                                                            <span class="icon ion-eye"></span> View Note
                                                         </a>
                                                     </div>
                                                     <div ng-if="all_note[$parent.$parent.$index].length == 0">
@@ -160,6 +161,7 @@
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
+
                                                 </div>
                                             </div> 
                                         </div>
