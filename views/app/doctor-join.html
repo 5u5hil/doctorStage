@@ -8,6 +8,7 @@
     <div class="bar bar-subheader cbar">
         <div class="row">
             <div class="col txt-centre"><h5><a  ui-sref="#">Appointment at {{app[0].appointments.scheduled_start_time|time}}</a></h5></div>
+            <div class="addnebtn btn-share ion-medkit" ng-click="inventory();"></div>
             <div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
         </div>
     </div>
@@ -42,7 +43,7 @@
     </div>
 </ion-view>
 <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
-    <div class="slideupdiv">
+    <div class="slideupdiv" id="consultnote-slide">
         <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
         <button class="button iframesubmit" ng-click="submit()" ng-disabled="addRecordForm.$invalid"> <i class="ion-checkmark"></i>  Save </button>
         <div class="ctitlebar">Consultation Note</div>
@@ -130,7 +131,9 @@
             </div>
         </div>
     </div>
-    <div class="ciframecontainer">
+    
+	
+	<div class="ciframecontainer">
         <!--<div class="closeifrme">X</div>-->
         <iframe src="#/dpatient"></iframe>
     </div>
@@ -187,6 +190,46 @@
         </div>
     </div>
 </form>
+
+
+<div class="slideupdiv" id="inventory-slide">
+        <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
+        <button class="button iframesubmit" ng-click="submit()" ng-disabled="addRecordForm.$invalid"> <i class="ion-checkmark"></i>  Save </button>
+        <div class="ctitlebar">Inventory</div>
+        <div class="slideupcontent">
+         
+		 <div class="" ng-show="invsearch">
+           	<ion-list>
+			<div class="row">
+				<div class="col"> <ion-radio ng-model="choice1" ng-value="'A'" checked="checked">By Medicine</ion-radio></div>
+				<div class="col">  <ion-radio ng-model="choice" ng-value="'B'">By Location</ion-radio></div>
+			</div>
+			 </ion-list>
+			<label class="item item-input item-select">
+               <select class="cselect Ditemselect" name="as">
+					<option value="" >Select </option>
+					<option value="" >Location Name </option>
+					<option value="" >Location Name </option>
+					<option value="" >Location Name </option>
+					
+				</select>
+			</label>
+			<div class="txt-center">
+			<div  ng-click="invsearch();" class="button button-positive mt15">Search</div>
+			 </div>
+			 </div>
+			 
+			 <div class="halfpanel" ng-show="isearch">
+				dsad
+			 </div>
+			 
+			 
+			 </div>
+    </div>
+    
+
+
+
 <div class="custpopup-container" id="selectnote">
     <div class="custpopup">
         <div class="ncbtn" onclick="close_popup('selectnote')"><i class="ion-close"></i></div>

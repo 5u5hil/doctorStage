@@ -9357,7 +9357,9 @@ h1.post-title{font-size:26px;}
 }
 .attachcontainer{margin: 10px 10px;}
 .addnebtn{    padding: 0px 13px 5px 13px;
-              height: 42px;}
+              height: 42px;
+			      margin: 0 2px;
+			  }
 
 
 .cardmode{float: right; font-size: 18px;}
@@ -9398,7 +9400,7 @@ h1.post-title{font-size:26px;}
 .pbcontent{padding-bottom: 50px; /* ionic bottom */}
 .rt-list{    float: right;
     margin-top: -20px;}
-
+.halfpanel{background:#ccc; position:absolute;  width:100%; height:100%; overflow:Scroll;}
               
 /* endcss */
 

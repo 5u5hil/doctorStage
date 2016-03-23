@@ -2224,13 +2224,29 @@ angular.module('your_app_name.controllers', [])
 
             $scope.addnote = function () {
                 jQuery('.mediascreen').toggleClass('minscreen');
-                jQuery('.slideupdiv').toggleClass('active');
+                jQuery('#consultnote-slide').toggleClass('active');
+				  jQuery('#inventory-slide').removeClass('active');
             };
 
             $scope.removenoteslide = function () {
                 jQuery('.mediascreen').removeClass('minscreen');
-                jQuery('.slideupdiv').removeClass('active');
+                jQuery('#consultnote-slide').removeClass('active');
+                jQuery('#inventory-slide').removeClass('active');
             };
+			
+			$scope.inventory=function(){
+				jQuery('.mediascreen').toggleClass('minscreen');
+				jQuery('#inventory-slide').toggleClass('active');
+				 jQuery('#consultnote-slide').removeClass('active');
+			}
+			
+			$scope.invsearch=function(){
+				console.log('fadsf');
+				$scope.invsearch=true;
+				
+			}
+			
+			
         })
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
