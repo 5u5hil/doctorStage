@@ -1,0 +1,44 @@
+<ion-view cache-view="false" class="records-view">
+    <ion-nav-title>
+        <span>Inventory</span>
+    </ion-nav-title>
+    <ion-content>
+	<ion-list>
+	<div class="row">
+		<div class="col"> <ion-radio ng-model="choice1" ng-value="'A'">By Medicine</ion-radio></div>
+		<div class="col">  <ion-radio ng-model="choice" ng-value="'B'">By Location</ion-radio></div>
+	</div>
+	 </ion-list>
+	 		<!-- <div>
+			<label class="item item-input">
+                <input type="text" placeholder="Medicine" name="new-case-id" ng-model="formCase">
+            </label>
+            </div> -->
+ 	   			 <label class="item item-input item-select">
+                           
+                            <select class="cselect Ditemselect" name="as">
+                                <option value="" >Select </option>
+                                <option value="" >Location Name </option>
+                                <option value="" >Location Name </option>
+                                <option value="" >Location Name </option>
+                                
+                            </select>
+                        </label>
+
+              <div class="txt-center">
+					<a  ui-sref="app.searchinventory" class="button button-positive mt15">Search</a>
+				<!-- 	<a  ui-sref="app.search-location" class="button button-positive mt15">Search location</a> -->
+				</div>
+        <div class="list consultview mt15">
+            
+		
+		</div>
+        
+    </ion-content>
+	
+<!-- 	<div class="fixedbar">
+    
+	<a class="button btn-add">Add</a>
+	<a class="button btn-share" ui-sref="app.disbursement">Disbursement </a>
+	</div> -->
+</ion-view>

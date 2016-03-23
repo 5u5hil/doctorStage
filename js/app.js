@@ -369,6 +369,37 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    /* inventory */
+                       .state('app.inventory', {
+                        url: "/inventory",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/inventory/inventory.html",
+                                controller: 'InventoryCtrl'
+                            }
+                        }
+                    })
+                    .state('app.searchinventory', {
+                        url: "/inventory/search",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/inventory/search.html",
+                                controller: 'InventorySearchCtrl'
+                            }
+                        }
+                    })
+
+                        .state('app.search-location', {
+                        url: "/inventory/search-location",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/inventory/search-location.html",
+                                controller: 'InventorySearchCtrl'
+                            }
+                        }
+                    })
+
+
 
                     .state('app.about', {
                         url: "/consultation-note/about",
