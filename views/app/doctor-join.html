@@ -12,6 +12,7 @@
             <div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
         </div>
     </div>
+
     <ion-content>
         <div class="fltr-mesg"> &nbsp;</div>
         <div class="mediascreen"  >
@@ -198,7 +199,7 @@
         <div class="ctitlebar">Inventory</div>
         <div class="slideupcontent">
          
-		 <div class="" ng-show="invsearch">
+		 <div class="" ng-show="invsearcha">
            	<ion-list>
 			<div class="row">
 				<div class="col"> <ion-radio ng-model="choice1" ng-value="'A'" checked="checked">By Medicine</ion-radio></div>
@@ -219,8 +220,66 @@
 			 </div>
 			 </div>
 			 
-			 <div class="halfpanel" ng-show="isearch">
-				dsad
+			 <div class="halfpanel" ng-show="searchbox">
+				
+				<button class="button iframesubmit" ng-click="searchbox=false"> x </button>
+				<div class="ctitlebar">Search</div>
+				
+				 <div class="list list-inset txt-center csearchbox">
+					<label class="item item-input ">
+						<input type="text"  value="Crocin">
+					</label>
+					<span class="icon ion-search placeholder-icon"></span>
+				</div>
+				
+			<ul>
+			<li></li>
+			</ul>	
+		
+			
+				
+				
+				
+		<div class="item item-divider ng-binding">Starting with "Crocin"</div>
+
+
+			<div class="scont" >
+            
+            	 <div class="posts-list msearchlist">
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                    <div class="item item-divider"> <span class="fbold">Crocin</span>
+                        <span class="flt-right">10 strips</span></div>
+                         <p class="p10 txt-center">5 Locations</p>
+					 </div>
+				</div>
+                </div>
+
+			  <div class="posts-list msearchlist">
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                    <div class="item item-divider"> <span class="fbold">Crocin</span>
+                        <span class="flt-right">10 strips</span></div>
+                         <p class="p10 txt-center">3 Locations</p>
+                     </div>
+                </div>
+                </div>
+
+			  <div class="posts-list msearchlist">
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                    <div class="item item-divider"> <span class="fbold">Crocin</span>
+                        <span class="flt-right">10 strips</span></div>
+                         <p class="p10 txt-center">6 Locations</p>
+                     </div>
+                </div>
+                </div>
+           
+	</div>
+				
+				
+						
+				
 			 </div>
 			 
 			 

@@ -9400,7 +9400,20 @@ h1.post-title{font-size:26px;}
 .pbcontent{padding-bottom: 50px; /* ionic bottom */}
 .rt-list{    float: right;
     margin-top: -20px;}
-.halfpanel{background:#ccc; position:absolute;  width:100%; height:100%; overflow:Scroll;}
+.halfpanel{    background: #FFF;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    top: 0;
+    z-index: 999;}
+	
+.csearchbox .icon{    display: block;
+    position: absolute;
+    right: 8px;
+    top: 25%;
+    font-size: 25px; z-index:999;}	
+	
               
 /* endcss */
 /* added by leena */

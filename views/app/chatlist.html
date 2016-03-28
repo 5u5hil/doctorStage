@@ -6,11 +6,27 @@
         <div class="row tabnav">
             <div class="col"><a  ui-sref="app.chatlist" class="active" ui-sref-opts="{reload: true}" >Patients</a></div>
             <div class="col"><a  ui-sref="app.peers" ui-sref-opts="{reload: true}">Peers</a></div>
+			<div class="col"><a ui-sref="#">Assistant</a> </div>
         </div>
-        <div class="row tabnav mytabs">
+		
+<!-- 		<ion-list>
+		<div class="row">
+		<div class="col"><ion-radio ng-model="choice" ng-value="'A'">Active</ion-radio></div>
+		<div class="col"><ion-radio ng-model="choice" ng-value="'B'">Past</ion-radio></div>
+		</div>
+		</ion-list> -->
+
+		
+		
+		
+		
+        <div class="row tabnav mytabs" style="margin-top:15px; border-top:0;">
             <div class="col mytab"><a  ui-sref="app.chatlist" class="active" ui-sref-opts="{reload: true}" >Active</a></div>
             <div class="col mytab"><a  ui-sref="app.past-chatlist" ui-sref-opts="{reload: true}">Past</a></div>
         </div>
+		
+		
+		
         <div class="list cdetail-list">
             <div class="chatlist">
                 <a class="item item-icon-left item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
@@ -23,6 +39,13 @@
                 </a>
             </div>
         </div>
+		
+		
+		
+
+		
+		
+		
     </ion-content>
 
     <div class="footerbar fixedbar">

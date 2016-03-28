@@ -2214,6 +2214,14 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+			
+	
+			
+			
+			
+
+			
+			
         })
 
         .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
@@ -2767,10 +2775,11 @@ angular.module('your_app_name.controllers', [])
 				jQuery('#inventory-slide').toggleClass('active');
 				 jQuery('#consultnote-slide').removeClass('active');
 			}
-			
+			$scope.invsearcha=true;
 			$scope.invsearch=function(){
 				console.log('fadsf');
-				$scope.invsearch=true;
+				//$scope.invsearcha=false;
+				$scope.searchbox=true;
 				
 			}
 			
