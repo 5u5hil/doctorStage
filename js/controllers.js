@@ -801,6 +801,7 @@ angular.module('your_app_name.controllers', [])
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.users = {};
+            $scope.curTime = new Date();
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-all-patients',
@@ -1413,7 +1414,7 @@ angular.module('your_app_name.controllers', [])
                             else if ($scope.from == 'app.consultation-past')
                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             else
-                                $state.go('app.assistants', {}, {reload: true});
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1438,7 +1439,7 @@ angular.module('your_app_name.controllers', [])
                             else if ($scope.from == 'app.consultation-past')
                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             else
-                                $state.go('app.assistants', {}, {reload: true});
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1680,15 +1681,19 @@ angular.module('your_app_name.controllers', [])
                         if (field.toString() == 'Gender') {
                             console.log(field);
                             $scope.gender = val.value;
+                            console.log(val.value);
+                            if (val.value == 1) {
+                                $scope.gender = 'Male';
+                            } else if (val.value == 2) {
+                                $scope.gender = 'Female';
+                            }
                         }
                     });
                 } else {
                     if (response.data.patients[0].gender == 1) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Male';
+                        $scope.gender = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Female';
+                        $scope.gender = 'Female';
                     }
                 }
                 console.log($scope.gender);
@@ -1976,9 +1981,13 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             //Go to consultation add page
-            $scope.addCnote = function (appId) {
+            $scope.addCnote = function (appId, from) {
                 //alert(appId);
                 store({'appId': appId});
+                if (from == 'act')
+                    store({'from': 'app.doctor-consultations'});
+                else if (from == 'past')
+                    store({'from': 'app.consultation-past'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page

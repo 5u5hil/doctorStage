@@ -21,17 +21,17 @@
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content">
                                         <div ng-if="todays_note_past[$parent.$index].length > 0">
-                                            <a class="btn cnote" ng-click="viewNote(todays_note_past[$parent.$parent.$index][0].id)">
+                                            <a class="btn crdview-plus" ng-click="viewNote(todays_note_past[$parent.$parent.$index][0].id)">
                                                 <span class="icon ion-plus-circled"></span>View Note
                                             </a>
                                         </div>
                                         <div ng-if="todays_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn crdview-plus">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="todays_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn crdview-plus">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
@@ -67,17 +67,17 @@
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content">
                                         <div ng-if="week_note_past[$parent.$index].length > 0">
-                                            <a class="btn cnote" ng-click="viewNote(week_note_past[$parent.$parent.$index][0].id)">
+                                            <a class="btn crdview-plus" ng-click="viewNote(week_note_past[$parent.$parent.$index][0].id)">
                                                 <span class="icon ion-plus-circled"></span>View Note
                                             </a>
                                         </div>
                                         <div ng-if="week_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn crdview-plus">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="week_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn crdview-plus">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
@@ -107,6 +107,7 @@
                         <div class="posts-list" ng-repeat="app in all_app_past" ><!---->
                             <div  class="list card post-item" ng-repeat="prod in all_products_past[$index]">
                                 <div class="post-content item item-text-wrap p0">
+
                                     <div class="card-content p0">
 									
 									  <div class="item item-divider">
@@ -133,18 +134,25 @@
 									
                                         <div class="col txt-center" ng-if="all_note_past[$parent.$index].length > 0">
                                             <span class="btn crdview" ng-click="viewNote(all_note_past[$parent.$parent.$index][0].id)">
+
+
                                                 <span class="icon ion-plus-circled"></span>View Note
                                             </span>
                                         </div>
+
 										
                                         <div class="col txt-center" ng-if="all_note_past[$parent.$index].length == 0">
                                             <span class="btn crdview-plus" ng-click="addCnote(app.appointment_id)" class="btn cnote">
+
+
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </span>
                                         </div>
+
 										
                                         <div class="col txt-center" ng-if="all_note_past.length == 0">
                                             <span class="btn crdview-plus" ng-click="addCnote(app.appointment_id)" class="btn cnote">
+
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </span>
                                         </div>
