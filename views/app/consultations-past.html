@@ -107,29 +107,49 @@
                         <div class="posts-list" ng-repeat="app in all_app_past" ><!---->
                             <div  class="list card post-item" ng-repeat="prod in all_products_past[$index]">
                                 <div class="post-content item item-text-wrap p0">
-                                    <div class="card-content">
-                                        <div ng-if="all_note_past[$parent.$index].length > 0">
-                                            <a class="btn cnote" ng-click="viewNote(all_note_past[$parent.$parent.$index][0].id)">
+                                    <div class="card-content p0">
+									
+									  <div class="item item-divider">
+                                           {{app.appointments.scheduled_start_time|dateFormat3}} 
+                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} 
+                                            <div class="cardmode"><span class=" {{app.appointments.mode==1? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}"></span></div>
+                                        </div>
+									
+									
+									 <div class="p5 brd-bottom">
+                                            <div class="row" ng-repeat="user in all_usersData_past[$parent.$index]">
+                                                <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
+                                                <div class="col txt-right">
+                                                    {{user.phone}}
+
+                                                </div>
+                                            </div>
+                                        </div>
+									
+									
+									
+									
+									 <div class="row">
+									
+                                        <div class="col txt-center" ng-if="all_note_past[$parent.$index].length > 0">
+                                            <span class="btn crdview" ng-click="viewNote(all_note_past[$parent.$parent.$index][0].id)">
                                                 <span class="icon ion-plus-circled"></span>View Note
-                                            </a>
+                                            </span>
                                         </div>
-                                        <div ng-if="all_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+										
+                                        <div class="col txt-center" ng-if="all_note_past[$parent.$index].length == 0">
+                                            <span class="btn crdview-plus" ng-click="addCnote(app.appointment_id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
-                                            </a>
+                                            </span>
                                         </div>
-                                        <div ng-if="all_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+										
+                                        <div class="col txt-center" ng-if="all_note_past.length == 0">
+                                            <span class="btn crdview-plus" ng-click="addCnote(app.appointment_id)" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
-                                            </a>
+                                            </span>
                                         </div>
-                                        <p ng-repeat="user in all_usersData_past[$parent.$index]"><strong> {{user.fname}} {{user.lname}}</strong></p>
-                                        <div class="row">
-                                            <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
-                                            <div class="col"><p><strong>Mode</strong> <br/> 
-                                                    {{app.appointments.mode==1? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
-                                        </div>
+										</div>
+										
                                         <div class="clr"></div>
                                     </div>
                                     <div class="post-actions  post-footer p0">
@@ -142,7 +162,9 @@
                         </div>
                     </div>
                 </ion-tab>
-            </ion-tabs>
+           
+
+		   </ion-tabs>
         </div>
 
     </ion-content>
