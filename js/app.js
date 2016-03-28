@@ -630,6 +630,7 @@ angular.module('your_app_name', [
 
 
                     .state('app.homepage', {
+                        cache: false,
                         url: "/homepage",
                         views: {
                             'menuContent': {
