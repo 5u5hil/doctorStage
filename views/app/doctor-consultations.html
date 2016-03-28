@@ -37,18 +37,18 @@
                                                 <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
                                                 <div class="col txt-right">
                                                     <div ng-if="todays_note[$parent.$parent.$index].length > 0">
-                                                        <a  class="btn crdview" ng-click="viewNote(todays_note[$parent.$parent.$parent.$index][0].id)">
+                                                        <a  class="btn crdview-plus" ng-click="viewNote(todays_note[$parent.$parent.$parent.$index][0].id)">
                                                             <span class="icon ion-eye"></span> View Note
                                                         </a>
                                                     </div>
 
                                                     <div ng-if="todays_note[$parent.$parent.$index].length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id)" class="btn crdview-plus">
+                                                        <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
                                                     <div ng-if="todays_note.length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id, 'app')" class="btn cnote">
+                                                        <a ng-click="addCnote(app.appointment_id, 'app')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
@@ -98,12 +98,12 @@
                                                         </a>
                                                     </div>
                                                     <div ng-if="week_note[$parent.$parent.$index].length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id)" class="btn crdview-plus">
+                                                        <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
                                                     <div ng-if="week_note.length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id)" class="btn crdview-plus">
+                                                        <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
@@ -152,12 +152,12 @@
                                                         </a>
                                                     </div>
                                                     <div ng-if="all_note[$parent.$parent.$index].length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id)" class="btn crdview">
+                                                        <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
                                                     <div ng-if="all_note.length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id)" class="btn crdview">
+                                                        <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>

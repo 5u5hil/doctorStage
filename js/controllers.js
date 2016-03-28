@@ -1414,7 +1414,7 @@ angular.module('your_app_name.controllers', [])
                             else if ($scope.from == 'app.consultation-past')
                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             else
-                                $state.go('app.assistants', {}, {reload: true});
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1439,7 +1439,7 @@ angular.module('your_app_name.controllers', [])
                             else if ($scope.from == 'app.consultation-past')
                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             else
-                                $state.go('app.assistants', {}, {reload: true});
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1981,9 +1981,13 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             //Go to consultation add page
-            $scope.addCnote = function (appId) {
+            $scope.addCnote = function (appId, from) {
                 //alert(appId);
                 store({'appId': appId});
+                if (from == 'act')
+                    store({'from': 'app.doctor-consultations'});
+                else if (from == 'past')
+                    store({'from': 'app.consultation-past'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
