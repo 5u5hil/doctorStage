@@ -9388,6 +9388,9 @@ h1.post-title{font-size:26px;}
 }
 .ditem-content{margin: 10px 15px;}
 .Ditemselect{padding: 10px ! important;}
+.viewattachfile{padding-top:50px;}
+.viewattachfile img{max-width:100%;}
+
 
 /* endcss */
  .ion-close, .crdview .ion-closev.iocon{
