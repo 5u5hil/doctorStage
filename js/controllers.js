@@ -1680,15 +1680,19 @@ angular.module('your_app_name.controllers', [])
                         if (field.toString() == 'Gender') {
                             console.log(field);
                             $scope.gender = val.value;
+                            console.log(val.value);
+                            if (val.value == 1) {
+                                $scope.gender = 'Male';
+                            } else if (val.value == 2) {
+                                $scope.gender = 'Female';
+                            }
                         }
                     });
                 } else {
                     if (response.data.patients[0].gender == 1) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Male';
+                        $scope.gender = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Female';
+                        $scope.gender = 'Female';
                     }
                 }
                 console.log($scope.gender);
