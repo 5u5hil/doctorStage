@@ -102,7 +102,7 @@
                                     <ion-list>
                                         <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData"> 
                                             <div class="col"><span class="input-label" style="padding: 7px 10px 7px 7px;">{{field.field}}</span></div>
-                                            <div class="col cradio" ng-repeat="rad in radioData" ng-init="gender=gender">
+                                            <div class="col cradio" ng-repeat="rad in radioData" ng-init="gender">
                                                 <ion-radio ng-model="gender"  name="{{field.name}}" value="{{rad}}" ng-checked="rad == gender" ng-value="{{rad}}" >{{rad}} </ion-radio>
                                             </div>
                                         </div>
@@ -114,7 +114,7 @@
                             <ion-list>
                                 <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData"> 
                                     <div class="col"><span class="input-label" style="padding: 7px 10px 7px 7px;">{{field.field}}</span></div>
-                                    <div class="col cradio" ng-repeat="rad in radioData" ng-init="gender=gender">
+                                    <div class="col cradio" ng-repeat="rad in radioData" ng-init="gender">
                                         <ion-radio ng-model="gender" name="{{field.name}}" ng-checked="rad == gender" ng-value="{{rad}}" value="{{rad}}" >{{rad}}</ion-radio>
                                     </div>
                                 </div>

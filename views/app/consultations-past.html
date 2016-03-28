@@ -26,12 +26,12 @@
                                             </a>
                                         </div>
                                         <div ng-if="todays_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="todays_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
@@ -72,12 +72,12 @@
                                             </a>
                                         </div>
                                         <div ng-if="week_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="week_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
@@ -114,12 +114,12 @@
                                             </a>
                                         </div>
                                         <div ng-if="all_note_past[$parent.$index].length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
                                         <div ng-if="all_note_past.length == 0">
-                                            <a ng-click="addCnote(app.appointment_id)" class="btn cnote">
+                                            <a ng-click="addCnote(app.appointment_id, 'past')" class="btn cnote">
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
