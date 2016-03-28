@@ -9391,8 +9391,13 @@ h1.post-title{font-size:26px;}
 .viewattachfile{padding-top:50px;}
 .viewattachfile img{max-width:100%;}
 
-#addPatientForm  .serror{position:relative;}
 
+input[type="date"]:before{
+	font-family: "Ionicons";
+	display: inline-block;
+	padding:0 5px;
+	content: "\f117"; display:block;
+}
 
 /* endcss */
  .ion-close, .crdview .ion-closev.iocon{
