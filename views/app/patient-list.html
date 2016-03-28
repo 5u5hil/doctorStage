@@ -7,17 +7,17 @@
         <div class="list list-inset">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Search" ng-model="search">
+                <input type="text" placeholder="Search Patient" ng-model="search">
             </label>
         </div>
         <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
             <div class="item item-divider">{{header}}</div>
             <a class="item" ng-repeat="users in data| filter:search" ui-sref="app.patient({id:{{users.id}}})" ui-sref-opts="{reload: true}">
                 <h2>{{users.fname}} {{users.lname}}</h2>
-                <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
+                <p> +91 {{users.phone}}</p>
             </a>
         </div>
-
+<!-- {{users.email}}, &nbsp;   -->
 
         <div class="list mb0" ng-if="users.length == 0">
             <p>No patients</p>
