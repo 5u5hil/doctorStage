@@ -131,7 +131,7 @@
                 <ion-tab title="All({{all_app.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{all_app.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in all_app| orderBy: '-appointments.scheduled_start_time'" ><!---->
+                        <div class="posts-list" ng-repeat="app in all_app| orderBy: 'appointments.scheduled_start_time'" ><!---->
                             <div  class="list card post-item" ng-repeat="prod in all_products[$index]">
                                 <div class="post-content item item-text-wrap p0">
                                     <a ui-sref="app.doctor-current-tab({'id': app.appointment_id})" class="card-content p0">
@@ -143,7 +143,7 @@
                                             <div class="cardmode"><span class="{{app.appointments.mode==1? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'ion-chatbubbles':''}}"></span></div>
                                         </div>     
                                         <div class="p5">
-                                            <div class="row" ng-repeat="user in all_usersData[$parent.$index]| orderBy: '-appointments.scheduled_start_time'">
+                                            <div class="row" ng-repeat="user in all_usersData[$parent.$index]| orderBy: 'appointments.scheduled_start_time'">
                                                 <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
                                                 <div class="col txt-right">
                                                     <div ng-if="all_note[$parent.$parent.$index].length > 0">

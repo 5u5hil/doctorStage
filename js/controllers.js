@@ -801,6 +801,7 @@ angular.module('your_app_name.controllers', [])
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.users = {};
+            $scope.curTime = new Date();
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-all-patients',
