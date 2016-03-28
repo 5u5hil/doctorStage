@@ -42,14 +42,14 @@
     <label class="item item-input listreq">
     <input type="text" placeholder="Name" ng-model="name" name="name" required ng-minlength="3" />
     <div ng-show="addpatient.name.$error.minlength" class="serror">Name is too short.</div>
-    <div ng-show="addpatient.name.$error.required" class="serror">Name is required.</div>
+    <!-- <div ng-show="addpatient.name.$error.required" class="serror">Name is required.</div> -->
     </label>
     <input type="hidden" name="userId" value="{{userId}}" ng-model="userId" />
     <input type="hidden" name="doctrid" value="{{userId}}" />
     <div class="item item-divider">Aadhaar Id *</div>
     <label class="item item-input listreq">
     <input type="number" name="adhar" placeholder="Aadhaar Id" ng-model="adhar" required ng-minlength="12" ng-maxlength="12" />
-    <div ng-show="addpatient.adhar.$error.required" class="serror">Aadhaar Id is required.</div>
+<!--     <div ng-show="addpatient.adhar.$error.required" class="serror">Aadhaar Id is required.</div> -->
     <div ng-show="addpatient.adhar.$error.minlength" class="serror">Aadhaar Id is too short.</div>
     <div ng-show="addpatient.adhar.$error.maxlength" class="serror">Aadhaar Id is too long.</div>
     </label>
@@ -57,7 +57,7 @@
     <div class="item item-divider">Mobile *</div>  
     <label class="item item-input listreq">
     <input type="tel" placeholder="Phone" name="phone" ng-model="phone" required ng-minlength="10" ng-maxlength="10" />
-     <div ng-show="addpatient.phone.$error.required" class="serror">Mobile number is required.</div>
+    <!--  <div ng-show="addpatient.phone.$error.required" class="serror">Mobile number is required.</div> -->
     <div ng-show="addpatient.phone.$error.minlength" class="serror">Mobile number is too short.</div>
     <div ng-show="addpatient.phone.$error.maxlength" class="serror">Mobile number is too long.</div>
     </label> 
@@ -67,7 +67,7 @@
     <div class="row listreq">
     <div class="col cradio"><ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'1'"  value="1" >Male</ion-radio></div>
     <div class="col cradio"> <ion-radio ng-model="gender" ng-name="gender" name="gender" ng-value="'2'" value="2">Female</ion-radio></div>
-    <div ng-show="addpatient.gender.$error.required" class="serror">Gender is required.</div>
+<!--     <div ng-show="addpatient.gender.$error.required" class="serror">Gender is required.</div> -->
     </div>
     </ion-list>			
     <div class="item item-divider">Date Of Birth</div> 	

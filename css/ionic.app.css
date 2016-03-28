@@ -9391,6 +9391,8 @@ h1.post-title{font-size:26px;}
 .viewattachfile{padding-top:50px;}
 .viewattachfile img{max-width:100%;}
 
+#addPatientForm  .serror{position:relative;}
+
 
 /* endcss */
  .ion-close, .crdview .ion-closev.iocon{
