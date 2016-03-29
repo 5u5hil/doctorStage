@@ -1,0 +1,26 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Medicine</span>
+    </ion-nav-title>
+    <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
+        <ion-content>        
+            <div class="tabcon2" ng-repeat="medi in medicine">
+			<div class="item item-divider">{{medi.name}}</div>
+			
+			<div class="row p10">
+			<div class="col">Quatity: {{medi.qty_disdurse}}</div>
+			<div class="col">Unit: {{medi.disburse_unit}}</div>
+			</div>
+		
+		
+			
+            
+			
+            </div>
+        </ion-content>
+
+    </form>
+</ion-view>
+
+
+
