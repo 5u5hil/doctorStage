@@ -9398,6 +9398,25 @@ input[type="date"]:before{
 	padding:0 5px;
 	content: "\f117"; display:block;
 }
+.multipleselect{ border-right:1px #eee solid;  border-left:1px #eee solid;  border-bottom:1px #eee solid; float:left; padding:15px; box-sizing:border-box; display:none;}
+.multibtb{padding: 13px;
+    border-top: 1px #eee solid;
+    border-bottom: 1px #eee solid;}
+.multipleselect label{display: block;
+    float: left;
+    padding: 5px;
+    width: 100%;}
+.multipleselect label input[type="checkbox"]{ width: 15px;
+    height: 15px; }
+.mselect{position:relative;}
+.mselect:hover .multipleselect{display:block;}
+/* .multipleselect li{display:block;}
+.multipleselect li input[type="checkbox"]{    width: 15px;
+    height: 15px;
+    border: 1px #ccc solid;
+    background: #fff;
+    margin-top: 5px;} */
+
 
 /* endcss */
  .ion-close, .crdview .ion-closev.iocon{
