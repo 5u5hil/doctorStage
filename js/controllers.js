@@ -922,6 +922,7 @@ angular.module('your_app_name.controllers', [])
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.users = {};
+            $scope.curTime = new Date();
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-all-patients',
@@ -1534,7 +1535,7 @@ angular.module('your_app_name.controllers', [])
                             else if ($scope.from == 'app.consultation-past')
                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             else
-                                $state.go('app.assistants', {}, {reload: true});
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1559,7 +1560,7 @@ angular.module('your_app_name.controllers', [])
                             else if ($scope.from == 'app.consultation-past')
                                 $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
                             else
-                                $state.go('app.assistants', {}, {reload: true});
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -2101,9 +2102,13 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             //Go to consultation add page
-            $scope.addCnote = function (appId) {
+            $scope.addCnote = function (appId, from) {
                 //alert(appId);
                 store({'appId': appId});
+                if (from == 'act')
+                    store({'from': 'app.doctor-consultations'});
+                else if (from == 'past')
+                    store({'from': 'app.consultation-past'});
                 $state.go("app.consultations-note", {'appId': appId}, {reload: true});
             };
             //Go to consultation view page
@@ -2339,6 +2344,14 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+			
+	
+			
+			
+			
+
+			
+			
         })
 
         .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
@@ -2887,18 +2900,21 @@ angular.module('your_app_name.controllers', [])
                 jQuery('#inventory-slide').removeClass('active');
             };
 
-            $scope.inventory = function () {
-                jQuery('.mediascreen').toggleClass('minscreen');
-                jQuery('#inventory-slide').toggleClass('active');
-                jQuery('#consultnote-slide').removeClass('active');
-            }
-
-            $scope.invsearch = function () {
-                console.log('fadsf');
-                $scope.invsearch = true;
-
-            }
-
+			
+			$scope.inventory=function(){
+				jQuery('.mediascreen').toggleClass('minscreen');
+				jQuery('#inventory-slide').toggleClass('active');
+				 jQuery('#consultnote-slide').removeClass('active');
+			}
+			$scope.invsearcha=true;
+			$scope.invsearch=function(){
+				console.log('fadsf');
+				//$scope.invsearcha=false;
+				$scope.searchbox=true;
+				
+			}
+			
+			
 
         })
 
