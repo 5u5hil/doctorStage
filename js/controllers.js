@@ -1925,6 +1925,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctrs = {};
             $scope.patients = {};
             $scope.cases = {};
+            $scope.isAttachment = '';
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-note-details',
@@ -1937,6 +1938,11 @@ angular.module('your_app_name.controllers', [])
                 $scope.doctrs = response.data.doctrs;
                 $scope.patients = response.data.patient;
                 $scope.cases = response.data.caseData;
+                angular.forEach($scope.recordDetails, function (val, key) {
+                        if(val.fields.field == 'Attachments'){
+                            $scope.isAttachment = val.attachments.length;
+                        }
+                    });
                 console.log($scope.recordDetails);
             }, function errorCallback(response) {
                 console.log(response);

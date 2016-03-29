@@ -491,7 +491,7 @@
     <div class="item item-divider">{{header}}</div>
     <a class="item" ng-repeat="users in data| filter:search" ng-click="selPatient({{users.id}}, '{{users.fname}} {{users.lname}}')" >
     <h2>{{users.fname}} {{users.lname}}</h2>
-    <p>{{users.email}}, &nbsp;   +91 {{users.phone}}</p>
+    <p> +91 {{users.phone}}</p> <!--{{users.email}}, &nbsp;  -->
     </a>
     </div>
     <div class="list mb0" ng-if="users.length == 0">
