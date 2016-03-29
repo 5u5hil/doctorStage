@@ -606,11 +606,132 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('InventoryCtrl', function ($scope) {
+        .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/get-all-phc-location',
+                params: {interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.healthCenter = response.data.telecentre;
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.searchBy = function (type) {
+                console.log(type);
+                if (type == 1) {
+                    jQuery("#textlocation").addClass('hide');
+                    jQuery("#selectlocation").val("");
+                    jQuery("#selectlocation").removeClass('hide');
+                } else if (type == 0) {
+                    jQuery("#textlocation").val("");
+                    jQuery("#textlocation").removeClass('hide');
+                    jQuery("#selectlocation").addClass('hide');
+                }
+            };
+
+            $scope.searchByMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+                alert($scope.searchkey);
+
+                $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
+
+            };
+
+            $scope.searchByLocation = function (locid) {
+                $scope.searchkey = locid
+                alert($scope.searchkey);
+
+                $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
+
+            };
 
         })
 
-        .controller('InventorySearchCtrl', function ($scope) {
+        .controller('InventorySearchCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+            //$scope.getMedicine = [];
+            $scope.searchkey = $stateParams.key;
+            console.log("@@@@@@@" + $scope.searchkey);
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/search-medicine-doctor',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.getMedicine = response.data.getMedicine;
+                $scope.otherMedicine = response.data.otherMedicine;
+
+                $scope.telecentre = response.data.telecentre;
+                $scope.getLocation = response.data.getLocation;
+                
+                var data = response.data.getLocation;
+                    $scope.location = _.reduce(
+                            data,
+                            function (output, name) {
+                                var lCase = name.name.toUpperCase();
+                                if (output[lCase[0]]) //if lCase is a key
+                                    output[lCase[0]].push(name); //Add name to its list
+                                else
+                                    output[lCase[0]] = [name]; // Else add a key
+                                console.log(output);
+                                return output;
+                            },
+                            {}
+                    );
+                
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+
+
+            $scope.searchByMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+                //  var data = new FormData(jQuery("#loginuser")[0]);
+                $http({
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine',
+                    params: {id: $scope.id, key: $scope.searchkey}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.getMedicine = response.data.getMedicine;
+                    $scope.otherMedicine = response.data.otherMedicine;
+                    //$scope.searchkey  = searchkey
+                    $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+
+            };
+
+            $scope.searchByLocation = function (locId) {
+                //alert(locId);
+                $scope.searchkey = locId
+                //  var data = new FormData(jQuery("#loginuser")[0]);
+                $http({
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine-by-location',
+                    params: {id: $scope.id, locId: $scope.searchkey}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+//                    $scope.getMedicine = response.data.getMedicine;
+//                    $scope.otherMedicine = response.data.otherMedicine;
+                    //$scope.searchkey  = searchkey
+                    $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+
+            };
+            
+            $scope.changeLocation = function(locationid){
+               $scope.searchkey = locationid;
+               $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
+                
+            };
 
         })
 
@@ -2757,7 +2878,7 @@ angular.module('your_app_name.controllers', [])
             $scope.addnote = function () {
                 jQuery('.mediascreen').toggleClass('minscreen');
                 jQuery('#consultnote-slide').toggleClass('active');
-				  jQuery('#inventory-slide').removeClass('active');
+                jQuery('#inventory-slide').removeClass('active');
             };
 
             $scope.removenoteslide = function () {
@@ -2765,20 +2886,20 @@ angular.module('your_app_name.controllers', [])
                 jQuery('#consultnote-slide').removeClass('active');
                 jQuery('#inventory-slide').removeClass('active');
             };
-			
-			$scope.inventory=function(){
-				jQuery('.mediascreen').toggleClass('minscreen');
-				jQuery('#inventory-slide').toggleClass('active');
-				 jQuery('#consultnote-slide').removeClass('active');
-			}
-			
-			$scope.invsearch=function(){
-				console.log('fadsf');
-				$scope.invsearch=true;
-				
-			}
-			
-			
+
+            $scope.inventory = function () {
+                jQuery('.mediascreen').toggleClass('minscreen');
+                jQuery('#inventory-slide').toggleClass('active');
+                jQuery('#consultnote-slide').removeClass('active');
+            }
+
+            $scope.invsearch = function () {
+                console.log('fadsf');
+                $scope.invsearch = true;
+
+            }
+
+
         })
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {

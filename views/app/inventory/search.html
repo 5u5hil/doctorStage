@@ -7,77 +7,47 @@
     <ion-content>
 
 
-		  <div class="list list-inset txt-center">
+        <div class="list list-inset txt-center">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text"  value="Crocin">
+                <input type="text"  value="{{searchkey}}">
             </label>
-			<button class="button button-positive mt15">Search</button>	
+            <button class="button button-positive mt15">Search</button>	
         </div>
-	
- 
-		<div class="item item-divider ng-binding">Starting with "Crocin"</div>
 
 
-			<div class="scont" >
-            
-            	 <div class="posts-list msearchlist">
+        <div class="item item-divider ng-binding">Starting with "{{searchkey}}"</div>
+
+
+        <div class="scont" ng-repeat="medicine in getMedicine">
+            <div class="posts-list msearchlist">
                 <div  class="list card post-item">
-                    <div class="post-content item item-text-wrap p0">
-                    <div class="item item-divider"> <span class="fbold">Crocin</span>
-                        <span class="flt-right">10 strips</span></div>
-                         <p class="p10 txt-center">5 Locations</p>
-					 </div>
-				</div>
+                    <div class="post-content item item-text-wrap p0" ng-repeat="medicine in getMedicine">
+                        <div class="item item-divider"> <span class="fbold">{{medicine.name}}</span>
+                            <span class="flt-right">{{medicine.totalitem}} {{medicine.item_form}} ({{medicine.totalunit}})</span>
+                            <p class="p10 txt-center">5 Locations</p>
+                        </div>
+                    </div>
                 </div>
-
-			  <div class="posts-list msearchlist">
-                <div  class="list card post-item">
-                    <div class="post-content item item-text-wrap p0">
-                    <div class="item item-divider"> <span class="fbold">Crocin</span>
-                        <span class="flt-right">10 strips</span></div>
-                         <p class="p10 txt-center">3 Locations</p>
-                     </div>
-                </div>
-                </div>
-
-			  <div class="posts-list msearchlist">
-                <div  class="list card post-item">
-                    <div class="post-content item item-text-wrap p0">
-                    <div class="item item-divider"> <span class="fbold">Crocin</span>
-                        <span class="flt-right">10 strips</span></div>
-                         <p class="p10 txt-center">6 Locations</p>
-                     </div>
-                </div>
-                </div>
-           
-	</div>		
+            </div>
+        </div>
         <div class="scont" >
-        <div class="item item-divider ng-binding">Other matches</div>
-
-        <div class="posts-list msearchlist">
-        <div  class="list card post-item">
-        <div class="post-content item item-text-wrap p0">
-        <div class="item item-divider"> <span class="fbold">Crocin</span>
-            <span class="flt-right">10 strips</span></div>
-             <p class="p10 txt-center">4 Locations</p>
-         </div>
+            <div class="item item-divider ng-binding">Other matches</div>
+            <div class="posts-list msearchlist" ng-repeat="otherm in otherMedicine">
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0" ng-repeat="otherm in otherMedicine">
+                        <div class="item item-divider"> <span class="fbold">{{otherm.name}}</span>
+                            <span class="flt-right">{{otherm.totalitem}} {{otherm.item_form}} ({{otherm.totalunit}})</span>
+                            <p class="p10 txt-center">4 Locations</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
-        </div>
-
-
-
-
-
-
-
-
-
-</ion-content>
-<!-- 	
-	<div class="fixedbar">
-	<a class="button btn-delete" ui-sref="app.disbursement">Cancel</a>
-	<a class="button btn-add" ui-sref="app.disbursement">Save </a>
-	</div> -->
+    </ion-content>
+    <!-- 	
+            <div class="fixedbar">
+            <a class="button btn-delete" ui-sref="app.disbursement">Cancel</a>
+            <a class="button btn-add" ui-sref="app.disbursement">Save </a>
+            </div> -->
 </ion-view>
