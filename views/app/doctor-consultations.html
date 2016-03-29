@@ -36,6 +36,14 @@
                                             <div class="row" ng-repeat="user in todays_usersData[$parent.$index]">
                                                 <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
                                                 <div class="col txt-right">
+                                                    
+                                                    <div ng-if="todays_medicine[$parent.$parent.$index].length > 0">
+                                                        <a  class="btn crdview-plus" ng-click="viewMedicine(todays_medicine[$parent.$parent.$parent.$index][0].consultation_id)">
+                                                            <span class="icon ion-eye"></span> View Medicine
+                                                        </a>
+                                                    </div>
+
+                                                  
                                                     <div ng-if="todays_note[$parent.$parent.$index].length > 0">
                                                         <a  class="btn crdview-plus" ng-click="viewNote(todays_note[$parent.$parent.$parent.$index][0].id)">
                                                             <span class="icon ion-eye"></span> View Note
@@ -92,6 +100,14 @@
                                             <div class="row" ng-repeat="user in week_usersData[$parent.$index]">
                                                 <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
                                                 <div class="col txt-right"> 
+                                                    <div ng-if="week_medicine[$parent.$parent.$index].length > 0">
+                                                        <a  class="btn crdview-plus" ng-click="viewMedicine(week_medicine[$parent.$parent.$parent.$index][0].consultation_id)">
+                                                            <span class="icon ion-eye"></span> View Medicine
+                                                        </a>
+                                                    </div>
+
+                                                    
+                                                    
                                                     <div ng-if="week_note[$parent.$parent.$index].length > 0">
                                                         <a class="btn crdview-plus" ng-click="viewNote(week_note[$parent.$parent.$parent.$index][0].id)">
                                                             <span class="icon ion-eye"></span>View Note
@@ -146,6 +162,16 @@
                                             <div class="row" ng-repeat="user in all_usersData[$parent.$index]| orderBy: 'appointments.scheduled_start_time'">
                                                 <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
                                                 <div class="col txt-right">
+                                                    
+                                                    <div ng-if="all_medicine[$parent.$parent.$index].length > 0">
+                                                        <a  class="btn crdview-plus" ng-click="viewMedicine(all_medicine[$parent.$parent.$parent.$index][0].consultation_id)">
+                                                            <span class="icon ion-eye"></span> View Medicine
+                                                        </a>
+                                                    </div>
+
+                                                    
+                                                    
+                                                    
                                                     <div ng-if="all_note[$parent.$parent.$index].length > 0">
                                                         <a class="btn crdview-plus" ng-click="viewNote(all_note[$parent.$parent.$parent.$index][0].id)">
                                                             <span class="icon ion-eye"></span> View Note

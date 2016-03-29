@@ -607,7 +607,6 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
-
             $http({
                 method: 'GET',
                 url: domain + 'inventory/get-all-phc-location',
@@ -666,22 +665,22 @@ angular.module('your_app_name.controllers', [])
 
                 $scope.telecentre = response.data.telecentre;
                 $scope.getLocation = response.data.getLocation;
-                
+
                 var data = response.data.getLocation;
-                    $scope.location = _.reduce(
-                            data,
-                            function (output, name) {
-                                var lCase = name.name.toUpperCase();
-                                if (output[lCase[0]]) //if lCase is a key
-                                    output[lCase[0]].push(name); //Add name to its list
-                                else
-                                    output[lCase[0]] = [name]; // Else add a key
-                                console.log(output);
-                                return output;
-                            },
-                            {}
-                    );
-                
+                $scope.location = _.reduce(
+                        data,
+                        function (output, name) {
+                            var lCase = name.name.toUpperCase();
+                            if (output[lCase[0]]) //if lCase is a key
+                                output[lCase[0]].push(name); //Add name to its list
+                            else
+                                output[lCase[0]] = [name]; // Else add a key
+                            console.log(output);
+                            return output;
+                        },
+                        {}
+                );
+
 
             }, function errorCallback(response) {
                 console.log(response);
@@ -691,27 +690,27 @@ angular.module('your_app_name.controllers', [])
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-                
-                    $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
-               
+
+                $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
+
 
             };
-            
+
 // search from serach result end ---Bhavana //
 
             $scope.searchByLocation = function (locId) {
                 //alert(locId);
                 $scope.searchkey = locId
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-              
-                    $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
-                
+
+                $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
+
             };
-            
-            $scope.changeLocation = function(locationid){
-               $scope.searchkey = locationid;
-               $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
-                
+
+            $scope.changeLocation = function (locationid) {
+                $scope.searchkey = locationid;
+                $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
+
             };
 
         })
@@ -1939,10 +1938,10 @@ angular.module('your_app_name.controllers', [])
                 $scope.patients = response.data.patient;
                 $scope.cases = response.data.caseData;
                 angular.forEach($scope.recordDetails, function (val, key) {
-                        if(val.fields.field == 'Attachments'){
-                            $scope.isAttachment = val.attachments.length;
-                        }
-                    });
+                    if (val.fields.field == 'Attachments') {
+                        $scope.isAttachment = val.attachments.length;
+                    }
+                });
                 console.log($scope.recordDetails);
             }, function errorCallback(response) {
                 console.log(response);
@@ -1986,6 +1985,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.todays_time = response.data.todays_time;
                 $scope.todays_end_time = response.data.todays_end_time;
                 $scope.todays_note = response.data.todays_note;
+                $scope.todays_medicine = response.data.todays_medicine;
                 //past section
                 $scope.todays_app_past = response.data.todays_appointments_past;
                 $scope.todays_usersData_past = response.data.todays_usersData_past;
@@ -1993,6 +1993,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.todays_time_past = response.data.todays_time_past;
                 $scope.todays_end_time_past = response.data.todays_end_time_past;
                 $scope.todays_note_past = response.data.todays_note_past;
+                $scope.todays_medicine_past = response.data.todays_medicine_past;
                 // end past section //
                 $scope.week_app = response.data.week_appointments;
                 $scope.week_usersData = response.data.week_usersData;
@@ -2000,6 +2001,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.week_time = response.data.week_time;
                 $scope.week_end_time = response.data.week_end_time;
                 $scope.week_note = response.data.week_note;
+                $scope.week_medicine = response.data.week_medicine;
                 //past section 
                 $scope.week_app_past = response.data.week_appointments_past;
                 $scope.week_usersData_past = response.data.week_usersData_past;
@@ -2007,6 +2009,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.week_time_past = response.data.week_time_past;
                 $scope.week_end_time_past = response.data.week_end_time_past;
                 $scope.week_note_past = response.data.week_note_past;
+                $scope.week_medicine_past = response.data.week_medicine_past;
                 //end past section
                 $scope.all_app = response.data.all_appointments;
                 $scope.all_usersData = response.data.all_usersData;
@@ -2014,6 +2017,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_time = response.data.all_time;
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
+                $scope.all_medicine = response.data.all_medicine;
                 //past section //
                 $scope.all_app_past = response.data.all_appointments_past;
                 $scope.all_usersData_past = response.data.all_usersData_past;
@@ -2021,6 +2025,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_time_past = response.data.all_time_past;
                 $scope.all_end_time_past = response.data.all_end_time_past;
                 $scope.all_note_past = response.data.all_note_past;
+                $scope.all_medicine_past = response.data.all_medicine_past;
                 //end past section//
             }, function errorCallback(e) {
                 console.log(e);
@@ -2104,6 +2109,32 @@ angular.module('your_app_name.controllers', [])
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
+            
+             $scope.viewMedicine = function (consultationId) {
+                //alert(noteId);
+                // store({'noteId': noteId});
+                $state.go("app.view-medicine", {'id': consultationId}, {reload: true});
+            };
+        })
+        
+        .controller('ViewMedicineCtrl', function ($scope, $http, $stateParams, $rootScope, $state) {
+            $scope.consultationId = $stateParams.id;
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/get-medicine-details',
+                params: {consultationId: $scope.consultationId, userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.medicine = response.data.medicine;
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+
+
         })
 
         .controller('CancelDctrCtrl', function ($scope, $ionicModal, $filter, $http, $state) {
@@ -2331,14 +2362,14 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-			
-	
-			
-			
-			
 
-			
-			
+
+
+
+
+
+
+
         })
 
         .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
