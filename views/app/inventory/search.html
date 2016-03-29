@@ -10,9 +10,9 @@
         <div class="list list-inset txt-center">
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
-                <input type="text"  value="{{searchkey}}">
+                <input type="text"  value="{{searchkey}}" ng-model="search">
             </label>
-            <button class="button button-positive mt15">Search</button>	
+            <button  ng-click="searchByMedicine(search)"  class="button button-positive mt15">Search</button>	
         </div>
 
 
@@ -22,11 +22,12 @@
         <div class="scont" ng-repeat="medicine in getMedicine">
             <div class="posts-list msearchlist">
                 <div  class="list card post-item">
-                    <div class="post-content item item-text-wrap p0" ng-repeat="medicine in getMedicine">
+                    <div class="post-content item item-text-wrap p0" >
                         <div class="item item-divider"> <span class="fbold">{{medicine.name}}</span>
-                            <span class="flt-right">{{medicine.totalitem}} {{medicine.item_form}} ({{medicine.totalunit}})</span>
-                            <p class="p10 txt-center">5 Locations</p>
+                            <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ({{medicine.total_unit}})</span>
                         </div>
+                        <p class="p10 txt-center">Location: {{medicine.district}}</p>
+
                     </div>
                 </div>
             </div>
@@ -35,11 +36,12 @@
             <div class="item item-divider ng-binding">Other matches</div>
             <div class="posts-list msearchlist" ng-repeat="otherm in otherMedicine">
                 <div  class="list card post-item">
-                    <div class="post-content item item-text-wrap p0" ng-repeat="otherm in otherMedicine">
+                    <div class="post-content item item-text-wrap p0">
                         <div class="item item-divider"> <span class="fbold">{{otherm.name}}</span>
-                            <span class="flt-right">{{otherm.totalitem}} {{otherm.item_form}} ({{otherm.totalunit}})</span>
-                            <p class="p10 txt-center">4 Locations</p>
+                            <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ({{otherm.total_unit}})</span>
                         </div>
+                        <p class="p10 txt-center">Location: {{otherm.district}}</p>
+
                     </div>
                 </div>
             </div>

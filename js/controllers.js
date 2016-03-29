@@ -687,44 +687,25 @@ angular.module('your_app_name.controllers', [])
                 console.log(response);
             });
 
-
+// search from serach result ---Bhavana //
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-                $http({
-                    method: 'GET',
-                    url: domain + 'inventory/search-medicine',
-                    params: {id: $scope.id, key: $scope.searchkey}
-                }).then(function successCallback(response) {
-                    console.log(response.data);
-                    $scope.getMedicine = response.data.getMedicine;
-                    $scope.otherMedicine = response.data.otherMedicine;
-                    //$scope.searchkey  = searchkey
+                
                     $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
+               
 
             };
+            
+// search from serach result end ---Bhavana //
 
             $scope.searchByLocation = function (locId) {
                 //alert(locId);
                 $scope.searchkey = locId
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-                $http({
-                    method: 'GET',
-                    url: domain + 'inventory/search-medicine-by-location',
-                    params: {id: $scope.id, locId: $scope.searchkey}
-                }).then(function successCallback(response) {
-                    console.log(response.data);
-//                    $scope.getMedicine = response.data.getMedicine;
-//                    $scope.otherMedicine = response.data.otherMedicine;
-                    //$scope.searchkey  = searchkey
+              
                     $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
-
+                
             };
             
             $scope.changeLocation = function(locationid){
