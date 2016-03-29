@@ -3,50 +3,50 @@
         <span>Inventory</span>
     </ion-nav-title>
     <ion-content>
-	<ion-list>
-	<div class="row">
-		<div class="col"> <ion-radio ng-model="choice1" ng-value="'A'">By Medicine</ion-radio></div>
-		<div class="col">  <ion-radio ng-model="choice" ng-value="'B'">By Location</ion-radio></div>
-	</div>
-	 </ion-list>
-	 		<!-- <div>
-			<label class="item item-input">
-                <input type="text" placeholder="Medicine" name="new-case-id" ng-model="formCase">
+        <ion-list>
+            <div class="row">
+                <div class="col"> <ion-radio ng-model="choice"  ng-click="searchBy(choice)" ng-value="0">By Medicine</ion-radio></div>
+                <div class="col">  <ion-radio ng-model="choice"  ng-click="searchBy(choice)" ng-value="1">By Location</ion-radio></div>
+            </div>
+        </ion-list>
+        <div class="hide"  id="textlocation">
+            <label class="item item-input"  >
+                <input type="text" placeholder="Medicine"  ng-model="medicinename">
             </label>
-            </div> -->
-						<label class="item item-input item-select">
-                           
-                            <select class="cselect Ditemselect" name="as">
-                                <option value="" >Select </option>
-                                <option value="" >Location Name </option>
-                                <option value="" >Location Name </option>
-                                <option value="" >Location Name </option>
-                                
-                            </select>
-                        </label>
+            <div class="txt-center">
+                <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button>
 
-              <div class="txt-center">
-					<a  ui-sref="app.searchinventory" class="button button-positive mt15">Search</a>
-				<!-- 	<a  ui-sref="app.search-location" class="button button-positive mt15">Search location</a> -->
-				</div>
+            </div>
+        </div>
+        <div class="hide" id="selectlocation">
+            <label class="item item-input item-select " >
+
+                <select class="cselect Ditemselect" name="location" ng-model="healthcenterloc">
+                    <option value="">Select Health Centre</option>
+                    <option ng-repeat="hc in healthCenter"  value="{{hc.id}}" >{{hc.district}}</option>
+                  
+
+                </select>
+            </label>
+
+            <div class="txt-center">
+
+                <button ng-click="searchByLocation(healthcenterloc)"  class="button button-positive mt15">Search location</button>
+                <!--ui-sref="app.search-location"-->
+            </div>
+        </div>
         <div class="list consultview mt15">
-            
-	<!-- 		<div class="mselect">
-			<div class="multibtb">By Location</div>
-			<div class="multipleselect" >
-				<label><input type="checkbox" /> Label</label>
-				<label><input type="checkbox"  /> Label</label>
-				<label><input type="checkbox"  /> Label</label>
-			</div>
-			</div> -->
-		
-		</div>
-        
+
+
+
+        </div>
+
+
     </ion-content>
-	
-<!-- 	<div class="fixedbar">
-    
-	<a class="button btn-add">Add</a>
-	<a class="button btn-share" ui-sref="app.disbursement">Disbursement </a>
-	</div> -->
+
+    <!-- 	<div class="fixedbar">
+        
+            <a class="button btn-add">Add</a>
+            <a class="button btn-share" ui-sref="app.disbursement">Disbursement </a>
+            </div> -->
 </ion-view>

@@ -366,6 +366,7 @@ angular.module('your_app_name', [
 
                     /* inventory */
                     .state('app.inventory', {
+                          cache: false,
                         url: "/inventory",
                         views: {
                             'menuContent': {
@@ -375,7 +376,8 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.searchinventory', {
-                        url: "/inventory/search",
+                          cache: false,
+                        url: "/inventory/search/{key:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/inventory/search.html",
@@ -385,7 +387,8 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.search-location', {
-                        url: "/inventory/search-location",
+                         cache: false,
+                        url: "/inventory/search-location/{key:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/inventory/search-location.html",

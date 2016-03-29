@@ -4,12 +4,9 @@
     </ion-nav-title>
 
     <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
-        <select class="selectheader">
-            <option selected="selected">Location 1</option>
-            <option>Location 2</option>
-            <option>Location 3</option>
-            <option>Location 4</option>
-            <option>Location 5</option>
+        <select class="selectheader" ng-model="changelocation" ng-change="changeLocation(changelocation)">
+            <option ng-repeat="telLocation in telecentre" ng-selected="telLocation.id == searchkey" value="{{telLocation.id}}">{{telLocation.district}}</option>
+           
         </select>
     </div>
 
@@ -17,73 +14,22 @@
         <div class="list list-inset txt-center">
         <label class="item item-input">
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="text"  value="" placeholder="Search">
+        <input type="text" value="" placeholder="Search" ng-model="search">
         </label>
         </div>
 
 
 
-           <div class="list mb0">
-            <div class="item item-divider">A</div>
-            <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
+           <div class="list mb0" ng-repeat="(header,data) in location">
+            <div class="item item-divider" >{{header}}</div>
+            <a class="item"   ng-repeat="location in data| filter:search">
+                <h2>{{location.name}}</h2>
+                <p class="rt-list">{{location.item_unit}}</p>
             </a>
-              <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
-            </a>
+              
 
         </div> 
-        	
-          <div class="list mb0">
-            <div class="item item-divider">B</div>
-            <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
-            </a>
-             <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
-            </a>
-             <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
-            </a>
-             <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
-            </a>
-        </div> 
-       
-              <div class="list mb0">
-            <div class="item item-divider">C</div>
-            <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
-            </a>
-        </div> 
-              <div class="list mb0">
-            <div class="item item-divider">D</div>
-            <a class="item"  ui-sref="">
-                <h2>Crocin</h2>
-                <p class="rt-list">10</p>
-            </a>
-        </div> 
-
-
-
-
-
-
-
-
-
-
+      
 </ion-content>
-	
-<!-- 	<div class="fixedbar">
-	<a class="button btn-delete" ui-sref="app.disbursement">Cancel</a>
-	<a class="button btn-add" ui-sref="app.disbursement">Save </a>
-	</div> -->
+
 </ion-view>
