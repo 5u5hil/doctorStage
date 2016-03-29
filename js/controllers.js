@@ -2931,6 +2931,45 @@ angular.module('your_app_name.controllers', [])
                 $scope.searchbox = true;
 
             };
+            
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/get-all-phc-location',
+                params: {interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.healthCenter = response.data.telecentre;
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.searchBy = function (type) {
+                console.log(type);
+                if (type == 1) {
+                    jQuery("#textlocation").addClass('hide');
+                    jQuery("#selectlocation").val("");
+                    jQuery("#selectlocation").removeClass('hide');
+                } else if (type == 0) {
+                    jQuery("#textlocation").val("");
+                    jQuery("#textlocation").removeClass('hide');
+                    jQuery("#selectlocation").addClass('hide');
+                }
+            };
+
+            $scope.searchByMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+              alert($scope.searchkey);
+              $scope.golink('#/app/inventory/search/'+$scope.searchkey);
+
+            };
+
+            $scope.searchByLocation = function (locid) {
+                $scope.searchkey = locid
+                alert($scope.searchkey);
+                 $scope.golink('#/app/inventory/search-location/'+$scope.searchkey);
+            
+            };
 
         })
 

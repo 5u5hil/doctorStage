@@ -4,7 +4,7 @@
     </ion-nav-title>
 
     <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
-        <select class="selectheader" ng-model="changelocation" ng-change="changeLocation(changelocation)">
+        <select class="selectheader" ng-model="changelocation" ng-change="changeLocation(changelocation)" ng-init="-1">
             <option ng-repeat="telLocation in telecentre" ng-selected="telLocation.id == searchkey" value="{{telLocation.id}}">{{telLocation.district}}</option>
            
         </select>
