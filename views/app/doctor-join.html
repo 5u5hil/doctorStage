@@ -1,4 +1,4 @@
-<ion-view class="rjoin-view" >
+<ion-view class="rjoin-view">
     <ion-nav-title>
         <span> {{user[0].fname}} {{user[0].lname}}</span>
     </ion-nav-title>
@@ -16,7 +16,7 @@
     <ion-content>
         <div class="fltr-mesg"> &nbsp;</div>
         <div class="mediascreen"  >
-            <!--<iframe class="videochat" ng-src="{{trustSrc(oToken)}}" ></iframe>-->
+           
             <div id='myPublisherDiv' style="position:absolute;right: 10px;bottom:10px"></div> 
             <div id='subscribersDiv' class="subscribediv">Waiting for patient to join!</div> 
         </div>
@@ -115,7 +115,7 @@
                         </label> 
                     </div>
                     <label class="item item-input item-select hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
-                        <div class="input-label"> {{field.field}}</div>
+                        <div class="input-label">{{field.field}}</div>
                         <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
                             <option value="0"> Select {{field.field}}</option>
                             <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
@@ -136,7 +136,7 @@
 
 
     <div class="ciframecontainer">
-        <!--<div class="closeifrme">X</div>-->
+     
         <iframe src="#/dpatient"></iframe>
     </div>
 	
@@ -177,7 +177,7 @@
                                     <div ng-repeat="attach in rec.attachments" >
                                         <div ng-init="selData = (attach.orginial_name).split('.')">
                                             <div >
-                                                <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                                <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  >
                                                     <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                 </a>
                                             </div>
@@ -213,9 +213,9 @@
                     <input type="text" placeholder="Medicine"  ng-model="medicinename">
                 </label>
                 <div class="txt-center">
-                   <!--  <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button> -->
+                  
 				   
-				   <button  ng-click="golink('#/inventory-search')"  class="button button-positive mt15">Search</button> 
+				   <button  ng-click="golink('#/inventory-search/{{medicinename}}')"  class="button button-positive mt15">Search</button> 
 				   
 
                 </div>

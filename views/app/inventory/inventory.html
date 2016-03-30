@@ -21,8 +21,8 @@
         <div class="hide" id="selectlocation">
             <label class="item item-input item-select " >
 
-                <select class="cselect Ditemselect" name="location" ng-model="healthcenterloc">
-                    <option value="">Select Health Centre</option>
+                <select class="cselect Ditemselect" name="location" ng-model="healthcenterloc"  ng-init="-1">
+                   
                     <option ng-repeat="hc in healthCenter"  value="{{hc.id}}" >{{hc.district}}</option>
                   
 

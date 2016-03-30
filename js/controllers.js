@@ -381,15 +381,7 @@ angular.module('your_app_name.controllers', [])
             };
 
 
-            $scope.print = function () {
-                //  console.log("fsfdfsfd");
-                //  var printerAvail = $cordovaPrinter.isAvailable();
-                var print_page = '<img src="http://stage.doctrs.in/public/frontend/uploads/attachments/7V7Lr1456500103323.jpg"  height="600" width="300" />';
-                //console.log(print_page);  
-                cordova.plugins.printer.print(print_page, 'alpha', function () {
-                    alert('printing finished or canceled');
-                });
-            };
+
         })
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
@@ -1946,8 +1938,8 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-             $scope.path = "";
-             $scope.name = "";
+            $scope.path = "";
+            $scope.name = "";
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showm = function (path, name) {
@@ -1971,11 +1963,11 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.catIds);
                 $scope.modal.hide();
             };
-            
+
             $scope.print = function () {
                 //  console.log("fsfdfsfd");
                 //  var printerAvail = $cordovaPrinter.isAvailable();
-                var print_page = '<img src="'+$rootScope.attachpath + $scope.path + $scope.name+'"  height="600" width="300" />';
+                var print_page = '<img src="' + $rootScope.attachpath + $scope.path + $scope.name + '"  height="600" width="300" />';
                 //console.log(print_page);  
                 cordova.plugins.printer.print(print_page, 'Print', function () {
                     alert('printing finished or canceled');
@@ -2123,14 +2115,14 @@ angular.module('your_app_name.controllers', [])
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
-            
-             $scope.viewMedicine = function (consultationId) {
+
+            $scope.viewMedicine = function (consultationId) {
                 //alert(noteId);
                 // store({'noteId': noteId});
                 $state.go("app.view-medicine", {'id': consultationId}, {reload: true});
             };
         })
-        
+
         .controller('ViewMedicineCtrl', function ($scope, $http, $stateParams, $rootScope, $state) {
             $scope.consultationId = $stateParams.id;
             $scope.userId = window.localStorage.getItem('id');
@@ -2485,12 +2477,48 @@ angular.module('your_app_name.controllers', [])
             }, 1000);
         })
 
-		.controller('InveSearchCtrl',function($scope,$http, $stateParams,$rootScope, $ionicModal){
-		
-		})
-		
-		
-		
+        .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
+            $scope.searchkey = $stateParams.key;
+
+            console.log("@@@@@@@" + $scope.searchkey);
+            $http({
+                method: 'GET',
+                url: domain + 'inventory/search-medicine-doctor',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.getMedicine = response.data.getMedicine;
+                $scope.otherMedicine = response.data.otherMedicine;
+
+                $scope.telecentre = response.data.telecentre;
+                $scope.getLocation = response.data.getLocation;
+
+                var data = response.data.getLocation;
+                $scope.location = _.reduce(
+                        data,
+                        function (output, name) {
+                            var lCase = name.name.toUpperCase();
+                            if (output[lCase[0]]) //if lCase is a key
+                                output[lCase[0]].push(name); //Add name to its list
+                            else
+                                output[lCase[0]] = [name]; // Else add a key
+                            console.log(output);
+                            return output;
+                        },
+                        {}
+                );
+
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+
+
+
+        })
+
+
+
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
             var imgCnt = 0;
             $scope.images = [];
@@ -2506,9 +2534,9 @@ angular.module('your_app_name.controllers', [])
                 })
             };
 
-			
+
             $scope.golink = function (fsrc) {
-                console.log(fsrc);
+                console.log(" dfgshjdgf " + fsrc);
                 jQuery('iframe').attr('src', fsrc);
                 jQuery('.ciframecontainer').addClass('active');
                 // jQuery('.ciframecontainer').append('<iframe src="'+fsrc+'" id="'+fsrc+'"></iframe>');
@@ -2952,7 +2980,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.searchbox = true;
 
             };
-            
+
             $http({
                 method: 'GET',
                 url: domain + 'inventory/get-all-phc-location',
@@ -2980,21 +3008,21 @@ angular.module('your_app_name.controllers', [])
 
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
-              alert($scope.searchkey);
-              $scope.golink('#/app/inventory/search/'+$scope.searchkey);
+                alert($scope.searchkey);
+                $scope.golink('#/app/inventory/search/' + $scope.searchkey);
 
             };
 
             $scope.searchByLocation = function (locid) {
                 $scope.searchkey = locid
                 alert($scope.searchkey);
-                 $scope.golink('#/app/inventory/search-location/'+$scope.searchkey);
-            
+                $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
+
             };
 
         })
-		
-		
+
+
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
 
             $ionicModal.fromTemplateUrl('docjn-patient', {

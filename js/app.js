@@ -400,11 +400,20 @@ angular.module('your_app_name', [
                         }
                     })
 					
-					
-
+		  .state('app.search-location', {
+                         cache: false,
+                        url: "/inventory/search-location/{key:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/inventory/search-location.html",
+                                controller: 'InventorySearchCtrl'
+                            }
+                        }
+                    })	
+                                        
 
                     .state('inventory-search', {
-                         url: "/inventory-search",
+                         url: "/inventory-search/:key",
                          templateUrl: "views/app/doctrjoin/inventory-search.html",
                                 controller: 'InveSearchCtrl'
                          
