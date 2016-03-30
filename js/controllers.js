@@ -1967,6 +1967,16 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.catIds);
                 $scope.modal.hide();
             };
+            
+            $scope.print = function () {
+                //  console.log("fsfdfsfd");
+                //  var printerAvail = $cordovaPrinter.isAvailable();
+                var print_page = '<img src="'+$rootScope.attachpath + $scope.path + $scope.name+'"  height="600" width="300" />';
+                //console.log(print_page);  
+                cordova.plugins.printer.print(print_page, 'Print', function () {
+                    alert('printing finished or canceled');
+                });
+            };
 
         })
         //Doctor Consultations
