@@ -43,6 +43,7 @@
         </div>
     </div>
 </ion-view>
+
 <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
     <div class="slideupdiv" id="consultnote-slide">
         <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
@@ -138,6 +139,7 @@
         <!--<div class="closeifrme">X</div>-->
         <iframe src="#/dpatient"></iframe>
     </div>
+	
     <div class="custpopup-container" id="selectfile">
         <div class="custpopup">
             <div class="attachcontainer">
@@ -211,7 +213,10 @@
                     <input type="text" placeholder="Medicine"  ng-model="medicinename">
                 </label>
                 <div class="txt-center">
-                    <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button>
+                   <!--  <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button> -->
+				   
+				   <button  ng-click="golink('#/inventory-search')"  class="button button-positive mt15">Search</button> 
+				   
 
                 </div>
             </div>

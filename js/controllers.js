@@ -2483,6 +2483,12 @@ angular.module('your_app_name.controllers', [])
             }, 1000);
         })
 
+		.controller('InveSearchCtrl',function($scope,$http, $stateParams,$rootScope, $ionicModal){
+		
+		})
+		
+		
+		
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
             var imgCnt = 0;
             $scope.images = [];
@@ -2498,6 +2504,7 @@ angular.module('your_app_name.controllers', [])
                 })
             };
 
+			
             $scope.golink = function (fsrc) {
                 console.log(fsrc);
                 jQuery('iframe').attr('src', fsrc);
@@ -2984,7 +2991,8 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
-
+		
+		
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
 
             $ionicModal.fromTemplateUrl('docjn-patient', {
