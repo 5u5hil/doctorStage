@@ -1951,6 +1951,8 @@ angular.module('your_app_name.controllers', [])
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showm = function (path, name) {
+                    $scope.path = path;
+                    $scope.name = name;
                     console.log(path + '=afd =' + name);
                     $scope.value = $rootScope.attachpath + path + name;
                     $scope.modal.show();
