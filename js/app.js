@@ -411,15 +411,11 @@ angular.module('your_app_name', [
                         }
                     })
 
-                    .state('app.inventory-location', {
-                        cache: false,
-                        url: "/inventory/inventory-location/{key:string}",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/inventory/inventory-location.html",
-                                controller: 'InventorySearchCtrl'
-                            }
-                        }
+                    .state('inventory-location', {
+                       
+                        url: "/inventory-location/{key:string}",
+                        templateUrl: "views/app/doctrjoin/inventory-location.html",
+                        controller: 'InveLocationCtrl'
                     })
 
                     .state('inventory-search', {

@@ -2479,7 +2479,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
-
+            alert($scope.searchkey);
             console.log("@@@@@@@----" + $scope.searchkey);
             $http({
                 method: 'GET',
@@ -2512,27 +2512,100 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-            
-             $scope.searchByMedicine = function (searchkey) {
+
+            $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 alert($scope.searchkey);
                 $http({
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine-by-name',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+                }).then(function successCallback(response) {
+
+                    $scope.getMedicine = response.data.getMedicine;
+                    $scope.otherMedicine = response.data.otherMedicine;
+
+                    // $scope.golink('#/app/inventory/search/' + $scope.searchkey);
+
+
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+
+            };
+
+        })
+
+        .controller('InveLocationCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
+            $scope.searchkey = $stateParams.key;
+           // alert($scope.searchkey);
+            console.log("@@@@@@@#####" + $scope.searchkey);
+            $http({
                 method: 'GET',
-                url: domain + 'inventory/search-medicine-by-name',
+                url: domain + 'inventory/search-medicine-doctor',
                 params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
             }).then(function successCallback(response) {
-                
-               $scope.getMedicine = response.data.getMedicine;
+                console.log(response.data);
+                $scope.getMedicine = response.data.getMedicine;
                 $scope.otherMedicine = response.data.otherMedicine;
 
-                 $scope.golink('#/app/inventory/search/' + $scope.searchkey);
+                $scope.telecentre = response.data.telecentre;
+                $scope.getLocation = response.data.getLocation;
+
+                var data = response.data.getLocation;
+                $scope.location = _.reduce(
+                        data,
+                        function (output, name) {
+                            var lCase = name.name.toUpperCase();
+                            if (output[lCase[0]]) //if lCase is a key
+                                output[lCase[0]].push(name); //Add name to its list
+                            else
+                                output[lCase[0]] = [name]; // Else add a key
+                            console.log(output);
+                            return output;
+                        },
+                        {}
+                );
 
 
             }, function errorCallback(response) {
                 console.log(response);
             });
-            
-              
+
+            $scope.changeLocation = function (locationid) {
+                $scope.searchkey = locationid;
+                // alert($scope.searchkey);
+                $http({
+                method: 'GET',
+                url: domain + 'inventory/search-medicine-doctor',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.getMedicine = response.data.getMedicine;
+                $scope.otherMedicine = response.data.otherMedicine;
+
+                $scope.telecentre = response.data.telecentre;
+                $scope.getLocation = response.data.getLocation;
+
+                var data = response.data.getLocation;
+                $scope.location = _.reduce(
+                        data,
+                        function (output, name) {
+                            var lCase = name.name.toUpperCase();
+                            if (output[lCase[0]]) //if lCase is a key
+                                output[lCase[0]].push(name); //Add name to its list
+                            else
+                                output[lCase[0]] = [name]; // Else add a key
+                            console.log(output);
+                            return output;
+                        },
+                        {}
+                );
+
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
 
 
             };
@@ -2618,8 +2691,8 @@ angular.module('your_app_name.controllers', [])
                 });
             }, function errorCallback(e) {
                 console.log(e);
-            });           
-            
+            });
+
             $scope.adjquery = function () {
                 jQuery(function () {
                     var b = jQuery('iframe').contents().find('body .iframeclose');
@@ -2657,7 +2730,7 @@ angular.module('your_app_name.controllers', [])
                 // set the flag and reload the page
                 window.localStorage.removeItem('loadedOnce');
             }
-            
+
             //ADD Consultation note
             $http({
                 method: "GET",
