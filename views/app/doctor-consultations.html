@@ -32,37 +32,47 @@
                                             <div class="cardmode"><span class="{{app.appointments.mode==1 ? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'ion-chatbubbles':''}}"></span></div>
                                         </div>
 
-                                        <div class="p5">
+									
+                                        <div class="p5 brd-bottom">
                                             <div class="row" ng-repeat="user in todays_usersData[$parent.$index]">
-                                                <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
+                                                <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
                                                 <div class="col txt-right">
-                                                    
-                                                    <div ng-if="todays_medicine[$parent.$parent.$index].length > 0">
-                                                        <a  class="btn crdview-plus" ng-click="viewMedicine(todays_medicine[$parent.$parent.$parent.$index][0].consultation_id)">
-                                                            <span class="icon ion-eye"></span> View Medicine
-                                                        </a>
-                                                    </div>
+                                                    {{user.phone}}
 
-                                                  
-                                                    <div ng-if="todays_note[$parent.$parent.$index].length > 0">
-                                                        <a  class="btn crdview-plus" ng-click="viewNote(todays_note[$parent.$parent.$parent.$index][0].id)">
-                                                            <span class="icon ion-eye"></span> View Note
-                                                        </a>
-                                                    </div>
-
-                                                    <div ng-if="todays_note[$parent.$parent.$index].length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
-                                                            <span class="icon ion-plus-circled"></span> Note
-                                                        </a>
-                                                    </div>
-                                                    <div ng-if="todays_note.length == 0">
-                                                        <a ng-click="addCnote(app.appointment_id, 'app')" class="btn crdview-plus">
-                                                            <span class="icon ion-plus-circled"></span> Note
-                                                        </a>
-                                                    </div>
                                                 </div>
-                                            </div> 
+                                            </div>
                                         </div>
+	                            
+<div class="row" ng-repeat="user in todays_usersData[$parent.$index]">
+
+
+
+<div class="col txt-right" ng-if="todays_medicine[$parent.$parent.$index].length > 0">
+<a  class="btn crdview-plus" ng-click="viewMedicine(todays_medicine[$parent.$parent.$parent.$index][0].consultation_id)">
+<span class="icon ion-eye"></span> View Medicine
+</a>
+</div>
+
+
+<div class="col txt-right" ng-if="todays_note[$parent.$parent.$index].length > 0">
+<a  class="btn crdview-plus" ng-click="viewNote(todays_note[$parent.$parent.$parent.$index][0].id)">
+<span class="icon ion-eye"></span> View Note
+</a>
+</div>
+
+<div class="col txt-right" ng-if="todays_note[$parent.$parent.$index].length == 0">
+<a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
+<span class="icon ion-plus-circled"></span> Note
+</a>
+</div>
+<div class="col txt-right" ng-if="todays_note.length == 0">
+<a ng-click="addCnote(app.appointment_id, 'app')" class="btn crdview-plus">
+<span class="icon ion-plus-circled"></span> Note
+</a>
+</div>
+
+</div> 
+                                  
                                         <div class="clr"></div>
                                     </a>
                                     <div class="post-actions  post-footer p0">
