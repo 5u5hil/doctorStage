@@ -8,9 +8,11 @@
     <div class="bar bar-subheader cbar">
         <div class="row">
             <div class="col txt-centre"><h5><a  ui-sref="#">Appointment at {{app[0].appointments.scheduled_start_time|time}}</a></h5></div>
-			<div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
+            <div class="addnebtn btn-share ion-medkit" ng-click="inventory();"></div>
+            <div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
         </div>
     </div>
+
     <ion-content>
         <div class="fltr-mesg"> &nbsp;</div>
         <div class="mediascreen"  >
@@ -22,176 +24,361 @@
     <div class="sticyfooter joinfooter">
         <div class="tabs tabs-icon-top">
             <div class="tab-item muteMic" onclick="classtoggle(this)">
-				<i class="icon ion-ios-mic"></i>
+                <i class="icon ion-ios-mic"></i>
                 <i class="icon ion-ios-mic-off"></i>
                 Mic
             </div>
-           <!--   <div class="tab-item" onclick="classtoggle(this)" >
-                <i class="icon ion-videocamera"></i>
-                Video
-            </div>
-           <a class="tab-item" >
-                <i class="icon ion-refresh"></i>
-                Switch
-            </a>
-            <a class="tab-item muteSub" >
-                <i class="icon ion-volume-low"></i>
-                Valume
-            </a> -->
+            <!--   <div class="tab-item" onclick="classtoggle(this)" >
+                 <i class="icon ion-videocamera"></i>
+                 Video
+             </div>
+            <a class="tab-item" >
+                 <i class="icon ion-refresh"></i>
+                 Switch
+             </a>
+             <a class="tab-item muteSub" >
+                 <i class="icon ion-volume-low"></i>
+                 Valume
+             </a> -->
         </div>
-    </div>
-	
-
-
-
-<div class="slideupdiv">
-<div class="button iframeclose" ng-click="removenoteslide()"> X </div>
-<div class="button iframesubmit" ng-click="removenoteslide()"> <i class="ion-checkmark"></i>  Save </div>
-
-<div class="ctitlebar">Consultation Note</div>
-    <div class="slideupcontent">
-	<ion-list>
-			<div class="row">
-				<div class="col cradio">
-				<ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio>
-				</div>
-				<div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
-			</div>
-		</ion-list>
-		
-	<label class="item item-input" id="newcase">
-		<input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
-	</label>
-	<div class="mt15">
-	<div class="row tabnav bgwhite">
-	<div class="col brdrht"><a class="nbtn ion-image" onclick="showpopup('selectfile')" > Images</a></div>
-	<div class="col brdrht"><div class="nbtn ion-medkit" onclick="showpopup('selectnote')"> Notes</div></div>
-	<div class="col"><div class="nbtn ion-thermometer" onclick="showpopup('selectappointment')"> Treatment Plan</div></div>
-	</div>
-	</div>
-	</div>
-    </div>
-    <div class="ciframecontainer">
-        <!--<div class="closeifrme">X</div>-->
-       <iframe src="#/dpatient"></iframe>
     </div>
 </ion-view>
 
+<form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
+    <div class="slideupdiv" id="consultnote-slide">
+        <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
+        <button class="button iframesubmit" ng-click="submit()" ng-disabled="addRecordForm.$invalid"> <i class="ion-checkmark"></i>  Save </button>
+        <div class="ctitlebar">Consultation Note</div>
+        <div class="slideupcontent">
+            <!--            <ion-list>  ng-click="removenoteslide()"
+                            <div class="row">
+                                <div class="col cradio">
+                                    <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio>
+                                </div>
+                                <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
+                            </div>
+                        </ion-list>
+                        <label class="item item-input" id="newcase">
+                            <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        </label>-->
+            <!--- add note field starts  --->
+            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+            <input type="hidden" value="{{patientId}}" name="patientId" />
+            <input type="hidden" value="{{doctorId}}" name="doctorId" />
+            <input type="hidden" value="{{appId}}" name="appId" />
+            <input type="hidden" value="{{recId}}" name="recId" />
+            <input type="hidden" value="Consultation" name="rectype" />
+            <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+            <div class="fields" ng-repeat="field in fields">                    
+                <div ng-if="field.field == 'Case Id'">
+                    <div ng-if="caseId != ''">
+                        <ion-list>
+                            <div class="row">
+                                <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
+                                <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-checked="true" required>Ongoing Case</ion-radio></div>
+                            </div>
+                        </ion-list>
+                        <label class="item item-input item-select" id="precase">
+                            <div class="input-label">{{field.field}}</div>
+                            <select name="pre-{{field.name}}" ng-model="cases">
+                                <option value="" >Select </option>
+                                <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                            </select>
+                        </label>
+                        <label class="item item-input hide" id="newcase">
+                            <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        </label>
+                    </div>
+                    <div ng-if="caseId == ''">
+                        <ion-list>
+                            <div class="row">
+                                <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
+                                <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
+                            </div>
+                        </ion-list>
+                        <label class="item item-input item-select hide" id="precase">
+                            <div class="input-label">{{field.field}}</div>
+                            <select name="pre-{{field.name}}">
+                                <option value="" >Select </option>
+                                <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                            </select>
+                        </label>
+                        <label class="item item-input hide" id="newcase">
+                            <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        </label>
+                    </div>
+                </div>
+                <div ng-if="field.field != 'Case Id'">
+                    <div ng-if="field.field == 'Valid till'">
+                        <label class="item item-input listreq hide" id="convalid"><span class='input-label'>{{field.field}} </span>
+                            <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />                            
+                        </label> 
+                    </div>
+                    <label class="item item-input item-select hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
+                        <div class="input-label"> {{field.field}}</div>
+                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                            <option value="0"> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <!--- Add note field ends  ----->
+            <div class="mt15">
+                <div class="row tabnav bgwhite">
+                    <div class="col brdrht"><a class="nbtn ion-image" onclick="showpopup('selectfile')" > Images</a></div>
+                    <div class="col brdrht"><a class="nbtn ion-medkit" onclick="showpopup('selectnote')"> Notes</a></div>
+                    <div class="col brdrht"><a class="nbtn ion-thermometer" onclick="showpopup('selectappointment')"> Treatment Plan</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-<div class="custpopup-container" id="selectfile">
-<div class="custpopup">
+    <div class="ciframecontainer">
+        <!--<div class="closeifrme">X</div>-->
+        <iframe src="#/dpatient"></iframe>
+    </div>
+	
+    <div class="custpopup-container" id="selectfile">
+        <div class="custpopup">
+            <div class="attachcontainer">
+                <h3 class="heading3">Attach File</h3>
+                <div class="fields" ng-repeat="field in fields">
+                    <div ng-if="field.field_types.value == 'file'">                        
+                        <div class="row">
+                            <div class="col"> 
+                                <div class="filelabel">
+                                    <div ng-if="field.multi_value == 1">
+                                        <input type="file" placeholder="{{field.field}}" name="{{field.name}}[]" onchange="angular.element(this).scope().setFile(this)" multiple id="presciption" ng-model="prescription"  class="ng-pristine ng-untouched ng-valid">
+                                    </div>
+                                    <div ng-if="field.multi_value == 0">
+                                        <input type="file" placeholder="{{field.field}}" name="{{field.name}}" onchange="angular.element(this).scope().setFile(this)" id="presciption" ng-model="prescription"  class="ng-pristine ng-untouched ng-valid">
+                                    </div>
+                                    <label for="attachfile">Select Files</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><div class="btncamera" ng-click="takePict('{{field.name}}')">Camera</div>
+                                <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><div class="btncamera" >
+                                    <div class="" id="image-holder">Clear (0 Files) </div>
+                                    <div id="camera-status"></div>                                        
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="recId != ''">
+                            <div class="col">
+                                <div class="btncamera" ng-repeat="rec in recordDetails track by $index" ng-if="rec.fields.field == 'Attachments'">Previous Files
+                                    <div ng-repeat="attach in rec.attachments" >
+                                        <div ng-init="selData = (attach.orginial_name).split('.')">
+                                            <div >
+                                                <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                                    <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ncbtn txt-center"  onclick="close_popup('selectfile')"><i class="ion-close"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
-<div class="attachcontainer">
-   <h3 class="heading3">Attach File</h3>
 
-<div class="row">
-<div class="col"> 
-<div class="filelabel">
-<input type="file" placeholder="Attachments" class="ng-pristine ng-untouched ng-valid">
-<label for="attachfile">Select Files</label>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col"><div class="btncamera">Camera</div></div>
+<div class="slideupdiv" id="inventory-slide">
+    <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
+    <button class="button iframesubmit" ng-click="submit()" ng-disabled="addRecordForm.$invalid"> <i class="ion-checkmark"></i>  Save </button>
+    <div class="ctitlebar">Inventory</div>
+    <div class="slideupcontent">
+
+        <div class="" ng-show="invsearcha">
+            <ion-list>
+                <div class="row">
+                    <div class="col"> <ion-radio ng-model="choice"  ng-click="searchBy(choice)" ng-value="0">By Medicine</ion-radio></div>
+                    <div class="col">  <ion-radio ng-model="choice"  ng-click="searchBy(choice)" ng-value="1">By Location</ion-radio></div>
+                </div>
+            </ion-list>
+            <div class="hide"  id="textlocation">
+                <label class="item item-input"  >
+                    <input type="text" placeholder="Medicine"  ng-model="medicinename">
+                </label>
+                <div class="txt-center">
+                   <!--  <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button> -->
+				   
+				   <button  ng-click="golink('#/inventory-search')"  class="button button-positive mt15">Search</button> 
+				   
+
+                </div>
+            </div>
+            <div class="hide" id="selectlocation">
+                <label class="item item-input item-select " >
+
+                    <select class="cselect Ditemselect" name="location" ng-model="healthcenterloc">
+                        <option value="">Select Health Centre</option>
+                        <option ng-repeat="hc in healthCenter"  value="{{hc.id}}" >{{hc.district}}</option>
+
+
+                    </select>
+                </label>
+
+                <div class="txt-center">
+
+                    <button ng-click="searchByLocation(healthcenterloc)"  class="button button-positive mt15">Search location</button>
+                    <!--ui-sref="app.search-location"-->
+                </div>
+            </div>
+        </div>
+
+        <div class="halfpanel" ng-show="searchbox">
+
+            <button class="button iframesubmit" ng-click="searchbox = false"> x </button>
+            <div class="ctitlebar">Search</div>
+
+            <div class="list list-inset txt-center csearchbox">
+                <label class="item item-input ">
+                    <input type="text"  value="Crocin">
+                </label>
+                <span class="icon ion-search placeholder-icon"></span>
+            </div>
+
+            <ul>
+                <li></li>
+            </ul>	
+
+
+
+
+
+            <div class="item item-divider ng-binding">Starting with "Crocin"</div>
+
+
+            <div class="scont" >
+
+                <div class="posts-list msearchlist">
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="item item-divider"> <span class="fbold">Crocin</span>
+                                <span class="flt-right">10 strips</span></div>
+                            <p class="p10 txt-center">5 Locations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="posts-list msearchlist">
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="item item-divider"> <span class="fbold">Crocin</span>
+                                <span class="flt-right">10 strips</span></div>
+                            <p class="p10 txt-center">3 Locations</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="posts-list msearchlist">
+                    <div  class="list card post-item">
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="item item-divider"> <span class="fbold">Crocin</span>
+                                <span class="flt-right">10 strips</span></div>
+                            <p class="p10 txt-center">6 Locations</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
 </div>
 
-<div class="row">
-<div class="col"><div class="btncamera">Clear (0 Files)</div></div>
-</div>
-
-<div class="ncbtn txt-center" onclick="close_popup('selectfile')"><i class="ion-close"></i></div>
-
-</div>
-</div>
-</div>
 
 
 
 <div class="custpopup-container" id="selectnote">
-<div class="custpopup">
-<div class="ncbtn" onclick="close_popup('selectnote')"><i class="ion-close"></i></div>
-   <h3 class="heading3">Background</h3>
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dpatient')"><span class="icon ion-plus-circled"></span> Patient</div> 
-    </div>
- <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dfamily-history')"><span class="icon ion-plus-circled"></span>  Family</div> 
-    </div>
-    </div>
-  <h3 class="heading3">Evaluation</h3>
-     <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dmeasurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
-    </div>
+    <div class="custpopup">
+        <div class="ncbtn" onclick="close_popup('selectnote')"><i class="ion-close"></i></div>
+        <h3 class="heading3">Background</h3>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dpatient')"><span class="icon ion-plus-circled"></span> Patient</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dfamily-history')"><span class="icon ion-plus-circled"></span>  Family</div> 
+            </div>
+        </div>
+        <h3 class="heading3">Evaluation</h3>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dmeasurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dtestresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
+            </div>
+        </div>  
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dobservation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
+            </div>
+        </div>
+        <h3 class="heading3">Diagnosis</h3>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small"  ng-click="golink('#/dsnomed')"><span class="icon ion-plus-circled"></span> SNOMED</div> 
+            </div>
 
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dtestresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
-    </div>
-    </div>  
-
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dobservation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
-    </div>
-    </div>
-
-     <h3 class="heading3">Diagnosis</h3>
-      
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small"  ng-click="golink('#/dsnomed')"><span class="icon ion-plus-circled"></span> SNOMED</div> 
-    </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small"  ng-click="golink('#/dicd')"><span class="icon ion-plus-circled"></span> ICD</div> 
-    </div>
-    </div>       
-
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dtext')"> <span class="icon ion-plus-circled"></span> Text</div> 
-    </div>
+            <div class="col">
+                <div class="Cstmbutn button-small"  ng-click="golink('#/dicd')"><span class="icon ion-plus-circled"></span> ICD</div> 
+            </div>
+        </div>       
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dtext')"> <span class="icon ion-plus-circled"></span> Text</div> 
+            </div>
+        </div>
     </div>
 </div>
-</div>
-
-
 
 <div class="custpopup-container" id="selectappointment">
-<div class="custpopup">
-<div class="ncbtn" onclick="close_popup('selectappointment')"><i class="ion-close"></i></div>
-     <h3 class="heading3">Treatment Plan</h3>  
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dinvestigations')"><span class="icon ion-plus-circled"></span> Investigation</div> 
-    </div>
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dmedication')"><span class="icon ion-plus-circled"></span> Medication</div> 
-    </div>
-    </div>
+    <div class="custpopup">
+        <div class="ncbtn" onclick="close_popup('selectappointment')"><i class="ion-close"></i></div>
+        <h3 class="heading3">Treatment Plan</h3>  
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dinvestigations')"><span class="icon ion-plus-circled"></span> Investigation</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dmedication')"><span class="icon ion-plus-circled"></span> Medication</div> 
+            </div>
+        </div>
+        <div class="row cbtn3 ">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dprocedure')"><span class="icon ion-plus-circled"></span> Procedure</div> </div>
 
-    <div class="row cbtn3 ">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dprocedure')"><span class="icon ion-plus-circled"></span> Procedure</div> </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/ddietplan')"> <span class="icon ion-plus-circled"></span> Diet Plan</div> 
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/ddietplan')"> <span class="icon ion-plus-circled"></span> Diet Plan</div> 
+            </div>
+        </div>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dlifestyle')"><span class="icon ion-plus-circled"></span> Lifestyle</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="golink('#/dreferral')"><span class="icon ion-plus-circled"></span> Referral</div> 
+            </div>
+        </div>
     </div>
-    </div>
-
-
-
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dlifestyle')"><span class="icon ion-plus-circled"></span> Lifestyle</div> 
-    </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="golink('#/dreferral')"><span class="icon ion-plus-circled"></span> Referral</div> 
-    </div>
-    </div>
-</div>
 </div>
