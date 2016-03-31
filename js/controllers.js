@@ -2524,43 +2524,6 @@ angular.module('your_app_name.controllers', [])
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
-            $scope.adjquery = function () {
-                jQuery(function () {
-                    var b = jQuery('iframe').contents().find('body .iframeclose');
-                    console.log(b);
-                    $(b).on("click", function () {
-                        jQuery('.ciframecontainer').removeClass('active');
-                    })
-                })
-            };
-
-
-            $scope.golink = function (fsrc) {
-                console.log(" dfgshjdgf " + fsrc);
-                jQuery('iframe').attr('src', fsrc);
-                jQuery('.ciframecontainer').addClass('active');
-                // jQuery('.ciframecontainer').append('<iframe src="'+fsrc+'" id="'+fsrc+'"></iframe>');
-                jQuery('.custpopup-container').removeClass('active');
-                $scope.adjquery();
-            };
-
-            $scope.closeiframe = function () {
-                jQuery('.ciframecontainer').removeClass('active');
-            };
-
-            $timeout(function () {
-                $scope.adjquery();
-            }, 4000);
-
-            if (!get('loadedOnce')) {
-                store({'loadedOnce': 'true'});
-                $window.location.reload(true);
-                // don't reload page, but clear localStorage value so it'll get reloaded next time
-
-            } else {
-                // set the flag and reload the page
-                window.localStorage.removeItem('loadedOnce');
-            }
             //$ionicHistory.clearCache();
             $scope.appId = $stateParams.id;
             $scope.userId = get('id');
@@ -2630,7 +2593,46 @@ angular.module('your_app_name.controllers', [])
                 });
             }, function errorCallback(e) {
                 console.log(e);
-            }); 
+            });           
+            
+            $scope.adjquery = function () {
+                jQuery(function () {
+                    var b = jQuery('iframe').contents().find('body .iframeclose');
+                    console.log(b);
+                    $(b).on("click", function () {
+                        jQuery('.ciframecontainer').removeClass('active');
+                    })
+                })
+            };
+
+
+            $scope.golink = function (fsrc) {
+                console.log(" dfgshjdgf " + fsrc);
+                jQuery('iframe').attr('src', fsrc);
+                jQuery('.ciframecontainer').addClass('active');
+                // jQuery('.ciframecontainer').append('<iframe src="'+fsrc+'" id="'+fsrc+'"></iframe>');
+                jQuery('.custpopup-container').removeClass('active');
+                $scope.adjquery();
+            };
+
+            $scope.closeiframe = function () {
+                jQuery('.ciframecontainer').removeClass('active');
+            };
+
+            $timeout(function () {
+                $scope.adjquery();
+            }, 4000);
+
+            if (!get('loadedOnce')) {
+                store({'loadedOnce': 'true'});
+                $window.location.reload(true);
+                // don't reload page, but clear localStorage value so it'll get reloaded next time
+
+            } else {
+                // set the flag and reload the page
+                window.localStorage.removeItem('loadedOnce');
+            }
+            
             //ADD Consultation note
             $http({
                 method: "GET",
