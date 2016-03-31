@@ -54,6 +54,7 @@
   
      Retina iPad 
     <splash src="splash/ios/Defaultipr.png" platform="ios" width="1536" height="2048" />
+    <gap:plugin name="de.appplant.cordova.plugin.printer" />
     -->
     <preference name="phonegap-version" value="cli-5.2.0" />
     <preference name="webviewbounce" value="false" />
@@ -71,7 +72,7 @@
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <gap:plugin name="cordova-plugin-x-toast" source="npm" />
     <gap:plugin name="org.apache.cordova.statusbar" source="npm" />
-      <gap:plugin name="de.appplant.cordova.plugin.printer" />
+      
 
     <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
     <gap:plugin name="de.appplant.cordova.plugin.hidden-statusbar-overlay"  version="1.2.0" />
