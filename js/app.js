@@ -354,10 +354,10 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
-                     
-                    
-                     .state('app.view-medicine', {
+
+
+
+                    .state('app.view-medicine', {
                         cache: false,
                         url: "/view-medicine/{id:string}",
                         views: {
@@ -367,7 +367,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.consultations-note', {
                         url: "/consultations-note/{appId:string}",
                         views: {
@@ -380,7 +380,7 @@ angular.module('your_app_name', [
 
                     /* inventory */
                     .state('app.inventory', {
-                          cache: false,
+                        cache: false,
                         url: "/inventory",
                         views: {
                             'menuContent': {
@@ -390,7 +390,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.searchinventory', {
-                          cache: false,
+                        cache: false,
                         url: "/inventory/search/{key:string}",
                         views: {
                             'menuContent': {
@@ -399,9 +399,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-		  .state('app.search-location', {
-                         cache: false,
+
+                    .state('app.search-location', {
+                        cache: false,
                         url: "/inventory/search-location/{key:string}",
                         views: {
                             'menuContent': {
@@ -409,15 +409,25 @@ angular.module('your_app_name', [
                                 controller: 'InventorySearchCtrl'
                             }
                         }
-                    })	
-                                        
+                    })
+
+                    .state('app.inventory-location', {
+                        cache: false,
+                        url: "/inventory/inventory-location/{key:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/inventory/inventory-location.html",
+                                controller: 'InventorySearchCtrl'
+                            }
+                        }
+                    })
 
                     .state('inventory-search', {
-                         url: "/inventory-search/:key",
-                         templateUrl: "views/app/doctrjoin/inventory-search.html",
-                                controller: 'InveSearchCtrl'
-                         
-                      
+                        url: "/inventory-search/{key:string}",
+                        templateUrl: "views/app/doctrjoin/inventory-search.html",
+                        controller: 'InveSearchCtrl'
+
+
                     })
 
 

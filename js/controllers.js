@@ -2480,7 +2480,7 @@ angular.module('your_app_name.controllers', [])
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
 
-            console.log("@@@@@@@" + $scope.searchkey);
+            console.log("@@@@@@@----" + $scope.searchkey);
             $http({
                 method: 'GET',
                 url: domain + 'inventory/search-medicine-doctor',
@@ -2512,6 +2512,30 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
+            
+             $scope.searchByMedicine = function (searchkey) {
+                $scope.searchkey = searchkey
+                alert($scope.searchkey);
+                $http({
+                method: 'GET',
+                url: domain + 'inventory/search-medicine-by-name',
+                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+            }).then(function successCallback(response) {
+                
+               $scope.getMedicine = response.data.getMedicine;
+                $scope.otherMedicine = response.data.otherMedicine;
+
+                 $scope.golink('#/app/inventory/search/' + $scope.searchkey);
+
+
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            
+              
+
+
+            };
 
 
 
@@ -2529,6 +2553,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = get('id');
             $scope.caseId = '';
             $scope.recId = '';
+            $scope.medicinename = '';
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',

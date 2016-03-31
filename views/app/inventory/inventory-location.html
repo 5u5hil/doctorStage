@@ -1,0 +1,35 @@
+<ion-modal-view>
+    <ion-nav-title>
+        <span>Search Results</span>
+    </ion-nav-title>
+
+    <div class="item item-divider mtop44" style="font-size: 18px; min-height: 45px; text-align:center;">
+        <select class="selectheader" ng-model="changelocation" ng-change="changeLocation(changelocation)" ng-init="-1">
+            <option ng-repeat="telLocation in telecentre" ng-selected="telLocation.id == searchkey" value="{{telLocation.id}}">{{telLocation.district}}</option>
+           
+        </select>
+    </div>
+
+    <ion-content style="margin-top: 50px;">
+        <div class="list list-inset txt-center">
+        <label class="item item-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" value="" placeholder="Search" ng-model="search">
+        </label>
+        </div>
+
+
+
+           <div class="list mb0" ng-repeat="(header,data) in location">
+            <div class="item item-divider" >{{header}}</div>
+            <a class="item"   ng-repeat="location in data| filter:search">
+                <h2>{{location.name}}</h2>
+                <p class="rt-list">{{location.item_unit}}</p>
+            </a>
+              
+
+        </div> 
+      
+</ion-content>
+
+</ion-modal-view>
