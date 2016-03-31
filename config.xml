@@ -55,6 +55,7 @@
      Retina iPad 
     <splash src="splash/ios/Defaultipr.png" platform="ios" width="1536" height="2048" />
     <gap:plugin name="de.appplant.cordova.plugin.printer" />
+     <gap:plugin name="org.apache.cordova.camera" source="npm" />
     -->
     <preference name="phonegap-version" value="cli-5.2.0" />
     <preference name="webviewbounce" value="false" />
@@ -67,7 +68,8 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
     <gap:plugin name="org.apache.cordova.file" source="npm" />
     <gap:plugin name="org.apache.cordova.file-transfer" source="npm" />
-    <gap:plugin name="org.apache.cordova.camera" source="npm" version="2.1.0" />
+   
+    <plugin name="cordova-plugin-camera" spec="1.2.0" source="pgb" />
     <gap:plugin name="org.apache.cordova.device" source="npm" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <gap:plugin name="cordova-plugin-x-toast" source="npm" />
