@@ -9,11 +9,10 @@
 
     <ion-content>
 
-{{telecentre}} {{searchkey}}
 
         <div class="item item-divider" style="font-size: 18px; min-height: 45px; text-align:center;">
-            <select class="selectheader" ng-model="searchkey" ng-change="changeLocation(searchkey)">
-                <option ng-repeat="telLocation in telecentre" ng-selected="telLocation.id == searchkey" value="{{telLocation.id}}">{{telLocation.district}}</option>
+            <select class="selectheader" ng-model="searchkey" ng-change="changeLocation(searchkey)" ng-init="-1">
+                <option ng-repeat="telLocation in telecentre" ng-selected="telLocation.id == searchkey" ng-value="{{telLocation.id}}">{{telLocation.district}}</option>
 
             </select>
         </div>
