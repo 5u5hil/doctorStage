@@ -69,7 +69,7 @@
     <gap:plugin name="org.apache.cordova.file" source="npm" />
     <gap:plugin name="org.apache.cordova.file-transfer" source="npm" />
    
-    <plugin name="cordova-plugin-camera" spec="1.2.0" source="pgb" />
+    <plugin name="org.apache.cordova.camera" spec="0.3.6" source="pgb" />
     <gap:plugin name="org.apache.cordova.device" source="npm" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <gap:plugin name="cordova-plugin-x-toast" source="npm" />
