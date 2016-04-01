@@ -26,12 +26,11 @@
         </div>
 
 
-
         <div class="list mb0" ng-repeat="(header,data) in location">
             <div class="item item-divider" >{{header}}</div>
-            <a class="item"   ng-repeat="location in data| filter:search">
+            <a class="item"   ng-repeat="location in data | filter:search">
                 <h2>{{location.name}}</h2>
-                <p class="rt-list">{{location.item_unit}}</p>
+                <p class="rt-list">{{location.total_item}}{{location.item_form}}({{location.total_unit}} {{location.unit_quantity}})</p>
             </a>
 
 
