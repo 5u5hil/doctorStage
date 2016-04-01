@@ -355,7 +355,16 @@ angular.module('your_app_name', [
                         }
                     })
 
-
+                    .state('app.view-patient-history', {
+                        cache: false,
+                        url: "/consultation-note/view-patient-history/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/view-patient-history.html",
+                                controller: 'ViewPatientHistoryCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.view-medicine', {
                         cache: false,

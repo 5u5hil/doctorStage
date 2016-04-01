@@ -2125,6 +2125,116 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
+        
+        .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+//            $scope.noteId = $stateParams.id;
+//            $scope.userId = window.localStorage.getItem('id');
+//            $scope.record = {};
+//            $scope.recordDetails = {};
+//            $scope.problems = {};
+//            $scope.doctrs = {};
+//            $scope.patients = {};
+//            $scope.cases = {};
+//            $http({
+//                method: 'GET',
+//                url: domain + 'assistrecords/get-patient-history-details',
+//                params: {noteId: $scope.noteId, userId: $scope.userId, interface: $scope.interface}
+//            }).then(function successCallback(response) {
+//                console.log(response.data);
+//                $scope.record = response.data.record;
+//                $scope.recordDetails = response.data.recordsDetails;
+//                $scope.problems = response.data.problem;
+//                $scope.doctrs = response.data.doctrs;
+//                $scope.patients = response.data.patient;
+//                $scope.cases = response.data.caseData;
+//                console.log($scope.recordDetails);
+//            }, function errorCallback(response) {
+//                console.log(response);
+//            });
+
+            $scope.patientId = $stateParams.id; //window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.catId = 'Patient History';
+            $scope.conId = [];
+            $scope.conIds = [];
+            $scope.selConditions = [];
+            $scope.gend = '';
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
+            $scope.curTime = new Date();
+            $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
+            $http({
+                method: 'GET',
+                url: domain + 'assistrecords/get-about-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+            }).then(function successCallback(response) {
+                console.log(response.data.abt);
+                $scope.record = response.data.record;
+                $scope.fields = response.data.fields;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patients;
+                $scope.cases = response.data.cases;
+                $scope.abt = response.data.abt;
+                console.log(response.data.patients[0].dob);
+                if (response.data.dob) {
+                    $scope.dob = new Date(response.data.dob);
+                } else if (response.data.patients[0].dob != '0000-00-00') {
+                    $scope.dob = new Date(response.data.patients[0].dob);
+                } else {
+                    $scope.dob = new Date();
+                }
+                //$scope.dob = $filter('date')(response.data.dob, 'MM dd yyyy');
+                if ($scope.abt.length > 0) {
+                    angular.forEach($scope.abt, function (val, key) {
+                        console.log(val.fields.field + "==" + val.value);
+                        var field = val.fields.field;
+                        if (field.toString() == 'Gender') {
+                            console.log(field);
+                            $scope.gender = val.value;
+                        }
+                    });
+                } else {
+                    if (response.data.patients[0].gender == 1) {
+                        $scope.gender = 'On';
+                        $scope.gend = 'Male';
+                    } else if (response.data.patients[0].gender == 2) {
+                        $scope.gender = 'On';
+                        $scope.gend = 'Female';
+                    }
+                }
+                console.log($scope.gender);
+                $scope.selCondition = response.data.knConditions;
+                if ($scope.selCondition.length > 0) {
+                    angular.forEach($scope.selCondition, function (val, key) {
+                        $scope.conIds.push(val.id);
+                        $scope.selConditions.push({'condition': val.condition});
+                    });
+                }
+                $scope.conditions = response.data.conditions;
+                console.log($scope.conIds);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showm = function (path, name) {
+                    console.log(path + '=afd =' + name);
+                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.modal.show();
+                }
+
+            }, {
+                // Use our scope for the scope of the modal to keep it simple  
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
+        })
+
         //Doctor Consultations
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.drId = get('id');
