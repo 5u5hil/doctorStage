@@ -2,102 +2,128 @@
     <ion-nav-title>
         <span>View Consultation Note</span>
     </ion-nav-title>
-    <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
-        <ion-content>        
-            <div class="tabcon2">
-
-                <div ng-repeat="rec in recordDetails track by $index" class="p0">
-                    <div> 
+    <ion-content>        
+        <div class="tabcon2">
+            <div ng-repeat="field in fields track by $index" class="p0">
+                <div> 
+                </div>
+                <div ng-if="field.field != 'Patient' && field.field != 'Doctor'">
+                    <div class="item item-divider">
+                        <span>{{field.field}} {{field.is_mandatory==1? '*':''}}</span>
                     </div>
-                    <div ng-if="rec.fields.field == 'Includes Prescription' && isAttachment != ''">
-                        <div class="item item-divider" ng-if="rec.value != '' && rec.value != 0">
-                            <span>{{rec.fields.field}} </span></div>
-                        <div class="ditem-content" ng-if="rec.value != 0">{{rec.value}}</div>
-                    </div>
-                    <div ng-if="rec.fields.field == 'Valid till' && isAttachment != ''">
-                        <div class="item item-divider" ng-if="rec.value != ''">
-                            <span>{{rec.fields.field}} </span>
-                        </div>
-                        <div class="ditem-content">
-                            <div ng-if="rec.value == '0000-00-00'"> NA </div>
-                            <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
-                        </div>
-                    </div>
-                    <div ng-if="rec.fields.field != 'Includes Prescription' && rec.fields.field != 'Valid till'">
-                        <div class="item item-divider">
-                            <span>{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span></div>
-                        <div ng-if="rec.fields.field == 'Case Id'">
-                            <div class="ditem-content">{{cases[$index].value}}</div>
-                        </div>
-
-                        <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
-                            <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div class="ditem-content">{{doctrs[$index].fname}} {{doctrs[$index].lname}}</div>
-                        </div>
-                        <div ng-if="rec.fields.field == 'Patient'" >
-                            <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div class="ditem-content">{{patients[$index].fname}} {{patients[$index].lname}}</div>
-                        </div>
-                        <div class="ditem-content" ng-if="rec.fields.field == 'Mode'">
-                            {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value }}
-                        </div>
-
-                        <div class="ditem-content" ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Attachments' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Case Id' && rec.fields.field != 'Mode'">
-                            <div ng-if="rec.fields.field_type == 8">
-                                <div ng-if="rec.value == ''">NA</div>
-                                <div ng-if="rec.value == '0000-00-00'"> NA </div>
-                                <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
-                            </div>
-                            <div ng-if="rec.fields.field_type == 12">                                
-                                <div ng-if="rec.value == ''"> NA </div>
-                                <div ng-if="rec.value == '00:00:00'"> NA </div>
-                                <div ng-if="rec.value != '00:00:00' && rec.value != '' && rec.value != '0000-00-00'">{{rec.value|time1}}</div>
-                            </div>
-                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
-                        </div>
-                        <div class="clist-data-icon ditem-content" ng-if="rec.fields.field == 'Attachments'" >
-
-                            <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
-                                 <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
-                            <div ng-repeat="attach in rec.attachments" ng-if="rec.attachments != ''" >
-                                <div ng-init="selData = (attach.orginial_name).split('.')">
-                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                        <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
-                                    <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
-                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
-                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                        </a>
-                                    </div>
+                    <div ng-if="field.field == 'Date of Birth'">
+                        <div ng-if="abt.length != 0">
+                            <div ng-repeat="ab in abt">
+                                <div ng-if="ab.fields.field == 'Date of Birth'">
+                                    <div class="ditem-content" ng-if="ab.value != ''">{{ab.value}}</div>
+                                    <div class="ditem-content" ng-if="ab.value == ''">{{patients[0].dob|dateFormat4}}</div>
                                 </div>
-
                             </div>
-                            <div class="clr"></div>		
                         </div>
+                        <div ng-if="abt.length == 0">
+                            <div class="ditem-content" ng-if="patients[0].dob != '0000-00-00'">{{patients[0].dob|dateFormat4}}</div>
+                            <div class="ditem-content" ng-if="patients[0].dob == '0000-00-00'">Na</div>
+                        </div>
+                    </div>
+                    <div ng-if="field.field == 'Gender'">
+                        <div ng-if="abt.length != 0">
+                            <div ng-repeat="ab in abt">
+                                <div ng-if="ab.fields.field == 'Gender'">
+                                    <div class="ditem-content">{{gender}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="abt.length == 0">
+                            <div class="ditem-content">{{gender}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="field.field == 'Email'">
+                        <div ng-if="abt.length != 0">
+                            <div ng-repeat="ab in abt">
+                                <div ng-if="ab.fields.field == 'Email'">
+                                    <div class="ditem-content" ng-if="ab.value != ''">{{ab.value}}</div>
+                                    <div class="ditem-content" ng-if="ab.value == ''">{{patients[0].email}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="abt.length == 0">
+                            <div class="ditem-content" ng-if="patients[0].email != null">{{patients[0].email}}</div>
+                            <div class="ditem-content" ng-if="patients[0].email == null">Na</div>
+                        </div>
+                    </div>
+                    <div ng-if="field.field == 'Mobile Number'">
+                        <div ng-if="abt.length != 0">
+                            <div ng-repeat="ab in abt">
+                                <div ng-if="ab.fields.field == 'Mobile Number'">
+                                    <div class="ditem-content" ng-if="ab.value != ''">{{ab.value}}</div>
+                                    <div class="ditem-content" ng-if="ab.value == ''">{{patients[0].phone}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="abt.length == 0">
+                            <div class="ditem-content" ng-if="patients[0].email != ''">{{patients[0].phone}}</div>
+                            <div class="ditem-content" ng-if="patients[0].email == ''">Na</div>
+                        </div>
+                    </div>
+                    <div ng-if="field.field == 'Blood Group'">
+                        <div ng-if="abt.length != 0">
+                            <div ng-repeat="ab in abt">
+                                <div ng-if="ab.fields.field == 'Blood Group'">
+                                    <div class="ditem-content">{{ab.value}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="abt.length == 0">
+                            <div class="ditem-content">Na</div>
+                        </div>
+                    </div>                    
+                    <div class="clist-data-icon ditem-content" ng-if="field.field == 'Attachments'" >
+
+                        <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
+                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
+                        <div ng-repeat="attach in field.attachments" ng-if="field.attachments != ''" >
+                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                    <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                                <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                    <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clr"></div>		
                     </div>
                 </div>
-
-                <!--                    <div class="flexcont">
-                                        <div class="innerdiv col-50 brdright">
-                                            <div class="item item-divider">Notes</div>
-                                            <div class="p10">
-                                                <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
-                                                 <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"
-                                            </div>
-                                        </div>
-                                        <div class="innerdiv col-50">
-                                            <div class="item item-divider">Treatment Plan</div>
-                                            <div class="p10">
-                                                <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
-                                            </div>
-                                        </div>
-                                    </div>-->
             </div>
-        </ion-content>
-
-    </form>
+            <div></div>
+            <div ng-if="cases.length != 0">
+                <div class="item item-divider">
+                    <span>Known Conditions</span>
+                </div>
+                <div class="ditem-content" ng-repeat="case in cases"> {{case.condition}}</div>
+            </div>
+            <!--                    <div class="flexcont">
+                                    <div class="innerdiv col-50 brdright">
+                                        <div class="item item-divider">Notes</div>
+                                        <div class="p10">
+                                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
+                                             <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"
+                                        </div>
+                                    </div>
+                                    <div class="innerdiv col-50">
+                                        <div class="item item-divider">Treatment Plan</div>
+                                        <div class="p10">
+                                            <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
+                                        </div>
+                                    </div>
+                                </div>-->
+        </div>
+    </ion-content>
 </ion-view>
 <script id="filesview.html" type="text/ng-template">
     <div class="modal">

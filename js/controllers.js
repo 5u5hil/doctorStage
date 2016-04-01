@@ -2159,6 +2159,7 @@ angular.module('your_app_name.controllers', [])
             $scope.conIds = [];
             $scope.selConditions = [];
             $scope.gend = '';
+            $scope.gender = '';
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
@@ -2168,7 +2169,7 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'assistrecords/get-about-fields',
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
             }).then(function successCallback(response) {
-                console.log(response.data.abt);
+                console.log(response.data);
                 $scope.record = response.data.record;
                 $scope.fields = response.data.fields;
                 $scope.problems = response.data.problems;
@@ -2176,14 +2177,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.patients = response.data.patients;
                 $scope.cases = response.data.cases;
                 $scope.abt = response.data.abt;
-                console.log(response.data.patients[0].dob);
-                if (response.data.dob) {
-                    $scope.dob = new Date(response.data.dob);
-                } else if (response.data.patients[0].dob != '0000-00-00') {
-                    $scope.dob = new Date(response.data.patients[0].dob);
-                } else {
-                    $scope.dob = new Date();
-                }
                 //$scope.dob = $filter('date')(response.data.dob, 'MM dd yyyy');
                 if ($scope.abt.length > 0) {
                     angular.forEach($scope.abt, function (val, key) {
@@ -2192,16 +2185,20 @@ angular.module('your_app_name.controllers', [])
                         if (field.toString() == 'Gender') {
                             console.log(field);
                             $scope.gender = val.value;
+                            console.log(val.value);
+                            if (val.value == 1) {
+                                $scope.gender = 'Male';
+                            } else if (val.value == 2) {
+                                $scope.gender = 'Female';
+                            } else $scope.gender = 'Na';
                         }
                     });
                 } else {
                     if (response.data.patients[0].gender == 1) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Male';
+                        $scope.gender = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
-                        $scope.gender = 'On';
-                        $scope.gend = 'Female';
-                    }
+                        $scope.gender = 'Female';
+                    } else $scope.gender = 'Na';
                 }
                 console.log($scope.gender);
                 $scope.selCondition = response.data.knConditions;
