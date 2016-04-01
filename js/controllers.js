@@ -115,10 +115,6 @@ angular.module('your_app_name.controllers', [])
                 $ionicTabsDelegate.select(index);
             }
         })
-
-
-
-
         .controller('CreatedbyuCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
             $scope.patientId = $stateParams.id;
             $scope.shared = 0;
@@ -379,9 +375,6 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.catIds);
                 $scope.modal.hide();
             };
-
-
-
         })
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
@@ -1090,9 +1083,15 @@ angular.module('your_app_name.controllers', [])
             }
         })
 
-        .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
+        .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope) {
+            $rootScope.measurement = "";
+            $rootScope.objText = "";
+            $rootScope.diaText = "";
+            $rootScope.objId = "";
+            $rootScope.diaId = "";
+            window.localStorage.removeItem('patientId');
+            window.localStorage.removeItem('drId');
+            window.localStorage.removeItem('doctorId');
         })
 
         .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -1319,12 +1318,17 @@ angular.module('your_app_name.controllers', [])
 
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             var imgCnt = 0;
+            console.log("Measure = " + $rootScope.measurement + "Obj = " + $rootScope.objId + "Dia = " + $rootScope.diaId);
+            if ($rootScope.diaId) {
+                //$ionicModal.hide();
+            }
             $scope.appId = $stateParams.appId;
             $scope.patientName = [{'name': 'No Patient selected'}];
             window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
             $scope.catId = '';
             $scope.userId = window.localStorage.getItem('id');
+            $scope.prescription = 'Yes';
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -1377,11 +1381,18 @@ angular.module('your_app_name.controllers', [])
                 });
             } else {
                 store({'from': 'app.homepage'});
-                $scope.patientId = '';
-                $scope.doctorId = window.localStorage.getItem('id');
-                $scope.patientName = [{'name': 'No Patient selected'}];
-                window.localStorage.setItem('patientId', '');
-                window.localStorage.setItem('doctorId', $scope.doctorId);
+                console.log('----' + get('patientId') + '---');
+                if (get('patientId') == 0) {
+                    $scope.patientId = '';
+                    $scope.doctorId = get('id');
+                    $scope.patientName = [{'name': 'No Patient selected'}];
+                    window.localStorage.setItem('patientId', '0');
+                    window.localStorage.setItem('doctorId', $scope.doctorId);
+                } else {
+                    console.log("patient set");
+                    $scope.patientId = get('patientId');
+                    $scope.doctorId = get('id');
+                }
                 $scope.conDate = new Date();
                 $scope.curTime = new Date();
                 $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -1397,6 +1408,11 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
+                    angular.forEach($scope.patients, function (value, key) {
+                        if (value.id == $scope.patientId) {
+                            $scope.patientName = [{'name': value.fname}];
+                        }
+                    });
                     if ($scope.patients.length > 0) {
                         var data = $scope.patients;
                         $scope.users = _.reduce(
@@ -1420,6 +1436,7 @@ angular.module('your_app_name.controllers', [])
             $scope.selPatient = function (pid, name) {
                 console.log(pid + "Name = " + name);
                 $scope.patientId = pid;
+                window.localStorage.setItem('patientId', pid);
                 $scope.getPatientId(pid);
                 $scope.patientName = [{'name': name}];
                 console.log($scope.patientName);
@@ -1743,13 +1760,14 @@ angular.module('your_app_name.controllers', [])
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('id'); //$stateParams.drId
             $scope.catId = 'Patient History';
             $scope.conId = [];
             $scope.conIds = [];
+            $scope.gender = '';
             $scope.gend = '';
             $scope.selConditions = [];
-            $scope.userId = window.localStorage.getItem('id');
-            $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
@@ -1868,6 +1886,138 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+        })
+
+        .controller('MeasurementCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.catId = 'Measurements';
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-measure-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId}
+            }).then(function successCallback(response) {
+                console.log(response);
+                $scope.records = response.data.record;
+                $scope.fields = response.data.fields;
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            $scope.saveMeasurements = function () {
+                //$ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addMeasureForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (angular.isObject(response.records)) {
+                        alert("Measurements saved successfully!");
+                        $rootScope.measurement = response.records.id;
+                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
+        })
+
+        .controller('ObservationCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.objText = [];
+            $scope.selConditions = [];
+            $scope.observation = '';
+
+            $ionicModal.fromTemplateUrl('addeval', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showM = function () {
+                    $scope.observation = '';
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function (observation) {
+                alert(observation);
+                $scope.objText.push({'objtext': observation});
+                $rootScope.objText = $scope.objText;
+                $scope.observation = '';
+                $scope.modal.hide();
+            };
+
+            $scope.saveObj = function () {
+                console.log($scope.objText);
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/save-observations',
+                    params: {patient: $scope.patientId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText)}
+                }).then(function successCallback(response) {
+                    if (angular.isObject(response.data.records)) {
+                        $rootScope.objId = response.data.records.id;
+                        alert("Observations added succesesfully!");
+                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+        })
+
+        .controller('PlaintestCtrl', function ($scope, $ionicModal, $rootScope) {
+            $ionicModal.fromTemplateUrl('editVal', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showEM = function (ind) {
+                    console.log("khkh" + ind);
+                    $scope.ind = ind;
+                    $scope.observation = $rootScope.objText[ind].objtext;
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function (observation) {
+                $rootScope.objText[$scope.ind].objtext = observation;
+                console.log($rootScope.objText);
+                $scope.modal.hide();
+            };
+        })
+
+        .controller('DiagnosisTextCtrl', function ($scope, $ionicModal, $rootScope, $http, $state) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.diaText = {};
+            $scope.diaText.diagnosis = '';
+            $scope.saveDiagnosis = function (data) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/save-diagnosis',
+                    params: {patient: $scope.patientId, userId: $scope.userId, diaType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, diaText: $scope.diaText.diagnosis}
+                }).then(function successCallback(response) {
+                    if (angular.isObject(response.data.records)) {
+                        console.log(response.data.records.id);
+                        $rootScope.diaId = response.data.records.id;
+                        alert("Diagnosis added succesesfully!");
+                        //$scope.modal.hide();
+                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+//            $ionicModal.fromTemplateUrl('addeval', {
+//                scope: $scope
+//            }).then(function (modal) {
+//                $scope.modal = modal;
+//            });
+//            $scope.submitmodal = function (data) {
+//                console.log(data.diagnosis);
+//                //$scope.modal.hide();
+//            };
         })
 
         .controller('DietplanCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
@@ -2538,7 +2688,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('InveLocationCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
-           // alert($scope.searchkey);
+            // alert($scope.searchkey);
             console.log("@@@@@@@#####" + $scope.searchkey);
             $http({
                 method: 'GET',
@@ -2576,36 +2726,36 @@ angular.module('your_app_name.controllers', [])
                 $scope.searchkey = locationid;
                 // alert($scope.searchkey);
                 $http({
-                method: 'GET',
-                url: domain + 'inventory/search-medicine-doctor',
-                params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.getMedicine = response.data.getMedicine;
-                $scope.otherMedicine = response.data.otherMedicine;
+                    method: 'GET',
+                    url: domain + 'inventory/search-medicine-doctor',
+                    params: {id: $scope.id, interface: $scope.interface, key: $scope.searchkey}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.getMedicine = response.data.getMedicine;
+                    $scope.otherMedicine = response.data.otherMedicine;
 
-                $scope.telecentre = response.data.telecentre;
-                $scope.getLocation = response.data.getLocation;
+                    $scope.telecentre = response.data.telecentre;
+                    $scope.getLocation = response.data.getLocation;
 
-                var data = response.data.getLocation;
-                $scope.location = _.reduce(
-                        data,
-                        function (output, name) {
-                            var lCase = name.name.toUpperCase();
-                            if (output[lCase[0]]) //if lCase is a key
-                                output[lCase[0]].push(name); //Add name to its list
-                            else
-                                output[lCase[0]] = [name]; // Else add a key
-                            console.log(output);
-                            return output;
-                        },
-                        {}
-                );
+                    var data = response.data.getLocation;
+                    $scope.location = _.reduce(
+                            data,
+                            function (output, name) {
+                                var lCase = name.name.toUpperCase();
+                                if (output[lCase[0]]) //if lCase is a key
+                                    output[lCase[0]].push(name); //Add name to its list
+                                else
+                                    output[lCase[0]] = [name]; // Else add a key
+                                console.log(output);
+                                return output;
+                            },
+                            {}
+                    );
 
 
-            }, function errorCallback(response) {
-                console.log(response);
-            });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
 
 
             };

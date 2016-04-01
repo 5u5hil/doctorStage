@@ -412,7 +412,6 @@ angular.module('your_app_name', [
                     })
 
                     .state('inventory-location', {
-                       
                         url: "/inventory-location/{key:string}",
                         templateUrl: "views/app/doctrjoin/inventory-location.html",
                         controller: 'InveLocationCtrl'
@@ -463,7 +462,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/measurement.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'MeasurementCtrl'
                             }
                         }
                     })
@@ -472,7 +471,16 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/observation.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'ObservationCtrl'
+                            }
+                        }
+                    })
+                    .state('app.diagnosis', {
+                        url: "/consultation-note/diagnosis",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/diagnosis.html",
+                                controller: 'DiagnosisTextCtrl'
                             }
                         }
                     })
@@ -536,15 +544,15 @@ angular.module('your_app_name', [
                         }
                     })
 
-                    .state('app.diagnosis', {
-                        url: "/diagnosis",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/diagnosis.html",
-                                controller: 'DiagnosisCtrl'
-                            }
-                        }
-                    })
+//                    .state('app.diagnosis', {
+//                        url: "/diagnosis",
+//                        views: {
+//                            'menuContent': {
+//                                templateUrl: "views/app/diagnosis.html",
+//                                controller: 'DiagnosisCtrl'
+//                            }
+//                        }
+//                    })
 
                     .state('app.treatment-plan', {
                         url: "/treatmentplan",

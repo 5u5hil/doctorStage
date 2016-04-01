@@ -9,6 +9,10 @@
                 <input type="hidden" value="{{patientId}}" name="patientId" />
                 <input type="hidden" value="{{doctorId}}" name="doctorId" />
                 <input type="hidden" value="{{app.id}}" name="appId" />
+                <input type="hidden" value="{{measurement}}" name="measurement" />
+                <input type="hidden" value="{{objId}}" name="objId" />
+                <input type="hidden" value="{{diaId}}" name="diaId" />
+                <input type="hidden" value="{{measurement}},{{objId}},{{diaId}}" name="noteRecs" />
                 <input type="hidden" value="Consultation" name="rectype" />
                 <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
                 <div class="fields" ng-repeat="field in fields">                    
@@ -391,7 +395,8 @@
     <div class="item item-divider">Evaluation</div>
     <div class="row cbtn3">
     <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.measurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
+    <div ng-if="measurement==''" class="Cstmbutn button-small" ><span class="icon ion-plus-circled"></span> Measurements Addedd</div>
+    <div ng-if="measurement!=''" class="Cstmbutn button-small" ng-click="modalclose('app.measurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
     </div>
 
     <div class="col">
@@ -401,7 +406,8 @@
 
     <div class="row cbtn3">
     <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.observation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
+    <div ng-if="objId==''" class="Cstmbutn button-small" > <span class="icon ion-plus-circled"></span> Observations Added</div> 
+    <div ng-if="objId!=''" class="Cstmbutn button-small" ng-click="modalclose('app.observation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
     </div>
     </div>
 
@@ -418,12 +424,13 @@
 
     <div class="row cbtn3">
     <div class="col">
-    <div class="Cstmbutn button-small" ng-controller="PlaintestCtrl" ng-click="modal.show()"> <span class="icon ion-plus-circled"></span> Text</div> 
+    <div ng-if="diaId==''" class="Cstmbutn button-small"> <span class="icon ion-plus-circled"></span> Text Added</div> 
+    <div ng-if="diaId!=''" class="Cstmbutn button-small" ng-click="modalclose('app.diagnosis')"> <span class="icon ion-plus-circled"></span> Text</div> 
     </div>
     </div>
     </ion-content>
     <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="icon ion-ios-arrow-back"></i> Back</div>
+    <div class="button btn-delete" nav-clear ng-click="submitmodal()" ><i class="icon ion-ios-arrow-back"></i> Back</div>
 
     </div>
     </ion-modal-view>
