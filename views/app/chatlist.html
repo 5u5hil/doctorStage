@@ -9,6 +9,13 @@
             <div class="col"><a  ui-sref="app.peers" ui-sref-opts="{reload: true}">Peers</a></div>
         </div>
 
+        <ion-list>
+            <div class="row">
+                <div class="col"><ion-radio ng-model="choice" ng-value="'A'">Active</ion-radio></div>
+                <div class="col"><ion-radio ng-model="choice" ng-value="'B'">Past</ion-radio></div>
+            </div>
+        </ion-list> 
+
         <!-- 		<ion-list>
                         <div class="row">
                         <div class="col"><ion-radio ng-model="choice" ng-value="'A'">Active</ion-radio></div>

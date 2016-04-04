@@ -800,6 +800,19 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+					
+                    .state('app.supervise', {
+                        url: "/supervise",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/supervise.html",
+                                controller: 'SuperviseCtrl'
+                            }
+                        }
+                    })
+					
+					
+					
 
                     .state('app.logout', {
                         url: "/logout",
