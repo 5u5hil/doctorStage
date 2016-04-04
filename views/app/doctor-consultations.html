@@ -106,11 +106,24 @@
                                             </span>
                                             <div class="cardmode"><span class=" {{app.appointments.mode==1 ? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'ion-chatbubbles':''}}"></span></div>
                                         </div>
-                                        <div class="p5">
+										
+										
+										<div class="p5 brd-bottom">
                                             <div class="row" ng-repeat="user in week_usersData[$parent.$index]">
-                                                <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
-                                                <div class="col txt-right"> 
-                                                    <div ng-if="week_medicine[$parent.$parent.$index].length > 0">
+                                                <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
+                                                <div class="col txt-right">
+                                                    {{user.phone}}
+
+                                                </div>
+                                            </div>
+                                        </div>
+										
+										
+                                     
+                                            <div class="row" ng-repeat="user in week_usersData[$parent.$index]">
+                                               
+                                             
+                                                    <div class="col txt-center" ng-if="week_medicine[$parent.$parent.$index].length > 0">
                                                         <a  class="btn crdview-plus" ng-click="viewMedicine(week_medicine[$parent.$parent.$parent.$index][0].consultation_id)">
                                                             <span class="icon ion-eye"></span> View Medicine
                                                         </a>
@@ -118,27 +131,27 @@
 
                                                     
                                                     
-                                                    <div ng-if="week_note[$parent.$parent.$index].length > 0">
+                                                    <div class="col txt-center" ng-if="week_note[$parent.$parent.$index].length > 0">
                                                         <a class="btn crdview-plus" ng-click="viewNote(week_note[$parent.$parent.$parent.$index][0].id)">
                                                             <span class="icon ion-eye"></span>View Note
                                                         </a>
                                                     </div>
-                                                    <div ng-if="week_note[$parent.$parent.$index].length == 0">
+                                                    <div class="col txt-center" ng-if="week_note[$parent.$parent.$index].length == 0">
                                                         <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
-                                                    <div ng-if="week_note.length == 0">
+                                                    <div class="col txt-center" ng-if="week_note.length == 0">
                                                         <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
-                                                </div>
+                                           
                                             </div> 
-                                        </div>
+                                        
                                         <div class="clr"></div>
                                     </a>
-                                    <div class="post-actions  post-footer p0">
+                                    <div class="post-actions p0">
                                         <div class="row cardbtn-small p0">
                                             <div class="col"ng-if="app.appointments.mode == 1">
                                                 <a confirmed-click="cancelAppointment(app.appointment_id,prod.user_id,app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel appointment?" id="{{app.appointment_id}}" class="cbtn cancel"><i class="ion-close"></i> Cancel</a></div>
@@ -167,13 +180,26 @@
                                                 {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}}
                                             </span>
                                             <div class="cardmode"><span class="{{app.appointments.mode==1? 'ion-ios-videocam': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'ion-chatbubbles':''}}"></span></div>
-                                        </div>     
-                                        <div class="p5">
-                                            <div class="row" ng-repeat="user in all_usersData[$parent.$index]| orderBy: 'appointments.scheduled_start_time'">
-                                                <div class="col"><strong>{{user.fname}} {{user.lname}}</strong><br/>{{user.phone}}</div>
-                                                <div class="col txt-right">
+                                        </div>   
+										
+										
+										
+										   <div class="p5 brd-bottom">
+
+											<div class="row" ng-repeat="user in all_usersData[$parent.$index]| orderBy: 'appointments.scheduled_start_time'">
+												<div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
+												<div class="col txt-right">
+													{{user.phone}}
+
+												</div>
+											</div>
+										</div>
+										
+										  <div class="row" ng-repeat="user in all_usersData[$parent.$index]| orderBy: 'appointments.scheduled_start_time'">
+                                                
+                                            
                                                     
-                                                    <div ng-if="all_medicine[$parent.$parent.$index].length > 0">
+                                                    <div class="col txt-center" ng-if="all_medicine[$parent.$parent.$index].length > 0">
                                                         <a  class="btn crdview-plus" ng-click="viewMedicine(all_medicine[$parent.$parent.$parent.$index][0].consultation_id)">
                                                             <span class="icon ion-eye"></span> View Medicine
                                                         </a>
@@ -182,28 +208,28 @@
                                                     
                                                     
                                                     
-                                                    <div ng-if="all_note[$parent.$parent.$index].length > 0">
+                                                    <div class="col txt-center" ng-if="all_note[$parent.$parent.$index].length > 0">
                                                         <a class="btn crdview-plus" ng-click="viewNote(all_note[$parent.$parent.$parent.$index][0].id)">
                                                             <span class="icon ion-eye"></span> View Note
                                                         </a>
                                                     </div>
-                                                    <div ng-if="all_note[$parent.$parent.$index].length == 0">
+                                                    <div class="col txt-center" ng-if="all_note[$parent.$parent.$index].length == 0">
                                                         <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
-                                                    <div ng-if="all_note.length == 0">
+                                                    <div class="col txt-center" ng-if="all_note.length == 0">
                                                         <a ng-click="addCnote(app.appointment_id, 'act')" class="btn crdview-plus">
                                                             <span class="icon ion-plus-circled"></span> Note
                                                         </a>
                                                     </div>
 
-                                                </div>
+                                                
                                             </div> 
-                                        </div>
+                                      
                                         <div class="clr"></div>
                                     </a>
-                                    <div class="post-actions  post-footer p0">
+                                    <div class="post-actions p0">
                                         <div class="row cardbtn-small p0">
                                             <div class="col" ng-if="app.appointments.mode == 1"><a class="cbtn cancel" confirmed-click="cancelAppointment(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a></div>
                                             <!---<div class="col" ng-if="app.appointments.mode == 1"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?" class="cbtn">Reschedule</a></div>-->
