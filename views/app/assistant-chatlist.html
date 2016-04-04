@@ -16,7 +16,7 @@
                         </ion-list> -->
         <div class="list cdetail-list">
             <div class="chatlist">
-                <a class="item item-icon-left item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
+                <a class="item item-icon-left item-icon-right" ui-sref="app.assistantChat({'id': cp[0].chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
                     <i class="icon ion-ionic"></i>
                     <span class="title">{{participant[$index][0].fname}}</span>
                     <div ng-if="msg[$index] != ''" >
@@ -27,9 +27,6 @@
             </div>
         </div>
     </ion-content>
-    <div class="footerbar fixedbar">
-        <a class="button btn-share" ><i class="icon ion-android-add-circle"></i> New</a>
-    </div>
 </ion-view>
 
 

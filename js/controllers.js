@@ -2125,7 +2125,7 @@ angular.module('your_app_name.controllers', [])
             };
 
         })
-        
+
         .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
 //            $scope.noteId = $stateParams.id;
 //            $scope.userId = window.localStorage.getItem('id');
@@ -2190,7 +2190,8 @@ angular.module('your_app_name.controllers', [])
                                 $scope.gender = 'Male';
                             } else if (val.value == 2) {
                                 $scope.gender = 'Female';
-                            } else $scope.gender = 'Na';
+                            } else
+                                $scope.gender = 'Na';
                         }
                     });
                 } else {
@@ -2198,7 +2199,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.gender = 'Male';
                     } else if (response.data.patients[0].gender == 2) {
                         $scope.gender = 'Female';
-                    } else $scope.gender = 'Na';
+                    } else
+                        $scope.gender = 'Na';
                 }
                 console.log($scope.gender);
                 $scope.selCondition = response.data.knConditions;
@@ -2626,68 +2628,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
         })
-        
-        .controller('AssistantChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
-            $scope.doctorId = window.localStorage.getItem('id');
-            $scope.participant = [];
-            $scope.msg = [];
-            $http({
-                method: 'GET',
-                url: domain + 'doctorsapp/get-assistant-chats',
-                params: {drid: $scope.doctorId}
-            }).then(function sucessCallback(response) {
-                console.log(response.data);
-                //$scope.chatParticipants = response.data;
-                $scope.chatParticipants = response.data;
-                angular.forEach($scope.chatParticipants, function (value, key) {
-                    console.log(value[0].chat_id);
-                    $http({
-                        method: 'GET',
-                        url: domain + 'doctorsapp/get-chat-msg',
-                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
-                    }).then(function successCallback(responseData) {
-                        console.log(responseData);
-                        $scope.participant[key] = responseData.data.user;
-                        $scope.msg[key] = responseData.data.msg;
-                        $rootScope.$digest;
-                    }, function errorCallback(response) {
-                        console.log(response.responseText);
-                    });
-                });
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-        })
 
-        .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
-            $scope.doctorId = window.localStorage.getItem('id');
-            $scope.participant = [];
-            $scope.msg = [];
-            $http({
-                method: 'GET',
-                url: domain + 'doctorsapp/get-past-chats',
-                params: {drid: $scope.doctorId}
-            }).then(function sucessCallback(response) {
-                console.log(response.data);
-                $scope.chatParticipants = response.data;
-                angular.forEach($scope.chatParticipants, function (value, key) {
-                    $http({
-                        method: 'GET',
-                        url: domain + 'doctorsapp/get-chat-msg',
-                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
-                    }).then(function successCallback(responseData) {
-                        console.log(responseData);
-                        $scope.participant[key] = responseData.data.user;
-                        $scope.msg[key] = responseData.data.msg;
-                        $rootScope.$digest;
-                    }, function errorCallback(response) {
-                        console.log(response.responseText);
-                    });
-                });
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-        })
 
         .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
@@ -2756,6 +2697,137 @@ angular.module('your_app_name.controllers', [])
             $timeout(function () {
                 $scope.appendprevious();
             }, 1000);
+        })
+
+        .controller('AssistantChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.participant = [];
+            $scope.msg = [];
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-assistant-chats',
+                params: {drid: $scope.doctorId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                //$scope.chatParticipants = response.data;
+                $scope.chatParticipants = response.data;
+                angular.forEach($scope.chatParticipants, function (value, key) {
+                    console.log(value[0].chat_id);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctorsapp/get-chat-msg',
+                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
+                    }).then(function successCallback(responseData) {
+                        console.log(responseData);
+                        $scope.participant[key] = responseData.data.user;
+                        $scope.msg[key] = responseData.data.msg;
+                        $rootScope.$digest;
+                    }, function errorCallback(response) {
+                        console.log(response.responseText);
+                    });
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
+
+        .controller('AssistantChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter) {
+            $scope.chatId = $stateParams.id;
+            window.localStorage.setItem('chatId', $stateParams.id);
+            $scope.partId = window.localStorage.getItem('id');
+            $scope.msg = '';
+            var apiKey = '45121182';
+            //console.log($scope.chatId);
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-assistant-chat-token',
+                params: {chatId: $scope.chatId, userId: $scope.partId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.user = response.data.user;
+                $scope.otherUser = response.data.otherUser;
+                $scope.chatMsgs = response.data.chatMsgs;
+                console.log($scope.chatMsgs);
+                $scope.token = response.data.token;
+                $scope.otherToken = response.data.otherToken;
+                $scope.sessionId = response.data.chatSession;
+                window.localStorage.setItem('Toid', $scope.otherUser.id);
+                //$scope.connect("'" + $scope.token + "'");
+                $scope.apiKey = apiKey;
+                var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                $scope.session = session;
+                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                console.log(chatWidget);
+                session.connect($scope.token, function (err) {
+                    if (!err) {
+                        console.log("Connection success");
+                    } else {
+                        console.error(err);
+                    }
+                });
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.returnjs = function () {
+                jQuery(function () {
+                    var wh = jQuery('window').height();
+                    jQuery('#chat').css('height', wh);
+                    //	console.log(wh);
+
+                })
+            };
+            $scope.returnjs();
+            $scope.iframeHeight = $(window).height() - 88;
+            $('#chat').css('height', $scope.iframeHeight);
+//Previous Chat 
+            $scope.appendprevious = function () {
+                $(function () {
+                    angular.forEach($scope.chatMsgs, function (value, key) {
+                        //console.log(value);
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'hh:mm a');
+                        if (value.sender_id == $scope.partId) {
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        } else {
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        }
+                    });
+                })
+            };
+            $timeout(function () {
+                $scope.appendprevious();
+            }, 1000);
+        })
+
+        .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.participant = [];
+            $scope.msg = [];
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-past-chats',
+                params: {drid: $scope.doctorId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.chatParticipants = response.data;
+                angular.forEach($scope.chatParticipants, function (value, key) {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctorsapp/get-chat-msg',
+                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
+                    }).then(function successCallback(responseData) {
+                        console.log(responseData);
+                        $scope.participant[key] = responseData.data.user;
+                        $scope.msg[key] = responseData.data.msg;
+                        $rootScope.$digest;
+                    }, function errorCallback(response) {
+                        console.log(response.responseText);
+                    });
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
         })
 
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
@@ -2973,11 +3045,11 @@ angular.module('your_app_name.controllers', [])
 
             $scope.adjquery = function () {
                 jQuery(function () {
-					console.log('call function');
+                    console.log('call function');
                     var b = jQuery('iframe').contents().find('body .iframeclose');
-                  
+
                     $(b).on("click", function () {
-					 jQuery('.ciframecontainer').removeClass('active');
+                        jQuery('.ciframecontainer').removeClass('active');
                     })
                 })
             };
@@ -2993,7 +3065,7 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.closeiframe = function () {
-				
+
                 jQuery('.ciframecontainer').removeClass('active');
             };
 
@@ -3669,16 +3741,16 @@ angular.module('your_app_name.controllers', [])
         .controller('TreatmentPlanCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-        })  
-
-		.controller('SuperviseCtrl', function ($scope, $http, $stateParams) {
-            
         })
-		
-		
-		
-		
-		
+
+        .controller('SuperviseCtrl', function ($scope, $http, $stateParams) {
+
+        })
+
+
+
+
+
 
         .controller('TreatmentPlanListCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];

@@ -316,6 +316,16 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.assistantChat', {
+                        url: "/assistantchat/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat.html",
+                                controller: 'AssistantChatCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.peers', {
                         url: "/peers",
