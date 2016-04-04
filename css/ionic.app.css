@@ -9436,6 +9436,13 @@ input[type="date"]:before{
 
   color:#fff;
 }
+.superviseFrame{position: absolute;
+    z-index: 999;
+    width: 100%;
+    height: 90vh;
+    left: 0;
+    top: 0;}
+
 .crdview .ion-close{}{  color:#fff;}
 .logintab .item-body.p0{padding:10px;}
 .w100p{width:100%;}
