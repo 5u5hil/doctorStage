@@ -27,7 +27,6 @@ angular.module('your_app_name', [
     'youtube-embed'
 ])
         .run(function ($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
-
             $ionicPlatform.on("deviceready", function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -37,7 +36,6 @@ angular.module('your_app_name', [
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
-
                 PushNotificationsService.register();
             });
             $rootScope.$on('loading:show', function () {
@@ -76,7 +74,6 @@ angular.module('your_app_name', [
             $ionicPlatform.on("resume", function () {
                 PushNotificationsService.register();
             });
-
         })
 
 
@@ -95,7 +92,6 @@ angular.module('your_app_name', [
             })
 
             $stateProvider
-
                     //INTRO
                     .state('auth', {
                         url: "/auth",
@@ -311,6 +307,15 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.assistantChatList', {
+                        url: "/assistantChatList",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/assistant-chatlist.html",
+                                controller: 'AssistantChatListCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.peers', {
                         url: "/peers",

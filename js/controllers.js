@@ -2625,14 +2625,38 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
-
-
-
-
-
-
-
+        })
+        
+        .controller('AssistantChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.participant = [];
+            $scope.msg = [];
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-assistant-chats',
+                params: {drid: $scope.doctorId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                //$scope.chatParticipants = response.data;
+                $scope.chatParticipants = response.data;
+                angular.forEach($scope.chatParticipants, function (value, key) {
+                    console.log(value[0].chat_id);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctorsapp/get-chat-msg',
+                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
+                    }).then(function successCallback(responseData) {
+                        console.log(responseData);
+                        $scope.participant[key] = responseData.data.user;
+                        $scope.msg[key] = responseData.data.msg;
+                        $rootScope.$digest;
+                    }, function errorCallback(response) {
+                        console.log(response.responseText);
+                    });
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
         })
 
         .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
