@@ -2934,10 +2934,8 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.getMedicine = response.data.getMedicine;
                 $scope.otherMedicine = response.data.otherMedicine;
-
                 $scope.telecentre = response.data.telecentre;
                 $scope.getLocation = response.data.getLocation;
-
                 var data = response.data.getLocation;
                 $scope.location = _.reduce(
                         data,
@@ -2952,7 +2950,6 @@ angular.module('your_app_name.controllers', [])
                         },
                         {}
                 );
-
 
             }, function errorCallback(response) {
                 console.log(response);
@@ -2988,16 +2985,11 @@ angular.module('your_app_name.controllers', [])
                             {}
                     );
 
-
                 }, function errorCallback(response) {
                     console.log(response);
                 });
-
-
             };
         })
-
-
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
             var imgCnt = 0;
@@ -3087,7 +3079,6 @@ angular.module('your_app_name.controllers', [])
                 })
             };
 
-
             $scope.golink = function (fsrc) {
                 console.log(" dfgshjdgf " + fsrc);
                 jQuery('iframe').attr('src', fsrc);
@@ -3098,7 +3089,6 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.closeiframe = function () {
-
                 jQuery('.ciframecontainer').removeClass('active');
             };
 
@@ -3453,7 +3443,6 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.ciframecontainer').removeClass('active');
             };
 
-
             $scope.inventory = function () {
                 jQuery('.mediascreen').toggleClass('minscreen');
                 jQuery('#inventory-slide').toggleClass('active');
@@ -3464,7 +3453,6 @@ angular.module('your_app_name.controllers', [])
                 console.log('fadsf');
                 //$scope.invsearcha=false;
                 $scope.searchbox = true;
-
             };
 
             $http({
@@ -3474,7 +3462,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.healthCenter = response.data.telecentre;
-
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -3503,11 +3490,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.searchkey = locid
                 alert($scope.searchkey);
                 $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
-
             };
-
         })
-
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
 
@@ -3520,9 +3504,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-
-
-
 
         .controller('docImageoptionCtrl', function ($ionicLoading, $scope, $http, $stateParams, $ionicPopup, $state) {
             $scope.showPopup = function () {
@@ -3779,11 +3760,6 @@ angular.module('your_app_name.controllers', [])
         .controller('SuperviseCtrl', function ($scope, $http, $stateParams) {
 
         })
-
-
-
-
-
 
         .controller('TreatmentPlanListCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
