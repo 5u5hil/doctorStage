@@ -11,8 +11,8 @@
 
         <ion-list>
             <div class="row">
-                <div class="col"><ion-radio ng-model="states" value="Active" ng-value="Active">Active</ion-radio></div>
-                <div class="col"><ion-radio ng-model="states" value="Past" ng-value="Past">Past</ion-radio></div>
+                <div class="col"><ion-checkbox ng-model="isChecked">Active</ion-checkbox></div>
+                <div class="col"><ion-checkbox ng-model="sfa">Past</ion-checkbox></div>
             </div>
         </ion-list> 
 
@@ -22,6 +22,8 @@
                         <div class="col"><ion-radio ng-model="choice" ng-value="'B'">Past</ion-radio></div>
                         </div>
                         </ion-list> -->
+						
+						
         <div class="row tabnav mytabs" style="margin-top:15px; border-top:0;">
             <div class="col mytab"><a  ui-sref="app.chatlist" class="active" ui-sref-opts="{reload: true}" >Active</a></div>
             <div class="col mytab"><a  ui-sref="app.past-chatlist" ui-sref-opts="{reload: true}">Past  </a></div>
