@@ -1089,9 +1089,21 @@ angular.module('your_app_name.controllers', [])
             $rootScope.diaText = "";
             $rootScope.objId = "";
             $rootScope.diaId = "";
+            $scope.doctorId = get('id');
+            $scope.unreadCnt = 0;
             window.localStorage.removeItem('patientId');
             window.localStorage.removeItem('drId');
             window.localStorage.removeItem('doctorId');
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-chat-unread-cnt',
+                params: {userId: $scope.doctorId}
+            }).then(function sucessCallback(response) {
+                console.log(response);
+                $scope.unreadCnt = response.data;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
         })
 
         .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -2601,7 +2613,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
-            $scope.chat = [];
+            $scope.unreadCnt = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-chats',
@@ -2620,6 +2632,7 @@ angular.module('your_app_name.controllers', [])
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
+                        $scope.unreadCnt[key] = responseData.data.unreadCnt;
                         $rootScope.$digest;
                     }, function errorCallback(response) {
                         console.log(response.responseText);
@@ -2630,7 +2643,6 @@ angular.module('your_app_name.controllers', [])
             });
 
             $scope.chatIncludes = [];
-
             $scope.includeChat = function (state) {
                 var i = $.inArray(state, $scope.chatIncludes);
                 if (i > -1) {
@@ -2638,16 +2650,14 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     $scope.chatIncludes.push(state);
                 }
-            }
-
+            };
             $scope.chatFilter = function (chatParticipants) {
                 if ($scope.chatIncludes.length > 0) {
                     if ($.inArray(chatParticipants.state, $scope.chatIncludes) < 0)
                         return;
                 }
-
                 return chatParticipants;
-            }
+            };
         })
 
 
@@ -2701,7 +2711,7 @@ angular.module('your_app_name.controllers', [])
             $scope.returnjs();
             $scope.iframeHeight = $(window).height() - 88;
             $('#chat').css('height', $scope.iframeHeight);
-//Previous Chat 
+            //Previous Chat 
             $scope.appendprevious = function () {
                 $(function () {
                     angular.forEach($scope.chatMsgs, function (value, key) {
@@ -2724,6 +2734,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
+            $scope.unreadCnt = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-assistant-chats',
@@ -2742,6 +2753,7 @@ angular.module('your_app_name.controllers', [])
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
+                        $scope.unreadCnt[key] = responseData.data.unreadCnt;
                         $rootScope.$digest;
                     }, function errorCallback(response) {
                         console.log(response.responseText);

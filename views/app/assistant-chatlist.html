@@ -21,7 +21,10 @@
                     <span class="title">{{participant[$index][0].fname}}</span>
                     <div ng-if="msg[$index] != ''" >
                         <p class="description">{{msg[$index].message}}</p>
-                        <span class="listright">{{msg[$index].tstamp|time}}</span>
+                        <span class="chat-time">{{msg[$index].tstamp|time}} <br/>
+                        <div class="countright" ng-if="unreadCnt[$index]!=0">{{unreadCnt[$index]}}</div>
+                        </span>
+                        
                     </div>
                 </a>
             </div>
