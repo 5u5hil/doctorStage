@@ -9325,14 +9325,27 @@ h1.post-title{font-size:26px;}
               padding: 0px 0 0 10px;}
 .slideupcontent{}
 
-.closeifrme{position: absolute;
+/* .closeifrme{position: absolute;
             left: 3px;
             padding: 8px 12px;
 
             font-weight: bold;
             z-index: 99;
             top: 0px;
-            border-radius: 5px;}
+            border-radius: 5px;} */
+			
+	.closeifrme{position: absolute;
+    left: 0px;
+    padding: 11px 21px;
+    font-weight: bold;
+    z-index: 99;
+    top: 0px;
+    /* border-radius: 5px; */
+    background: #3467BD;
+    font-size: 18px;
+    color: #fff;}		
+			
+			
 
 .pb30{padding-bottom: 30px;}
 .iframeclose,.iframesubmit{   position: absolute;

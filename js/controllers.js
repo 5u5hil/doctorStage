@@ -2866,9 +2866,6 @@ angular.module('your_app_name.controllers', [])
 
 
             };
-
-
-
         })
 
 
@@ -2952,10 +2949,11 @@ angular.module('your_app_name.controllers', [])
 
             $scope.adjquery = function () {
                 jQuery(function () {
+					console.log('call function');
                     var b = jQuery('iframe').contents().find('body .iframeclose');
-                    console.log(b);
+                  
                     $(b).on("click", function () {
-                        jQuery('.ciframecontainer').removeClass('active');
+					 jQuery('.ciframecontainer').removeClass('active');
                     })
                 })
             };
@@ -2971,6 +2969,7 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.closeiframe = function () {
+				
                 jQuery('.ciframecontainer').removeClass('active');
             };
 
@@ -3322,6 +3321,7 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.mediascreen').removeClass('minscreen');
                 jQuery('#consultnote-slide').removeClass('active');
                 jQuery('#inventory-slide').removeClass('active');
+                jQuery('.ciframecontainer').removeClass('active');
             };
 
 
