@@ -2601,6 +2601,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
+            $scope.chat = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-chats',
@@ -2627,6 +2628,26 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.chatIncludes = [];
+
+            $scope.includeChat = function (state) {
+                var i = $.inArray(state, $scope.chatIncludes);
+                if (i > -1) {
+                    $scope.chatIncludes.splice(i, 1);
+                } else {
+                    $scope.chatIncludes.push(state);
+                }
+            }
+
+            $scope.chatFilter = function (chatParticipants) {
+                if ($scope.chatIncludes.length > 0) {
+                    if ($.inArray(chatParticipants.state, $scope.chatIncludes) < 0)
+                        return;
+                }
+
+                return chatParticipants;
+            }
         })
 
 
