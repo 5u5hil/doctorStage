@@ -2610,6 +2610,9 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
+            if (session) {
+                session.disconnect();
+            }
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.participant = [];
             $scope.msg = [];
@@ -2660,7 +2663,6 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-
         .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
@@ -2695,7 +2697,6 @@ angular.module('your_app_name.controllers', [])
                         console.error(err);
                     }
                 });
-
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -2705,7 +2706,6 @@ angular.module('your_app_name.controllers', [])
                     var wh = jQuery('window').height();
                     jQuery('#chat').css('height', wh);
                     //	console.log(wh);
-
                 })
             };
             $scope.returnjs();
