@@ -6,7 +6,7 @@
     <ion-content>
         <div class="list">
             <label class="item item-input">
-                <textarea type="text" ng-model="diaText.diagnosis" col="" rows="10" placeholder="Enter"></textarea>
+                <textarea type="text" ng-model="diaText.value" col="" rows="10" placeholder="Enter"></textarea>
             </label>
             <div class="mtb20">
                 <ion-checkbox ng-model="filter.makesummary">Mark as Summary </ion-checkbox>
@@ -14,7 +14,7 @@
         </div>
     </ion-content>
     <div class="fixedbar">
-        <a class="button btn-delete" nav-clear ui-sref="app.consultations-note" ><i class="ion-close"></i> Cancel</a>
+        <a class="button btn-delete" nav-clear ui-sref="app.notetype" ><i class="ion-close"></i> Cancel</a>
         <div class="button btn-add"  ng-click="saveDiagnosis(diaText)"><i class="ion-checkmark"></i> Save</div>
     </div>
 </ion-view>

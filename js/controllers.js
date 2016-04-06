@@ -599,7 +599,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.healthCenter = response.data.telecentre;
-
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -620,19 +619,14 @@ angular.module('your_app_name.controllers', [])
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 alert($scope.searchkey);
-
                 $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
-
             };
 
             $scope.searchByLocation = function (locid) {
                 $scope.searchkey = locid
                 alert($scope.searchkey);
-
                 $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
-
             };
-
         })
 
         .controller('InventorySearchCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
@@ -665,8 +659,6 @@ angular.module('your_app_name.controllers', [])
                         },
                         {}
                 );
-
-
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -675,10 +667,7 @@ angular.module('your_app_name.controllers', [])
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-
                 $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
-
-
             };
 
 // search from serach result end ---Bhavana //
@@ -687,20 +676,14 @@ angular.module('your_app_name.controllers', [])
                 //alert(locId);
                 $scope.searchkey = locId
                 //  var data = new FormData(jQuery("#loginuser")[0]);
-
                 $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
-
             };
 
             $scope.changeLocation = function (locationid) {
                 $scope.searchkey = locationid;
                 $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
-
             };
-
         })
-
-
 
         .controller('DoctrslistsCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $ionicModal.fromTemplateUrl('addp', {
@@ -1089,6 +1072,7 @@ angular.module('your_app_name.controllers', [])
             $rootScope.diaText = "";
             $rootScope.objId = "";
             $rootScope.diaId = "";
+            $rootScope.testId = "";
             $scope.doctorId = get('id');
             $scope.unreadCnt = 0;
             window.localStorage.removeItem('patientId');
@@ -1200,33 +1184,6 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-        })
-
-        .controller('noteType', function ($scope, $ionicModal, $state) {
-            $scope.check = function (pid, did) {
-                console.log("Patient = " + pid + " dr Id = " + did);
-                if (pid == '' && did == '') {
-                    alert("Please select doctor and patient.");
-                } else if (pid == '') {
-                    alert("Please select patient.");
-                } else if (did == '') {
-                    alert("Please select doctor.");
-                } else {
-                    $scope.modal.show();
-                }
-            };
-            $ionicModal.fromTemplateUrl('notetype', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-            $scope.modalclose = function (ulink) {
-                $state.go(ulink);
-                $scope.modal.hide();
-            }
         })
 
         .controller('treaTmentpCtrl', function ($scope, $ionicModal, $state) {
@@ -1499,6 +1456,18 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
+            $scope.check = function (pid, did) {
+                console.log("Patient = " + pid + " dr Id = " + did);
+                if (pid == '' && did == '' || (pid == null && did == null)) {
+                    alert("Please select doctor and patient.");
+                } else if (pid == '' || pid == null) {
+                    alert("Please select patient.");
+                } else if (did == '' || did == null) {
+                    alert("Please select doctor.");
+                } else {
+                    $state.go('app.notetype');
+                }
+            };
             //Save FormData
             $scope.submit = function () {
                 $scope.from = get('from');
@@ -1769,6 +1738,13 @@ angular.module('your_app_name.controllers', [])
             ;
         })
 
+        .controller('NotetypeCtrl', function ($scope, $http, $ionicModal, $state) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.modalclose = function (ulink) {
+                $state.go(ulink);
+            };
+        })
+
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
@@ -1901,6 +1877,8 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('MeasurementCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            console.log($stateParams.mid);
+            $scope.mid = $stateParams.mid;
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -1909,11 +1887,14 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-measure-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.records = response.data.record;
                 $scope.fields = response.data.fields;
+                $scope.editRec = response.data.editRec;
+                $scope.abt = response.data.abt;
+                $scope.measurement = response.data.measurement;
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -1923,10 +1904,31 @@ angular.module('your_app_name.controllers', [])
                 callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
                     console.log(response);
                     $ionicLoading.hide();
-                    if (angular.isObject(response.records)) {
+                    if (response.err == '') {
                         alert("Measurements saved successfully!");
-                        $rootScope.measurement = response.records.id;
-                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                        $rootScope.measure = 'yes';
+                        $rootScope.measurement = response.records;
+                        $state.go('app.notetype');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
+            //
+            $scope.saveDMeasurements = function () {
+                //$ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addMeasureForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response.err == '') {
+                        alert("Measurements saved successfully!");
+                        $rootScope.measure = 'yes';
+                        $rootScope.measurement = response.records;
+                        console.log('remove slide');
+                        jQuery('.ciframecontainer').removeClass('active');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
@@ -1935,6 +1937,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ObservationCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.objId = $stateParams.objid;
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -1942,35 +1945,64 @@ angular.module('your_app_name.controllers', [])
             $scope.objText = [];
             $scope.selConditions = [];
             $scope.observation = '';
-
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-observations-lang',
+                params: {userId: $scope.userId, interface: $scope.interface, objId: $stateParams.objid}
+            }).then(function successCallback(response) {
+                if (response.data.recdata != '') {
+                    $scope.objText = response.data.recdata.metadata_values;
+                    $rootScope.objText = $scope.objText;
+                }
+            }, function errorCallback(e) {
+                console.log(e);
+            });
             $ionicModal.fromTemplateUrl('addeval', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
                 $scope.showM = function () {
-                    $scope.observation = '';
+                    $scope.observation = {value: ''};
                     $scope.modal.show();
                 };
             });
             $scope.submitmodal = function (observation) {
                 alert(observation);
-                $scope.objText.push({'objtext': observation});
+                $scope.objText.push({'value': observation});
                 $rootScope.objText = $scope.objText;
-                $scope.observation = '';
+                $scope.observation = {value: ''};
                 $scope.modal.hide();
             };
-
             $scope.saveObj = function () {
                 console.log($scope.objText);
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/save-observations',
-                    params: {patient: $scope.patientId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText)}
+                    params: {patient: $scope.patientId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText), objId: $stateParams.objid}
                 }).then(function successCallback(response) {
                     if (angular.isObject(response.data.records)) {
                         $rootScope.objId = response.data.records.id;
                         alert("Observations added succesesfully!");
-                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                        $state.go('app.notetype');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+            $scope.saveDObj = function () {
+                console.log($scope.objText);
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/save-observations',
+                    params: {patient: $scope.patientId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText), objId: $stateParams.objid}
+                }).then(function successCallback(response) {
+                    if (angular.isObject(response.data.records)) {
+                        $rootScope.objId = response.data.records.id;
+                        alert("Observations added succesesfully!");
+                        console.log('remove slide');
+                        jQuery('.ciframecontainer').removeClass('active');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -1986,36 +2018,159 @@ angular.module('your_app_name.controllers', [])
                 $scope.showEM = function (ind) {
                     console.log("khkh" + ind);
                     $scope.ind = ind;
-                    $scope.observation = $rootScope.objText[ind].objtext;
+                    $scope.observation = $rootScope.objText[ind].value;
                     $scope.modal.show();
                 };
             });
             $scope.submitmodal = function (observation) {
-                $rootScope.objText[$scope.ind].objtext = observation;
+                $rootScope.objText[$scope.ind].value = observation;
+                console.log($rootScope.objText);
+                $scope.modal.hide();
+            };
+        })
+        
+        .controller('TestResultCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+            $scope.testid = $stateParams.testid;
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.objText = [];
+            $scope.observation = {};
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-testresult-lang',
+                params: {userId: $scope.userId, interface: $scope.interface, objId: $stateParams.testid}
+            }).then(function successCallback(response) {
+                if (response.data.recdata != '') {
+                    $scope.objText = response.data.recdata.metadata_values;
+                    $rootScope.objText = $scope.objText;
+                }
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $ionicModal.fromTemplateUrl('addeval', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showM = function () {
+                    $scope.observation = {value: ''};
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function (observation) {
+                alert(observation);
+                $scope.objText.push({'value': observation});
+                $rootScope.objText = $scope.objText;
+                $scope.observation = {value: ''};
+                $scope.modal.hide();
+            };
+            $scope.saveTestresult = function () {
+                console.log($scope.objText);
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/save-testresults',
+                    params: {patient: $scope.patientId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText), objId: $stateParams.testid}
+                }).then(function successCallback(response) {
+                    if (angular.isObject(response.data.records)) {
+                        $rootScope.testId = response.data.records.id;
+                        alert("Test Results added succesesfully!");
+                        $state.go('app.notetype');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+            $scope.saveDTestresult = function () {
+                console.log($scope.objText);
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/save-testresults',
+                    params: {patient: $scope.patientId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText), objId: $stateParams.objid}
+                }).then(function successCallback(response) {
+                    if (angular.isObject(response.data.records)) {
+                        $rootScope.testId = response.data.records.id;
+                        alert("Test Results added succesesfully!");
+                        console.log('remove slide');
+                        jQuery('.ciframecontainer').removeClass('active');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+        })
+        
+        .controller('PlaintestResultCtrl', function ($scope, $ionicModal, $rootScope) {
+            $ionicModal.fromTemplateUrl('editVal', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.showEM = function (ind) {
+                    console.log("khkh" + ind);
+                    $scope.ind = ind;
+                    $scope.observation = $rootScope.objText[ind].value;
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function (observation) {
+                $rootScope.objText[$scope.ind].value = observation;
                 console.log($rootScope.objText);
                 $scope.modal.hide();
             };
         })
 
-        .controller('DiagnosisTextCtrl', function ($scope, $ionicModal, $rootScope, $http, $state) {
+        .controller('DiagnosisTextCtrl', function ($scope, $ionicModal, $rootScope, $http, $state, $stateParams) {
+            $scope.diaId = $stateParams.diaid;
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
             $scope.diaText = {};
-            $scope.diaText.diagnosis = '';
+            $scope.diaText.value = '';
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-diagnosis-lang',
+                params: {userId: $scope.userId, diaId: $scope.diaId}
+            }).then(function successCallback(response) {
+                if (response.data.recdata != '') {
+                    $scope.diaText.value = response.data.recdata.value;
+                }
+            }, function errorCallback(e) {
+                console.log(e);
+            });
             $scope.saveDiagnosis = function (data) {
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/save-diagnosis',
-                    params: {patient: $scope.patientId, userId: $scope.userId, diaType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, diaText: $scope.diaText.diagnosis}
+                    params: {patient: $scope.patientId, userId: $scope.userId, diaType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, diaText: $scope.diaText.value, diaId: $scope.diaId}
                 }).then(function successCallback(response) {
                     if (angular.isObject(response.data.records)) {
                         console.log(response.data.records.id);
                         $rootScope.diaId = response.data.records.id;
                         alert("Diagnosis added succesesfully!");
                         //$scope.modal.hide();
-                        $state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                        $state.go('app.notetype');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+            $scope.saveDDiagnosis = function (data) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/save-diagnosis',
+                    params: {patient: $scope.patientId, userId: $scope.userId, diaType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, diaText: $scope.diaText.value, diaId: $scope.diaId}
+                }).then(function successCallback(response) {
+                    if (angular.isObject(response.data.records)) {
+                        console.log(response.data.records.id);
+                        $rootScope.diaId = response.data.records.id;
+                        alert("Diagnosis added succesesfully!");
+                        console.log('remove slide');
+                        jQuery('.ciframecontainer').removeClass('active');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     }
                 }, function errorCallback(e) {
                     console.log(e);

@@ -1,25 +1,18 @@
-<ion-modal-view>
+<ion-view class="category-list-view">
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Text</h1>   
-
+        <h1 class="title">Diagnosis</h1>
     </ion-header-bar>
 
-  <ion-content>
-
-       <div class="list">
-    <label class="item item-input">
-    <textarea type="text" col="" rows="10" placeholder="Enter"></textarea>
-    </label>
-    <div class="mtb20">
-    <ion-checkbox ng-model="filter.makesummary">Mark as Summary</ion-checkbox>
-    </div>
-
-    </div>      
-
-  </ion-content>
-		<div class="button btn-delete iframeclose" nav-clear  ><i class="ion-close"></i></div>
-	  <div class="button btn-add iframesubmit"><i class="ion-checkmark"></i> Save</div>
-  
-  
-  
+    <ion-content>
+        <div class="list">
+            <label class="item item-input">
+                <textarea type="text" ng-model="diaText.value" col="" rows="10" placeholder="Enter"></textarea>
+            </label>
+            <div class="mtb20">
+                <ion-checkbox ng-model="filter.makesummary">Mark as Summary </ion-checkbox>
+            </div>
+        </div>
+    </ion-content>
+    <div class="button btn-delete iframeclose" nav-clear  ><i class="ion-close"></i></div>
+    <div class="button btn-add iframesubmit"  ng-click="saveDDiagnosis(diaText)"><i class="ion-checkmark"></i> Save</div>
 </ion-view>

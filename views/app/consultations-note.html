@@ -12,7 +12,8 @@
                 <input type="hidden" value="{{measurement}}" name="measurement" />
                 <input type="hidden" value="{{objId}}" name="objId" />
                 <input type="hidden" value="{{diaId}}" name="diaId" />
-                <input type="hidden" value="{{measurement}},{{objId}},{{diaId}}" name="noteRecs" />
+                <input type="hidden" value="{{testId}}" name="testId" />
+                <input type="hidden" value="{{measurement}},{{objId}},{{diaId}},{{testId}}" name="noteRecs" />
                 <input type="hidden" value="Consultation" name="rectype" />
                 <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
                 <div class="fields" ng-repeat="field in fields">                    
@@ -263,7 +264,7 @@
                     <div class="innerdiv col-50 brdright">
                         <div class="item item-divider">Notes</div>
                         <div class="p10">
-                            <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
+                            <button  class="Cstmbutn button-small mb15"  ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
                             <!-- <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"-->
                         </div>
                     </div>

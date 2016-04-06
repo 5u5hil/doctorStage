@@ -66,6 +66,11 @@
             <input type="hidden" value="{{patientId}}" name="patientId" />
             <input type="hidden" value="{{doctorId}}" name="doctorId" />
             <input type="hidden" value="{{appId}}" name="appId" />
+            <input type="hidden" value="{{measurement}}" name="measurement" />
+            <input type="hidden" value="{{objId}}" name="objId" />
+            <input type="hidden" value="{{diaId}}" name="diaId" />
+            <input type="hidden" value="{{testId}}" name="testId" />
+            <input type="hidden" value="{{measurement}},{{objId}},{{diaId}},{{testId}}" name="noteRecs" />
             <input type="hidden" value="{{recId}}" name="recId" />
             <input type="hidden" value="Consultation" name="rectype" />
             <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
@@ -136,10 +141,10 @@
 
 
     <div class="ciframecontainer">
-       <div class="closeifrme" ng-click="closeiframe();">X</div>
+        <div class="closeifrme" ng-click="closeiframe();">X</div>
         <iframe src=""></iframe>
     </div>
-	
+
     <div class="custpopup-container" id="selectfile">
         <div class="custpopup">
             <div class="attachcontainer">
@@ -213,10 +218,10 @@
                     <input type="text" placeholder="Medicine"  ng-model="medicinename">
                 </label>
                 <div class="txt-center">
-                   <!--  <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button> -->
-				   
-				   <button  ng-click="golink('#/inventory-search/'+medicinename)"  class="button button-positive mt15">Search</button> 
-				   
+                    <!--  <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button> -->
+
+                    <button  ng-click="golink('#/inventory-search/' + medicinename)"  class="button button-positive mt15">Search</button> 
+
 
                 </div>
             </div>
@@ -233,13 +238,13 @@
 
                 <div class="txt-center">
 
-                     <button  ng-click="golink('#/inventory-location/'+healthcenterloc)"  class="button button-positive mt15">Search</button> 
+                    <button  ng-click="golink('#/inventory-location/' + healthcenterloc)"  class="button button-positive mt15">Search</button> 
                     <!--ui-sref="app.search-location"-->
                 </div>
             </div>
         </div>
 
-    
+
 
 
     </div>
@@ -263,7 +268,7 @@
         <h3 class="heading3">Evaluation</h3>
         <div class="row cbtn3">
             <div class="col">
-                <div class="Cstmbutn button-small" ng-click="golink('#/dmeasurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
+                <div class="Cstmbutn button-small" ng-click="golink('#/dmeasurement/mid')"><span class="icon ion-plus-circled"></span> Measurements</div> 
             </div>
             <div class="col">
                 <div class="Cstmbutn button-small" ng-click="golink('#/dtestresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
@@ -271,7 +276,7 @@
         </div>  
         <div class="row cbtn3">
             <div class="col">
-                <div class="Cstmbutn button-small" ng-click="golink('#/dobservation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
+                <div class="Cstmbutn button-small" ng-click="golink('#/dobservation/objid')"> <span class="icon ion-plus-circled"></span> Observations</div> 
             </div>
         </div>
         <h3 class="heading3">Diagnosis</h3>
@@ -286,7 +291,7 @@
         </div>       
         <div class="row cbtn3">
             <div class="col">
-                <div class="Cstmbutn button-small" ng-click="golink('#/dtext')"> <span class="icon ion-plus-circled"></span> Text</div> 
+                <div class="Cstmbutn button-small" ng-click="golink('#/dtext/diaid')"> <span class="icon ion-plus-circled"></span> Text</div> 
             </div>
         </div>
     </div>

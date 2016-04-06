@@ -1,0 +1,54 @@
+<ion-view class="category-list-view">
+    <ion-nav-title>
+        <h1 class="title">{{notetype.select_category[language]}}</h1>	
+    </ion-nav-title>
+    <ion-content>
+        <div class="item item-divider">Background</div>
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="modalclose('app.patient-history')"><span class="icon ion-plus-circled"></span>  Patient</div> 
+            </div>
+            <div class="col">
+                <div class="Cstmbutn button-small" ng-click="modalclose('app.family-history')"><span class="icon ion-plus-circled"></span>  Family</div> 
+            </div>
+        </div>
+
+        <div class="item item-divider">Evaluation</div>
+        <div class="row cbtn3">
+            <div class="col">
+                <a class="Cstmbutn button-small" ui-sref="app.measurement({'mid': measurement})"><span class="icon {{measurement!=''? 'ion-edit':'ion-plus-circled'}}"></span> Measurements</a> 
+            </div>
+
+            <div class="col">
+                <div class="Cstmbutn button-small" ui-sref="app.testresult({'testid': testId})"> <span class="icon {{testId!=''? 'ion-edit':'ion-plus-circled'}}"></span> Test Results </div> 
+            </div>
+        </div>	
+
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ui-sref="app.observation({'objid': objId})"> <span class="icon {{objId!=''? 'ion-edit':'ion-plus-circled'}}"></span> Observations</div> 
+            </div>
+        </div>
+
+        <div class="item item-divider">Diagnosis</div>  
+        <!----<div class="row cbtn3">
+        <div class="col">
+        <div class="Cstmbutn button-small" ng-controller="SnowmedtCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> SNOMED</div> 
+        </div>
+    
+        <div class="col">
+        <div class="Cstmbutn button-small" ng-controller="IcdCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> ICD</div> 
+        </div>
+        </div>--->		 
+
+        <div class="row cbtn3">
+            <div class="col">
+                <div class="Cstmbutn button-small" ui-sref="app.diagnosis({'diaid': diaId})"> <span class="icon {{diaId!=''? 'ion-edit':'ion-plus-circled'}}"></span> Text</div> 
+            </div>
+        </div>
+    </ion-content>
+    <!-- <div class="fixedbar">
+     <div class="button btn-delete" nav-clear ng-click="submitmodal()" ><i class="icon ion-ios-arrow-back"></i> {{notetype.back[language]}} </div>
+ 
+     </div>-->
+</ion-view>

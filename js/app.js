@@ -155,21 +155,21 @@ angular.module('your_app_name', [
                     })
 
                     .state('dmeasurement', {
-                        url: "/dmeasurement",
+                        url: "/dmeasurement/{mid:string}",
                         templateUrl: "views/app/doctrjoin/dmeasurement.html",
-                        controller: 'ConsultationsNoteCtrl'
+                        controller: 'MeasurementCtrl'
                     })
 
                     .state('dtestresult', {
                         url: "/dtestresult",
                         templateUrl: "views/app/doctrjoin/dtestresult.html",
-                        controller: 'ConsultationsNoteCtrl'
+                        controller: 'TestResultCtrl'
                     })
 
                     .state('dobservation', {
-                        url: "/dobservation",
+                        url: "/dobservation/{objid:string}",
                         templateUrl: "views/app/doctrjoin/dobservation.html",
-                        controller: 'ConsultationsNoteCtrl'
+                        controller: 'ObservationCtrl'
                     })
 
                     .state('dsnomed', {
@@ -186,10 +186,11 @@ angular.module('your_app_name', [
 
 
                     .state('dtext', {
-                        url: "/dtext",
+                        url: "/dtext/{diaid:string}",
                         templateUrl: "views/app/doctrjoin/dtext.html",
-                        controller: 'ConsultationsNoteCtrl'
+                        controller: 'DiagnosisTextCtrl'
                     })
+
                     .state('dinvestigations', {
                         url: "/dinvestigations",
                         templateUrl: "views/app/doctrjoin/dinvestigations.html",
@@ -316,7 +317,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.assistantChat', {
                         url: "/assistantchat/{id:int}",
                         views: {
@@ -346,8 +347,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
 
                     .state('app.chat-appointments', {
                         cache: false,
@@ -402,6 +401,17 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.notetype', {
+                        //cache: false,
+                        url: "/notetype",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/notetype.html",
+                                controller: 'NotetypeCtrl'
+                            }
+                        }
+                    })
+
                     /* inventory */
                     .state('app.inventory', {
                         cache: false,
@@ -445,11 +455,7 @@ angular.module('your_app_name', [
                         url: "/inventory-search/{key:string}",
                         templateUrl: "views/app/doctrjoin/inventory-search.html",
                         controller: 'InveSearchCtrl'
-
-
                     })
-
-
 
                     .state('app.about', {
                         url: "/consultation-note/about",
@@ -482,7 +488,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.measurement', {
-                        url: "/consultation-note/measurement",
+                        url: "/consultation-note/measurement/{mid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/measurement.html",
@@ -491,7 +497,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.observation', {
-                        url: "/consultation-note/observation",
+                        url: "/consultation-note/observation/{objid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/observation.html",
@@ -500,7 +506,7 @@ angular.module('your_app_name', [
                         }
                     })
                     .state('app.diagnosis', {
-                        url: "/consultation-note/diagnosis",
+                        url: "/consultation-note/diagnosis/{diaid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/diagnosis.html",
@@ -510,11 +516,11 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.testresult', {
-                        url: "/consultation-note/testresult",
+                        url: "/consultation-note/testresult/{testid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/testresult.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'TestResultCtrl'
                             }
                         }
                     })
@@ -567,16 +573,6 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-//                    .state('app.diagnosis', {
-//                        url: "/diagnosis",
-//                        views: {
-//                            'menuContent': {
-//                                templateUrl: "views/app/diagnosis.html",
-//                                controller: 'DiagnosisCtrl'
-//                            }
-//                        }
-//                    })
 
                     .state('app.treatment-plan', {
                         url: "/treatmentplan",
@@ -810,7 +806,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
+
                     .state('app.supervise', {
                         url: "/supervise",
                         views: {
@@ -820,9 +816,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					
-					
+
+
+
 
                     .state('app.logout', {
                         url: "/logout",

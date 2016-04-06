@@ -1,78 +1,88 @@
-<ion-modal-view>
+<ion-view class="category-list-view">
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Measurement</h1>   
-
+        <h1 class="title">Measurement</h1>
     </ion-header-bar>
-
-  <ion-content>
-  <div class="tabcon2">
-                        <div class="item item-divider">Blood Pressure</div>
-                        <label class="item item-input">
-                            <input type="text" placeholder="Systolic">
-                        </label>
-                         <label class="item item-input">
-                            <input type="text" placeholder="Diastolic">
-                        </label>	
-
-                        <div class="item item-divider">Pulse</div>
-
-                        <label class="item item-input">
-                            <input type="number" placeholder="Pulse">
-                        </label>
-
-                       <div class="item item-divider">Temperature</div>  
-                        <label class="item item-input">
-                            <input type="number" placeholder="Temperature" step="0.01">
-                        </label> 
-						
-						
-						<!-- <div class="item item-divider">Temperature</div>
-						<label class="item item-input item-floating-label">
-						<span class="input-label">Temperature</span>
-						<input type="number" placeholder="Some number">
-						</label> -->
-										
-						
-						
-                      <div class="item item-divider">Glucose</div>
-					  
-					   <label class="item item-input">
-                            <input type="number" placeholder="Glucose">
-						</label>
-					  
-					  
-					  	<label class="item item-input item-select">
-						<div class="input-label">
-						Type
-						</div>
-						<select>
-						  <option selected>Fasting</option>
-						  <option >Pre Breakfast</option>
-						  <option >Post Breakfast</option>
-						  <option>Pre Lunch</option>
-						  <option>Post Lunch</option>
-						  <option>Pre Dinner</option>
-						  <option>Post Dinner</option>
-						</select>
-					  </label>	
-					  
-					  
-					  
-                    <!--     <ion-list>
-                            <div class="row">
-                                <div class="col cradio"><ion-radio ng-model="choice" ng-value="'A'" checked>Choose A</ion-radio></div>
-                                <div class="col cradio"> <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio></div>
+    <form name="addMeasureForm" id="addMeasureForm" enctype="multipart/form-data" novalidate >
+        <ion-content>
+            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+            <input type="hidden" value="{{catId}}" name="rectype" />
+            <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+            <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+            <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+            <input type="hidden" ng-model="record.mid" value="{{mid}}" name="mid" />
+            <input type="hidden" value="{{measure}}" name="measurement" />
+            <div class="tabcon2">
+                <div ng-repeat="record in records">
+                    <div class="item item-divider">{{record.category}}</div>
+                    <div ng-repeat="field in fields[$index]">
+                        <div ng-if="field.field_types.value == 'number'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <label class="item item-input" ng-if="ab.field_id == field.name">
+                                        <input type="number" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}">
+                                    </label>
+                                </div>
                             </div>
-                        </ion-list> -->
-
-
+                            <div ng-if="abt.length == 0">
+                                <label class="item item-input" >
+                                    <input type="number" placeholder="{{field.field}}" name="{{field.name}}">
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'select'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <label class="item item-input item-select" ng-if="ab.field_id == field.name">
+                                        <div class="input-label">{{field.field}}</div>
+                                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="sel == ab.value"> {{sel}} </option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <label class="item item-input item-select">
+                                    <div class="input-label">{{field.field}}</div>
+                                    <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                        <option value="" ng-selected="1"> Select {{field.field}}</option>
+                                        <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'text'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <label class="item item-input" ng-if="ab.field_id == field.name">
+                                        <input type="text" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}">
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <label class="item item-input" >
+                                    <input type="text" placeholder="{{field.field}}" name="{{field.name}}">
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'date'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <label class="item item-input" ng-if="ab.field_id == field.name">
+                                        <input type="date" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}">
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <label class="item item-input" >
+                                    <input type="date" placeholder="{{field.field}}" name="{{field.name}}">
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                              
-	  
-	  
- 
-  </ion-content>
-
-<div class="button btn-delete iframeclose"  ><i class="ion-close"></i></div>
-<div class="button btn-add iframesubmit" ><i class="ion-checkmark"></i> Save</div>
-</ion-view>
+                </div>  
+            </div>
+        </ion-content>
+            <div class="button btn-delete iframeclose"><i class="ion-close"></i></div>
+            <button class="button btn-add iframesubmit" ng-click="saveDMeasurements()" ><i class="ion-checkmark"></i> Save </button>
+    </form>
+</ion-modal-view>
