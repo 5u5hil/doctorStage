@@ -22,7 +22,7 @@
   position: relative;
   margin-bottom: 1em;
   height: calc(100% - 5em);
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden; 
 }
 
