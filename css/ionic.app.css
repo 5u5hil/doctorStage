@@ -8658,7 +8658,8 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:35%;}
 
 .timesheet li.disabled{opacity:0.3;}
 .sche-date input{
-    margin: 0 auto; width:45%;
+    margin: 0 auto;
+	width:45%; 
     height: 30px;
     padding: 3px;
     text-align: center;
