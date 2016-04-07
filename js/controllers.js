@@ -1088,6 +1088,7 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+			
         })
 
         .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
