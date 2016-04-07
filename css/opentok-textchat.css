@@ -19,12 +19,21 @@
 }
 
 .ot-textchat .ot-bubbles {
-  position: relative;
+
+
+}
+
+
+.ot-textchat .chatscroll{
+	
+	  position: relative;
   margin-bottom: 1em;
   height: calc(100% - 5em);
   overflow-y: scroll;
-  overflow-x: hidden; 
+    overflow-x: hidden; 
 }
+
+
 
 /*
  * By default, normal bubbles are bubbles from the other participants and

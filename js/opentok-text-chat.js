@@ -53,8 +53,8 @@ ChatMessage = function () {
 }();
 ChatUI = function (ChatMessage) {
   var uiLayout = [
-    '<div class="ot-bubbles">',
-    '</div>',
+    '<div class="chatscroll"><div class="ot-bubbles">',
+    '</div></div>',
     '<div class="ot-input">',
     '  <div>',
     '    <p class="ot-error-zone" hidden>Error sending the message!</p>',
