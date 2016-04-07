@@ -53,7 +53,7 @@ ChatMessage = function () {
 }();
 ChatUI = function (ChatMessage) {
   var uiLayout = [
-    '<div class="ot-bubbles">',
+    '<div class="ot-bubbles scroll-content ionic-scroll">',
     '</div>',
     '<div class="ot-input">',
     '  <div>',
