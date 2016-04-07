@@ -9,12 +9,12 @@
                 <div ng-repeat="rec in recordDetails track by $index" class="p0">
                     <div> 
                     </div>
-                    <div ng-if="rec.fields.field == 'Includes Prescription' && isAttachment!=''">
-                        <div class="item item-divider" ng-if="rec.value != '' && rec.value!=0">
+                    <div ng-if="rec.fields.field == 'Includes Prescription' && isAttachment != ''">
+                        <div class="item item-divider" ng-if="rec.value != '' && rec.value != 0">
                             <span>{{rec.fields.field}} </span></div>
-                        <div class="ditem-content" ng-if="rec.value!=0">{{rec.value}}</div>
+                        <div class="ditem-content" ng-if="rec.value != 0">{{rec.value}}</div>
                     </div>
-                    <div ng-if="rec.fields.field == 'Valid till' && isAttachment!=''">
+                    <div ng-if="rec.fields.field == 'Valid till' && isAttachment != ''">
                         <div class="item item-divider" ng-if="rec.value != ''">
                             <span>{{rec.fields.field}} </span>
                         </div>
@@ -78,22 +78,36 @@
                         </div>
                     </div>
                 </div>
-
-                <!--                    <div class="flexcont">
-                                        <div class="innerdiv col-50 brdright">
-                                            <div class="item item-divider">Notes</div>
-                                            <div class="p10">
-                                                <button  class="Cstmbutn button-small mb15" ng-controller="noteType" ng-click="check(patientId, doctorId)"><span class="icon ion-plus-circled"></span> Add</button>
-                                                 <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  ng-click="modal.show()"
-                                            </div>
-                                        </div>
-                                        <div class="innerdiv col-50">
-                                            <div class="item item-divider">Treatment Plan</div>
-                                            <div class="p10">
-                                                <button class="Cstmbutn button-small mb15" ng-controller="treaTmentpCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>	
-                                            </div>
-                                        </div>
-                                    </div>-->
+                <div class="item item-divider">
+                    <span>Other Details</span>
+                </div>
+                <div class="flexcont">
+                    <div class="innerdiv col-50 brdright">
+                        <div class="p10" ><a ng-if="measurements.value == 'no'" class="Cstmbutn button-small mb15">Measurements - NA</a>
+                            <a ng-if="measurements.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getMeasureDetails(noteId, 'measurements')"><span class="icon ion-eye"></span> Measurements</a>
+                        </div>
+                    </div>
+                    <div class="innerdiv col-50">
+                        <div class="p10">
+                            <a ng-if="testResult.value == 'no'" class="Cstmbutn button-small mb15">Test Results - NA</a>
+                            <a ng-if="testResult.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(noteId, 'test result')"><span class="icon ion-eye"></span> Test Results </a>	
+                        </div>
+                    </div>
+                </div>
+                <div class="flexcont">
+                    <div class="innerdiv col-50 brdright">
+                        <div class="p10">
+                            <a ng-if="obj.value == 'no'" class="Cstmbutn button-small mb15">Observations - NA</a>
+                            <a ng-if="obj.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(noteId, 'observations')" ><span class="icon ion-eye"></span> Observation</a>
+                        </div>
+                    </div>
+                    <div class="innerdiv col-50">
+                        <div class="p10">
+                            <a ng-if="diagnosis.value == 'no'" class="Cstmbutn button-small mb15">Diagnosis - NA</a>
+                            <a ng-if="diagnosis.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(noteId, 'diagnosis')"><span class="icon ion-eye"></span> Dignosis </a>	
+                        </div>
+                    </div>
+                </div>
             </div>
         </ion-content>
 
@@ -139,7 +153,6 @@
     </div>
     </ion-modal-view>
 </script>
-
 <script id="snomed" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">

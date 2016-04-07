@@ -2029,7 +2029,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-        
+
         .controller('TestResultCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.testid = $stateParams.testid;
             $scope.userId = window.localStorage.getItem('id');
@@ -2102,7 +2102,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
         })
-        
+
         .controller('PlaintestResultCtrl', function ($scope, $ionicModal, $rootScope) {
             $ionicModal.fromTemplateUrl('editVal', {
                 scope: $scope
@@ -2235,6 +2235,10 @@ angular.module('your_app_name.controllers', [])
             $scope.patients = {};
             $scope.cases = {};
             $scope.isAttachment = '';
+            $scope.measurements = {value: 'no'};
+            $scope.obj = {value: 'no'};
+            $scope.testResult = {value: 'no'};
+            $scope.diagnosis = {value: 'no'};
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-note-details',
@@ -2247,6 +2251,18 @@ angular.module('your_app_name.controllers', [])
                 $scope.doctrs = response.data.doctrs;
                 $scope.patients = response.data.patient;
                 $scope.cases = response.data.caseData;
+                $scope.otherRecords = response.data.otherRecords;
+                angular.forEach($scope.otherRecords, function (val, key) {
+                    if (val.category == '12' || val.category == '13' || val.category == '16') {
+                        $scope.measurements = {value: 'yes'};
+                    } else if (val.category == '27') {
+                        $scope.obj = {value: 'yes'};
+                    } else if (val.category == '29') {
+                        $scope.testResult = {value: 'yes'};
+                    } else if (val.category == '') {
+                        $scope.diagnosis = {value: 'yes'};
+                    }
+                });
                 angular.forEach($scope.recordDetails, function (val, key) {
                     if (val.fields.field == 'Attachments') {
                         $scope.isAttachment = val.attachments.length;
@@ -2291,7 +2307,75 @@ angular.module('your_app_name.controllers', [])
                     alert('printing finished or canceled');
                 });
             };
+            $scope.getMeasureDetails = function (id, type) {
+                console.log(id + "===" + type);
+                if (type == 'measurements') {
+                    $state.go('app.view-measure-details', {id: id, type: type}, {reload: true});
+                } else {
+                    $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
+                }
+            };
+            $scope.getCnDetails = function (id, type) {
+                console.log(id + "===" + type);
+                $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
+            };
+        })
+        .controller('MeasureDetailsCtrl', function ($scope, $http, $state, $sce, $rootScope, $stateParams) {
+            $scope.cnId = $stateParams.id;
+            $scope.type = $stateParams.type;
+            $scope.userId = get('id');
+            $scope.doctrId = get('id');
+            console.log($scope.cnId + '==' + $scope.type);
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-measure-details',
+                params: {noteId: $scope.cnId, userId: $scope.userId, interface: $scope.interface, type: $scope.type}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.records = response.data.records;
+                $scope.recordDetails = response.data.recordsDetails;
+                $scope.problems = response.data.problem;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patient;
+                $scope.cases = response.data.caseData;
+                angular.forEach($scope.recordDetails, function (val, key) {
+                    if (val.fields.field == 'Attachments') {
+                        $scope.isAttachment = val.attachments.length;
+                    }
+                });
+                console.log($scope.recordDetails);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+        })
 
+        .controller('OtherDetailsCtrl', function ($scope, $http, $state, $sce, $rootScope, $stateParams) {
+            $scope.cnId = $stateParams.id;
+            $scope.type = $stateParams.type;
+            $scope.userId = get('id');
+            $scope.doctrId = get('id');
+            console.log($scope.cnId + '==' + $scope.type);
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-cn-details',
+                params: {noteId: $scope.cnId, userId: $scope.userId, interface: $scope.interface, type: $scope.type}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.record = response.data.records;
+                $scope.recordDetails = response.data.recordsDetails;
+                $scope.problems = response.data.problem;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patient;
+                $scope.cases = response.data.caseData;
+                angular.forEach($scope.recordDetails, function (val, key) {
+                    if (val.fields.field == 'Attachments') {
+                        $scope.isAttachment = val.attachments.length;
+                    }
+                });
+                console.log($scope.recordDetails);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
         })
 
         .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
@@ -2329,12 +2413,12 @@ angular.module('your_app_name.controllers', [])
             $scope.gend = '';
             $scope.gender = '';
             $scope.userId = window.localStorage.getItem('id');
-            $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
+            $scope.doctorId = window.localStorage.getItem('id'); //$stateParams.drId
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
-                url: domain + 'assistrecords/get-about-fields',
+                url: domain + 'doctrsrecords/get-about-fields',
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
             }).then(function successCallback(response) {
                 console.log(response.data);
