@@ -1,131 +1,125 @@
 <ion-view class="category-list-view">
-  <ion-nav-title>
-    <span>Family History</span>
-</ion-nav-title>
+    <ion-nav-title>
+        <span> {{familyhistory.family_history[language]}}</span>
+    </ion-nav-title>
 
-  <ion-content>
-   <div class="tabcontainer">
-					 <div class="text-right">
-					 <button class="button" ng-controller="AddrelationCtrl" ng-click="modal.show()"><span class="ion-plus-circled"></span> Add Relation</button> 
-					 </div>
-					 
-					<div class="posts-list">
-					<div  class="list card post-item">
-						<div class="post-content item item-text-wrap p0">
-							<div  class="card-content paraspacing">
-								<div class="cardheading">Relation:Father 
-								<div class="edit-btn-card">
-								<a ui-sref="#" ><i class="ion-edit"></i></a>
-									<a ui-sref="#"><i class="ion-trash-b"></i></a>
-								</div>
-								</div>
-								<p class="txt-left"><strong>Age:</strong>55 <br/>
-								<strong>Known Conditions:</strong> Lorem Ipsum, Simply dummy,  Printing
-								<br/>
-								<strong>Other Information:</strong> Lorem Ipsum simply dummy printing
-								<br/>
-								</p>
-								
-								<div class="clr"></div>
-							</div>
-						</div>
-					</div>
-				</div>	
-					 
-				<div class="posts-list">
-					<div  class="list card post-item">
-						<div class="post-content item item-text-wrap p0">
-							<div  class="card-content paraspacing">
-								<div class="cardheading">Relation:Mother 
-								<div class="edit-btn-card">
-								<a ui-sref="#" ><i class="ion-edit"></i></a>
-									<a ui-sref="#"><i class="ion-trash-b"></i></a>
-								</div>
-								</div>
-								<p class="txt-left"><strong>Age:</strong>48 <br/>
-								<strong>Known Conditions:</strong> Lorem Ipsum, Simply dummy,  Printing
-								<br/>
-								<strong>Other Information:</strong> Lorem Ipsum simply dummy printing
-								<br/>
-								</p>
-								
-								<div class="clr"></div>
-							</div>
-						</div>
-					</div>
-				</div>	
-					
-				
-				
-				
-				
-				
-                      
+    <ion-content>
+        <div class="tabcontainer">
+            <div class="text-right">
+                <button class="button"  ng-click="modal.show()"><span class="ion-plus-circled"></span> {{familyhistory.add_relation[language]}}</button> 
+            </div>
+
+            <div class="posts-list">
+                <div  class="list card post-item" ng-repeat="rdata in recorddata" >
+
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading">Relation: {{rdata.record_metadata[1].value}}
+                                <div class="edit-btn-card">
+                                    <a ui-sref="#" ><i class="ion-edit"></i></a>
+                                    <a ui-sref="#"><i class="ion-trash-b"></i></a>
+                                </div>
+                            </div>
+
+                            <p class="txt-left">
+                                <strong>Age: </strong><span>{{rdata.record_metadata[2].value}}</span><br/>
+                                <strong>Known Conditions:</strong> <li ng-repeat="sel in knConditions[$index]">{{sel.condition}}</li>
+                            <br/>
+                            <strong>Other Information:</strong> {{rdata.record_metadata[4].value}}
+                            <br/>
+                            </p>
+
+                            <div class="clr"></div>
+                        </div>
                     </div>
-                  
- 
-  </ion-content>
-    <div class="fixedbar">
-  <a class="button btn-delete" ui-sref="app.consultations-note" ><i class="ion-close"></i> Cancel</a>
-	  <a class="button btn-add" ui-sref="app.consultations-note" ><i class="ion-checkmark"></i> Save</a>
-	</div>
+                </div>
+            </div>	
+
+
+        </div>
+
+
+    </ion-content>
+    <!--<div class="fixedbar">
+        <a class="button btn-delete" ui-sref="app.consultations-note" ><i class="ion-close"></i> {{familyhistory.cancel[language]}}</a>
+        <div class="button btn-add"><i class="ion-checkmark"></i> {{familyhistory.save[language]}}</div>
+    </div>-->
+
 </ion-view>
 
 <script id="addrelation" type="text/ng-template">
-      <ion-modal-view>
-        <ion-header-bar class="bar app-top-bar">
-		<h1 class="title">Add New Relation</h1>
-        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
-        </ion-header-bar>
-        <ion-content class="padding">
-          <div class="list">
-            <label class="item item-input item-select">
-							<div class="input-label">
-							Select Relation
-							</div>
-							<select>
-							<option selected>Father</option>
-							  <option >Mother</option>
-							  <option>Brother</option>
-							  <option>Grand Father</option>
-							
-							</select>
-			</label>
-           
-		    <label class="item item-input">
-							<span class="input-label">Age</span>
-							<input type="text" placeholder="Enter Age">
-			</label>
-		   <div class="item item-divider prelative">
-			   Know Conditions 
-			   	<a ui-sref="#" class="addbtn2"><i class="ion-plus-circled"></i></a>
-			</div>
-		   
-		   <div class="addremoverow first">
-			<label class="item item-input">
-				<input type="text" placeholder="Enter Condition">
-			</label>
-		   </div>
-			
-			<div class="addremoverow">
-			<label class="item item-input">
-				<input type="text" placeholder="Enter Condition">
-			</label>
-			<a ui-sref="#" class="addremovebtn"><i class="ion-minus-circled"></i></a>
-		   </div>
-			
-			<div class="item item-divider prelative">
-			   Other Information
-			</div>
-			<label class="item item-input">
-			<textarea row="5"></textarea>
-			</label>
-			
-			
-		   
-            <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
-          </div>
-        </ion-content>
-      </ion-modal-view>
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Add New Relation</h1>
+    <button class="button button-clear" ng-click="modal.hide()">{{familyhistory.cancel[language]}}</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+    <form name="addFamilyForm" id="addFamilyForm" enctype="multipart/form-data" novalidate >
+    <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+    <input type="hidden" value="Patient History" name="rectype" />
+    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+    <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+    <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+    <div class="list">
+    <div ng-repeat="field in fields">
+    <div ng-if="field.field_types.value == 'select'">
+    <label class="item item-input item-select">
+    <div class="input-label">{{field.field}}</div>   
+    <select ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required>
+    <option ng-repeat="sel in selData" value="{{sel}}"  ng-selected="sel == ab.value"> {{sel}} </option>
+    </select>
+    </label>
+    </div>
+    <div ng-if="field.field_types.value == 'number'">
+    <label class="item item-input">
+    <span class="input-label" >Age</span>
+    <input type="number" placeholder="Enter Age" name="{{field.name}}" >
+    </label>
+    </div>
+    </div>
+
+    <div class="item item-divider prelative">Know Conditions 
+    <div class="addbtn2" ng-controller="knowConditionCtrl"  ng-click="modal.show()"><i class="ion-plus-circled"></i></div>
+    </div>
+
+    <div class="addremoverow first">
+    <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
+    <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
+    </div>
+
+    <div class="item item-divider prelative"> Other Information</div>
+    <div ng-repeat="field in fields">
+    <div ng-if="field.field_types.value == 'textarea'">
+    <label class="item item-input">
+    <textarea row="5" name="{{field.name}}"></textarea>
+    </label>
+    </div>
+    </div>
+
+
+
+    <button class="button button-full button-positive" ng-click="saveFamilyHistory()"">{{familyhistory.submit[language]}}</button>
+    </div>
+    </form>
+    </ion-content>
+    </ion-modal-view>
 </script>
-	
+
+
+
+<script id="knowcondition" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Add Known</h1>
+    <button class="button button-clear" ng-click="modal.hide()">{{familyhistory.cancel[language]}}</button>
+    </ion-header-bar>
+    <ion-content>
+    <ion-list>
+    <ion-checkbox ng-repeat="con in conditions track by $index" ng-model="conId[con.id]" ng-click="getCondition({{con.id}},'{{con.condition}}')" ng-checked="getPreCon({{con.id}})" >{{con.condition}}</ion-checkbox>
+    </ion-list>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-add"  ng-click="modal.hide()" ><i class="ion-check"></i> {{familyhistory.submit[language]}}</div>
+    </div>
+    </ion-modal-view>
+</script>
