@@ -2725,6 +2725,7 @@ angular.module('your_app_name.controllers', [])
         //Doctor Consultations
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.drId = get('id');
+            $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
                 method: 'GET',
@@ -2783,6 +2784,41 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.approveAppointment = function (appId, prodId, mode, startTime, endTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/dr-approve-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data.update_status == 'success') {
+                        alert('Your appointment is approved successfully.');
+                        $state.go('app.doctor-consultations', {}, {reload: true});
+                    } else if (response.data.update_status == 'fail') {
+                        alert('Sorry, appointment can not booked at supersaas. Please reject it.');
+                    }
+                    //$state.go('app.doctor-consultations', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+            $scope.rejectAppointment = function (appId, prodId, mode, startTime, endTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/dr-reject-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 1) {
+                        alert('Your appointment is rejected successfully.');
+                        $state.go('app.doctor-consultations', {}, {reload: true});
+                    }
+                    //$state.go('app.doctor-consultations', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
             $scope.cancelAppointment = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;
                 $scope.userId = get('id');
