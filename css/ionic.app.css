@@ -9034,7 +9034,7 @@ span.count-t{    display: inline-block;
 
 
 
-.tabnav .col a.active{color:#387ef5; background:#fff; box-shadow:0 2px 0 #387ef5; font-weight:bold;}
+.tabnav .col a.active, .tabnav .nbtn.active{color:#387ef5; background:#fff; box-shadow:0 2px 0 #387ef5; font-weight:bold;}
 .page-data{margin-top:20px; }
 .sinfo{ background:#fff;     padding: 10px;
         border-bottom: 0;}
@@ -9434,6 +9434,32 @@ input[type="date"]:before{
 
 	
 .pchat{opacity:0.6;}
+	
+.tabactive{
+	display:block;
+
+}	
+.tabinactive{display:none;
+-webkit-transform: translate(0,0);
+}
+.notetab{}
+.headtab{margin-top: 44px; position:relative; z-index:99;}
+.mt60{margin-top:60px;}
+	
+.accordiantab{/* width: 100%; */
+    /* margin-bottom: 15px; */
+    background: #fff;
+    border: 1px #28a54c solid;
+    color: #28a54c;
+    padding: 8px;
+    text-align: left;
+    display: block;
+    text-decoration: none; margin:8px;}	
+	.accordiantab span.icon{color: #28a54c; float:right;}
+	
+	.accordiancontent{display:none; /* padding: 0 15px; */ margin:0 10px;}
+	.accordiancontent.active{display:block;}
+	.tcontent{padding:5px; border:1px dashed #28a54c; margin-bottom: 30px;}
 	
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{

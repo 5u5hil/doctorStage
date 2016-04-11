@@ -818,6 +818,30 @@ angular.module('your_app_name', [
                     })
 
 
+					/* new consultation note */
+					   .state('app.cnote', {
+                        url: "/cnote/{appId:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/note/cnote.html",
+                                controller: 'ConsultationsNoteCtrl'
+                            }
+                        }
+                    }) 
+
+					.state('app.p-history', {
+                        url: "/p-history",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/note/p-history",
+                                controller: 'PatientHistoryCtrl'
+                            }
+                        }
+                    })
+					
+					/* end  new consultation note */
+					
+					
 
 
                     .state('app.logout', {
