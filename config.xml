@@ -65,11 +65,11 @@
     <plugin name="org.crosswalk.engine" spec="1.3.0" source="pgb" />
     <gap:plugin name="org.apache.cordova.splashscreen" source="npm" />
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
-    <gap:plugin name="org.apache.cordova.file" source="npm" />
+<!--    <gap:plugin name="org.apache.cordova.file" source="npm" />
     <gap:plugin name="org.apache.cordova.file-transfer" source="npm" />
-    <gap:plugin name="org.apache.cordova.camera" source="npm" />
-    <plugin name="cordova-plugin-camera" spec="1.2.0" source="pgb" />
-    <gap:plugin name="org.apache.cordova.device" source="npm" />
+    <gap:plugin name="org.apache.cordova.camera" source="npm" />-->
+<!--    <plugin name="cordova-plugin-camera" spec="1.2.0" source="pgb" />-->
+<!--    <gap:plugin name="org.apache.cordova.device" source="npm" />-->
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <gap:plugin name="cordova-plugin-x-toast" source="npm" />
     <gap:plugin name="org.apache.cordova.statusbar" source="npm" />
