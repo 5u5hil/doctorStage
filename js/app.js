@@ -368,6 +368,25 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    .state('app.view-measure-details', {
+                        url: "/view-measure-details/{id:int}/{type:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/measure-details.html",
+                                controller: 'MeasureDetailsCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.view-cn-details', {
+                        url: "/view-cn-details/{id:int}/{type:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/cn-details.html",
+                                controller: 'OtherDetailsCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.view-patient-history', {
                         cache: false,

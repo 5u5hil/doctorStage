@@ -1,0 +1,110 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Measurements Details</span> 
+        <!--        <button class="button" ng-click="print()">Print</button>-->
+    </ion-nav-title>
+    <!--    <div class="bar bar-subheader cbar divider-2" style="margin-top:45px;">
+            <div class="row">
+                <div class="col-50"><a  ui-sref="app.filter"><h4 class="subhead"><i class="icon ion-funnel"></i> Filter</h4></a></div>
+                <div class="col-50"><h4 class="subhead">Sort <i class="icon ion-ios-arrow-thin-down"></i></h4> </div>
+            </div>
+        </div>-->
+
+    <ion-content>
+        <div class="tabcon2" ng-repeat="rec in records">
+
+            <div ng-repeat="rec in recordDetails[$index] track by $index" class="p0">
+                <div> 
+                </div>
+                <div ng-if="rec.fields.field == 'Includes Prescription' && isAttachment != ''">
+                    <div class="item item-divider" ng-if="rec.value != '' && rec.value != 0">
+                        <span>{{rec.fields.field}} </span></div>
+                    <div class="ditem-content" ng-if="rec.value != 0">{{rec.value}}</div>
+                </div>
+                <div ng-if="rec.fields.field == 'Valid till' && isAttachment != ''">
+                    <div class="item item-divider" ng-if="rec.value != ''">
+                        <span>{{rec.fields.field}} </span>
+                    </div>
+                    <div class="ditem-content">
+                        <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                        <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                    </div>
+                </div>
+                <div ng-if="rec.fields.field != 'Includes Prescription' && rec.fields.field != 'Valid till'">
+                    <div class="item item-divider">
+                        <span>{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span></div>
+                    <div ng-if="rec.fields.field == 'Case Id'">
+                        <div class="ditem-content">{{cases[$index].value}}</div>
+                    </div>
+
+                    <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
+                        <!--- ng-show="angular.isNumber(rec.value)"  -->
+                        <div class="ditem-content">{{doctrs[$index].fname}} {{doctrs[$index].lname}}</div>
+                    </div>
+                    <div ng-if="rec.fields.field == 'Patient'" >
+                        <!--- ng-show="angular.isNumber(rec.value)"  -->
+                        <div class="ditem-content">{{patients[$index].fname}} {{patients[$index].lname}}</div>
+                    </div>
+                    <div class="ditem-content" ng-if="rec.fields.field == 'Mode'">
+                        {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value }}
+                    </div>
+
+                    <div class="ditem-content" ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Attachments' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Case Id' && rec.fields.field != 'Mode'">
+                        <div ng-if="rec.fields.field_type == 8">
+                            <div ng-if="rec.value == ''">NA</div>
+                            <div ng-if="rec.value == '0000-00-00'"> NA </div>
+                            <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                        </div>
+                        <div ng-if="rec.fields.field_type == 12">                                
+                            <div ng-if="rec.value == ''"> NA </div>
+                            <div ng-if="rec.value == '00:00:00'"> NA </div>
+                            <div ng-if="rec.value != '00:00:00' && rec.value != '' && rec.value != '0000-00-00'">{{rec.value|time1}}</div>
+                        </div>
+                        <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
+                    </div>
+                    <div class="clist-data-icon ditem-content" ng-if="rec.fields.field == 'Attachments'" >
+
+                        <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
+                             <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})</a> -->
+                        <div ng-repeat="attach in rec.attachments" ng-if="rec.attachments != ''" >
+                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                    <a class="filelink" ng-click="showm('{{attach.attachment_path}}','{{attach.orginial_name}}')" >
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                                <div ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
+                                    <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="clr"></div>		
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </ion-content>
+
+</ion-view>
+<script id="share" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Share</h1>	 
+
+    </ion-header-bar>
+    <ion-content>
+    <ion-list class="sharelist">
+    <ion-radio ng-repeat="doc in doctrs" ng-model="docShare[doc.id]" ng-change="getDocId('{{doc.id}}')" ng-value="{{doc.id}}" >{{doc.fname}}<br/><span class="f13" ng-repeat="spec in doc.specializations">{{spec.specialization}}{{$last==true? '': ',&nbsp;'}}</span></ion-radio>
+    </ion-list>
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" ng-click="modal.hide()"><i class="icon ion-close"></i> Cancel</div>
+    <div class="button btn-share" ng-click="share()" ><i class="icon ion-android-share-alt" ></i> Share</div>
+    </div>
+    </ion-modal-view>
+</script>
+

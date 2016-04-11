@@ -9190,7 +9190,7 @@ h1.post-title{font-size:26px;}
                        right: 15px;
                        top: 37%;
                        font-size: 12px; }
-#chat{position:absolute; width:100%; top:45px;}
+#chat{position:relative; width:100%; top:0px;}
 .bgwhite{background:#fff;}
 
 .item-mob{float:right;}

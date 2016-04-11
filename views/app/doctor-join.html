@@ -120,10 +120,10 @@
                         </label> 
                     </div>
                     <label class="item item-input item-select hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
-                        <div class="input-label"> {{field.field}}</div>
-                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                        <div class="input-label" > {{field.field}}</div>
+                        <select class="cselect" ng-model="prescription" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" ng-change="getPrescription(prescription)">
                             <option value="0"> Select {{field.field}}</option>
-                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
+                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
                         </select>
                     </label>
                 </div>

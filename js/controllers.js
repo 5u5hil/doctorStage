@@ -1067,6 +1067,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope) {
+            $rootScope.recCId = "";
             $rootScope.measurement = "";
             $rootScope.objText = "";
             $rootScope.diaText = "";
@@ -1088,7 +1089,7 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-			
+
         })
 
         .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -1286,7 +1287,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
+        .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             var imgCnt = 0;
             console.log("Measure = " + $rootScope.measurement + "Obj = " + $rootScope.objId + "Dia = " + $rootScope.diaId);
             if ($rootScope.diaId) {
@@ -1297,6 +1298,8 @@ angular.module('your_app_name.controllers', [])
             window.localStorage.setItem('appId', $scope.appId);
             $scope.mode = '';
             $scope.catId = '';
+            $scope.recId = $rootScope.recCId;
+            $scope.caseId = '';
             $scope.userId = window.localStorage.getItem('id');
             $scope.prescription = 'Yes';
             $scope.images = [];
@@ -1334,7 +1337,7 @@ angular.module('your_app_name.controllers', [])
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.record = response.data.record;
@@ -1343,6 +1346,23 @@ angular.module('your_app_name.controllers', [])
                         $scope.doctrs = response.data.doctrs;
                         $scope.patients = response.data.patients;
                         $scope.cases = response.data.cases;
+                        $scope.preRec = response.data.recordData;
+                        $scope.preRecData = response.data.recordDetails;
+                        angular.forEach($scope.preRecData, function (val, key) {
+                            if (val.fields.field == 'case-id') {
+                                $scope.casetype = '0';
+                                $scope.caseId = val.value;
+                            }
+                            if (val.attachments.length > 0) {
+                                jQuery('#coninprec').removeClass('hide');
+                            }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                        });
                     }, function errorCallback(response) {
                         console.log(response);
                     });
@@ -1369,7 +1389,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
@@ -1378,6 +1398,49 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
+                    $scope.preRec = response.data.recordData;
+                    $scope.preRecData = response.data.recordDetails;
+                    if ($scope.preRecData.length > 0) {
+                        angular.forEach($scope.preRecData, function (val, key) {
+                            console.log(val.value);
+                            if (val.fields.field == 'Case Id') {
+                                $scope.casetype = '0';
+                                $scope.caseId = val.value;
+                            }
+                            if (val.fields.field == 'Attachments') {
+                                console.log("Attach length " + val.attachments.length);
+                                if (val.attachments.length > 0) {
+                                    jQuery('#coninprec').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Valid till') {
+                                $scope.validTill = $filter('date')(new Date(val.value), 'dd-MM-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Date') {
+                                $scope.conDate = $filter('date')(new Date(val.value), 'MM-dd-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Time') {
+                                $scope.curTimeo = $filter('date')(new Date(val.value), 'hh:mm a');
+                            }
+                            if (val.fields.field == 'Patient Type') {
+                                $scope.pType = val.value;
+                            }
+                            if (val.fields.field == 'Mode') {
+                                $scope.mode = val.value;
+                            }
+                        });
+                    } else {
+                        $scope.conDate = new Date();
+                        $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                    }
+                    console.log("Con date " + $scope.conDate);
+                    console.log("Con Time " + $scope.curTimeo);
                     angular.forEach($scope.patients, function (value, key) {
                         if (value.id == $scope.patientId) {
                             $scope.patientName = [{'name': value.fname}];
@@ -1466,7 +1529,45 @@ angular.module('your_app_name.controllers', [])
                 } else if (did == '' || did == null) {
                     alert("Please select doctor.");
                 } else {
-                    $state.go('app.notetype');
+                    if ($scope.tempImgs.length > 0) {
+                        angular.forEach($scope.tempImgs, function (value, key) {
+                            $scope.picData = getImgUrl(value);
+                            var imgName = value.substr(value.lastIndexOf('/') + 1);
+                            $scope.ftLoad = true;
+                            var imup = $scope.uploadPicture();
+                            alert("Image upload var " + imup);
+                            $scope.image.push(imgName);
+                            console.log($scope.image);
+                        });
+                        jQuery('#camfilee').val($scope.image);
+                        console.log($scope.images);
+                        var data = new FormData(jQuery("#addRecordForm")[0]);
+                        callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
+                            console.log(response);
+                            $ionicLoading.hide();
+                            if (angular.isObject(response.records)) {
+                                $scope.image = [];
+                                $scope.recId = response.records.id;
+                                $rootScope.recCId = $scope.recId;
+                                $state.go('app.notetype');
+                            } else if (response.err != '') {
+                                alert('Please fill mandatory fields');
+                            }
+                        });
+                    } else {
+                        var data = new FormData(jQuery("#addRecordForm")[0]);
+                        callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
+                            console.log(response);
+                            $ionicLoading.hide();
+                            if (angular.isObject(response.records)) {
+                                $scope.recId = response.records.id;
+                                $rootScope.recCId = $scope.recId;
+                                $state.go('app.notetype');
+                            } else if (response.err != '') {
+                                alert('Please fill mandatory fields');
+                            }
+                        });
+                    }
                 }
             };
             //Save FormData
@@ -1492,6 +1593,9 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             $scope.image = [];
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
                             alert("Consultation Note added successfully!");
                             if ($scope.from == 'app.appointment-list')
                                 $state.go('app.appointment-list', {}, {reload: true});
@@ -1517,6 +1621,9 @@ angular.module('your_app_name.controllers', [])
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
                             alert("Consultation Note added successfully!");
                             if ($scope.from == 'app.appointment-list')
                                 $state.go('app.appointment-list', {}, {reload: true});
@@ -1728,6 +1835,17 @@ angular.module('your_app_name.controllers', [])
                 }
             };
 
+            $scope.getPrescription = function (pre) {
+                console.log('pre ' + pre);
+                if (pre === ' No') {
+                    console.log("no");
+                    jQuery('#convalid').addClass('hide');
+                } else if (pre === 'Yes') {
+                    console.log("yes");
+                    jQuery('#convalid').removeClass('hide');
+                }
+            };
+
             $ionicModal.fromTemplateUrl('selectpatient', {
                 scope: $scope
             }).then(function (modal) {
@@ -1735,6 +1853,7 @@ angular.module('your_app_name.controllers', [])
             });
             $scope.submitmodal = function () {
                 $scope.modal.hide();
+
             }
             ;
 			
@@ -1767,6 +1886,7 @@ angular.module('your_app_name.controllers', [])
 			
 			/* end*/
 			
+
         })
 
         .controller('NotetypeCtrl', function ($scope, $http, $ionicModal, $state) {
@@ -1774,6 +1894,92 @@ angular.module('your_app_name.controllers', [])
             $scope.modalclose = function (ulink) {
                 $state.go(ulink);
             };
+        })
+
+        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal, $ionicLoading) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.catId = 'Family History';
+            $scope.conId = [];
+            $scope.conIds = [];
+            $scope.selConditions = [];
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-family-history',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+            }).then(function successCallback(response) {
+                $scope.record = response.data.record;
+                $scope.recorddata = response.data.recorddata;
+                $scope.knConditions = response.data.recConditions;
+                $scope.fields = response.data.fields;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patients;
+                $scope.cases = response.data.cases;
+                $scope.abt = response.data.abt;
+                $scope.conditions = response.data.conditions;
+                $scope.selCondition = response.data.knConditions;
+                $scope.familyhistory = response.data.familyhistory;
+                if ($scope.selCondition.length > 0) {
+                    angular.forEach($scope.selCondition, function (val, key) {
+                        $scope.conIds.push(val.id);
+                        $scope.selConditions.push({'condition': val.condition});
+                    });
+                }
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            $scope.getCondition = function (id, con) {
+                console.log(id + "==" + con);
+                var con = con.toString();
+                if ($scope.conId[id]) {
+                    $scope.conIds.push(id);
+                    $scope.selConditions.push({'condition': con});
+                } else {
+                    var index = $scope.conIds.indexOf(id);
+                    $scope.conIds.splice(index, 1);
+                    for (var i = $scope.selConditions.length - 1; i >= 0; i--) {
+                        if ($scope.selConditions[i].condition == con) {
+                            $scope.selConditions.splice(i, 1);
+                        }
+                    }
+                }
+
+                jQuery("#selcon").val($scope.conIds);
+                console.log($scope.selConditions);
+            };
+            $scope.saveFamilyHistory = function () {
+                //alert('dsfsdf');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addFamilyForm")[0]);
+                // alert(data);
+                console.log(data);
+                callAjax("POST", domain + "doctrsrecords/save-family-history", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (angular.isObject(response.records)) {
+                        alert("Family History saved successfully!");
+                        jQuery("#addFamilyForm")[0].reset();
+                        // $state.go('app.notetype',{reload: true});
+                        $scope.modal.hide();
+                        $state.go('app.family-history', {}, {reload: true});
+                        ////window.location.reload();
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
+            $ionicModal.fromTemplateUrl('addrelation', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+
         })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
@@ -2059,7 +2265,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-        
+
         .controller('TestResultCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             $scope.testid = $stateParams.testid;
             $scope.userId = window.localStorage.getItem('id');
@@ -2132,7 +2338,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
         })
-        
+
         .controller('PlaintestResultCtrl', function ($scope, $ionicModal, $rootScope) {
             $ionicModal.fromTemplateUrl('editVal', {
                 scope: $scope
@@ -2265,6 +2471,10 @@ angular.module('your_app_name.controllers', [])
             $scope.patients = {};
             $scope.cases = {};
             $scope.isAttachment = '';
+            $scope.measurements = {value: 'no'};
+            $scope.obj = {value: 'no'};
+            $scope.testResult = {value: 'no'};
+            $scope.diagnosis = {value: 'no'};
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-note-details',
@@ -2277,6 +2487,18 @@ angular.module('your_app_name.controllers', [])
                 $scope.doctrs = response.data.doctrs;
                 $scope.patients = response.data.patient;
                 $scope.cases = response.data.caseData;
+                $scope.otherRecords = response.data.otherRecords;
+                angular.forEach($scope.otherRecords, function (val, key) {
+                    if (val.category == '12' || val.category == '13' || val.category == '16') {
+                        $scope.measurements = {value: 'yes'};
+                    } else if (val.category == '27') {
+                        $scope.obj = {value: 'yes'};
+                    } else if (val.category == '29') {
+                        $scope.testResult = {value: 'yes'};
+                    } else if (val.category == '') {
+                        $scope.diagnosis = {value: 'yes'};
+                    }
+                });
                 angular.forEach($scope.recordDetails, function (val, key) {
                     if (val.fields.field == 'Attachments') {
                         $scope.isAttachment = val.attachments.length;
@@ -2321,7 +2543,75 @@ angular.module('your_app_name.controllers', [])
                     alert('printing finished or canceled');
                 });
             };
+            $scope.getMeasureDetails = function (id, type) {
+                console.log(id + "===" + type);
+                if (type == 'measurements') {
+                    $state.go('app.view-measure-details', {id: id, type: type}, {reload: true});
+                } else {
+                    $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
+                }
+            };
+            $scope.getCnDetails = function (id, type) {
+                console.log(id + "===" + type);
+                $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
+            };
+        })
+        .controller('MeasureDetailsCtrl', function ($scope, $http, $state, $sce, $rootScope, $stateParams) {
+            $scope.cnId = $stateParams.id;
+            $scope.type = $stateParams.type;
+            $scope.userId = get('id');
+            $scope.doctrId = get('id');
+            console.log($scope.cnId + '==' + $scope.type);
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-measure-details',
+                params: {noteId: $scope.cnId, userId: $scope.userId, interface: $scope.interface, type: $scope.type}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.records = response.data.records;
+                $scope.recordDetails = response.data.recordsDetails;
+                $scope.problems = response.data.problem;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patient;
+                $scope.cases = response.data.caseData;
+                angular.forEach($scope.recordDetails, function (val, key) {
+                    if (val.fields.field == 'Attachments') {
+                        $scope.isAttachment = val.attachments.length;
+                    }
+                });
+                console.log($scope.recordDetails);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+        })
 
+        .controller('OtherDetailsCtrl', function ($scope, $http, $state, $sce, $rootScope, $stateParams) {
+            $scope.cnId = $stateParams.id;
+            $scope.type = $stateParams.type;
+            $scope.userId = get('id');
+            $scope.doctrId = get('id');
+            console.log($scope.cnId + '==' + $scope.type);
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-cn-details',
+                params: {noteId: $scope.cnId, userId: $scope.userId, interface: $scope.interface, type: $scope.type}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.record = response.data.records;
+                $scope.recordDetails = response.data.recordsDetails;
+                $scope.problems = response.data.problem;
+                $scope.doctrs = response.data.doctrs;
+                $scope.patients = response.data.patient;
+                $scope.cases = response.data.caseData;
+                angular.forEach($scope.recordDetails, function (val, key) {
+                    if (val.fields.field == 'Attachments') {
+                        $scope.isAttachment = val.attachments.length;
+                    }
+                });
+                console.log($scope.recordDetails);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
         })
 
         .controller('ViewPatientHistoryCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
@@ -2359,12 +2649,12 @@ angular.module('your_app_name.controllers', [])
             $scope.gend = '';
             $scope.gender = '';
             $scope.userId = window.localStorage.getItem('id');
-            $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
+            $scope.doctorId = window.localStorage.getItem('id'); //$stateParams.drId
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
             $http({
                 method: 'GET',
-                url: domain + 'assistrecords/get-about-fields',
+                url: domain + 'doctrsrecords/get-about-fields',
                 params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -3188,6 +3478,7 @@ angular.module('your_app_name.controllers', [])
             $scope.caseId = '';
             $scope.recId = '';
             $scope.medicinename = '';
+            $scope.prescription = 'Yes';
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -3427,6 +3718,16 @@ angular.module('your_app_name.controllers', [])
                     jQuery(".fields #newcase").addClass('hide');
                 }
             };
+            $scope.getPrescription = function (pre) {
+                console.log('pre ' + pre);
+                if (pre === ' No') {
+                    console.log("no");
+                    jQuery('#convalid').addClass('hide');
+                } else if (pre === 'Yes') {
+                    console.log("yes");
+                    jQuery('#convalid').removeClass('hide');
+                }
+            };
             //Take images with camera
             $scope.takePict = function (name) {
                 //console.log(name);
@@ -3473,14 +3774,14 @@ angular.module('your_app_name.controllers', [])
                         if ($scope.tempImgs.length == 0) {
                             console.log($("#image-holder").html());
                             if (($("#image-holder").html()) == '') {
-                                jQuery('#convalid').addClass('hide');
+                                //jQuery('#convalid').addClass('hide');
                                 jQuery('#coninprec').addClass('hide');
                             } else {
-                                jQuery('#convalid').removeClass('hide');
+                                //jQuery('#convalid').removeClass('hide');
                                 jQuery('#coninprec').removeClass('hide');
                             }
                         } else {
-                            jQuery('#convalid').removeClass('hide');
+                            //jQuery('#convalid').removeClass('hide');
                             jQuery('#coninprec').removeClass('hide');
                         }
                         $scope.picData = getImgUrl(imageName);
@@ -3520,14 +3821,14 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.remcam-' + img).remove();
                 if ($scope.tempImgs.length == 0) {
                     if (($("#image-holder").html()) == '') {
-                        jQuery('#convalid').addClass('hide');
+                        //jQuery('#convalid').addClass('hide');
                         jQuery('#coninprec').addClass('hide');
                     } else {
-                        jQuery('#convalid').removeClass('hide');
+                        //jQuery('#convalid').removeClass('hide');
                         jQuery('#coninprec').removeClass('hide');
                     }
                 } else {
-                    jQuery('#convalid').removeClass('hide');
+                    //jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
                 }
             };
@@ -3566,16 +3867,16 @@ angular.module('your_app_name.controllers', [])
                 image_holder.empty();
                 if (element.files.length > 0) {
                     console.log($("#camera-status").html());
-                    jQuery('#convalid').removeClass('hide');
+                    //jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
                     //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
                     if (($("#camera-status").html()) != '') {
-                        jQuery('#convalid').removeClass('hide');
+                        //jQuery('#convalid').removeClass('hide');
                         jQuery('#coninprec').removeClass('hide');
                     } else {
-                        jQuery('#convalid').addClass('hide');
+                        //jQuery('#convalid').addClass('hide');
                         jQuery('#coninprec').addClass('hide');
                     }
                     //jQuery('#valid-till').attr('required', false);
