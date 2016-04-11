@@ -1854,39 +1854,28 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
 
-            }
-            ;
-			
-			/* new added */
-			$scope.shownext=function(bd,ab){
-				jQuery('#'+bd).hide();
-				jQuery('#'+ab).show();
-				jQuery('.headtab span').removeClass('active');
-				jQuery('.headtab span[rel="'+ab+'"]').addClass('active');
-				
-			}
-			$scope.accordiantab=function(pq){
-				//jQuery('#'+pq).toggleClass('active');
-				jQuery('#'+pq).slideToggle();
-				jQuery(this).toggleClass('active');
-			}
-			
-			$scope.tabclick=function(taburl){
-				jQuery('.notetab').hide();
-				jQuery('#'+taburl).show();
-				jQuery('.headtab span').removeClass('active');
-				jQuery('.headtab span[rel="'+taburl+'"]').addClass('active');
-				
-				
-				
-			}
-			
-			
-			
-			
-			/* end*/
-			
+            };
+            /* new added */
+            $scope.shownext = function (bd, ab) {
+                jQuery('#' + bd).hide();
+                jQuery('#' + ab).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.headtab span[rel="' + ab + '"]').addClass('active');
+            };
 
+            $scope.accordiantab = function (pq) {
+                //jQuery('#'+pq).toggleClass('active');
+                jQuery('#' + pq).slideToggle();
+                jQuery(this).toggleClass('active');
+            };
+
+            $scope.tabclick = function (taburl) {
+                jQuery('.notetab').hide();
+                jQuery('#' + taburl).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+            };
+            /* end*/
         })
 
         .controller('NotetypeCtrl', function ($scope, $http, $ionicModal, $state) {

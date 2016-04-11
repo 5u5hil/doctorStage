@@ -377,7 +377,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.view-cn-details', {
                         url: "/view-cn-details/{id:int}/{type:string}",
                         views: {
@@ -836,9 +836,8 @@ angular.module('your_app_name', [
                         }
                     })
 
-
-					/* new consultation note */
-					   .state('app.cnote', {
+                    /* new consultation note */
+                    .state('app.cnote', {
                         url: "/cnote/{appId:string}",
                         views: {
                             'menuContent': {
@@ -846,9 +845,9 @@ angular.module('your_app_name', [
                                 controller: 'ConsultationsNoteCtrl'
                             }
                         }
-                    }) 
+                    })
 
-					.state('app.p-history', {
+                    .state('app.p-history', {
                         url: "/p-history",
                         views: {
                             'menuContent': {
@@ -857,12 +856,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-					
-					/* end  new consultation note */
-					
-					
-
-
+                    /* end  new consultation note */
                     .state('app.logout', {
                         url: "/logout",
                         views: {

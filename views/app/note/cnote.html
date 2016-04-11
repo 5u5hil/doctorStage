@@ -2,18 +2,14 @@
     <ion-nav-title>
         <span>Consultation Note</span>
     </ion-nav-title>
-	
-			<div class="row tabnav headtab">
-			<div class="col"><span class="nbtn active" ng-click="tabclick('tabone')" rel="tabone">Info</span></div>
-            <div class="col"><span class="nbtn" ng-click="tabclick('tabtwo')"  rel="tabtwo">Note</span></div>
-            <div class="col"><span class="nbtn" rel="tabthree" ng-click="tabclick('tabthree')">Treatment Plan</span></div>
-			</div>
+    <div class="row tabnav headtab">
+        <div class="col"><span class="nbtn active" ng-click="tabclick('tabone')" rel="tabone">Info</span></div>
+        <div class="col"><span class="nbtn" ng-click="tabclick('tabtwo')"  rel="tabtwo">Note</span></div>
+        <div class="col"><span class="nbtn" rel="tabthree" ng-click="tabclick('tabthree')">Treatment Plan</span></div>
+    </div>
     <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
         <ion-content> 
-		  
-			 
-	
-			<div class="tabcon2 notetab mt60"  id="tabone">
+            <div class="tabcon2 notetab mt60"  id="tabone">
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
                 <input type="hidden" value="{{patientId}}" name="patientId" />
                 <input type="hidden" value="{{doctorId}}" name="doctorId" />
@@ -269,70 +265,59 @@
                     </div>
                 </div>             
 
-               
+
             </div>
-			
-			
-			
-			
-			
-			
-			<div class="tabcon2 notetab mt60" id="tabtwo" style="display:none;" >
-		 <div class="item item-divider">Background</div>
-			<div class="accordiantab" ng-click="accordiantab('acpatient')">
-				<span class="icon ion-plus-circled"></span>  Patient
-			</div> 
-			<div  id="acpatient" class="accordiancontent">
-			<div ng-include src="'views/app/note/p-history.html'"></div>
-			</div>
-			<div class="accordiantab" ng-click="accordiantab('achistory')">
-			<span class="icon ion-plus-circled"></span>  Family
-			</div> 
-			<div  id="achistory" class="accordiancontent">
-			<div ng-include src="'views/app/note/f-history.html'"></div>
-			</div>
-		
-		
-			<div class="item item-divider">Evaluation</div>
-			<div class="accordiantab" ng-click="accordiantab('acmeasure')">
-				<span class="icon ion-plus-circled"></span>  Measurements
-			</div> 
-			<div  id="acmeasure" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-measure.html'"></div>
-			</div>
-			<div class="clr"></div>
-			<div class="accordiantab" ng-click="accordiantab('actestresult')">
-			<span class="icon ion-plus-circled"></span>  Test Results
-			</div> 
-			<div  id="actestresult" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-testresult.html'"></div>
-			</div>
-			<div class="clr"></div>
-			<div class="accordiantab" ng-click="accordiantab('acobservation')">
-			<span class="icon ion-plus-circled"></span>  Observations
-			</div> 
-			<div  id="acobservation" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-observation.html'"></div>
-			</div>
-			 <div class="item item-divider">Diagnosis</div>  
-		
-			<div class="accordiantab" ng-click="accordiantab('acdiagnosis')">
-			<span class="icon ion-plus-circled"></span>  Text
-			</div>
-			<div  id="acdiagnosis" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-diagnosis.html'"></div>
-			</div>
-		
-			</div>
-			
-			
-			
-			
-		  </ion-content>
+            <!---- Notes Starts  ----->
+            <div class="tabcon2 notetab mt60" id="tabtwo" style="display:none;" >
+                <div class="item item-divider">Background</div>
+                <div class="accordiantab" ng-click="accordiantab('acpatient')">
+                    <span class="icon ion-plus-circled"></span>  Patient
+                </div> 
+                <div  id="acpatient" class="accordiancontent">
+                    <div ng-include src="'views/app/note/p-history.html'"></div>
+                </div>
+                <div class="accordiantab" ng-click="accordiantab('achistory')">
+                    <span class="icon ion-plus-circled"></span>  Family
+                </div> 
+                <div  id="achistory" class="accordiancontent">
+                    <div ng-include src="'views/app/note/f-history.html'"></div>
+                </div>
+
+                <div class="item item-divider">Evaluation</div>
+                <div class="accordiantab" ng-click="accordiantab('acmeasure')">
+                    <span class="icon ion-plus-circled"></span>  Measurements
+                </div> 
+                <div  id="acmeasure" class="accordiancontent">
+                    <div ng-include src="'views/app/note/nt-measure.html'"></div>
+                </div>
+                <div class="clr"></div>
+                <div class="accordiantab" ng-click="accordiantab('actestresult')">
+                    <span class="icon ion-plus-circled"></span>  Test Results
+                </div> 
+                <div  id="actestresult" class="accordiancontent">
+                    <div ng-include src="'views/app/note/nt-testresult.html'"></div>
+                </div>
+                <div class="clr"></div>
+                <div class="accordiantab" ng-click="accordiantab('acobservation')">
+                    <span class="icon ion-plus-circled"></span>  Observations
+                </div> 
+                <div  id="acobservation" class="accordiancontent">
+                    <div ng-include src="'views/app/note/nt-observation.html'"></div>
+                </div>
+                <div class="item item-divider">Diagnosis</div>  
+                <div class="accordiantab" ng-click="accordiantab('acdiagnosis')">
+                    <span class="icon ion-plus-circled"></span>  Text
+                </div>
+                <div  id="acdiagnosis" class="accordiancontent">
+                    <div ng-include src="'views/app/note/nt-diagnosis.html'"></div>
+                </div>
+            </div>
+            <!---- Notes Ends  ----->
+        </ion-content>
         <div class="footerbar">
             <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
-			<div ng-click="shownext('tabone','tabtwo');" class="button  bar button-positive">Submit</div>
-			
+            <div ng-click="shownext('tabone', 'tabtwo');" class="button  bar button-positive">Submit</div>
+
         </div>
     </form>
 </ion-view>
@@ -590,59 +575,59 @@
 </script>
 
 <script id="addrelation" type="text/ng-template">
-      <ion-modal-view>
-        <ion-header-bar class="bar app-top-bar">
-		<h1 class="title">Add New Relation</h1>
-        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
-        </ion-header-bar>
-        <ion-content class="padding">
-          <div class="list">
-            <label class="item item-input item-select">
-							<div class="input-label">
-							Select Relation
-							</div>
-							<select>
-							<option selected>Father</option>
-							  <option >Mother</option>
-							  <option>Brother</option>
-							  <option>Grand Father</option>
-							
-							</select>
-			</label>
-           
-		    <label class="item item-input">
-							<span class="input-label">Age</span>
-							<input type="text" placeholder="Enter Age">
-			</label>
-		   <div class="item item-divider prelative">
-			   Know Conditions 
-			   	<a ui-sref="#" class="addbtn2"><i class="ion-plus-circled"></i></a>
-			</div>
-		   
-		   <div class="addremoverow first">
-			<label class="item item-input">
-				<input type="text" placeholder="Enter Condition">
-			</label>
-		   </div>
-			
-			<div class="addremoverow">
-			<label class="item item-input">
-				<input type="text" placeholder="Enter Condition">
-			</label>
-			<a ui-sref="#" class="addremovebtn"><i class="ion-minus-circled"></i></a>
-		   </div>
-			
-			<div class="item item-divider prelative">
-			   Other Information
-			</div>
-			<label class="item item-input">
-			<textarea row="5"></textarea>
-			</label>
-			
-			
-		   
-            <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
-          </div>
-        </ion-content>
-      </ion-modal-view>
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Add New Relation</h1>
+    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+    <div class="list">
+    <label class="item item-input item-select">
+    <div class="input-label">
+    Select Relation
+    </div>
+    <select>
+    <option selected>Father</option>
+    <option >Mother</option>
+    <option>Brother</option>
+    <option>Grand Father</option>
+
+    </select>
+    </label>
+
+    <label class="item item-input">
+    <span class="input-label">Age</span>
+    <input type="text" placeholder="Enter Age">
+    </label>
+    <div class="item item-divider prelative">
+    Know Conditions 
+    <a ui-sref="#" class="addbtn2"><i class="ion-plus-circled"></i></a>
+    </div>
+
+    <div class="addremoverow first">
+    <label class="item item-input">
+    <input type="text" placeholder="Enter Condition">
+    </label>
+    </div>
+
+    <div class="addremoverow">
+    <label class="item item-input">
+    <input type="text" placeholder="Enter Condition">
+    </label>
+    <a ui-sref="#" class="addremovebtn"><i class="ion-minus-circled"></i></a>
+    </div>
+
+    <div class="item item-divider prelative">
+    Other Information
+    </div>
+    <label class="item item-input">
+    <textarea row="5"></textarea>
+    </label>
+
+
+
+    <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
+    </div>
+    </ion-content>
+    </ion-modal-view>
 </script>
