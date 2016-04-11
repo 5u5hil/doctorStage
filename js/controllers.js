@@ -1071,6 +1071,7 @@ angular.module('your_app_name.controllers', [])
             $rootScope.measurement = "";
             $rootScope.objText = "";
             $rootScope.diaText = "";
+            $rootScope.testText = "";
             $rootScope.objId = "";
             $rootScope.diaId = "";
             $rootScope.testId = "";
@@ -2261,16 +2262,16 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.objText = [];
-            $scope.observation = {};
+            $scope.testText = [];
+            $scope.testresult = {};
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-testresult-lang',
                 params: {userId: $scope.userId, interface: $scope.interface, objId: $stateParams.testid}
             }).then(function successCallback(response) {
                 if (response.data.recdata != '') {
-                    $scope.objText = response.data.recdata.metadata_values;
-                    $rootScope.objText = $scope.objText;
+                    $scope.testText = response.data.recdata.metadata_values;
+                    $rootScope.testText = $scope.testText;
                 }
             }, function errorCallback(e) {
                 console.log(e);
@@ -2280,19 +2281,19 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
                 $scope.showM = function () {
-                    $scope.observation = {value: ''};
+                    $scope.testresult = {value: ''};
                     $scope.modal.show();
                 };
             });
-            $scope.submitmodal = function (observation) {
-                alert(observation);
-                $scope.objText.push({'value': observation});
-                $rootScope.objText = $scope.objText;
-                $scope.observation = {value: ''};
+            $scope.submitmodal = function (testresult) {
+                alert(testresult);
+                $scope.testText.push({'value': testresult});
+                $rootScope.testText = $scope.testText;
+                $scope.testresult = {value: ''};
                 $scope.modal.hide();
             };
             $scope.saveTestresult = function () {
-                console.log($scope.objText);
+                console.log($scope.testText);
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/save-testresults',
@@ -2309,7 +2310,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.saveDTestresult = function () {
-                console.log($scope.objText);
+                console.log($scope.testText);
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/save-testresults',
@@ -2336,13 +2337,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.showEM = function (ind) {
                     console.log("khkh" + ind);
                     $scope.ind = ind;
-                    $scope.observation = $rootScope.objText[ind].value;
+                    $scope.testresult = $rootScope.testText[ind].value;
                     $scope.modal.show();
                 };
             });
-            $scope.submitmodal = function (observation) {
-                $rootScope.objText[$scope.ind].value = observation;
-                console.log($rootScope.objText);
+            $scope.submitmodal = function (testresult) {
+                $rootScope.testText[$scope.ind].value = testresult;
+                console.log($rootScope.testText);
                 $scope.modal.hide();
             };
         })

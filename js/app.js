@@ -76,7 +76,6 @@ angular.module('your_app_name', [
             });
         })
 
-
         .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
             $httpProvider.interceptors.push(function ($rootScope) {
                 return {
