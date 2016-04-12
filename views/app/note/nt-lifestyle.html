@@ -1,0 +1,97 @@
+
+        <div class="tcontent" ng-controller="ConsultationsNoteCtrl" > 
+            <div class="row cbtn3">
+                <button class="col button" ng-controller="AddLifestyleCtrl" ng-click="modal.show()">
+                    <span class="icon ion-plus-circled"></span> Add 
+                </button>
+            </div>
+            <div class="posts-list" >
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading mb5">Lifestyle 1</div>
+                            <div class="row txt-left">
+                                <div class="col">
+                                    <p><strong>Name</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                </div>
+                                <div class="col">
+                                    <p><strong>Age</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posts-list" >
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading mb5">Lifestyle 2</div>
+                            <div class="row txt-left">
+                                <div class="col">
+                                    <p><strong>Name</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+
+                                </div>
+                                <div class="col">
+                                    <p><strong>Age</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posts-list" >
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading mb5">Lifestyle 3</div>
+                            <div class="row txt-left">
+                                <div class="col">
+                                    <p><strong>Name</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+
+                                </div>
+                                <div class="col">
+                                    <p><strong>Age</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>	
+        </div>
+
+
+<script id="add-lifestyle" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Add New Lifestyle</h1>
+    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+    <div class="list">
+    <form name="addLifeStyleForm" id="addLifeStyleForm" enctype="multipart/form-data" novalidate >
+    <input type="hidden" value="category" name="recordCat" />
+    <div ng-include src="'views/app/consultation-note/fields.html'"></div>
+    </form>
+    <br/>
+    <div class="button-bar ">
+    <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
+    <a class="button button-positive" ng-click="saveLifestyle()">Submit</a>
+    </div>  
+    </div>
+
+    </ion-content>
+    </ion-modal-view>
+</script>
+
