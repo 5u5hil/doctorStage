@@ -1145,6 +1145,33 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
+		
+		.controller('AddmedicationCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('add-medication', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+		
+		
+		.controller('AddprocedureCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('add-procedure', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+        })
+		
+		
+		
+		
 
         .controller('LoincCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('loinc', {

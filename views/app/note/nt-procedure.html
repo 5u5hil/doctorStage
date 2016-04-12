@@ -1,10 +1,4 @@
-<ion-view class="category-list-view">
-  <ion-nav-title>
-    <span>Procedure</span>
-</ion-nav-title>
-
-  <ion-content>
-  <div class="mtop20"> 
+<div class="tcontent" ng-controller="ConsultationsNoteCtrl"> 
 			 <div class="row cbtn3">
 				<button class="col button" ng-controller="AddprocedureCtrl" ng-click="modal.show()">
 					 <span class="icon ion-plus-circled"></span> Add 
@@ -78,14 +72,12 @@
 					</div>
 				</div>	
 				 </div>
- 
-  </ion-content>
-</ion-view>
+
 
 <script id="add-procedure" type="text/ng-template">
       <ion-modal-view>
 	  <ion-header-bar class="bar app-top-bar">
-           <h1 class="title">Add New Investigations</h1>
+           <h1 class="title">Add New Procedure</h1>
         <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
         </ion-header-bar>
         <ion-content class="padding">
