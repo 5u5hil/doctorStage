@@ -1903,7 +1903,9 @@ angular.module('your_app_name.controllers', [])
             };
             /* new added */
             $scope.shownext = function (bd, ab) {
+				
                 jQuery('#' + bd).hide();
+				
                 jQuery('#' + ab).show();
                 jQuery('.headtab span').removeClass('active');
                 jQuery('.headtab span[rel="' + ab + '"]').addClass('active');
@@ -1916,11 +1918,17 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.tabclick = function (taburl) {
-                jQuery('.notetab').hide();
+				 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
                 jQuery('.headtab span').removeClass('active');
+                jQuery('.tab-buttons .tbtn').removeClass('active');
                 jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
             };
+			
+	
+			
+			
             /* end*/
         }
         )

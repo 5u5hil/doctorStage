@@ -9460,6 +9460,11 @@ input[type="date"]:before{
 	.accordiancontent{display:none; /* padding: 0 15px; */ margin:0 10px;}
 	.accordiancontent.active{display:block;}
 	.tcontent{padding:5px; border:1px dashed #28a54c; margin-bottom: 30px;}
+	.tbtn{display:none;}
+	.tbtn.active{display:block;}
+	.tab-buttons .col{float:left; }
+	.tab-buttons .fixedbar{padding:0;}
+	.tab-buttons .fixedbar .button{border-radius:0;}
 	
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{
