@@ -7,9 +7,10 @@
         <div class="col"><span class="nbtn" ng-click="tabclick('tabtwo')"  rel="tabtwo">Note</span></div>
         <div class="col"><span class="nbtn" rel="tabthree" ng-click="tabclick('tabthree')">Treatment Plan</span></div>
     </div>
-    <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
-        <ion-content> 
-            <div class="tabcon2 notetab mt60"  id="tabone">
+
+    <ion-content> 
+        <div class="tabcon2 notetab mt60"  id="tabone">
+            <form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
                 <input type="hidden" value="{{patientId}}" name="patientId" />
                 <input type="hidden" value="{{doctorId}}" name="doctorId" />
@@ -259,67 +260,63 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-                </div>             
-
-
-            </div>
-            <!---- Notes Starts  ----->
-            <div class="tabcon2 notetab mt60" id="tabtwo" style="display:none;" >
-                <div class="item item-divider">Background</div>
-                <div class="accordiantab" ng-click="accordiantab('acpatient')">
-                    <span class="icon ion-plus-circled"></span>  Patient
-                </div> 
-                <div  id="acpatient" class="accordiancontent">
-                    <div ng-include src="'views/app/note/p-history.html'"></div>
                 </div>
-                <div class="accordiantab" ng-click="accordiantab('achistory')">
-                    <span class="icon ion-plus-circled"></span>  Family
-                </div> 
-                <div  id="achistory" class="accordiancontent">
-                    <div ng-include src="'views/app/note/f-history.html'"></div>
-                </div>
-
-                <div class="item item-divider">Evaluation</div>
-                <div class="accordiantab" ng-click="accordiantab('acmeasure')">
-                    <span class="icon ion-plus-circled"></span>  Measurements
-                </div> 
-                <div  id="acmeasure" class="accordiancontent">
-                    <div ng-include src="'views/app/note/nt-measure.html'"></div>
-                </div>
-                <div class="clr"></div>
-                <div class="accordiantab" ng-click="accordiantab('actestresult')">
-                    <span class="icon ion-plus-circled"></span>  Test Results
-                </div> 
-                <div  id="actestresult" class="accordiancontent">
-                    <div ng-include src="'views/app/note/nt-testresult.html'"></div>
-                </div>
-                <div class="clr"></div>
-                <div class="accordiantab" ng-click="accordiantab('acobservation')">
-                    <span class="icon ion-plus-circled"></span>  Observations
-                </div> 
-                <div  id="acobservation" class="accordiancontent">
-                    <div ng-include src="'views/app/note/nt-observation.html'"></div>
-                </div>
-                <div class="item item-divider">Diagnosis</div>  
-                <div class="accordiantab" ng-click="accordiantab('acdiagnosis')">
-                    <span class="icon ion-plus-circled"></span>  Text
-                </div>
-                <div  id="acdiagnosis" class="accordiancontent">
-                    <div ng-include src="'views/app/note/nt-diagnosis.html'"></div>
-                </div>
-            </div>
-            <!---- Notes Ends  ----->
-        </ion-content>
-        <div class="footerbar">
-            <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
-            <div ng-click="shownext('tabone', 'tabtwo');" class="button  bar button-positive">Submit</div>
-
+            </form>
         </div>
-    </form>
+
+        <!---- Notes Starts  ----->
+        <div class="tabcon2 notetab mt60" id="tabtwo" style="display:none;" >
+            <div class="item item-divider">Background</div>
+            <div class="accordiantab" ng-click="accordiantab('acpatient')">
+                <span class="icon ion-plus-circled"></span>  Patient
+            </div> 
+            <div  id="acpatient" class="accordiancontent">
+                <div ng-include src="'views/app/note/p-history.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('achistory')">
+                <span class="icon ion-plus-circled"></span>  Family
+            </div> 
+            <div  id="achistory" class="accordiancontent">
+                <div ng-include src="'views/app/note/f-history.html'"></div>
+            </div>
+
+            <div class="item item-divider">Evaluation</div>
+            <div class="accordiantab" ng-click="accordiantab('acmeasure')">
+                <span class="icon ion-plus-circled"></span>  Measurements
+            </div> 
+            <div  id="acmeasure" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-measure.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('actestresult')">
+                <span class="icon ion-plus-circled"></span>  Test Results
+            </div> 
+            <div  id="actestresult" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-testresult.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('acobservation')">
+                <span class="icon ion-plus-circled"></span>  Observations
+            </div> 
+            <div  id="acobservation" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-observation.html'"></div>
+            </div>
+            <div class="item item-divider">Diagnosis</div>  
+            <div class="accordiantab" ng-click="accordiantab('acdiagnosis')">
+                <span class="icon ion-plus-circled"></span>  Text
+            </div>
+            <div  id="acdiagnosis" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-diagnosis.html'"></div>
+            </div>
+        </div>
+        <!---- Notes Ends  ----->
+    </ion-content>
+    <div class="footerbar">
+        <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
+        <div ng-click="shownext('tabone', 'tabtwo');" class="button  bar button-positive">Next</div>
+    </div>
 </ion-view>
 
 
