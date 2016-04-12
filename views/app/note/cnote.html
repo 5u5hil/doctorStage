@@ -84,21 +84,18 @@
                             <div ng-if="appId != 0" class="hide">
                                 <div ng-if="field.field == 'Consultation Date'">
                                     <div class="item item-divider ">{{field.field}}</div>
-                                    <div class="ditem-content"> <input type="text" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate}}"  name="{{field.name}}" required disabled="disabled" /></div>
-                                    <!--  <label class="item item-input listreq hide"><span class='input-label'>{{field.field}}</span>
-                                         <input type="text" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate}}"  name="{{field.name}}" required disabled="disabled" />                            
-                                     </label> -->
+                                    <div class="ditem-content">
+                                        <input type="text" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate}}"  name="{{field.name}}" required disabled="disabled" />
+                                    </div>
                                 </div>
                             </div>
                             <div ng-if="appId == 0">
                                 <div ng-if="field.field == 'Consultation Date'">
-
                                     <div class="item item-divider">{{field.field}}</div>
-                                    <div class="ditem-content"><input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required /></div>
+                                    <div class="ditem-content">
+                                        <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required />
+                                    </div>
 
-                                    <!--  <label class="item item-input listreq"><span class='input-label'>{{field.field}}</span>
-                                         <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required />                            
-                                     </label> -->
                                 </div>
                             </div>
                             <div ng-if="field.field == 'Valid till'">
@@ -106,30 +103,20 @@
                                     <div class="item item-divider">{{field.field}} </div>
                                     <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />
                                 </div>
-
-                                <!-- <label class="item item-input listreq hide" id="convalid"><span class='input-label'>{{field.field}} *</span>
-                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />                            
-                                </label> -->
                             </div>
                         </div>
                         <div ng-if="field.field_types.value == 'time'">
                             <div ng-if="appId != 0" class="hide">
                                 <div class="item item-divider">{{field.field}} </div>
-                                <div class="ditem-content"><input type="text" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" disabled="disabled" /></div>
-
-                                <!--    <label class="item item-input listreq hide">
-                                       <span class="input-label" >{{field.field}} </span>
-                                       <input type="text" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" disabled="disabled" />                            
-                                   </label> -->
+                                <div class="ditem-content">
+                                    <input type="text" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" disabled="disabled" />
+                                </div>
                             </div>
                             <div ng-if="appId == 0">
                                 <div class="item item-divider">{{field.field}}</div> 
-                                <div class="ditem-content"> <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" /> </div>  
-
-                                <!--  <label class="item item-input listreq">
-                                     <span class="input-label" >{{field.field}} </span>
-                                     <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />                            
-                                 </label> -->
+                                <div class="ditem-content">
+                                    <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />
+                                </div>  
                             </div>
                         </div>
                         <div ng-if="field.field_types.value == 'select'">
@@ -141,15 +128,6 @@
                                         <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
                                     </select>
                                 </div>
-                                <!-- 
-                                    <label class="item item-input item-select hide" ng-if="field.field == 'Mode'" >
-                                        <div class="input-label"> {{field.field}}</div>
-                                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" disabled="disabled">
-                                            <option value="0"> Select {{field.field}}</option>
-                                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
-                                        </select>
-                                    </label> -->
-
                                 <div class="hide" ng-if="field.field == 'Patient'">
                                     <div class="item item-divider">{{field.field}}</div> 
                                     <select class="cselect Ditemselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" disabled="disabled">
@@ -157,15 +135,7 @@
                                         <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
                                     </select>
                                 </div>
-                                <!--   <label class="item item-input item-select hide" ng-if="field.field == 'Patient Type'" >
-                                      <div class="input-label"> {{field.field}}</div>
-                                      <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" disabled="disabled">
-                                          <option value="0"> Select {{field.field}}</option>
-                                          <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
-                                      </select>
-                                  </label> -->
                             </div>
-
                             <div ng-if="appId == 0">
                                 <div   ng-if="field.field == 'Mode'">
                                     <div class="item item-divider">{{field.field}}</div> 
@@ -174,14 +144,6 @@
                                         <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
                                     </select>
                                 </div>
-
-                                <!--  <label class="item item-input item-select" ng-if="field.field == 'Mode'">
-                                     <div class="input-label"> {{field.field}}</div>
-                                     <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
-                                         <option value="0"> Select {{field.field}}</option>
-                                         <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{mode === sel}}"> {{sel}} </option>
-                                     </select>
-                                 </label> -->
                                 <div   ng-if="field.field == 'Patient Type'">
                                     <div class="item item-divider"> {{field.field}}</div>
                                     <select class="cselect Ditemselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
@@ -189,30 +151,14 @@
                                         <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
                                     </select>
                                 </div>
-
-
-                                <!--   <label class="item item-input item-select" ng-if="field.field == 'Patient Type'">
-                                      <div class="input-label"> {{field.field}}</div>
-                                      <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
-                                          <option value="0"> Select {{field.field}}</option>
-                                          <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{pType === sel}}"> {{sel}} </option>
-                                      </select>
-                                  </label> -->
                             </div>
-
-
-
-
                             <div class="hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
                                 <div class="item item-divider"> {{field.field}}</div>
-                                <select class="cselect Ditemselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                <select class="cselect Ditemselect" ng-model="prescription" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" ng-change="getPrescription(prescription)" >
                                     <option value="0"> Select {{field.field}}</option>
-                                    <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                                    <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
                                 </select>
                             </div>
-
-
-
                             <div class="" ng-if="field.field != 'Includes Prescription' && field.field != 'Patient Type' && field.field != 'Mode'">
                                 <div class="item item-divider"> {{field.field}}</div>
                                 <select class="cselect Ditemselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
@@ -309,97 +255,66 @@
             <div  id="acdiagnosis" class="accordiancontent">
                 <div ng-include src="'views/app/note/nt-diagnosis.html'"></div>
             </div>
-      </div>
+        </div>		
 
-			
-			
-			
-			
-			
-			
-		<div class="tabcon2 notetab mt60" id="tabthree" style="display:none;" >
-		
-			<div class="accordiantab" ng-click="accordiantab('trinvestigation')">
-				<span class="icon ion-plus-circled"></span>  Investigation
-			</div> 
-			<div  id="trinvestigation" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-investigations.html'"></div>
-			</div>
-			
-			<div class="accordiantab" ng-click="accordiantab('ntmedication')">
-			<span class="icon ion-plus-circled"></span>  Medication
-			</div> 
-			<div  id="ntmedication" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-medication.html'"></div>
-			</div>
-		
-		
-			<div class="accordiantab" ng-click="accordiantab('ntprocedure')">
-				<span class="icon ion-plus-circled"></span>  Procedure
-			</div> 
-			<div  id="ntprocedure" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-procedure.html'"></div>
-			</div>
-			<div class="clr"></div>
-			<div class="accordiantab" ng-click="accordiantab('ntdietplan')">
-			<span class="icon ion-plus-circled"></span>  Diet Plan
-			</div> 
-			<div  id="ntdietplan" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-dietplan.html'"></div>
-			</div>
-			<div class="clr"></div>
-			<div class="accordiantab" ng-click="accordiantab('ntlifestyle')">
-			<span class="icon ion-plus-circled"></span>  Lifestyle
-			</div> 
-			<div  id="ntlifestyle" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-lifestyle.html'"></div>
-			</div>
-			  
-		
-			<div class="accordiantab" ng-click="accordiantab('ntrefferal')">
-			<span class="icon ion-plus-circled"></span>  Referral
-			</div>
-			<div  id="ntrefferal" class="accordiancontent">
-			<div ng-include src="'views/app/note/nt-refferal.html'"></div>
-			</div>
-		
-			</div>	
-		
+        <div class="tabcon2 notetab mt60" id="tabthree" style="display:none;" >
+            <div class="accordiantab" ng-click="accordiantab('trinvestigation')">
+                <span class="icon ion-plus-circled"></span>  Investigation
+            </div> 
+            <div  id="trinvestigation" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-investigations.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('ntmedication')">
+                <span class="icon ion-plus-circled"></span>  Medication
+            </div> 
+            <div  id="ntmedication" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-medication.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('ntprocedure')">
+                <span class="icon ion-plus-circled"></span>  Procedure
+            </div> 
+            <div  id="ntprocedure" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-procedure.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('ntdietplan')">
+                <span class="icon ion-plus-circled"></span>  Diet Plan
+            </div> 
+            <div  id="ntdietplan" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-dietplan.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('ntlifestyle')">
+                <span class="icon ion-plus-circled"></span>  Lifestyle
+            </div> 
+            <div  id="ntlifestyle" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-lifestyle.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('ntrefferal')">
+                <span class="icon ion-plus-circled"></span>  Referral
+            </div>
+            <div  id="ntrefferal" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-refferal.html'"></div>
+            </div>
+        </div>	
 
-   
-
-
-  
         <!---- Notes Ends  ----->
     </ion-content>
     <div class="footerbar">
         <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
-     
-		
-		 
-		 <div class="tab-buttons">
-		 
-		 
-		 
-		 
-		 <div class="fixedbar tbtn active" rel="tabone">
-		 <div class="col bar button btn-share" ng-click="tabclick('tabtwo')">Next</div>
-		 </div>
-		 
-		 <div class="fixedbar row tbtn" rel="tabtwo">
-		 <div class="col col-50 button btn-share" ng-click="tabclick('tabone')">Previous</div>
-		 <div class="col col-50 button btn-add" ng-click="tabclick('tabthree')">Next</div>
-		 </div>
-		 
-	
-		 
-		  <div  class="fixedbar row tbtn" rel="tabthree">
-		 <div class="col col-50 button btn-share" ng-click="tabclick('tabtwo')">Previous</div>
-		 <div class="col col-50 button btn-add">Submit</div>
-		 </div>
-		 
-		 </div>
-		
+        <div class="tab-buttons">
+            <div class="fixedbar tbtn active" rel="tabone">
+                <div class="col bar button btn-share" ng-click="tabclick('tabtwo')">Next</div>
+            </div>
+            <div class="fixedbar row tbtn" rel="tabtwo">
+                <div class="col col-50 button btn-share" ng-click="tabclick('tabone')">Previous</div>
+                <div class="col col-50 button btn-add" ng-click="tabclick('tabthree')">Next</div>
+            </div>
+            <div  class="fixedbar row tbtn" rel="tabthree">
+                <div class="col col-50 button btn-share" ng-click="tabclick('tabtwo')">Previous</div>
+                <div class="col col-50 button btn-add" ng-click="submit()">Submit</div>
+            </div>
+        </div>
     </div>
 </ion-view>
 

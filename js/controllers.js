@@ -1113,7 +1113,7 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-        
+
         .controller('LibraryFeedCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -1580,45 +1580,7 @@ angular.module('your_app_name.controllers', [])
                 } else if (did == '' || did == null) {
                     alert("Please select doctor.");
                 } else {
-                    if ($scope.tempImgs.length > 0) {
-                        angular.forEach($scope.tempImgs, function (value, key) {
-                            $scope.picData = getImgUrl(value);
-                            var imgName = value.substr(value.lastIndexOf('/') + 1);
-                            $scope.ftLoad = true;
-                            var imup = $scope.uploadPicture();
-                            alert("Image upload var " + imup);
-                            $scope.image.push(imgName);
-                            console.log($scope.image);
-                        });
-                        jQuery('#camfilee').val($scope.image);
-                        console.log($scope.images);
-                        var data = new FormData(jQuery("#addRecordForm")[0]);
-                        callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
-                            console.log(response);
-                            $ionicLoading.hide();
-                            if (angular.isObject(response.records)) {
-                                $scope.image = [];
-                                $scope.recId = response.records.id;
-                                $rootScope.recCId = $scope.recId;
-                                $state.go('app.notetype');
-                            } else if (response.err != '') {
-                                alert('Please fill mandatory fields');
-                            }
-                        });
-                    } else {
-                        var data = new FormData(jQuery("#addRecordForm")[0]);
-                        callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
-                            console.log(response);
-                            $ionicLoading.hide();
-                            if (angular.isObject(response.records)) {
-                                $scope.recId = response.records.id;
-                                $rootScope.recCId = $scope.recId;
-                                $state.go('app.notetype');
-                            } else if (response.err != '') {
-                                alert('Please fill mandatory fields');
-                            }
-                        });
-                    }
+                    $state.go('app.notetype');
                 }
             };
             //Save FormData
@@ -1644,24 +1606,28 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
                             $scope.image = [];
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true
-                            });
-                            alert("Consultation Note added successfully!");
-                            if ($scope.from == 'app.appointment-list')
-                                $state.go('app.appointment-list', {}, {reload: true});
-                            else if ($scope.from == 'app.past-appointment-list')
-                                $state.go('app.past-appointment-list', {}, {reload: true});
-                            else if ($scope.from == 'app.patient-app-list')
-                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-                            else if ($scope.from == 'app.patient-past-app-list')
-                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-                            else if ($scope.from == 'app.doctor-consultations')
-                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
-                            else if ($scope.from == 'app.consultation-past')
-                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
-                            else
-                                $state.go('app.homepage', {}, {reload: true});
+                            $scope.recId = response.records.id;
+                            $rootScope.recCId = $scope.recId;
+                            jQuery('.cnoteid').val(response.records.id);
+                            $scope.saveMeasurements();
+//                            $ionicHistory.nextViewOptions({
+//                                historyRoot: true
+//                            });
+//                            alert("Consultation Note added successfully!");
+//                            if ($scope.from == 'app.appointment-list')
+//                                $state.go('app.appointment-list', {}, {reload: true});
+//                            else if ($scope.from == 'app.past-appointment-list')
+//                                $state.go('app.past-appointment-list', {}, {reload: true});
+//                            else if ($scope.from == 'app.patient-app-list')
+//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+//                            else if ($scope.from == 'app.patient-past-app-list')
+//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+//                            else if ($scope.from == 'app.doctor-consultations')
+//                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+//                            else if ($scope.from == 'app.consultation-past')
+//                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+//                            else
+//                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1672,24 +1638,28 @@ angular.module('your_app_name.controllers', [])
                         console.log(response);
                         $ionicLoading.hide();
                         if (angular.isObject(response.records)) {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true
-                            });
-                            alert("Consultation Note added successfully!");
-                            if ($scope.from == 'app.appointment-list')
-                                $state.go('app.appointment-list', {}, {reload: true});
-                            else if ($scope.from == 'app.past-appointment-list')
-                                $state.go('app.past-appointment-list', {}, {reload: true});
-                            else if ($scope.from == 'app.patient-app-list')
-                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-                            else if ($scope.from == 'app.patient-past-app-list')
-                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-                            else if ($scope.from == 'app.doctor-consultations')
-                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
-                            else if ($scope.from == 'app.consultation-past')
-                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
-                            else
-                                $state.go('app.homepage', {}, {reload: true});
+                            $scope.recId = response.records.id;
+                            $rootScope.recCId = $scope.recId;
+                            jQuery('.cnoteid').val(response.records.id);
+                            $scope.saveMeasurements();
+//                            $ionicHistory.nextViewOptions({
+//                                historyRoot: true
+//                            });
+//                            alert("Consultation Note added successfully!");
+//                            if ($scope.from == 'app.appointment-list')
+//                                $state.go('app.appointment-list', {}, {reload: true});
+//                            else if ($scope.from == 'app.past-appointment-list')
+//                                $state.go('app.past-appointment-list', {}, {reload: true});
+//                            else if ($scope.from == 'app.patient-app-list')
+//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+//                            else if ($scope.from == 'app.patient-past-app-list')
+//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+//                            else if ($scope.from == 'app.doctor-consultations')
+//                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+//                            else if ($scope.from == 'app.consultation-past')
+//                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+//                            else
+//                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1710,7 +1680,7 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                     $ionicLoading.hide();
                     if (response.err == '') {
-                        alert("Measurements saved successfully!");
+                        //alert("Measurements saved successfully!");
                         $rootScope.measure = 'yes';
                         $rootScope.measurement = response.records;
                         //$state.go('app.notetype');
@@ -2009,6 +1979,34 @@ angular.module('your_app_name.controllers', [])
                 jQuery("#selcon").val($scope.conIds);
                 console.log($scope.selConditions);
             };
+            $scope.getFamHistory = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-family-history',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+                }).then(function successCallback(response) {
+                    $scope.record = response.data.record;
+                    $scope.recorddata = response.data.recorddata;
+                    $scope.knConditions = response.data.recConditions;
+                    $scope.fields = response.data.fields;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.patients = response.data.patients;
+                    $scope.cases = response.data.cases;
+                    $scope.abt = response.data.abt;
+                    $scope.conditions = response.data.conditions;
+                    $scope.selCondition = response.data.knConditions;
+                    $scope.familyhistory = response.data.familyhistory;
+                    if ($scope.selCondition.length > 0) {
+                        angular.forEach($scope.selCondition, function (val, key) {
+                            $scope.conIds.push(val.id);
+                            $scope.selConditions.push({'condition': val.condition});
+                        });
+                    }
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
             $scope.saveFamilyHistory = function () {
                 //alert('dsfsdf');
                 $ionicLoading.show({template: 'Adding...'});
@@ -2021,9 +2019,10 @@ angular.module('your_app_name.controllers', [])
                     if (angular.isObject(response.records)) {
                         alert("Family History saved successfully!");
                         jQuery("#addFamilyForm")[0].reset();
+                        $scope.getFamHistory();
                         // $state.go('app.notetype',{reload: true});
                         $scope.modal.hide();
-                        $state.go('app.family-history', {}, {reload: true});
+                        //$state.go('app.family-history', {}, {reload: true});
                         ////window.location.reload();
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     } else if (response.err != '') {
@@ -2555,7 +2554,7 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.investigation = [];
             $scope.invData = [];
-            $scope.inv = []; 
+            $scope.inv = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -2666,8 +2665,8 @@ angular.module('your_app_name.controllers', [])
                         console.log($scope.investigation);
                         console.log($scope.invData);
                         $rootScope.inv = $scope.inv;
-                                //$rootScope.measure = 'yes';
-                                //$rootScope.measurement = response.records;
+                        //$rootScope.measure = 'yes';
+                        //$rootScope.measurement = response.records;
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
@@ -2683,6 +2682,9 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Medications';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.medication = [];
+            $scope.mediData = [];
+            $scope.medi = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -2767,6 +2769,30 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.imd').addClass('hide');
                     }
                 }
+            };
+            $scope.saveMedication = function () {
+                console.log("From Medication");
+                var data = new FormData(jQuery("#addMedicationForm")[0]);
+                console.log(data);
+                //$ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addMedicationForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response.records != '') {
+                        alert("Medication saved successfully!");
+                        $scope.medication.push(response.records);
+                        $scope.mediData.push(response.recordsData);
+                        $scope.medi.push(response.records.id);
+                        console.log($scope.medication);
+                        console.log($scope.mediData);
+                        $rootScope.medi = $scope.medi;
+                        //$rootScope.measure = 'yes';
+                        //$rootScope.measurement = response.records;
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
             };
         })
 
@@ -2778,6 +2804,9 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Procedures';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.procedure = [];
+            $scope.proData = [];
+            $scope.proc = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -2862,6 +2891,30 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.imd').addClass('hide');
                     }
                 }
+            };
+            $scope.saveProcedure = function () {
+                console.log("From Procedure");
+                var data = new FormData(jQuery("#addProcedureForm")[0]);
+                console.log(data);
+                //$ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addProcedureForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response.records != '') {
+                        alert("Procedure saved successfully!");
+                        $scope.procedure.push(response.records);
+                        $scope.proData.push(response.recordsData);
+                        $scope.proc.push(response.records.id);
+                        console.log($scope.procedure);
+                        console.log($scope.proData);
+                        $rootScope.proc = $scope.proc;
+                        //$rootScope.measure = 'yes';
+                        //$rootScope.measurement = response.records;
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
             };
         })
 
@@ -2873,6 +2926,9 @@ angular.module('your_app_name.controllers', [])
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.catId = 'Activity & Lifestyle';
+            $scope.lifestyle = [];
+            $scope.lifeData = [];
+            $scope.life = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -2957,6 +3013,30 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.imd').addClass('hide');
                     }
                 }
+            };
+            $scope.saveLifestyle = function () {
+                console.log("From Lifestyle");
+                var data = new FormData(jQuery("#addLifeStyleForm")[0]);
+                console.log(data);
+                //$ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addLifeStyleForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response.records != '') {
+                        alert("Investigation saved successfully!");
+                        $scope.lifestyle.push(response.records);
+                        $scope.lifeData.push(response.recordsData);
+                        $scope.life.push(response.records.id);
+                        console.log($scope.lifestyle);
+                        console.log($scope.lifeData);
+                        $rootScope.life = $scope.life;
+                        //$rootScope.measure = 'yes';
+                        //$rootScope.measurement = response.records;
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
             };
         })
 
@@ -2968,6 +3048,9 @@ angular.module('your_app_name.controllers', [])
             $scope.catId = 'Referral';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+            $scope.referral = [];
+            $scope.refData = []
+            $scope.refer = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -3052,6 +3135,30 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.imd').addClass('hide');
                     }
                 }
+            };
+            $scope.saveReferral = function () {
+                console.log("From Referral");
+                var data = new FormData(jQuery("#addReferralForm")[0]);
+                console.log(data);
+                //$ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addReferralForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response.records != '') {
+                        alert("Referral saved successfully!");
+                        $scope.referral.push(response.records);
+                        $scope.refData.push(response.recordsData);
+                        $scope.refer.push(response.records.id);
+                        console.log($scope.referral);
+                        console.log($scope.refData);
+                        $rootScope.refer = $scope.refer;
+                        //$rootScope.measure = 'yes';
+                        //$rootScope.measurement = response.records;
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
             };
         })
 
@@ -3187,6 +3294,7 @@ angular.module('your_app_name.controllers', [])
                 $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
             };
         })
+
         .controller('MeasureDetailsCtrl', function ($scope, $http, $state, $sce, $rootScope, $stateParams) {
             $scope.cnId = $stateParams.id;
             $scope.type = $stateParams.type;
