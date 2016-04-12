@@ -1071,6 +1071,7 @@ angular.module('your_app_name.controllers', [])
             $rootScope.measurement = "";
             $rootScope.objText = "";
             $rootScope.diaText = "";
+            $rootScope.testText = "";
             $rootScope.objId = "";
             $rootScope.diaId = "";
             $rootScope.testId = "";
@@ -1881,39 +1882,28 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
 
-            }
-            ;
-			
-			/* new added */
-			$scope.shownext=function(bd,ab){
-				jQuery('#'+bd).hide();
-				jQuery('#'+ab).show();
-				jQuery('.headtab span').removeClass('active');
-				jQuery('.headtab span[rel="'+ab+'"]').addClass('active');
-				
-			}
-			$scope.accordiantab=function(pq){
-				//jQuery('#'+pq).toggleClass('active');
-				jQuery('#'+pq).slideToggle();
-				jQuery(this).toggleClass('active');
-			}
-			
-			$scope.tabclick=function(taburl){
-				jQuery('.notetab').hide();
-				jQuery('#'+taburl).show();
-				jQuery('.headtab span').removeClass('active');
-				jQuery('.headtab span[rel="'+taburl+'"]').addClass('active');
-				
-				
-				
-			}
-			
-			
-			
-			
-			/* end*/
-			
+            };
+            /* new added */
+            $scope.shownext = function (bd, ab) {
+                jQuery('#' + bd).hide();
+                jQuery('#' + ab).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.headtab span[rel="' + ab + '"]').addClass('active');
+            };
 
+            $scope.accordiantab = function (pq) {
+                //jQuery('#'+pq).toggleClass('active');
+                jQuery('#' + pq).slideToggle();
+                jQuery(this).toggleClass('active');
+            };
+
+            $scope.tabclick = function (taburl) {
+                jQuery('.notetab').hide();
+                jQuery('#' + taburl).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+            };
+            /* end*/
         })
 
         .controller('NotetypeCtrl', function ($scope, $http, $ionicModal, $state) {
@@ -2299,16 +2289,16 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.objText = [];
-            $scope.observation = {};
+            $scope.testText = [];
+            $scope.testresult = {};
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-testresult-lang',
                 params: {userId: $scope.userId, interface: $scope.interface, objId: $stateParams.testid}
             }).then(function successCallback(response) {
                 if (response.data.recdata != '') {
-                    $scope.objText = response.data.recdata.metadata_values;
-                    $rootScope.objText = $scope.objText;
+                    $scope.testText = response.data.recdata.metadata_values;
+                    $rootScope.testText = $scope.testText;
                 }
             }, function errorCallback(e) {
                 console.log(e);
@@ -2318,19 +2308,19 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
                 $scope.showM = function () {
-                    $scope.observation = {value: ''};
+                    $scope.testresult = {value: ''};
                     $scope.modal.show();
                 };
             });
-            $scope.submitmodal = function (observation) {
-                alert(observation);
-                $scope.objText.push({'value': observation});
-                $rootScope.objText = $scope.objText;
-                $scope.observation = {value: ''};
+            $scope.submitmodal = function (testresult) {
+                alert(testresult);
+                $scope.testText.push({'value': testresult});
+                $rootScope.testText = $scope.testText;
+                $scope.testresult = {value: ''};
                 $scope.modal.hide();
             };
             $scope.saveTestresult = function () {
-                console.log($scope.objText);
+                console.log($scope.testText);
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/save-testresults',
@@ -2347,7 +2337,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.saveDTestresult = function () {
-                console.log($scope.objText);
+                console.log($scope.testText);
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/save-testresults',
@@ -2374,13 +2364,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.showEM = function (ind) {
                     console.log("khkh" + ind);
                     $scope.ind = ind;
-                    $scope.observation = $rootScope.objText[ind].value;
+                    $scope.testresult = $rootScope.testText[ind].value;
                     $scope.modal.show();
                 };
             });
-            $scope.submitmodal = function (observation) {
-                $rootScope.objText[$scope.ind].value = observation;
-                console.log($rootScope.objText);
+            $scope.submitmodal = function (testresult) {
+                $rootScope.testText[$scope.ind].value = testresult;
+                console.log($rootScope.testText);
                 $scope.modal.hide();
             };
         })
@@ -2752,6 +2742,7 @@ angular.module('your_app_name.controllers', [])
         //Doctor Consultations
         .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.drId = get('id');
+            $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
                 method: 'GET',
@@ -2810,6 +2801,41 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.approveAppointment = function (appId, prodId, mode, startTime, endTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/dr-approve-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data.update_status == 'success') {
+                        alert('Your appointment is approved successfully.');
+                        $state.go('app.doctor-consultations', {}, {reload: true});
+                    } else if (response.data.update_status == 'fail') {
+                        alert('Sorry, appointment can not booked at supersaas. Please reject it.');
+                    }
+                    //$state.go('app.doctor-consultations', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+            $scope.rejectAppointment = function (appId, prodId, mode, startTime, endTime) {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctorsapp/dr-reject-app',
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    if (response.data == 1) {
+                        alert('Your appointment is rejected successfully.');
+                        $state.go('app.doctor-consultations', {}, {reload: true});
+                    }
+                    //$state.go('app.doctor-consultations', {}, {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
             $scope.cancelAppointment = function (appId, drId, mode, startTime) {
                 $scope.appId = appId;
                 $scope.userId = get('id');
