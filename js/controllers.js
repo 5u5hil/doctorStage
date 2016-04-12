@@ -1679,6 +1679,24 @@ angular.module('your_app_name.controllers', [])
                     return trueOrigin;
                 }
             };
+            $scope.saveMeasurements = function () {
+                console.log("From Consultation Note - Measurements");
+                var data = new FormData(jQuery("#addMeasureForm")[0]);
+                console.log(data);
+                callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response.err == '') {
+                        alert("Measurements saved successfully!");
+                        $rootScope.measure = 'yes';
+                        $rootScope.measurement = response.records;
+                        //$state.go('app.notetype');
+                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
             $scope.getCase = function (type) {
                 console.log(type);
                 if ($scope.patientId == '') {
@@ -1904,7 +1922,8 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
             };
             /* end*/
-        })
+        }
+        )
 
         .controller('NotetypeCtrl', function ($scope, $http, $ionicModal, $state) {
             $scope.userId = window.localStorage.getItem('id');
@@ -2153,21 +2172,24 @@ angular.module('your_app_name.controllers', [])
                 console.log(response);
             });
             $scope.saveMeasurements = function () {
-                //$ionicLoading.show({template: 'Adding...'});
+                console.log("From Measurements");
                 var data = new FormData(jQuery("#addMeasureForm")[0]);
-                callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
-                    console.log(response);
-                    $ionicLoading.hide();
-                    if (response.err == '') {
-                        alert("Measurements saved successfully!");
-                        $rootScope.measure = 'yes';
-                        $rootScope.measurement = response.records;
-                        $state.go('app.notetype');
-                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
-                    } else if (response.err != '') {
-                        alert('Please fill mandatory fields');
-                    }
-                });
+                console.log(data);
+                //$ionicLoading.show({template: 'Adding...'});
+//                var data = new FormData(jQuery("#addMeasureForm")[0]);
+//                callAjax("POST", domain + "doctrsrecords/save-measurements", data, function (response) {
+//                    console.log(response);
+//                    $ionicLoading.hide();
+//                    if (response.err == '') {
+//                        alert("Measurements saved successfully!");
+//                        $rootScope.measure = 'yes';
+//                        $rootScope.measurement = response.records;
+//                        $state.go('app.notetype');
+//                        //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
+//                    } else if (response.err != '') {
+//                        alert('Please fill mandatory fields');
+//                    }
+//                });
             };
             //
             $scope.saveDMeasurements = function () {
