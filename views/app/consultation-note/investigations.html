@@ -6,25 +6,23 @@
     <ion-content>
         <div class="mtop20"> 
             <div class="row cbtn3">
-                <button class="col button" ng-controller="AddtreatmenttCtrl" ng-click="modal.show()">
+                <button class="col button" ng-click="modal.show()">
                     <span class="icon ion-plus-circled"></span> Add 
                 </button>
             </div>
-            <div class="posts-list" >
+            <div class="posts-list" ng-repeat="inv in investigation">
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
                         <div  class="card-content paraspacing">
-                            <div class="cardheading mb5">Investigations 1</div>
-                            <div class="row txt-left">
-                                <div class="col">
-                                    <p><strong>Name</strong>:  Leena</p>
-                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-
+                            <div class="cardheading mb5">Investigations {{$index}}</div>
+                            <div class="row txt-left" >
+                                <div class="col" ng-repeat="idata in invData[$index] | limitTo: 4">
+                                    <p><strong>{{idata.fields.field}}</strong>:  {{idata.value}}</p>
                                 </div>
-                                <div class="col">
+<!--                                <div class="col">
                                     <p><strong>Age</strong>:  Leena</p>
                                     <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                                </div>
+                                </div>-->
                             </div>
                             <div class="clr"></div>
                         </div>
@@ -82,19 +80,23 @@
     <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
-    <div class="list">
     <form name="addInvForm" id="addInvForm" enctype="multipart/form-data" novalidate >
-    <input type="hidden" value="category" name="recordCat" />
+    <div class="list">
+    
+    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+    <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+    <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+    <input type="hidden" value="{{appId}}" name="appId" />
+    <input type="hidden" value="{{category}}" name="recordCat" />
     <div ng-include src="'views/app/consultation-note/fields.html'"></div>
-
-    </form>
+    
     <br/>
     <div class="button-bar ">
     <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
     <a class="button button-positive" ng-click="saveInvestigation()">Submit</a>
     </div>  
     </div>
-
+    </form>
     </ion-content>
     </ion-modal-view>
 </script>

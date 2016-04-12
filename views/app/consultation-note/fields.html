@@ -26,9 +26,10 @@
             <div ng-if="field.field == 'Result'">                        
                 <div class="hide inv" id="invres" >
                     <div class="item item-divider" > {{field.field}}</div>
-                    <label class="item item-input"> <input type="text" placeholder="Value" name="{{field.name}}-1" required/>
+                    <div class="item item-input">
+                        <input type="text" placeholder="Value" name="{{field.name}}-1" required />                         
                         <input type="text" placeholder="Unit" name="{{field.name}}-2" required />
-                    </label>
+                    </div>
                 </div>
             </div>
             <div ng-if="field.field == 'Adverse Effects'">                        
@@ -69,10 +70,10 @@
         <div ng-if="field.field_types.value == 'range'">  
             <div class="hide inv" ng-if="field.multi_value == 0">
                 <div class="item item-divider">{{field.field}}</div>
-                <label class="item item-input">
+                <div class="item item-input">
                     <input type="number" placeholder="Min" name="{{field.name}}-1" required/>
                     <input type="number" placeholder="Max" name="{{field.name}}-2" required />
-                </label>
+                </div>
             </div>
         </div>
         <div ng-if="field.field_types.value == 'file'">  
