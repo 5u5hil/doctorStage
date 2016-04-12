@@ -547,7 +547,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/investigations.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'InvestigationsCtrl'
                             }
                         }
                     })
@@ -567,7 +567,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/medication.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'MedicationsCtrl'
                             }
                         }
                     })
@@ -577,7 +577,27 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultation-note/procedure.html",
-                                controller: 'ConsultationsNoteCtrl'
+                                controller: 'ProceduresCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.lifestyle', {
+                        url: "/consultation-note/lifestyle",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/lifestyle.html",
+                                controller: 'LifeStyleCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.referral', {
+                        url: "/consultation-note/referral",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/consultation-note/referral.html",
+                                controller: 'ReferralCtrl'
                             }
                         }
                     })

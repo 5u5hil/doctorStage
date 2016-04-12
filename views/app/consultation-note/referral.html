@@ -1,12 +1,12 @@
 <ion-view class="category-list-view">
     <ion-nav-title>
-        <span>Investigations</span>
+        <span>Referral</span>
     </ion-nav-title>
 
     <ion-content>
         <div class="mtop20"> 
             <div class="row cbtn3">
-                <button class="col button" ng-controller="AddtreatmenttCtrl" ng-click="modal.show()">
+                <button class="col button" ng-controller="AddReferralCtrl" ng-click="modal.show()">
                     <span class="icon ion-plus-circled"></span> Add 
                 </button>
             </div>
@@ -14,7 +14,28 @@
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
                         <div  class="card-content paraspacing">
-                            <div class="cardheading mb5">Investigations 1</div>
+                            <div class="cardheading mb5">Referral 1</div>
+                            <div class="row txt-left">
+                                <div class="col">
+                                    <p><strong>Name</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                </div>
+                                <div class="col">
+                                    <p><strong>Age</strong>:  Leena</p>
+                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="posts-list" >
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div  class="card-content paraspacing">
+                            <div class="cardheading mb5">Referral 2</div>
                             <div class="row txt-left">
                                 <div class="col">
                                     <p><strong>Name</strong>:  Leena</p>
@@ -31,35 +52,17 @@
                     </div>
                 </div>
             </div>
+
             <div class="posts-list" >
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
                         <div  class="card-content paraspacing">
-                            <div class="cardheading mb5">Investigations 2</div>
+                            <div class="cardheading mb5">Referral 3</div>
                             <div class="row txt-left">
                                 <div class="col">
                                     <p><strong>Name</strong>:  Leena</p>
                                     <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                                </div>
-                                <div class="col">
-                                    <p><strong>Age</strong>:  Leena</p>
-                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                                </div>
-                            </div>
-                            <div class="clr"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="posts-list" >
-                <div  class="list card post-item">
-                    <div class="post-content item item-text-wrap p0">
-                        <div  class="card-content paraspacing">
-                            <div class="cardheading mb5">Investigations 3</div>
-                            <div class="row txt-left">
-                                <div class="col">
-                                    <p><strong>Name</strong>:  Leena</p>
-                                    <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+
                                 </div>
                                 <div class="col">
                                     <p><strong>Age</strong>:  Leena</p>
@@ -72,26 +75,26 @@
                 </div>
             </div>	
         </div>
+
     </ion-content>
 </ion-view>
 
-<script id="add-treatmentplan" type="text/ng-template">
+<script id="add-referral" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Add New Investigations</h1>
+    <h1 class="title">Add New Referral</h1>
     <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
     <div class="list">
-    <form name="addInvForm" id="addInvForm" enctype="multipart/form-data" novalidate >
+    <form name="addReferralForm" id="addReferralForm" enctype="multipart/form-data" novalidate >
     <input type="hidden" value="category" name="recordCat" />
     <div ng-include src="'views/app/consultation-note/fields.html'"></div>
-
     </form>
     <br/>
     <div class="button-bar ">
     <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
-    <a class="button button-positive" ng-click="saveInvestigation()">Submit</a>
+    <a class="button button-positive" ng-click="saveReferral()">Submit</a>
     </div>  
     </div>
 
