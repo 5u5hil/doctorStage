@@ -37,7 +37,7 @@
     <form name="addFamilyForm" id="addFamilyForm" enctype="multipart/form-data" novalidate >
     <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
     <input type="hidden" value="Patient History" name="rectype" />
-    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+    <input type="hidden" id="patientId" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
     <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
     <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
     <div class="list">
@@ -63,7 +63,7 @@
     </div>
 
     <div class="addremoverow first">
-    <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
+    <input type="hidden" ng-model="conIds" id="selconFam" value="" name="conditions" />
     <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
     </div>
 

@@ -1,12 +1,9 @@
 
 <div class="tcontent" ng-controller="TestResultCtrl">
     <div class="row cbtn3">
-        <button class="col button" ng-controller="TestResultCtrl"  ng-click="showM()">
+        <button class="col button"  ng-click="showM()">
             <span class="icon ion-plus-circled"></span> Plain Text
         </button>
-        <!--                <button class="col button" ng-controller="LoincCtrl" ng-click="modal.show()">
-                            <span class="icon ion-plus-circled"></span> Loinc
-                        </button>-->
     </div>
     <div class="posts-list" ng-repeat="test in testText">
         <div  class="list card post-item">
@@ -23,11 +20,11 @@
             </div>
         </div>
     </div>
-</div>
 
 
 
-<script id="addeval" type="text/ng-template">
+
+<script id="addTestresult" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
     <h1 class="title">Plain Text</h1>
@@ -47,7 +44,7 @@
     </ion-modal-view>
 </script>
 
-<script id="editVal" type="text/ng-template">
+<script id="editTest" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
     <h1 class="title">Plain Text</h1>
@@ -66,7 +63,6 @@
     </ion-content>
     </ion-modal-view>
 </script>
-
-
+</div>
 
 
