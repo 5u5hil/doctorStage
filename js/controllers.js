@@ -1919,7 +1919,7 @@ angular.module('your_app_name.controllers', [])
             $scope.accordiantab = function (pq) {
                 //jQuery('#'+pq).toggleClass('active');
                 jQuery('#' + pq).slideToggle();
-                jQuery(this).toggleClass('active');
+               // jQuery(this).toggleClass('active');
             };
 
             $scope.tabclick = function (taburl) {
@@ -4002,7 +4002,7 @@ angular.module('your_app_name.controllers', [])
             };
             $timeout(function () {
                 $scope.appendprevious();
-            }, 1000);
+            }, 5000);
         })
 
         .controller('AssistantChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
