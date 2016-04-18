@@ -139,7 +139,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 .ot-textchat .ot-input {
   position: fixed;
   margin: 0 0;
-  /* bottom: 0; */
+ bottom: 0; 
   width:100%;
 }
 
@@ -210,7 +210,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 }
 
 .ot-textchat .ot-send-button[disabled] {
-  color: #C1C1C1;
+  color: #fff;
 }
 .ot-bubble.mine .ot-message-content{text-align:left;}
 .ot-bubble .ot-message-content{text-align:right; font-weight:bold;}
