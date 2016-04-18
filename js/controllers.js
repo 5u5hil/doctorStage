@@ -4000,9 +4000,21 @@ angular.module('your_app_name.controllers', [])
                     });
                 })
             };
+			
+			 $scope.movebottom = function () {
+				jQuery(function () {
+				  var dh=$('.ot-bubbles').height();
+                   	$('.chatscroll').scrollTop(dh);
+                    //	console.log(wh);
+
+                })
+            };
+			
             $timeout(function () {
+				
                 $scope.appendprevious();
-            }, 5000);
+				$scope.movebottom();
+            }, 1000);
         })
 
         .controller('AssistantChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
