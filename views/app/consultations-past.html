@@ -45,7 +45,7 @@
                                             <div class="col" ng-if="app.appointments.mode == 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
                                                     Valid Till {{app.appointments.scheduled_end_time|datetime}} </p></div>
                                             <div class="col" ng-if="app.appointments.mode != 2"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                                    {{app.appointments.scheduled_start_time|time1}} to {{app.appointments.scheduled_end_time|time1}} </p></div>
                                             <div class="col"><p><strong>Mode</strong> <br/> 
                                                     {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
                                         </div>
@@ -95,7 +95,7 @@
                                         <p ng-repeat="user in week_usersData_past[$parent.$index]"><strong>{{user.fname}} {{user.lname}}</strong></p>
                                         <div class="row">
                                             <div class="col"><p><strong>Appointment Time : </strong>{{app.appointments.scheduled_start_time|dateFormat3}} <br/> 
-                                                    {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} </p></div>
+                                                    {{app.appointments.scheduled_start_time|time1}} to {{app.appointments.scheduled_end_time|time1}} </p></div>
                                             <div class="col"><p><strong>Mode</strong> <br/> 
                                                     {{app.appointments.mode==1 ? 'Video': app.appointments.mode==3? 'Clinic': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}</p></div>
                                         </div>                                                        
@@ -121,7 +121,7 @@
                                     <div class="card-content p0">
                                         <div class="item item-divider">
                                             {{app.appointments.scheduled_start_time|dateFormat3}} 
-                                            {{app.appointments.scheduled_start_time|time}} to {{app.appointments.scheduled_end_time|time}} 
+                                            {{app.appointments.scheduled_start_time|time1}} to {{app.appointments.scheduled_end_time|time1}} 
                                             <div class="cardmode"><span class=" {{app.appointments.mode==1? 'ion-ios-videocam': app.appointments.mode==3? 'ion-medkit': app.appointments.mode==4? 'Home': app.appointments.mode==2? 'Chat':''}}"></span></div>
                                         </div>
                                         <div class="p5 brd-bottom">
