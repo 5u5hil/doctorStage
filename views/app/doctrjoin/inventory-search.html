@@ -19,38 +19,70 @@
         <div class="item item-divider ng-binding">Starting with "{{searchkey}}"</div>
 
 
-        <div class="scont" ng-repeat="medicine in getMedicine">
-            <div class="posts-list msearchlist">
+        <div class="scont" ng-if="getMedicine != ''">
+            <div class="posts-list msearchlist" ng-repeat="medicine in getMedicine">
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0" >
-                        <div class="item item-divider"> <span class="fbold">{{medicine.name}}</span>
-                            <span class="flt-right">{{medicine.total_item}} {{medicine.item_form}} ({{medicine.total_unit}})</span>
+                        <div class="item item-divider"> <span class="fbold">{{medicine.medicine_name}}</span>
+                            <span class="flt-right">{{medicine.totalitem}} {{medicine.item_form}} ({{medicine.totalunit}})</span>
                         </div>
-                        <p class="p10 txt-center">Location: {{medicine.district}}</p>
+
+                        <span class="p5" ng-init="districtData = (medicine.district).split(',')">
+                            <div ng-repeat="dist in districtData">{{dist}} 
+                                <span ng-init="groupitemData = (medicine.groupitem).split(',')">{{groupitemData[$index]}} {{medicine.item_form}}</span>
+                                <span  ng-init="groupunitData = (medicine.groupunit).split(',')">({{groupunitData[$index]}} {{medicine.unit_quantity}})</span>
+                            </div>
+                        </span>
 
                     </div>
                 </div>
             </div>
         </div>
-        <div class="scont" >
+        
+        <div class="scont" ng-if="getMedicine == ''" >
+            
+            <div class="posts-list msearchlist">
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="item item-divider">
+                            Sorry no result found of search medicine
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scont" ng-if="otherMedicine != ''" >
             <div class="item item-divider ng-binding">Other matches</div>
             <div class="posts-list msearchlist" ng-repeat="otherm in otherMedicine">
                 <div  class="list card post-item">
                     <div class="post-content item item-text-wrap p0">
-                        <div class="item item-divider"> <span class="fbold">{{otherm.name}}</span>
-                            <span class="flt-right">{{otherm.total_item}} {{otherm.item_form}} ({{otherm.total_unit}})</span>
+                        <div class="item item-divider"> <span class="fbold">{{otherm.medicine_name}}</span>
+                          
+                             <span class="flt-right">{{otherm.totalitem}} {{otherm.item_form}} ({{otherm.totalunit}})</span>
                         </div>
-                        <p class="p10 txt-center">Location: {{otherm.district}}</p>
+                        <span class="p5" ng-init="districtData = (otherm.district).split(',')">
+                            <div ng-repeat="dist in districtData">{{dist}} 
+                                <span ng-init="groupitemData = (otherm.groupitem).split(',')">{{groupitemData[$index]}} {{otherm.item_form}}</span>
+                                <span  ng-init="groupunitData = (otherm.groupunit).split(',')">({{groupunitData[$index]}} {{otherm.unit_quantity}})</span>
+                            </div>
+                        </span>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scont" ng-if="otherMedicine == ''" >
+            <div class="item item-divider ng-binding">Other matches</div>
+            <div class="posts-list msearchlist">
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="item item-divider">
+                            Sorry no result found of search medicine
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </ion-content>
-  <!--   <div class="button btn-delete iframeclose"><i class="ion-close"></i></div> -->
-    <!-- 	
-            <div class="fixedbar">
-            <a class="button btn-delete" ui-sref="app.disbursement">Cancel</a>
-            <a class="button btn-add" ui-sref="app.disbursement">Save </a>
-            </div> -->
+  
 </ion-modal-view>

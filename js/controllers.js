@@ -618,13 +618,13 @@ angular.module('your_app_name.controllers', [])
 
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
-                alert($scope.searchkey);
+               // alert($scope.searchkey);
                 $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
             };
 
             $scope.searchByLocation = function (locid) {
                 $scope.searchkey = locid
-                alert($scope.searchkey);
+               // alert($scope.searchkey);
                 $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
             };
         })
@@ -4152,7 +4152,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
-            alert($scope.searchkey);
+            
             console.log("@@@@@@@----" + $scope.searchkey);
             $http({
                 method: 'GET',
