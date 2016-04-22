@@ -1,4 +1,4 @@
-     var publisher;
+var publisher;
 var session;
 var subscriber;
 angular.module('your_app_name.controllers', [])
@@ -9,10 +9,6 @@ angular.module('your_app_name.controllers', [])
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
             }
-            // else {
-            // if ($rootScope.userLogged == 0)
-            // $state.go('auth.login');
-            // }
         })
 
 // APP
@@ -24,10 +20,6 @@ angular.module('your_app_name.controllers', [])
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
             }
-            // else {
-            // if ($rootScope.userLogged == 0)
-            // $state.go('auth.login');
-            // }
             $scope.logout = function () {
                 $ionicLoading.show({template: 'Logging out....'});
                 $http({
@@ -617,13 +609,13 @@ angular.module('your_app_name.controllers', [])
 
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
-               // alert($scope.searchkey);
+                // alert($scope.searchkey);
                 $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
             };
 
             $scope.searchByLocation = function (locid) {
                 $scope.searchkey = locid
-               // alert($scope.searchkey);
+                // alert($scope.searchkey);
                 $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
             };
         })
@@ -1174,7 +1166,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-        
+
         .controller('AddLifestyleCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('add-lifestyle', {
                 scope: $scope
@@ -1185,7 +1177,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-        
+
         .controller('AddReferralCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('add-referral', {
                 scope: $scope
@@ -1229,7 +1221,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-        
+
         .controller('PlaintestCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('addeval', {
                 scope: $scope
@@ -1284,7 +1276,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
-        
+
         .controller('CancelDoctrscheCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('snomed', {
                 scope: $scope
@@ -1921,7 +1913,7 @@ angular.module('your_app_name.controllers', [])
             $scope.accordiantab = function (pq) {
                 //jQuery('#'+pq).toggleClass('active');
                 jQuery('#' + pq).slideToggle();
-               // jQuery(this).toggleClass('active');
+                // jQuery(this).toggleClass('active');
             };
 
             $scope.tabclick = function (taburl) {
@@ -4002,20 +3994,20 @@ angular.module('your_app_name.controllers', [])
                     });
                 })
             };
-			
-			 $scope.movebottom = function () {
-				jQuery(function () {
-				  var dh=$('.ot-bubbles').height();
-                   	$('.chatscroll').scrollTop(dh);
+
+            $scope.movebottom = function () {
+                jQuery(function () {
+                    var dh = $('.ot-bubbles').height();
+                    $('.chatscroll').scrollTop(dh);
                     //	console.log(wh);
 
                 })
             };
-			
+
             $timeout(function () {
-				
+
                 $scope.appendprevious();
-				$scope.movebottom();
+                $scope.movebottom();
             }, 1000);
         })
 
@@ -4154,7 +4146,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
-            
+
             console.log("@@@@@@@----" + $scope.searchkey);
             $http({
                 method: 'GET',
