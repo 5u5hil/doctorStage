@@ -241,7 +241,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/doctor-consultations.html",
-                                controller: 'DoctorConsultationsCtrl'
+                                controller: 'DoctorConsultationsActiveCtrl'
                             }
                         }
                     })
@@ -251,7 +251,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/consultations-past.html",
-                                controller: 'DoctorConsultationsCtrl'
+                                controller: 'DoctorConsultationsPastCtrl'
                             }
                         }
                     })
@@ -581,7 +581,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.lifestyle', {
                         url: "/consultation-note/lifestyle",
                         views: {
@@ -591,7 +591,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.referral', {
                         url: "/consultation-note/referral",
                         views: {
