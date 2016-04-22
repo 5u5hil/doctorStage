@@ -1,4 +1,4 @@
-var publisher;
+     var publisher;
 var session;
 var subscriber;
 angular.module('your_app_name.controllers', [])
@@ -35,7 +35,6 @@ angular.module('your_app_name.controllers', [])
                     url: domain + 'doctors/doctor-logout',
                     params: {docId: window.localStorage.getItem('id')}
                 }).then(function successCallback(response) {
-
                     window.localStorage.clear();
                     $rootScope.userLogged = 0;
                     $rootScope.$digest;
@@ -705,7 +704,6 @@ angular.module('your_app_name.controllers', [])
                     alert("Patient added successfully!");
                     window.location.reload();
                 });
-
             };
         })
 
@@ -1176,6 +1174,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
+        
         .controller('AddLifestyleCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('add-lifestyle', {
                 scope: $scope
@@ -1186,6 +1185,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
+        
         .controller('AddReferralCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('add-referral', {
                 scope: $scope
@@ -1229,6 +1229,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
+        
         .controller('PlaintestCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('addeval', {
                 scope: $scope
@@ -1283,6 +1284,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.hide();
             };
         })
+        
         .controller('CancelDoctrscheCtrl', function ($scope, $ionicModal) {
             $ionicModal.fromTemplateUrl('snomed', {
                 scope: $scope
@@ -1621,24 +1623,24 @@ angular.module('your_app_name.controllers', [])
                             $rootScope.$emit("SaveObjservation", (response.records.id));
                             $rootScope.$emit("SaveTestResult", (response.records.id));
                             $rootScope.$emit("SaveDigno", (response.records.id));
-//                            $ionicHistory.nextViewOptions({
-//                                historyRoot: true
-//                            });
-//                            alert("Consultation Note added successfully!");
-//                            if ($scope.from == 'app.appointment-list')
-//                                $state.go('app.appointment-list', {}, {reload: true});
-//                            else if ($scope.from == 'app.past-appointment-list')
-//                                $state.go('app.past-appointment-list', {}, {reload: true});
-//                            else if ($scope.from == 'app.patient-app-list')
-//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-//                            else if ($scope.from == 'app.patient-past-app-list')
-//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-//                            else if ($scope.from == 'app.doctor-consultations')
-//                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
-//                            else if ($scope.from == 'app.consultation-past')
-//                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
-//                            else
-//                                $state.go('app.homepage', {}, {reload: true});
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
+                            alert("Consultation Note added successfully!");
+                            if ($scope.from == 'app.appointment-list')
+                                $state.go('app.appointment-list', {}, {reload: true});
+                            else if ($scope.from == 'app.past-appointment-list')
+                                $state.go('app.past-appointment-list', {}, {reload: true});
+                            else if ($scope.from == 'app.patient-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.patient-past-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.doctor-consultations')
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.consultation-past')
+                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                            else
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
@@ -1657,24 +1659,24 @@ angular.module('your_app_name.controllers', [])
                             $rootScope.$emit("SaveObjservation", (response.records.id));
                             $rootScope.$emit("SaveTestResult", (response.records.id));
                             $rootScope.$emit("SaveDigno", (response.records.id));
-//                            $ionicHistory.nextViewOptions({
-//                                historyRoot: true
-//                            });
-//                            alert("Consultation Note added successfully!");
-//                            if ($scope.from == 'app.appointment-list')
-//                                $state.go('app.appointment-list', {}, {reload: true});
-//                            else if ($scope.from == 'app.past-appointment-list')
-//                                $state.go('app.past-appointment-list', {}, {reload: true});
-//                            else if ($scope.from == 'app.patient-app-list')
-//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-//                            else if ($scope.from == 'app.patient-past-app-list')
-//                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
-//                            else if ($scope.from == 'app.doctor-consultations')
-//                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
-//                            else if ($scope.from == 'app.consultation-past')
-//                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
-//                            else
-//                                $state.go('app.homepage', {}, {reload: true});
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
+                            alert("Consultation Note added successfully!");
+                            if ($scope.from == 'app.appointment-list')
+                                $state.go('app.appointment-list', {}, {reload: true});
+                            else if ($scope.from == 'app.past-appointment-list')
+                                $state.go('app.past-appointment-list', {}, {reload: true});
+                            else if ($scope.from == 'app.patient-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.patient-past-app-list')
+                                $state.go('app.patient-app-list', {'id': $scope.patientId}, {reload: true});
+                            else if ($scope.from == 'app.doctor-consultations')
+                                $state.go('app.doctor-consultations', {'id': $scope.doctorId}, {reload: true});
+                            else if ($scope.from == 'app.consultation-past')
+                                $state.go('app.consultation-past', {'id': $scope.doctorId}, {reload: true});
+                            else
+                                $state.go('app.homepage', {}, {reload: true});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
                         }
