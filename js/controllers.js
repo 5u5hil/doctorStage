@@ -920,6 +920,8 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.dob = response.data.dob;
+                $scope.chatPastcnt = response.data.chatPastcnt;
+                $scope.chatActivecnt = response.data.chatActivecnt;
                 $scope.recordsCreatedCnt = response.data.recordsCreatedCnt;
                 $scope.recordsSharedCnt = response.data.recordsSharedCnt;
                 $scope.activeAppCnt = response.data.activeAppCnt;
