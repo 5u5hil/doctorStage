@@ -15,8 +15,8 @@
         </div>
         <div class="list cdetail-list">
             <div class="chatlist">
-                <a class="item item-icon-left item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
-                    <i class="icon ion-ionic"></i>
+                <a class="item item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ng-repeat="cp in chatParticipants" ui-sref-opts="{reload: true}">
+                    <img class="user-image-circle" ng-if="participant[$index][0].image != ''" ng-src="{{imgpath}}{{participant[$index][0].image}}"><img class="user-image-circle" ng-if="participant[$index][0].image == ''" ng-src="img/default-user.jpg">
                     <span class="title">{{participant[$index][0].fname}}</span>
                     <div ng-if="msg[$index] != ''" >
                         <p class="description">{{msg[$index].message}}</p>

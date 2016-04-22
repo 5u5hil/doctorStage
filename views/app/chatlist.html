@@ -22,13 +22,13 @@
                 </div>-->
         <div class="list cdetail-list" >
             <div class="chatlist {{cp.state=='Past'? 'pchat':'achat'}}" ng-repeat="cp in chatParticipants| filter:chatFilter">
-                <a class="item item-icon-left item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ui-sref-opts="{reload: true}">
-                    <i class="icon ion-ionic"></i> 
+                <a class="item item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ui-sref-opts="{reload: true}">
+                    <img class="user-image-circle" ng-if="participant[$index][0].image != ''" ng-src="{{imgpath}}{{participant[$index][0].image}}"><img class="user-image-circle" ng-if="participant[$index][0].image == ''" ng-src="img/default-user.jpg">
                     <span class="title">{{participant[$index][0].fname}}</span>
                     <div ng-if="msg[$index] != ''" >
                         <p class="description">{{msg[$index].message}}</p>
                         <span class="chat-time">{{msg[$index].tstamp|time}} <br/>
-                            <div class="countright" ng-if="unreadCnt[$index]!=0">{{unreadCnt[$index]}}</div>
+                            <div class="countright" ng-if="unreadCnt[$index] != 0">{{unreadCnt[$index]}}</div>
                         </span>
                     </div>
                 </a>
