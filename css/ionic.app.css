@@ -9407,11 +9407,16 @@ h1.post-title{font-size:26px;}
 
 
 input[type="date"]:before{
-    font-family: "Ionicons";
-    display: inline-block;
-    padding:0 5px;
-    content: "\f117"; display:block;
+       font-family: "Ionicons";
+    position: absolute;
+    left: 0;
+    top: 34%;
+    padding: 0 5px;
+    content: "\f117"; 
 }
+
+.item.item-input input[type="date"]{text-indent:8px;}
+
 .multipleselect{ border-right:1px #eee solid;  border-left:1px #eee solid;  border-bottom:1px #eee solid; float:left; padding:15px; box-sizing:border-box; display:none;}
 .multibtb{padding: 13px;
           border-top: 1px #eee solid;
