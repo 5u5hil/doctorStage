@@ -8562,7 +8562,7 @@ a.posts-list{text-decoration:none;}
 }
 .clist-data-icon a{text-decoration:none;}
 .consultview{margin-top:55px;}
-select.selectheader{ width:80%; padding:3px; border:0; text-indent:35%;}
+select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
 .consultview .post-footer,.consultview .post-footer .row{padding:0;}
 
 .card-content{    padding: 10px 10px 5px 10px; text-align:justify; position:relative; display:block; text-decoration:none;}

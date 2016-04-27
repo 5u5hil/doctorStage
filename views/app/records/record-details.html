@@ -3,14 +3,15 @@
         <span>Specific Record ({{category[0].categories.category}})</span>
     </ion-nav-title>
     <ion-content>
-        <div class="tabcontainer pb50">
-            <ul class="clistdata">
+        <div class="pb50">
+            <ul class="recordli">
                 <li ng-repeat="rec in recordDetails track by $index">
                     <div ng-if="category[0].category == 3">
-                        <span >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span>
+					
+                        <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
                         <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Doctor' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
                             <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div>{{doctors.fname}} {{doctors.lname}}</div>
+                            <div class="item item-input">{{doctors.fname}} {{doctors.lname}}</div>
                         </div>
                         <div ng-if="rec.fields.field == 'Related Problem'">
                             {{problem.value}}
@@ -123,25 +124,27 @@
                         </div>
                     </div>
                     <div ng-if="category[0].category != 3 && category[0].category != 7">
-                        <span >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span>
+                        <div class="item item-divider">{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
                         <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Doctor' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
                             <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div>{{doctors.fname}} {{doctors.lname}}</div>
+                            <div class="item item-input">{{doctors.fname}} {{doctors.lname}}</div>
                         </div>
                         <div ng-if="rec.fields.field == 'Related Problem'">
-                            {{problem.value}}
+                          <div class="item item-input">  {{problem.value}}</div>
                         </div>
                         <div ng-if="rec.fields.field == 'Patient'">
-                            {{patient.fname}} {{patient.lname}}
+                          <div class="item item-input">  {{patient.fname}} {{patient.lname}}</div>
                         </div>
                         <div ng-if="rec.fields.field == 'Case Id'">
-                            {{cases.value}}
+                           <div class="item item-input"> {{cases.value}}</div>
                         </div>
                         <div ng-if="rec.fields.field == 'Mode'">
-                            {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value }}
+                         <div class="item item-input">    {{rec.value==1? 'Video': rec.value==2? 'Chat': rec.value==3? 'Clinic': rec.value==4? 'Home':rec.value }}</div>
                         </div>
-                        <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Doctor' && rec.fields.field != 'Case Id' && rec.fields.field != 'Mode' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'">
-                            <div ng-if="rec.fields.field_type == 8">
+						
+                        <div ng-if="rec.fields.field != 'Patient' && rec.fields.field != 'Doctor' && rec.fields.field != 'Case Id' && rec.fields.field != 'Mode' && rec.fields.field != 'Prescribed By' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem'" class="item item-input">
+                            <div ng-if="rec.fields.field_type == 8" >
+							
                                 <div ng-if="rec.fields.field == 'End Date'">
                                     <div ng-if="rec.value == ''">NA</div>
                                     <div ng-if="rec.value == '0000-00-00'"> NA </div>
@@ -153,13 +156,13 @@
                                     <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
                                 </div>
                             </div>
-                            <div ng-if="rec.fields.field_type == 12">                                
+                            <div ng-if="rec.fields.field_type == 12" >                                
                                 <div ng-if="rec.value == ''"> NA </div>
                                 <div ng-if="rec.value == '00:00:00'"> NA </div>
                                 <div ng-if="rec.value != '00:00:00' && rec.value != ''">{{rec.value|time1}}</div>
                             </div>
                             <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
-                        </div>
+                       
                         <div class="clist-data-icon" ng-if="rec.fields.field == 'Attachments'" >
                             <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
                             <!--  <a href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" target="_blank" class="button button-outline button-positive" style="width:100%" ng-If="rec.attachments.length > 0" ng-repeat="attach in rec.attachments" >
@@ -181,6 +184,7 @@
                             </div>
                             <div class="clr"></div>		
                         </div>
+						 </div>
                     </div>
                 </li>
             </ul>
@@ -211,6 +215,7 @@
     <div class="modal">
     <header class="bar bar-header bar-positive">
     <h1 class="title">Attached Files</h1>
+  <button class="button" ng-click="print()">Print</button>
     </header>
     <content has-header="true" padding="true" class="fullwh">
     <div class="mcontent">
