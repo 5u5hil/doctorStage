@@ -1,6 +1,6 @@
 <ion-view cache-view="false" class="records-view">
     <ion-nav-title>
-        <span>{{tabmenu.appointment_list[language]}}</span>
+        <span>Appointment List</span>
     </ion-nav-title>
     <ion-content>
         <div class="row tabnav">
@@ -38,7 +38,7 @@
                             <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app..id prod.user_id, app.mode, app.scheduled_start_time)"><i class="ion-close"></i> Reschedule</a></div>
                             <!---<div class="col" ng-if="app.appointments.mode == 3 || app.appointments.mode == 4"><a confirmed-click="reschedule(app.appointment_id, prod.user_id, app.appointments.mode, app.appointments.scheduled_start_time)" ng-confirm-click="Do you really want to reschedule?"   class="cbtn">Reschedule</a></div>-->
                             <div class="col" ng-if="app.mode == 1"><a  ng-click="joinVideo(app.mode, all_time[$index], all_end_time[$index], app.id, all_usersData[$index][0].id)"  class="cbtn join"><i class="ion-ios-videocam"></i> Join</a></div>
-                            <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a ui-sref="#" class="cbtn conduct">{{tabmenu.conduct[language]}}</a></div>
+                            <div class="col" ng-if="app.mode == 3 || app.mode == 4"><a ui-sref="#" class="cbtn conduct">Conduct</a></div>
                         </div>
                     </div>
                 </div>
