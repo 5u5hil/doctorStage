@@ -3850,6 +3850,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.todays_end_time_past = response.data.todays_end_time_past;
                 $scope.todays_note_past = response.data.todays_note_past;
                 $scope.todays_medicine_past = response.data.todays_medicine_past;
+                $scope.todays_past_data = response.data.todays_past_data;
                 // end past section //
 
                 //past section 
@@ -3860,6 +3861,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.week_end_time_past = response.data.week_end_time_past;
                 $scope.week_note_past = response.data.week_note_past;
                 $scope.week_medicine_past = response.data.week_medicine_past;
+                $scope.week_past_data = response.data.week_past_data;
                 //end past section
 
                 //past section //
@@ -3870,6 +3872,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_end_time_past = response.data.all_end_time_past;
                 $scope.all_note_past = response.data.all_note_past;
                 $scope.all_medicine_past = response.data.all_medicine_past;
+                $scope.all_past_data = response.data.all_past_data;
                 //end past section//
             }, function errorCallback(e) {
                 console.log(e);
