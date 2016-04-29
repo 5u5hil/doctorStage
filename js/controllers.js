@@ -2371,7 +2371,7 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     if (angular.isObject(response.data.records)) {
                         $rootScope.objId = response.data.records.id;
-                        alert("Observations added succesesfully!");
+                        //alert("Observations added succesesfully!");
                         //$state.go('app.notetype');
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     }
@@ -2388,7 +2388,7 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     if (angular.isObject(response.data.records)) {
                         $rootScope.objId = response.data.records.id;
-                        alert("Observations added succesesfully!");
+                        //alert("Observations added succesesfully!");
                         console.log('remove slide');
                         jQuery('.ciframecontainer').removeClass('active');
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
@@ -2476,7 +2476,7 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     if (angular.isObject(response.data.records)) {
                         $rootScope.testId = response.data.records.id;
-                        alert("Test Results added succesesfully!");
+                        //alert("Test Results added succesesfully!");
                         //$state.go('app.notetype');
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
                     }
@@ -2493,7 +2493,7 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     if (angular.isObject(response.data.records)) {
                         $rootScope.testId = response.data.records.id;
-                        alert("Test Results added succesesfully!");
+                        //alert("Test Results added succesesfully!");
                         console.log('remove slide');
                         jQuery('.ciframecontainer').removeClass('active');
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
@@ -2563,7 +2563,7 @@ angular.module('your_app_name.controllers', [])
                     if (angular.isObject(response.data.records)) {
                         console.log(response.data.records.id);
                         $rootScope.diaId = response.data.records.id;
-                        alert("Diagnosis added succesesfully!");
+                        //alert("Diagnosis added succesesfully!");
                         //$scope.modal.hide();
                         //$state.go('app.notetype');
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
@@ -2581,7 +2581,7 @@ angular.module('your_app_name.controllers', [])
                     if (angular.isObject(response.data.records)) {
                         console.log(response.data.records.id);
                         $rootScope.diaId = response.data.records.id;
-                        alert("Diagnosis added succesesfully!");
+                        //alert("Diagnosis added succesesfully!");
                         console.log('remove slide');
                         jQuery('.ciframecontainer').removeClass('active');
                         //$state.go('app.consultations-note', {'appId': $scope.appId}, {reload: true});
@@ -2722,7 +2722,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('MedicationsCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
+        .controller('MedicationsCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -2844,7 +2844,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ProceduresCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
+        .controller('ProceduresCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -2966,7 +2966,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('LifeStyleCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
+        .controller('LifeStyleCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -3088,7 +3088,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ReferralCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
+        .controller('ReferralCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -3485,7 +3485,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         //Doctor Consultations
-            .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+        .controller('DoctorConsultationsCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -3668,7 +3668,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-            .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -3678,6 +3678,7 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.drId}
             }).then(function successCallback(response) {
                 console.log(response.data);
+                $scope.todays_data = response.data.todays_data;
                 $scope.todays_app = response.data.todays_appointments;
                 $scope.todays_usersData = response.data.todays_usersData;
                 $scope.todays_products = response.data.todays_products;
@@ -3685,8 +3686,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.todays_end_time = response.data.todays_end_time;
                 $scope.todays_note = response.data.todays_note;
                 $scope.todays_medicine = response.data.todays_medicine;
-             
-               
+
+                $scope.week_data = response.data.week_data;
                 $scope.week_app = response.data.week_appointments;
                 $scope.week_usersData = response.data.week_usersData;
                 $scope.week_products = response.data.week_products;
@@ -3694,7 +3695,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.week_end_time = response.data.week_end_time;
                 $scope.week_note = response.data.week_note;
                 $scope.week_medicine = response.data.week_medicine;
-               
+
+                $scope.all_data = response.data.all_data;
                 $scope.all_app = response.data.all_appointments;
                 $scope.all_usersData = response.data.all_usersData;
                 $scope.all_products = response.data.all_products;
@@ -3702,7 +3704,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
                 $scope.all_medicine = response.data.all_medicine;
-               
+
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -3829,7 +3831,7 @@ angular.module('your_app_name.controllers', [])
         })
 
 
-            .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+        .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -3839,7 +3841,7 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.drId}
             }).then(function successCallback(response) {
                 console.log(response.data);
-               
+
                 //past section
                 $scope.todays_app_past = response.data.todays_appointments_past;
                 $scope.todays_usersData_past = response.data.todays_usersData_past;
@@ -3849,7 +3851,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.todays_note_past = response.data.todays_note_past;
                 $scope.todays_medicine_past = response.data.todays_medicine_past;
                 // end past section //
-               
+
                 //past section 
                 $scope.week_app_past = response.data.week_appointments_past;
                 $scope.week_usersData_past = response.data.week_usersData_past;
@@ -3859,7 +3861,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.week_note_past = response.data.week_note_past;
                 $scope.week_medicine_past = response.data.week_medicine_past;
                 //end past section
-               
+
                 //past section //
                 $scope.all_app_past = response.data.all_appointments_past;
                 $scope.all_usersData_past = response.data.all_usersData_past;
