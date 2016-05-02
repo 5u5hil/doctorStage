@@ -2,14 +2,18 @@
     <ion-nav-title>
         <span>{{patientDetails.fname}}</span>
     </ion-nav-title>
-
+    <ion-nav-buttons side="right">
+        <a ui-sref="app.doctr-services" class="button button-icon button-clear icon ion-plus"> Add</a>
+    </ion-nav-buttons>
     <ion-content>
         <div class="list mb0" >
             <div class="posts-list">
                 <div  class="list card post-item mb15">
                     <div class="post-content item item-text-wrap p0">
                         <div  class="card-content paraspacing">
-                            <div class="cardheading txtcenter">{{patientDetails.fname}}  <button style="float:right;"><i class="icon ion-android-create"></i></button></div>
+                            <div class="cardheading txtcenter">{{patientDetails.fname}}  
+                                <!--                                <button style="float:right;"><i class="icon ion-android-create"></i></button>-->
+                            </div>
                             <div class="row">
                                 <div class="col txt-left">{{patientDetails.gender == 1? 'Male':patientDetails.gender == 2? 'Female':'Na'}}</div>	
                                 <div class="col txt-right">+91 {{patientDetails.phone}}</div>	

@@ -7,9 +7,9 @@
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
                 </button>
             </ion-nav-buttons>
-            <ion-nav-buttons side="right">
+<!--            <ion-nav-buttons side="right">
                 <a ui-sref="app.doctor-settings"><button class="button button-icon button-clear icon ion-gear-a"></button></a>
-            </ion-nav-buttons>
+            </ion-nav-buttons>-->
         </ion-nav-bar>
 
         <ion-nav-view name="menuContent"></ion-nav-view>
@@ -41,7 +41,10 @@
                     <i class="icon ion-medkit"></i>
                     <h2 class="menu-text">Diet Plan</h2>
                 </ion-item> -->
-
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.doctor-settings">
+                    <i class="icon ion-gear-a"></i>
+                    <h2 class="menu-text">Settings</h2>
+                </ion-item>
                 <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == 1" ng-click="logout()" >
                     <i class="icon ion-android-unlock"></i>
                     <h2 class="menu-text">Logout</h2>

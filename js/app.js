@@ -758,6 +758,16 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.doctr-services', {
+                        //  cache: false,
+                        url: "/doctr-services",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/doctr-services.html",
+                                controller: 'ConsultationProfileCtrl'
+                            }
+                        }
+                    })
                     .state('app.content-library', {
                         //  cache: false,
                         url: "/content-library",

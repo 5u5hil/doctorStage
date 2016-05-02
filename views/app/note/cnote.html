@@ -84,7 +84,7 @@
                             <div ng-if="appId != 0" class="hide">
                                 <div ng-if="field.field == 'Consultation Date'">
                                     <div class="item item-divider ">{{field.field}}</div>
-                                    <div class="ditem-content">
+                                    <div class="item item-input">
                                         <input type="text" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate}}"  name="{{field.name}}" required disabled="disabled" />
                                     </div>
                                 </div>
@@ -92,7 +92,7 @@
                             <div ng-if="appId == 0">
                                 <div ng-if="field.field == 'Consultation Date'">
                                     <div class="item item-divider">{{field.field}}</div>
-                                    <div class="ditem-content">
+                                    <div class="item item-input">
                                         <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required />
                                     </div>
 

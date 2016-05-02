@@ -31,6 +31,17 @@ angular.module('your_app_name.filters', [])
                 }
             }
         })
+
+        .filter('ceil', function () {
+            return function (n) {
+                return Math.ceil(n);
+            };
+        })
+        .filter('floor', function () {
+            return function (n) {
+                return Math.floor(n);
+            };
+        })
         .filter('dateFormat', function ($filter)
         {
             return function (input)
