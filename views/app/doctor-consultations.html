@@ -40,18 +40,18 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col txt-right" ng-if="td.todays_medicine.length > 0">
+                                            <div class="col txt-center" ng-if="td.todays_medicine.length > 0">
                                                 <a  class="btn crdview-plus" ng-click="viewMedicine(td.todays_medicine[0].consultation_id)">
                                                     <span class="icon ion-eye"></span> View Medicine
                                                 </a>
                                             </div>
 
-                                            <div class="col txt-right" ng-if="td.todays_note.length > 0">
+                                            <div class="col txt-center" ng-if="td.todays_note.length > 0">
                                                 <a  class="btn crdview-plus" ng-click="viewNote(td.todays_note[0].id)">
                                                     <span class="icon ion-eye"></span> View Note
                                                 </a>
                                             </div>
-                                            <div class="col txt-right" ng-if="td.todays_note.length == 0">
+                                            <div class="col txt-center" ng-if="td.todays_note.length == 0">
                                                 <a ng-click="addCnote(td.app.id, 'act')" class="btn crdview-plus">
                                                     <span class="icon ion-plus-circled"></span> Note
                                                 </a>
