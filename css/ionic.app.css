@@ -8639,7 +8639,9 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
     border-top:1px #eee solid;
 
 }
-
+.sche-date input[type=date]{
+    left:30%;
+}
 
 .timesheet{ margin-top:5px; position:relative;}
 .timesheet li{
@@ -8659,7 +8661,7 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
 .timesheet li.disabled{opacity:0.3;}
 .sche-date input{
     margin: 0 auto;
-	width:45%; 
+    width:45%; 
     height: 30px;
     padding: 3px;
     text-align: center;
@@ -9407,7 +9409,7 @@ h1.post-title{font-size:26px;}
 
 
 input[type="date"]:before{
-       font-family: "Ionicons";
+    font-family: "Ionicons";
     position: absolute;
     left: 0;
     top: 34%;
@@ -9437,20 +9439,20 @@ input[type="date"]:before{
     margin-top: 5px;} */
 
 
-	
+
 .pchat{opacity:0.6;}
-	
+
 .tabactive{
-	display:block;
+    display:block;
 
 }	
 .tabinactive{display:none;
--webkit-transform: translate(0,0);
+             -webkit-transform: translate(0,0);
 }
 .notetab{}
 .headtab{margin-top: 44px; position:relative; z-index:99;}
 .mt60{margin-top:60px;}
-	
+
 .accordiantab{/* width: 100%; */
     /* margin-bottom: 15px; */
     background: #fff;
@@ -9460,17 +9462,17 @@ input[type="date"]:before{
     text-align: left;
     display: block;
     text-decoration: none; margin:8px;}	
-	.accordiantab span.icon{color: #28a54c; float:right;}
-	
-	.accordiancontent{display:none; /* padding: 0 15px; */ margin:0 10px;}
-	.accordiancontent.active{display:block;}
-	.tcontent{padding:5px; border:1px dashed #28a54c; margin-bottom: 30px;}
-	.tbtn{display:none;}
-	.tbtn.active{display:block;}
-	.tab-buttons .col{float:left; }
-	.tab-buttons .fixedbar{padding:0;}
-	.tab-buttons .fixedbar .button{border-radius:0;}
-	
+.accordiantab span.icon{color: #28a54c; float:right;}
+
+.accordiancontent{display:none; /* padding: 0 15px; */ margin:0 10px;}
+.accordiancontent.active{display:block;}
+.tcontent{padding:5px; border:1px dashed #28a54c; margin-bottom: 30px;}
+.tbtn{display:none;}
+.tbtn.active{display:block;}
+.tab-buttons .col{float:left; }
+.tab-buttons .fixedbar{padding:0;}
+.tab-buttons .fixedbar .button{border-radius:0;}
+
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{
 
