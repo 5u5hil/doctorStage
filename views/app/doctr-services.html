@@ -9,16 +9,15 @@
     <ion-content>
         <div class="ioncontent">
             <div ng-repeat="doc in doctor">
-                <div class="whitetab profile" style="margin-top:87px;">
+                <div class="whitetab profile">
                     <div class="schedule">
                         <my-tabs class="themetabs">
 
                             <div ng-repeat="serv in services">          
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
-                                        <my-tab icon="ion-calendar tabicon" title="Scheduled Video" >
+                                        <my-tab icon="ion-calendar tabicon" title="Scheduled Video" ng-click="doesit();">
                                             <div class="tabc2">
-                                                <div class="item-price">Price : INR {{videoProd.interfacePrice|ceil}}</div>
                                                 <div class="mt15"> 
                                                     <ul class="clist">
                                                         <li>{{videoProd.desc}}</li>
@@ -60,7 +59,6 @@
                                         <div ng-if="instVideo != ''">
                                             <my-tab title="Instant Video" icon="ion-ios-bolt tabicon" ng-click="doit();">
                                                 <div class="tabc2">
-                                                    <div class="item-price">Price : INR {{instVideo.interfacePrice|ceil}}</div>
                                                     <div class="tabcontainer"> 
                                                         <p><b>How Instant Video Works</b></p>
                                                         <ul class="clist">
@@ -75,16 +73,14 @@
                                                     </div>
                                                 </div>
                                             </my-tab>                                
-                                    </my-tabs>
+                                   
                             </div>
                         </my-tabs>
                         </my-tab>
                         <my-tab  icon="ion-medkit tabicon" title="Clinic"  ng-if="serv == 3">
                             <div class="tabc2">
-                                <div class="item-price">Price : INR {{clinicProd.interfacePrice|ceil}}</div>
                                 <div class="mt15"> 
                                     <ul class="clist">
-                                        <li>{{clinicProd.desc}}</li>
                                         <li ng-repeat="cInc in clinicInc track by $index">{{cInc.mode}}, {{cInc.desc}},
                                             <span ng-if="cInc.discount < 100">Discount : {{cInc.discount}} %</span>, {{cInc.validity_in_days}} Days
                                         </li>
@@ -121,7 +117,6 @@
                         </my-tab>
                         <my-tab  icon="ion-chatboxes tabicon" title="Chat" ng-if="serv == 2">
                             <div class="tabc2">
-                                <div class="item-price">Price : INR {{chatProd.interfacePrice|ceil}}</div>
                                 <div class="tabcontainer"> 
                                     <ul class="clist">
                                         <li><strong>{{chatProd.desc}}</strong></li>
@@ -133,9 +128,10 @@
                             </div>
                         </my-tab>
                     </div>
-
+                            </my-tabs>
                 </div>
             </div>
+        </div>
         </div>
     </ion-content>
 

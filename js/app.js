@@ -760,7 +760,7 @@ angular.module('your_app_name', [
 
                     .state('app.doctr-services', {
                         //  cache: false,
-                        url: "/doctr-services",
+                        url: "/doctr-services/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/doctr-services.html",
@@ -768,6 +768,40 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+
+                    .state('app.checkavailable', {
+                        cache: false,
+                        url: "/checkavailable/{data:int}/{uid:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/checkavailable.html",
+                                controller: 'CheckavailableCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.payment', {
+                        //  cache: false,
+                        url: "/payment/{id:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/appointment-preview.html",
+                                controller: 'AppPreviewCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.thankyou', {
+                        cache: false,
+                        url: "/thankyou/{data:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/thankyou.html",
+                                controller: 'ThankyouCtrl'
+                            }
+                        }
+                    })
+
                     .state('app.content-library', {
                         //  cache: false,
                         url: "/content-library",

@@ -1,0 +1,44 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+
+        <span >Thank You</span>
+    </ion-nav-title>
+    <!--     <ion-nav-buttons side="right">
+            <button class="button button-icon button-clear ion-person">
+            </button>
+        </ion-nav-buttons> -->
+
+    <ion-content>
+        <div class="list">           
+            <div class="posts-list">
+                <div  class="list card post-item">
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="p15"  ng-if="data == 'success'">
+                            <br/>
+                            Thank you for booking with us. <br/>
+                            Now you can view your appointments in Consultations section.     
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div ng-click="gotohome()" class="button bar bar-positive">Back to Consultations</div>
+                            <div class="clr"></div>
+                        </div>
+                        <div class="p15" ng-if="data == 'fail'">
+                            Appointment is not booked due to some issues!   
+                            <br/>
+                            <br/>
+                            <br/>
+                            <div class="button bar bar-positive" ng-click="gotohome()">Back to Consultations</div>
+                            <div class="clr"></div>
+                        </div>
+<!--                        <div class="" style="padding: 4px 6px;">
+                            <div class="row">
+                                <div class="col"><a nav-clear menu-close  ui-sref="app.patient-list" class="Cstmbutn button-small">Back to Patients</a></div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

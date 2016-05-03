@@ -1,0 +1,69 @@
+<ion-view class="payment-view">
+    <ion-nav-title>
+        <span>Confirm Appointment</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="content-section">
+            <div class="list card" style="margin:0;">
+                <div class="allp" ng-repeat="doc in doctor">
+                <div class="item item-divider">Doctor</div>
+
+                    <div class="ditem-content"><strong>{{doc.fname}}</strong><br/>
+                        <span ng-repeat="spec in doc.specializations">
+                            {{spec.specialization}},   
+                        </span>
+                    </div>
+                        <div class="item item-divider">Patient</div>
+                     <div class="ditem-content"><strong>{{patient[0].fname}} {{patient[0].lname}}</strong><br/>
+                        {{patient[0].phone}}
+                    </div>
+                    <!--<p><strong>Qualification</strong><br/>MBBS,MD</p>-->
+
+                    
+
+                    <div class="item item-divider" ng-if="product[0].mode != 'Chat'">Appointment Details</div>
+                    <div class="ditem-content" ng-if="product[0].mode != 'Chat'">
+
+                            
+
+                        <span ng-repeat="pro in product">  
+                        <strong>Mode : </strong> {{pro.desc}}, {{pro.mode}} <br/>
+                         <!-- <strong>Discount : </strong> 
+                   <span ng-if="pInc.discount < 100">Discount : {{pInc.discount}} %</span>, {{pInc.validity_in_days}} Days -->
+                         </span>
+
+
+                            <span ng-repeat="pInc in  prod_inclusion track by $index">  <strong>Discount : </strong> {{pro.desc}}, {{pro.mode}}  </span>   
+
+                          <span ng-if="startSlot">
+                            <strong>Date : </strong> {{startSlot| dateFormat3}} <br/>
+                            <strong>Time : </strong> {{startSlot| time1}} To {{endSlot| time1}}<br/>
+                        </span>
+                        <span ng-if="!startSlot">
+                            <strong>Date : </strong> {{curTime| dateFormat3}} <br/>
+                            <strong>Time : </strong> {{IVstartSlot| time1}} To {{IVendSlot| time1}}<br/>
+                        </span>
+
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+        <!--            <div class="ctab">
+                        <div class="tabcontainer" style="margin-top:0;">
+                            -<h4 class="txt-centre" style="margin-top:10px; margin-bottom:10px;">Price: INR {{product[0].price}}</h4>
+                            <div class="section-footer"> -ui-sref="app.success"
+                                <a ng-if="mode == 1 || mode == 2" ng-click="bookNow()" class="button button-full button-positive">Confirm</a>                                
+                            </div>
+                            <p class="agreelink">
+                                By Clicking on the button above, you agree to the <span dynamic-anchor-fix><a href="https://doctrs.in/termsandconditions.pdf" target="_blank">terms & conditions</a></span> and have read the <span dynamic-anchor-fix><a href="https://doctrs.in/privacypolicy.pdf" target="_blank">privacy policy</a> </span> & <span dynamic-anchor-fix><a href="https://doctrs.in/CancellationPolicy.pdf" target="_blank">cancellation policy.</a></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>-->
+    </ion-content>
+    <div class="fixedbar" >
+        <a  nav-clear menu-close ng-click="bookNow()" class="button btn-share">Confirm Appointment</a>
+    </div>
+</ion-view>

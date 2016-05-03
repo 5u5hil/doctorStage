@@ -1,0 +1,47 @@
+<ion-view cache-view="false" class="records-view">
+    <ion-nav-title>
+
+        <span>Instant Video</span>
+    </ion-nav-title>
+
+
+    <ion-content>
+
+
+
+        <div class="ioncontent">
+            <div class="item item-body">
+                <p><b>How Instant Video Works</b></p>
+
+                <ul class="clist">
+                    <li>We check if your chosen specialist is available for an instant video consult</li>
+                    <li>If yes, you have <b><u>10 minutes to book</u></b> the consult.</li>
+                    <li>After booking consult, you will have a maximum of <b><u>10 minutes to join</u></b> the video consult.</li>
+
+                </ul>
+            </div>
+
+            <div class="txt-center mtop15 p15" > 
+                <button class="button button-block button-positive" ng-click="countdown(data, uid)">Check Availability</button>
+            </div>
+
+        </div>
+
+    </ion-content>
+    <div class="waitingdiv" ng-show="IsVisible" >
+        <div class="waitdiv">
+            <div class="fwhite txt-center mtb15">
+                Checking your specialist's availability...
+            </div>
+
+            <div class="countcounter" ng-bind="counter"></div>
+            <p class="text-center fwhite">Please Wait...</p>
+        </div>
+        <div class="button button-assertive stickfoot"  ng-click="hidediv()">Cancel</div>
+    </div>
+
+</ion-view>
+
+
+
+

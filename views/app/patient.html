@@ -3,7 +3,7 @@
         <span>{{patientDetails.fname}}</span>
     </ion-nav-title>
     <ion-nav-buttons side="right">
-        <a ui-sref="app.doctr-services" class="button button-icon button-clear icon ion-plus"> Add</a>
+        <a ui-sref="app.doctr-services({'id': patientDetails.id})" class="button button-icon button-clear icon ion-plus"> Add</a>
     </ion-nav-buttons>
     <ion-content>
         <div class="list mb0" >
