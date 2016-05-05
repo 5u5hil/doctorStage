@@ -1,104 +1,42 @@
 <ion-view class="category-feeds-view">
-  <ion-nav-title>
-    <span>Library</span>
-  </ion-nav-title>
-  <ion-content class="bgwhite">
-   
-<div class="row tabnav">
-<div class="col"><a  ui-sref="app.content-library"  class="active" >Created by you</a></div>
-<div class="col"><a  ui-sref="app.library-feed" >Feed</a></div>
-</div>	
-   
-   
-    <div class="posts-list">
-      <div  class="list card post-item">
-        <div class="post-heading item item-text-wrap">
-          <h2 class="post-title">Title come here</h2>
-          <p class="post-author">
-            By <span>Mr.XYZ</span> <span>10 March 2016</span>
-          </p>
+    <ion-nav-title>
+        <span>Library</span>
+    </ion-nav-title>
+    <ion-content class="bgwhite">
+
+        <div class="row tabnav">
+            <div class="col"><a  ui-sref="app.content-library"  class="active" >Created by you</a></div>
+            <div class="col"><a  ui-sref="app.library-feed" >Feed</a></div>
+        </div>	
+
+
+        <div class="posts-list">
+             
+            <div  class="list card post-item" ng-repeat="contentLab in clab">
+                <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
+                <div class="post-heading item item-text-wrap">
+                    <h2 class="post-title">{{contentLab.content_title}}</h2>
+                    <p class="post-author">
+                        By <span>{{contentLab.user}}</span> <span>{{contentLab.created_at| dateFormat3}}</span>
+                    </p>
+                </div>
+                <div class="post-content item item-text-wrap" post-content>
+                    <p class="post-excerpt" dynamic-anchor-fix>
+                        {{contentLab.desc}}
+                    </p>
+                    <p class="imgincard">  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
+                    <div class="post-actions">
+                        <p > <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
+                        </p>
+                        <p> <strong>Tags </strong>|  </p>
+                    </div>
+                </div>
+                </a>
+            </div>
+
         </div>
-        <div class="post-content item item-text-wrap" post-content>
-          <p class="post-excerpt" dynamic-anchor-fix>
-			  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been 
-			</p>
-          <div class="post-actions">
-          <p> <strong>Category </strong>|  Lorem, Ipsum, Lorem</p>
-          <p> <strong>Tags </strong>|  Lorem, Ipsum, Lorem</p>
-          </div>
-        </div>
-      </div>
-	  
-	  
-	  
-	   <div  class="list card post-item">
-        <div class="post-heading item item-text-wrap">
-          <h2 class="post-title">Title come here</h2>
-          <p class="post-author">
-             By <span>Mr.XYZ</span> <span>10 March 2016</span>
-          </p>
-        </div>
-        <div class="post-content item item-text-wrap" post-content>
-          <p class="post-excerpt" dynamic-anchor-fix>
-			  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-			 </p>
-			  <p class="imgincard">  <img src="img/profile.jpg" /></p>
-			  
-			<div class="post-actions">
-          <p> <strong>Category </strong>|  Lorem, Ipsum, Lorem</p>
-          <p> <strong>Tags </strong>|  Lorem, Ipsum, Lorem</p>
-          </div>
-        </div>
-      </div>
-	  
-	  
-	   <div  class="list card post-item">
-        <div class="post-heading item item-text-wrap">
-          <h2 class="post-title">Audio</h2>
-          <p class="post-author">
-             By <span>Mr.XYZ</span> <span>10 March 2016</span>
-          </p>
-        </div>
-        <div class="post-content item item-text-wrap" post-content>
-           <p class="post-excerpt ng-binding" dynamic-anchor-fix="">
-		  <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-			<audio class="wp-audio-shortcode" id="audio-227-1" preload="none" style="width: 100%; visibility: hidden;" controls="controls"><source type="audio/mpeg" src="http://wordpress.startapplabs.com/blog/wp-content/uploads/2015/03/audio.mp3?_=1"><a href="http://wordpress.startapplabs.com/blog/wp-content/uploads/2015/03/audio.mp3">http://wordpress.startapplabs.com/blog/wp-content/uploads/2015/03/audio.mp3</a></audio>
-			</p>
-			  
-			  
-           <div class="post-actions">
-          <p> <strong>Category </strong>|  Lorem, Ipsum, Lorem</p>
-          <p> <strong>Tags </strong>|  Lorem, Ipsum, Lorem</p>
-          </div>
-        </div>
-      </div>
-	  
-	  
-	
-	
-	 <div  class="list card post-item">
-        <div class="post-heading item item-text-wrap">
-		<h2 class="post-title">Video</h2>
-          <p class="post-author">
-             By <span>Mr.XYZ</span> <span>10 March 2016</span>
-          </p>
-        </div>
-        <div class="post-content item item-text-wrap">
-<p>
-	<div  class="framecontainer">
-	<iframe  class="iframevideo"  frameborder="0" allowfullscreen="1"   src="https://s3.amazonaws.com/tokbox.com.archive2/45121182%2Fbb822b0c-9ff6-4aa4-bcd1-5595e2734235%2Farchive.mp4?Signature=FLeUDMVmMTjuIeeS7VVykFstMFc%3D&AWSAccessKeyId=AKIAI6LQCPIXYVWCQV6Q&Expires=1462368415"></iframe>
-   </div>
-</p>
-			  
-		  <div class="post-actions">
-          <p> <strong>Category </strong>|  Lorem, Ipsum, Lorem</p>
-          <p> <strong>Tags </strong>|  Lorem, Ipsum, Lorem</p>
-          </div>
-        </div>
-      </div>
-	 </div>
-  </ion-content>
-     <div class="bar bar-footer bar-positive">
+    </ion-content>
+    <div class="bar bar-footer bar-positive">
         <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Create</div>
     </div>
 </ion-view>
@@ -113,15 +51,15 @@
     </ion-header-bar>
     <ion-content>
 
-		<div class="row">
-		<div class="col"><div class="custombtn" ng-controller="CloseModalCtrl" ng-click="modalclose('app.newarticle')" >Text Article</div></div>
-		</div>
-			<div class="row">
-		<div class="col"><a class="custombtn">Video</a></div>
-		</div>
-	
-</ion-content>
-   
+    <div class="row">
+    <div class="col"><div class="custombtn" ng-controller="CloseModalCtrl" ng-click="modalclose('app.newarticle')" >Text Article</div></div>
+    </div>
+    <div class="row">
+    <div class="col"><a class="custombtn">Video</a></div>
+    </div>
+
+    </ion-content>
+
     </ion-modal-view>
 </script>
 

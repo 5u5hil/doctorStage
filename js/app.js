@@ -552,15 +552,7 @@ angular.module('your_app_name', [
                         }
                     })
 
-                    .state('app.newarticle', {
-                        url: "/newarticle",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/newarticle.html",
-                                controller: 'NewarticleCtrl'
-                            }
-                        }
-                    })
+
 
                     .state('app.medication', {
                         url: "/consultation-note/medication",
@@ -802,6 +794,16 @@ angular.module('your_app_name', [
                         }
                     })
 
+                    .state('app.newarticle', {
+                        url: "/newarticle",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/newarticle.html",
+                                controller: 'NewarticleCtrl'
+                            }
+                        }
+                    })
+                    
                     .state('app.content-library', {
                         //  cache: false,
                         url: "/content-library",
@@ -813,13 +815,14 @@ angular.module('your_app_name', [
                         }
                     })
 
-                    .state('app.library-feed', {
+
+                    .state('app.view-content-value', {
                         //  cache: false,
-                        url: "/library-feed",
+                        url: "/view-content-value/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/content-library/library-feed.html",
-                                controller: 'LibraryFeedCtrl'
+                                templateUrl: "views/app/content-library/view-content-value.html",
+                                controller: 'ViewContentCtrl'
                             }
                         }
                     })

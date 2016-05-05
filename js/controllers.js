@@ -708,18 +708,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-            $ionicModal.fromTemplateUrl('create-library', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
+       
 
         .controller('ContentLibraryDetailsCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
@@ -1780,7 +1769,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal,$state) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
@@ -1790,10 +1779,78 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-
-        .controller('NewarticleCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        
+        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal,$filter) {
+             $scope.contentId = $stateParams.id;
+           $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-content-value',
+                params: {conId:$scope.contentId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.cval = response.data.aa;
+            }, function errorCallback(e) {
+                console.log(e);
+            });  
+            
+        })
+          .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal,$filter) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+            $ionicModal.fromTemplateUrl('create-library', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+            
+             $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-doctors-article',
+                params: {doctorId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.clab = response.data
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            
+        })
+        .controller('NewarticleCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
+            $scope.doctorId =  window.localStorage.getItem('id');
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-article-details',
+                params: {doctorId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.category = response.data.category;
+                $scope.target_groups = response.data.target_groups;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.submitNewArticle = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addNewArticle")[0]);
+                callAjax("POST", domain + "contentlibrary/save-article", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if(response == '1'){
+                        alert('Article added sucessfully.')
+                          $state.go("app.view-note", {'id': noteId}, {reload: true});
+                    }else{
+                          $state.go("app.view-note", {'id': noteId}, {reload: true});
+                    }
+                });
+
+            }
+
         })
 
         .controller('LibraryFeedCtrl', function ($scope, $http, $stateParams, $ionicModal) {
