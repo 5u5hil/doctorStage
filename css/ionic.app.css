@@ -8639,9 +8639,6 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
     border-top:1px #eee solid;
 
 }
-.sche-date input[type=date]{
-    left:30%;
-}
 
 .timesheet{ margin-top:5px; position:relative;}
 .timesheet li{
@@ -9485,7 +9482,7 @@ input[type="date"]:before{
                 left: 0;
                 top: 0;}
 
-.crdview .ion-close{}{  color:#fff;}
+.crdview .ion-close{  color:#fff;}
 .logintab .item-body.p0{padding:10px;}
 .w100p{width:100%;}
 .pbcontent{padding-bottom: 50px; /* ionic bottom */}

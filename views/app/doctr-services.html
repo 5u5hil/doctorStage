@@ -36,9 +36,9 @@
                                                         </ul>
                                                         <div class="sche-date">
                                                             <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">Earliest Slot</div> 
-                                                            <div><input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
+                                                            <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
                                                                 <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
-                                                            </div><div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">Next Slot</div>
+                                                            <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">Next Slot</div>
                                                         </div>
                                                         <div ng-if="schV[$index] == vs.supersaas_id">
                                                             {{vSch[$index]==''? 'No slots available':''}}
