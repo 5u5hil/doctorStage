@@ -1882,9 +1882,9 @@ angular.module('your_app_name.controllers', [])
                         $scope.viedoUrl = window.localStorage.removeItem('viedoUrl');
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
                         alert('Video Article added sucessfully.')
-                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                        $state.go("app.new-video-article", {reload: true});
                     } else {
-                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                        $state.go("app.new-video-article",{reload: true});
                     }
                 });
 

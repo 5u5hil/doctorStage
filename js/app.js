@@ -818,7 +818,7 @@ angular.module('your_app_name', [
                     })
                     
                     .state('app.content-library', {
-                        //  cache: false,
+                         cache: false,
                         url: "/content-library",
                         views: {
                             'menuContent': {
