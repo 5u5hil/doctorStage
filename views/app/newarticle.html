@@ -7,12 +7,12 @@
      <input type="hidden" name="docid" value="{{doctorId}}"  ng-model='doctorId'/>
         <div class="list">
             <label class="item item-input">
-                <input type="text" name="title" ng-model="title" placeholder="Title" required="" />
+                <input type="text" name="title" ng-model="title" placeholder="Title" maxlength="100" required="" />
             </label>
         </div>
         <div class="list">
             <label class="item item-input">
-                <input type="text" name="desc" ng-model="desc" placeholder="Description" required=""/>
+                <input type="text" name="desc" ng-model="desc" placeholder="Description" maxlength="200"  required=""/>
             </label>
         </div>
         <div class="list">

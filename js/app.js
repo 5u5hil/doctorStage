@@ -795,11 +795,24 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.newarticle', {
+                        cache: false,
                         url: "/newarticle",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/newarticle.html",
                                 controller: 'NewarticleCtrl'
+                            }
+                        }
+                    })
+                    
+                    
+                    .state('app.new-video-article', {
+                        cache: false,
+                        url: "/new-video-article",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/content-library/new-video-article.html",
+                                controller: 'NewVideoArticleCtrl'
                             }
                         }
                     })
@@ -814,8 +827,18 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-
-
+                    
+                      .state('app.doctor-record-video', {
+                        //  cache: false,
+                        url: "/doctor-record-video",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/content-library/doctor-record-video.html",
+                                controller: 'DoctorRecordVideoCtrl'
+                            }
+                        }
+                    })
+                    
                     .state('app.view-content-value', {
                         //  cache: false,
                         url: "/view-content-value/{id:int}",
