@@ -707,18 +707,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $scope.category_sources = [];
-            $scope.categoryId = $stateParams.categoryId;
-            $ionicModal.fromTemplateUrl('create-library', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.modal = modal;
-            });
-            $scope.submitmodal = function () {
-                $scope.modal.hide();
-            };
-        })
+
 
         .controller('ContentLibraryDetailsCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
@@ -1780,7 +1769,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
@@ -1790,9 +1779,254 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('NewarticleCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter) {
+            $scope.contentId = $stateParams.id;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-content-value',
+                params: {conId: $scope.contentId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.cval = response.data.aa;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+        })
+        .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+            $ionicModal.fromTemplateUrl('create-library', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+            };
+
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-doctors-article',
+                params: {doctorId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.clab = response.data
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+        })
+        .controller('NewarticleCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-article-details',
+                params: {doctorId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.category = response.data.category;
+                $scope.target_groups = response.data.target_groups;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.submitNewArticle = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addNewArticle")[0]);
+                callAjax("POST", domain + "contentlibrary/save-article", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response == '1') {
+                        alert('Article added sucessfully.')
+                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                    } else {
+                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                    }
+                });
+
+            }
+
+        })
+
+
+        .controller('NewVideoArticleCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.viedoUrl = window.localStorage.getItem('viedoUrl');
+            $scope.archiveId = window.localStorage.getItem('archiveId');
+            $scope.category_sources = [];
+            $scope.categoryId = $stateParams.categoryId;
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-article-details',
+                params: {doctorId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.category = response.data.category;
+                $scope.target_groups = response.data.target_groups;
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.submitNewVideoArticle = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addNewVideoArticle")[0]);
+                callAjax("POST", domain + "contentlibrary/save-video-article", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response == '1') {
+                        $scope.viedoUrl = window.localStorage.removeItem('viedoUrl');
+                        $scope.archiveId = window.localStorage.removeItem('archiveId');
+                        alert('Video Article added sucessfully.')
+                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                    } else {
+                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                    }
+                });
+
+            }
+
+        })
+
+
+
+        .controller('DoctorRecordVideoCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicHistory, $ionicLoading, $state) {
+            $scope.sessionId = '';
+            $scope.token = '';
+            $scope.aid = '';
+            $scope.opentok = '';
+            $scope.url = '';
+            $scope.viedoUrl = '';
+            $scope.doctorId = window.localStorage.getItem('id');
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-video-start',
+                params: {doctorId: window.localStorage.getItem('id')}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                var aid = '';
+                var apiKey = '45121182';
+                var sessionId = response.data.sessionId;
+                var token = response.data.oToken;
+                $scope.sessionId = response.data.sessionId;
+                $scope.token = response.data.oToken;
+                $scope.opentok = response.data.opentok;
+                if (OT.checkSystemRequirements() == 1) {
+                    session = OT.initSession(apiKey, sessionId);
+                    $ionicLoading.hide();
+                } else {
+                    $ionicLoading.hide();
+                    alert("Your device is not compatible");
+                }
+                session.on({
+                    streamCreated: function (event) {
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
+                    },
+                    sessionDisconnected: function (event) {
+                        if (event.reason === 'networkDisconnected') {
+                            alert('You lost your internet connection.'
+                                    + 'Please check your connection and try connecting again.');
+                        }
+                    }
+                });
+                session.connect(token, function (error) {
+                    if (error) {
+                        console.log(error.message);
+                    } else {
+                        publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
+                        session.publish(publisher);
+                        var mic = 1;
+                        var mute = 1;
+                        jQuery(".muteMic").click(function () {
+                            if (mic == 1) {
+                                publisher.publishAudio(false);
+                                mic = 0;
+                            } else {
+                                publisher.publishAudio(true);
+                                mic = 1;
+                            }
+                        });
+                        jQuery(".muteSub").click(function () {
+                            if (mute == 1) {
+                                subscriber.subscribeToAudio(false);
+                                mute = 0;
+                            } else {
+                                subscriber.subscribeToAudio(true);
+                                mute = 1;
+                            }
+                        });
+                    }
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.recordVideo = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'contentlibrary/get-recording-start',
+                    params: {archive: 1, sessionId: $scope.sessionId}
+                }).then(function sucessCallback(response) {
+                    $scope.aid = response.data;
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+
+            $scope.recordingStop = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'contentlibrary/recording-stop',
+                    params: {archiveStop: 1, archiveId: $scope.aid}
+                }).then(function sucessCallback(response) {
+                    console.log(response.data);
+
+                    $http({
+                        method: 'GET',
+                        url: domain + 'contentlibrary/recording-response',
+                        params: {archiveId: $scope.aid}
+                    }).then(function sucessCallback(response) {
+                        console.log(response.data);
+                        $scope.url = response.data.url;
+                        window.localStorage.setItem('viedoUrl', $scope.url);
+                        window.localStorage.setItem('archiveId', $scope.aid);
+
+                        $state.go("app.new-video-article", {reload: true});
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                    // $state.go("app.new-video-article", {reload: true});
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+
+            $scope.exitVideo = function () {
+                try {
+                    publisher.destroy();
+                    subscriber.destroy();
+                    session.unsubscribe();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    $state.go("app.new-video-article", {reload: true});
+                } catch (err) {
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    $state.go("app.new-video-article", {reload: true});
+                }
+            };
+
+
+
+
+
         })
 
         .controller('LibraryFeedCtrl', function ($scope, $http, $stateParams, $ionicModal) {
