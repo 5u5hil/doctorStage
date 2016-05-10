@@ -376,6 +376,10 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = get('id');
             $scope.shared = $stateParams.shared;
             $scope.patientId = $stateParams.patientId;
+            $scope.measurements = {value: 'no'};
+            $scope.obj = {value: 'no'};
+            $scope.testResult = {value: 'no'};
+            $scope.diagnosis = {value: 'no'};
             //$scope.interface = window.localStorage.getItem('interface_id');
             $scope.isNumber = function (num) {
                 return angular.isNumber(num);
@@ -393,6 +397,20 @@ angular.module('your_app_name.controllers', [])
                 $scope.patient = response.data.patient;
                 $scope.doctors = response.data.doctrs;
                 $scope.doctrs = response.data.shareDoctrs;
+                $scope.otherRecords = response.data.otherRecords;
+                if ($scope.otherRecords.length > 0) {
+                    angular.forEach($scope.otherRecords, function (val, key) {
+                        if (val.category == '12' || val.category == '13' || val.category == '16') {
+                            $scope.measurements = {value: 'yes'};
+                        } else if (val.category == '27') {
+                            $scope.obj = {value: 'yes'};
+                        } else if (val.category == '29') {
+                            $scope.testResult = {value: 'yes'};
+                        } else if (val.category == '28') {
+                            $scope.diagnosis = {value: 'yes'};
+                        }
+                    });
+                }
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -706,8 +724,6 @@ angular.module('your_app_name.controllers', [])
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
-
-
 
         .controller('ContentLibraryDetailsCtrl', function ($scope, $http, $stateParams) {
             $scope.category_sources = [];
@@ -1793,10 +1809,10 @@ angular.module('your_app_name.controllers', [])
             });
 
         })
-        .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter,$sce) {
+        .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
-            
+
             $ionicModal.fromTemplateUrl('create-library', {
                 scope: $scope
             }).then(function (modal) {
@@ -1819,8 +1835,8 @@ angular.module('your_app_name.controllers', [])
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
             };
-            
-            
+
+
 
         })
         .controller('NewarticleCtrl', function ($scope, $http,$state, $stateParams, $ionicModal, $ionicLoading) {
@@ -1860,7 +1876,6 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-
         .controller('NewVideoArticleCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.viedoUrl = window.localStorage.getItem('viedoUrl');
@@ -1893,15 +1908,13 @@ angular.module('your_app_name.controllers', [])
                         alert('Video Article added sucessfully.')
                         $state.go("app.new-video-article", {reload: true});
                     } else {
-                        $state.go("app.new-video-article",{reload: true});
+                        $state.go("app.new-video-article", {reload: true});
                     }
                 });
 
             }
 
         })
-
-
 
         .controller('DoctorRecordVideoCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicHistory, $ionicLoading, $state) {
             $scope.sessionId = '';
