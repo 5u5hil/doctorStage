@@ -202,6 +202,13 @@ angular.module('your_app_name.filters', [])
             };
         })
         //Serach filter
+        
+        .filter('split', function() {
+        return function(input, splitChar, splitIndex) {
+            // do some bounds checking here to ensure it has that index
+            return input.split(splitChar)[splitIndex];
+        }
+    })
         .filter('searchFor', function () {
 
             // All filters must return a function. The first parameter
