@@ -21,7 +21,7 @@
             <div class="mt15" ng-if="records.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
             <div class="posts-list"  ng-repeat="rec in records track by $index" ng-if="records.length > 0">
                 <div  class="list card post-item">
-                    <a ui-sref="app.record-details({'id' : rec.id, 'patientId': patientId, 'res' : 'json'})" class="post-content item item-text-wrap">
+                    <a ui-sref="app.record-details({'id' : rec.id, 'patientId': patientId, 'catId': catId, 'res' : 'json'})" class="post-content item item-text-wrap">
                         <div class="row pr-b10">
                             <div class="col" ng-repeat="detail in rec.record_metadata| limitTo: limit">
                                 <!--{{$index == 0 ? '<p>': ''}} -->
@@ -58,7 +58,7 @@
 
                     <div class="row recordrow">
                         <div class="col selectrecord"><ion-checkbox onclick="selectcheckbox(this)" ng-model="recId[rec.id]" ng-value="{{rec.id}}" ng-change="getRecIds('{{rec.id}}')"> Select</ion-checkbox></div>
-                        <div class="col btview"><a ui-sref="app.record-details({'id' : rec.id, 'patientId': patientId, 'res' : 'json'})" ><div class="card-viewbtn button-positive">View</div></a></div>
+                        <div class="col btview"><a ui-sref="app.record-details({'id' : rec.id, 'patientId': patientId, 'catId': catId, 'res' : 'json'})" ><div class="card-viewbtn button-positive">View</div></a></div>
                     </div>
                 </div>
             </div>

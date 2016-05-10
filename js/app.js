@@ -637,7 +637,7 @@ angular.module('your_app_name', [
 
                     .state('app.record-details', {
                         cache: false,
-                        url: "/record-details/{id:int}/{patientId:int}",
+                        url: "/record-details/{id:int}/{patientId:int}/{catId:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/record-details.html",
@@ -804,8 +804,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
-                    
+
+
                     .state('app.new-video-article', {
                         cache: false,
                         url: "/new-video-article",
@@ -816,9 +816,9 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.content-library', {
-                         cache: false,
+                        cache: false,
                         url: "/content-library",
                         views: {
                             'menuContent': {
@@ -827,8 +827,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
-                      .state('app.doctor-record-video', {
+
+                    .state('app.doctor-record-video', {
                         //  cache: false,
                         url: "/doctor-record-video",
                         views: {
@@ -838,7 +838,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.view-content-value', {
                         //  cache: false,
                         url: "/view-content-value/{id:int}",

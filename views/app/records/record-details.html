@@ -188,19 +188,20 @@
                     </div>
                 </li>
             </ul>
+            <div ng-if="catId==8">
             <div class="item item-divider">
                 <span>Other Details</span>
             </div>
             <div class="flexcont">
                 <div class="innerdiv col-50 brdright">
                     <div class="p10" ><a ng-if="measurements.value == 'no'" class="Cstmbutn button-small mb15">Measurements - NA</a>
-                        <a ng-if="measurements.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getMeasureDetails(noteId, 'measurements')"><span class="icon ion-eye"></span> Measurements</a>
+                        <a ng-if="measurements.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getMeasureDetails(recordId, 'measurements')"><span class="icon ion-eye"></span> Measurements</a>
                     </div>
                 </div>
                 <div class="innerdiv col-50">
                     <div class="p10">
                         <a ng-if="testResult.value == 'no'" class="Cstmbutn button-small mb15">Test Results - NA</a>
-                        <a ng-if="testResult.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(noteId, 'test result')"><span class="icon ion-eye"></span> Test Results </a>	
+                        <a ng-if="testResult.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(recordId, 'test result')"><span class="icon ion-eye"></span> Test Results </a>	
                     </div>
                 </div>
             </div>
@@ -208,15 +209,16 @@
                 <div class="innerdiv col-50 brdright">
                     <div class="p10">
                         <a ng-if="obj.value == 'no'" class="Cstmbutn button-small mb15">Observations - NA</a>
-                        <a ng-if="obj.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(noteId, 'observations')" ><span class="icon ion-eye"></span> Observation</a>
+                        <a ng-if="obj.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(recordId, 'observations')" ><span class="icon ion-eye"></span> Observation</a>
                     </div>
                 </div>
                 <div class="innerdiv col-50">
                     <div class="p10">
                         <a ng-if="diagnosis.value == 'no'" class="Cstmbutn button-small mb15">Diagnosis - NA</a>
-                        <a ng-if="diagnosis.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(noteId, 'diagnosis')"><span class="icon ion-eye"></span> Dignosis </a>	
+                        <a ng-if="diagnosis.value == 'yes'" class="Cstmbutn button-small mb15" ng-click="getCnDetails(recordId, 'diagnosis')"><span class="icon ion-eye"></span> Dignosis </a>	
                     </div>
                 </div>
+            </div>
             </div>
         </div>
         <!---

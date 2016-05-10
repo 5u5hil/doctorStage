@@ -373,6 +373,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
             $scope.recordId = $stateParams.id;
+            $scope.catId = $stateParams.catId;
             $scope.userId = get('id');
             $scope.shared = $stateParams.shared;
             $scope.patientId = $stateParams.patientId;
@@ -486,6 +487,18 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
+            };
+            $scope.getMeasureDetails = function (id, type) {
+                console.log(id + "===" + type);
+                if (type == 'measurements') {
+                    $state.go('app.view-measure-details', {id: id, type: type}, {reload: true});
+                } else {
+                    $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
+                }
+            };
+            $scope.getCnDetails = function (id, type) {
+                console.log(id + "===" + type);
+                $state.go('app.view-cn-details', {id: id, type: type}, {reload: true});
             };
         })
 
@@ -1839,7 +1852,7 @@ angular.module('your_app_name.controllers', [])
 
 
         })
-        .controller('NewarticleCtrl', function ($scope, $http,$state, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -1851,8 +1864,8 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.category = response.data.category;
                 $scope.target_groups = response.data.target_groups;
-                 $scope.languages = response.data.languages;
-                
+                $scope.languages = response.data.languages;
+
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1866,7 +1879,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (response == '1') {
                         alert('Article added sucessfully.')
-                         $state.go("app.new-video-article", {reload: true});
+                        $state.go("app.new-video-article", {reload: true});
                     } else {
                         $state.go("app.new-video-article", {reload: true});
                     }
@@ -1890,7 +1903,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.category = response.data.category;
                 $scope.target_groups = response.data.target_groups;
-                 $scope.languages = response.data.languages;
+                $scope.languages = response.data.languages;
             }, function errorCallback(e) {
                 console.log(e);
             });
