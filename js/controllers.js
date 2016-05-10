@@ -1793,9 +1793,10 @@ angular.module('your_app_name.controllers', [])
             });
 
         })
-        .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter) {
+        .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter,$sce) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
+            
             $ionicModal.fromTemplateUrl('create-library', {
                 scope: $scope
             }).then(function (modal) {
@@ -1815,6 +1816,11 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
+            };
+            
+            
 
         })
         .controller('NewarticleCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
