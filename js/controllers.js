@@ -1823,7 +1823,7 @@ angular.module('your_app_name.controllers', [])
             
 
         })
-        .controller('NewarticleCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('NewarticleCtrl', function ($scope, $http,$state, $stateParams, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -1835,6 +1835,8 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.category = response.data.category;
                 $scope.target_groups = response.data.target_groups;
+                 $scope.languages = response.data.languages;
+                
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1848,9 +1850,9 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (response == '1') {
                         alert('Article added sucessfully.')
-                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                         $state.go("app.new-video-article", {reload: true});
                     } else {
-                        $state.go("app.view-note", {'id': noteId}, {reload: true});
+                        $state.go("app.new-video-article", {reload: true});
                     }
                 });
 
@@ -1873,6 +1875,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.category = response.data.category;
                 $scope.target_groups = response.data.target_groups;
+                 $scope.languages = response.data.languages;
             }, function errorCallback(e) {
                 console.log(e);
             });

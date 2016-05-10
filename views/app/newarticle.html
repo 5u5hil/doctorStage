@@ -3,52 +3,56 @@
         <span>Library</span>
     </ion-nav-title>
     <ion-content class="bgwhite padding">
- <form name="addNewArticle" id="addNewArticle" enctype="multipart/form-data" novalidate >
-     <input type="hidden" name="docid" value="{{doctorId}}"  ng-model='doctorId'/>
-        <div class="list">
-            <label class="item item-input">
-                <input type="text" name="title" ng-model="title" placeholder="Title" maxlength="100" required="" />
-            </label>
-        </div>
-        <div class="list">
-            <label class="item item-input">
-                <input type="text" name="desc" ng-model="desc" placeholder="Description" maxlength="200"  required=""/>
-            </label>
-        </div>
-        <div class="list">
-            <label class="item item-input">
-                <input type="file"  name="header_img" ng-model="header_img" placeholder="Description"  />
-            </label>
-        </div>
-        
-     
-     <div class="item item-divider mt15">Share With</div>
-        <ion-list>
-            <ion-radio name="sharewith" ng-model="sharewith" ng-repeat="tg in target_groups" ng-value="{{tg.id}}">{{tg.target_group}}</ion-radio>
-        </ion-list>
-        <div class="item item-divider mt15">Category</div>
-        <ion-list>
-            <ion-checkbox ng-model="catchoice"  name="catchoice[]" ng-repeat="cats in category" ng-value="{{cats.id}}">{{cats.specialization}}</ion-radio>
-        </ion-list>
-
-        <div class="item item-divider mt15">Tags</div>
-
-        <div class="list">
-            <div class="addremoverow ptr10 mt15">
+        <form name="addNewArticle" id="addNewArticle" enctype="multipart/form-data" novalidate >
+            <input type="hidden" name="docid" value="{{doctorId}}"  ng-model='doctorId'/>
+            <div class="list">
                 <label class="item item-input">
-                    <input type="text" name="tagname" ng-model="tagname" required="" placeholder="Add Tags">
+                    <input type="text" name="title" ng-model="title" placeholder="Title" maxlength="100" required="" />
                 </label>
-                <a ui-sref="#" class="addremovebtn"><i class="ion-plus-circled"> </i></a>
             </div>
-        </div>
-        
-         <div class="list">          
-            <label class="item item-input">
-                <textarea type="text" col="" rows="5" ng-model="content"  name="content" placeholder="Content" required=""></textarea>
-            </label>
-        </div>
-        <button type="submit" class="button button-full button-positive" ng-disabled="addNewArticle.$invalid" ng-click="submitNewArticle()">Submit</button>
- </form>
+            <div class="list">
+                <label class="item item-input">
+                    <input type="text" name="desc" ng-model="desc" placeholder="Description" maxlength="200"  required=""/>
+                </label>
+            </div>
+            <div class="list">
+                <label class="item item-input">
+                    <input type="file"  name="header_img" ng-model="header_img" placeholder="Description"  />
+                </label>
+            </div>
+
+
+            <div class="item item-divider mt15">Share With</div>
+            <ion-list>
+                <ion-radio name="sharewith" ng-model="sharewith" ng-repeat="tg in target_groups" ng-value="{{tg.id}}">{{tg.target_group}}</ion-radio>
+            </ion-list>
+            <div class="item item-divider mt15">Category</div>
+            <ion-list>
+                <ion-checkbox ng-model="catchoice"  name="catchoice[]" ng-repeat="cats in category" ng-value="{{cats.id}}">{{cats.specialization}}</ion-checkbox>
+            </ion-list>
+            <div class="item item-divider mt15">Language</div>
+            <ion-list>
+                <ion-checkbox ng-model="langchoice"  name="langchoice[]" ng-repeat="lang in languages" ng-value="{{lang.id}}">{{lang.language}}</ion-checkbox>
+            </ion-list>
+
+            <div class="item item-divider mt15">Tags</div>
+
+            <div class="list">
+                <div class="addremoverow ptr10 mt15">
+                    <label class="item item-input">
+                        <input type="text" name="tagname" ng-model="tagname" required="" placeholder="Add Tags">
+                    </label>
+                    <a ui-sref="#" class="addremovebtn"><i class="ion-plus-circled"> </i></a>
+                </div>
+            </div>
+
+            <div class="list">          
+                <label class="item item-input">
+                    <textarea type="text" col="" rows="5" ng-model="content"  name="content" placeholder="Content" required=""></textarea>
+                </label>
+            </div>
+            <button type="submit" class="button button-full button-positive" ng-disabled="addNewArticle.$invalid" ng-click="submitNewArticle()">Submit</button>
+        </form>
     </ion-content>
 
 </ion-view>

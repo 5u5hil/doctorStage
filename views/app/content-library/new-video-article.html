@@ -28,7 +28,11 @@
             </ion-list>
             <div class="item item-divider mt15">Category</div>
             <ion-list>
-                <ion-checkbox ng-model="catchoice"  name="catchoice[]" ng-repeat="cats in category" ng-value="{{cats.id}}">{{cats.specialization}}</ion-radio>
+                <ion-checkbox ng-model="catchoice"  name="catchoice[]" ng-repeat="cats in category" ng-value="{{cats.id}}">{{cats.specialization}}</ion-checkbox>
+            </ion-list>
+            <div class="item item-divider mt15">Language</div>
+            <ion-list>
+                <ion-checkbox ng-model="langchoice"  name="langchoice[]" ng-repeat="lang in languages" ng-value="{{lang.id}}">{{lang.language}}</ion-checkbox>
             </ion-list>
             <div class="item item-divider mt15">Tags</div>
             <div class="list">
