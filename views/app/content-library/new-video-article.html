@@ -2,6 +2,10 @@
     <ion-nav-title>
         <span>Library</span>
     </ion-nav-title>
+    <!--  <ion-nav-buttons side="right"  >
+         <button type="submit"  class="button button-full button-positive" ng-disabled="addNewVideoArticle.$invalid" ng-click="submitNewVideoArticle()"> 
+             <strong>Submit</strong></button>
+    </ion-nav-buttons> -->
     <ion-content class="bgwhite padding">
         <form name="addNewVideoArticle" id="addNewVideoArticle" enctype="multipart/form-data" novalidate >
             <input type="hidden" name="docid" value="{{doctorId}}"  ng-model='doctorId'/>

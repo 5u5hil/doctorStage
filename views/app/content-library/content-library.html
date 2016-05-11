@@ -1,7 +1,13 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
         <span>Library</span>
+    
+        
     </ion-nav-title>
+    <ion-nav-buttons side="right"  >
+        <button  ng-click="modal.show()" class="button button-positive w100p brdradious0"> 
+            <strong>Create</strong> </button>
+    </ion-nav-buttons>
     <ion-content class="bgwhite">
 
         <div class="row tabnav">
@@ -32,6 +38,7 @@
                         <p > <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
                         </p>
                         <p> <strong>Tags </strong>|  </p>
+                         <p> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language}}, </span> </p>
                     </div>
                 </div>
                 </a>
@@ -39,9 +46,7 @@
 
         </div>
     </ion-content>
-    <div class="bar bar-footer bar-positive">
-        <div class="title" ng-click="modal.show()"><i class="ion-plus-circled fwhite"></i> Create</div>
-    </div>
+    
 </ion-view>
 
 

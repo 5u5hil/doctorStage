@@ -1846,7 +1846,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
             $scope.trustSrc = function (src) {
-                return $sce.trustAsResourceUrl(src);
+                return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
 
 
@@ -1878,10 +1878,10 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                     $ionicLoading.hide();
                     if (response == '1') {
-                        alert('Article added sucessfully.')
-                        $state.go("app.new-video-article", {reload: true});
+                        alert('Article added sucessfully.');
+                        window.location.reload();
                     } else {
-                        $state.go("app.new-video-article", {reload: true});
+                        window.location.reload();
                     }
                 });
 
@@ -1918,10 +1918,10 @@ angular.module('your_app_name.controllers', [])
                     if (response == '1') {
                         $scope.viedoUrl = window.localStorage.removeItem('viedoUrl');
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
-                        alert('Video Article added sucessfully.')
-                        $state.go("app.new-video-article", {reload: true});
+                        alert('Video Article added sucessfully.');
+                        window.location.reload();
                     } else {
-                        $state.go("app.new-video-article", {reload: true});
+                        window.location.reload();
                     }
                 });
 
