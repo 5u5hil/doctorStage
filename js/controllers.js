@@ -1893,8 +1893,8 @@ angular.module('your_app_name.controllers', [])
             jQuery('.videoscreen').hide();
 
             $scope.doctorId = window.localStorage.getItem('id');
-            //$scope.viedoUrl = window.localStorage.getItem('viedoUrl');
-            $scope.archiveId = window.localStorage.getItem('archiveId');
+            
+            $scope.archiveId = '';
             $scope.sessionId = '';
             $scope.token = '';
             $scope.aid = '';
@@ -2062,8 +2062,8 @@ angular.module('your_app_name.controllers', [])
                             }).then(function sucessCallback(response) {
                                 console.log(response.data);
                                 $scope.url = response.data.url;
-                                window.localStorage.setItem('viedoUrl', $scope.url);
-                                window.localStorage.setItem('archiveId', $scope.aid);
+                                $scope.viedoUrl = window.localStorage.setItem('viedoUrl', $scope.url);
+                                $scope.archiveId = window.localStorage.setItem('archiveId', $scope.aid);
 
                                 //  $state.go("app.new-video-article", {reload: true});
                             }, function errorCallback(e) {
