@@ -1,62 +1,90 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
-        <span>Library</span>
+        <span>Video Article</span>
     </ion-nav-title>
-    <!--  <ion-nav-buttons side="right"  >
-         <button type="submit"  class="button button-full button-positive" ng-disabled="addNewVideoArticle.$invalid" ng-click="submitNewVideoArticle()"> 
-             <strong>Submit</strong></button>
-    </ion-nav-buttons> -->
-    <ion-content class="bgwhite padding">
-        <form name="addNewVideoArticle" id="addNewVideoArticle" enctype="multipart/form-data" novalidate >
+    <div class="row tabnav headtab">
+        <div class="col"><span class="nbtn active"  rel="tabone"  >Step 1</span></div>
+        <div class="col"><span class="nbtn"  rel="tabtwo"  >Step 2</span></div>
+        <div class="col"><span class="nbtn" rel="tabthree"  >Step 3</span></div>
+    </div>
+    <form name="addNewVideoArticle" id="addNewVideoArticle" enctype="multipart/form-data" novalidate>
+        <ion-content class="has-footer"> 
+
             <input type="hidden" name="docid" value="{{doctorId}}"  ng-model='doctorId'/>
             <input type="hidden" name="viedoUrl" value="{{viedoUrl}}"  ng-model='viedoUrl'/>
-              <input type="hidden" name="archiveId" value="{{archiveId}}"  ng-model='archiveId'/>
+            <input type="hidden" name="archiveId" value="{{archiveId}}"  ng-model='archiveId'/>
 
-            <div class="list">
-                <a ui-sref="app.doctor-record-video">Video Record</a>
-            </div>
-            <div class="list">
+            <div class="tabcon2 notetab mt60" id="tabone" >
+                <div class="item item-divider mt15">Title</div>
                 <label class="item item-input">
                     <input type="text" name="title" ng-model="title" placeholder="Title" maxlength="100"  required="" />
                 </label>
-            </div>
-            <div class="list">
+
+                <div class="item item-divider mt15">Description</div>
+
                 <label class="item item-input">
                     <input type="text" name="desc" ng-model="desc" placeholder="Description" maxlength="200"  required=""/>
                 </label>
-            </div>
-            
-            <div class="item item-divider mt15">Share With</div>
-            <ion-list>
-                <ion-radio name="sharewith" ng-model="sharewith" ng-repeat="tg in target_groups" ng-value="{{tg.id}}">{{tg.target_group}}</ion-radio>
-            </ion-list>
-            <div class="item item-divider mt15">Category</div>
-            <ion-list>
-                <ion-checkbox ng-model="catchoice"  name="catchoice[]" ng-repeat="cats in category" ng-value="{{cats.id}}">{{cats.specialization}}</ion-checkbox>
-            </ion-list>
-            <div class="item item-divider mt15">Language</div>
-            <ion-list>
-                <ion-checkbox ng-model="langchoice"  name="langchoice[]" ng-repeat="lang in languages" ng-value="{{lang.id}}">{{lang.language}}</ion-checkbox>
-            </ion-list>
-            <div class="item item-divider mt15">Tags</div>
-            <div class="list">
-                <div class="addremoverow ptr10 mt15">
-                    <label class="item item-input">
-                        <input type="text" name="tagname" ng-model="tagname" required="" placeholder="Add Tags">
-                    </label>
-                    <a ui-sref="#" class="addremovebtn"><i class="ion-plus-circled"> </i></a>
+
+
+                <div class="item item-divider mt15">Share With </div>
+                <ion-list ng-init="sharewith = 2">
+                    <ion-radio name="sharewith" ng-model="sharewith"  ng-repeat="tg in target_groups" value="{{tg.id}}">{{tg.target_group}}</ion-radio>
+                </ion-list>
+
+                <div class="list">
+                </div>
+            </div>	
+
+            <div class="tabcon2 notetab mt60" id="tabtwo" style="display:none;" >
+                <div class="fltr-mesg" > <span><strong>Recording:</strong> {{recording}}</span> &nbsp <span><strong>Time:</strong> {{timer}}</span></div>
+                <div class="mediascreen">
+                    <div id='subscribersDiv' class="subscribediv">Initializing Video</div> 
+                </div>
+                <div class="videoscreen hide">
+                    <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(viedoUrl)}}"></iframe>
+                </div>
+
+            </div>	
+
+            <div class="tabcon2 notetab mt60" id="tabthree" style="display:none;" >
+                <div class="item item-divider mt15">Category {{catchoice}}</div>
+                <ion-list>
+                    <ion-checkbox ng-model="catchoice"  ng-checked="catId.indexOf(cats.id) !== -1" name="catchoice[]" ng-repeat="cats in category" ng-value="{{cats.id}}">{{cats.specialization}}</ion-checkbox>
+                </ion-list>
+                <div class="item item-divider mt15">Language {{langchoice}}</div>
+                <ion-list>
+                    <ion-checkbox ng-model="langchoice" ng-checked="lang.id == 1"  name="langchoice[]" ng-repeat="lang in languages" ng-value="{{lang.id}}">{{lang.language}}</ion-checkbox>
+                </ion-list>
+            </div>	
+
+
+
+
+
+
+
+        </ion-content>
+        <div class="footerbar">
+            <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
+            <div class="tab-buttons">
+                <div class="fixedbar tbtn active" rel="tabone">
+                    <div class="col bar button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewVideoArticle.title.$invalid || addNewVideoArticle.desc.$invalid ">Next</div>
+                </div>
+                <div class="fixedbar row tbtn" rel="tabtwo">
+                    <div class="col  button btn-share btn-add start" ng-click="recordVideo()">Start Recording</div>
+                    <div class="col  button  btn-delete stop hide" ng-click="recordingStop()" >Stop Recording</div>
+                    <div class="col col-50 button btn-share rerecording hide" ng-click="reRecording()" > Re-record</div>
+                    <div class="col col-50 button btn-add next hide" ng-click="tabclick('tabthree')" >Proceed</div>
+                </div>
+                <div  class="fixedbar row tbtn" rel="tabthree">
+
+                    <button type="submit" class="col button btn-add" ng-disabled="addNewVideoArticle.catchoice.$invalid || addNewVideoArticle.langchoice.$invalid " ng-click="submitNewVideoArticle()">Submit</button>
                 </div>
             </div>
+        </div>
 
-            <div class="list">          
-                <label class="item item-input">
-                    <textarea type="text" col="" rows="5" ng-model="content"  name="content" placeholder="Content" required=""></textarea>
-                </label>
-            </div>
-            <button type="submit" class="button button-full button-positive" ng-disabled="addNewVideoArticle.$invalid" ng-click="submitNewVideoArticle()">Submit</button>
-        </form>
-    </ion-content>
-
+    </form>
 </ion-view>
 
 
