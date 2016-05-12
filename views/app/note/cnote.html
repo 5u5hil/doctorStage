@@ -168,43 +168,57 @@
                             </div>
                         </div>
                         <div ng-if="field.field_types.value == 'file'">
-                            <div class="item item-divider">Images</div>
-                            <div class="item item-input item-stacked-label" ng-if="field.multi_value == 0">
-                                <span class="input-label dblock" >{{field.field}}</span>
-                                <div class="row p0">
-                                    <div class="col col-50 pl0"> 
-                                        <div class="filelabel">
-                                            <input type="file" placeholder="{{field.field}}" name="{{field.name}}" onchange="angular.element(this).scope().setFile(this)" id="presciption" ng-model="prescription" />
-                                            <label for="attachfile">File Selector</label>
-                                        </div><br/>
-                                        <div id="image-holder"></div>
+                            <div  ng-if="field.multi_value == 0">
+                                <!--                                <div class="item item-divider">Images</div><span class="input-label dblock" >{{field.field}}</span>-->
+                                <div class="item item-divider">{{field.field}} 
+                                <div class="filelabel">
+                                    <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" id="presciption" ng-model="prescription"/>
+                                    <label for="attachfile">Upload Files</label>
+                                </div>     
                                     </div>
-                                    <div class="col col-50">
-                                        <div class="btncamera" ng-click="takePict('{{field.name}}')"><i class="ion-android-camera"></i></div>
-                                        <!--                                                <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images| json}}" />-->
-                                        <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
-                                    </div><br/>
-                                    <div id="camera-status"></div>
-                                </div>
+                                <div class="holderattach" id="image-holder"></div> 
+                                <!--                                    <div class="row p0">
+                                                                        <div class="col col-50 pl0"> 
+                                                                        <div class="filelabel">
+                                                                            <input type="file" placeholder="{{field.field}}" name="{{field.name}}" onchange="angular.element(this).scope().setFile(this)" id="presciption" ng-model="prescription" />
+                                                                            <label for="attachfile">File Selector</label>
+                                                                        </div><br/>
+                                                                        <div id="image-holder"></div>
+                                                                    </div>
+                                                                    <div class="col col-50">
+                                                                        <div class="btncamera" ng-click="takePict('{{field.name}}')"><i class="ion-android-camera"></i></div>
+                                                                                                                        <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images| json}}" />
+                                                                        <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
+                                                                    </div><br/>
+                                                                    <div id="camera-status"></div></div>
+                                --->
+
                             </div>
-                            <div class="item item-input item-stacked-label" ng-if="field.multi_value == 1">
-                                <span class="input-label dblock" >{{field.field}}</span>
-                                <div class="row p0">
-                                    <div class="col col-50 pl0"> 
-                                        <div class="filelabel">
-                                            <input type="file" placeholder="{{field.field}}" multiple="" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" ng-model="prescription"/>
-                                            <label for="attachfile">Select Files</label>
-                                        </div><br/>
-                                        <div id="image-holder"></div>
+                            <div ng-if="field.multi_value == 1">
+                                <!--                                <span class="input-label dblock" >{{field.field}}</span>-->
+                                <div class="item item-divider">{{field.field}} 
+                                <div class="filelabel">
+                                    <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" id="presciption" ng-model="prescription"/>
+                                    <label for="attachfile">Upload Files</label>
+                                </div>    
                                     </div>
-                                    <div class="col col-50">
-                                        <div class="btncamera" ng-click="takePict('{{field.name}}')" ><!-- <i class="ion-android-camera"></i> -->Camera</div>
-                                        <!--                                                <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images | json}}" />-->
-                                        <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
-                                        <br/>
-                                        <div id="camera-status"></div>
-                                    </div>
-                                </div>
+                                <div class="holderattach" id="image-holder"></div>
+                                <!--                                <div class="row p0">
+                                                                    <div class="col col-50 pl0"> 
+                                                                        <div class="filelabel">
+                                                                            <input type="file" placeholder="{{field.field}}" multiple="" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" ng-model="prescription"/>
+                                                                            <label for="attachfile">Select Files</label>
+                                                                        </div><br/>
+                                                                        <div id="image-holder"></div>
+                                                                    </div>
+                                                                    <div class="col col-50">
+                                                                        <div class="btncamera" ng-click="takePict('{{field.name}}')" > <i class="ion-android-camera"></i> Camera</div>
+                                                                                                                        <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images | json}}" />
+                                                                        <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
+                                                                        <br/>
+                                                                        <div id="camera-status"></div>
+                                                                    </div>
+                                                                </div>-->
                             </div>
                         </div>
                     </div>
@@ -249,12 +263,12 @@
                 <div ng-include src="'views/app/note/nt-observation.html'"></div>
             </div>
             <div class="item item-divider">Diagnosis</div>  
-<!--            <div class="accordiantab" ng-click="accordiantab('acdiagnosis')">
-                <span class="icon ion-plus-circled"></span>  Text
-            </div>
-            <div  id="acdiagnosis" class="accordiancontent">-->
-                <div ng-include src="'views/app/note/nt-diagnosis.html'"></div>
-           <!-- </div>-->
+            <!--            <div class="accordiantab" ng-click="accordiantab('acdiagnosis')">
+                            <span class="icon ion-plus-circled"></span>  Text
+                        </div>
+                        <div  id="acdiagnosis" class="accordiancontent">-->
+            <div ng-include src="'views/app/note/nt-diagnosis.html'"></div>
+            <!-- </div>-->
         </div>		
 
         <div class="tabcon2 notetab mt60" id="tabthree" style="display:none;" >

@@ -17,7 +17,7 @@
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
                                         <my-tab icon="ion-calendar tabicon" title="Scheduled Video" ng-click="doesit();">
-                                            <div class="tabc2">
+                                            <div class="">
                                                 <div class="mt15"> 
                                                     <ul class="clist">
                                                         <li>{{videoProd.desc}}</li>
@@ -58,7 +58,7 @@
                                         </my-tab>
                                         <div ng-if="instVideo != ''">
                                             <my-tab title="Instant Video" icon="ion-ios-bolt tabicon" ng-click="doit();">
-                                                <div class="tabc2">
+                                                <div class="">
                                                     <div class="tabcontainer"> 
                                                         <p><b>How Instant Video Works</b></p>
                                                         <ul class="clist">
@@ -78,7 +78,7 @@
                                     </my-tabs>
                                 </my-tab>
                                 <my-tab  icon="ion-medkit tabicon" title="Clinic"  ng-if="serv == 3">
-                                    <div class="tabc2">
+                                    <div class="">
                                         <div class="mt15"> 
                                             <ul class="clist">
                                                 <li ng-repeat="cInc in clinicInc track by $index">{{cInc.mode}}, {{cInc.desc}},
@@ -116,7 +116,7 @@
                                     </div>
                                 </my-tab>
                                 <my-tab  icon="ion-chatboxes tabicon" title="Chat" ng-if="serv == 2">
-                                    <div class="tabc2">
+                                    <div class="">
                                         <div class="tabcontainer"> 
                                             <ul class="clist">
                                                 <li><strong>{{chatProd.desc}}</strong></li>
