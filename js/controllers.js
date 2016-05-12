@@ -1948,7 +1948,7 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
                 if (taburl == 'tabtwo')
                 {
-
+                     jQuery('.videoscreen').hide();
                     $scope.doctorId = window.localStorage.getItem('id');
                     $http({
                         method: 'GET',
@@ -2018,7 +2018,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.recording = 'On';
                         jQuery('.start').hide();
                         jQuery('.stop').show();
-                        // jQuery('.videoscreen').hide();
+                         jQuery('.videoscreen').hide();
                         jQuery('.mediascreen').show();
                         jQuery('.next').hide();
                         jQuery('.rerecording').hide();
