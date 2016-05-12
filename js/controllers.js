@@ -1879,9 +1879,9 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (response == '1') {
                         alert('Article added sucessfully.');
-                        window.location.reload();
+                        $state.go('app.content-library',  {reload: true});
                     } else {
-                        window.location.reload();
+                        $state.go('app.content-library',  {reload: true});
                     }
                 });
 
@@ -1931,9 +1931,9 @@ angular.module('your_app_name.controllers', [])
                         $scope.viedoUrl = window.localStorage.removeItem('viedoUrl');
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
                         alert('Video Article added sucessfully.');
-                        window.location.reload();
+                        $state.go('app.content-library',  {reload: true});
                     } else {
-                        window.location.reload();
+                        $state.go('app.content-library',  {reload: true});
                     }
                 });
 
