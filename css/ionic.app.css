@@ -9523,6 +9523,25 @@ input[type="date"]:before{
                       top: 25%;
                       font-size: 25px; z-index:999;}	
 
+.pb10{padding-bottom:10px;}	
+.mb10{margin-bottom:10px;}	
+.f20{font-size:20px;}			  
+.greenbox{    border: 1px #28A54C solid;}
+.greenbox .post-heading h2{font-weight:bold;}
+.greenbox .fillbg{background:#28A54C;}
+
+.greenbox .post-heading h2,.greenbox .post-heading .post-author,.greenbox .post-heading span,.greenbox .post-heading .indicater,.greenbox .post-heading .indicater .icon
+{color: #28A54C;}
+.greenbox .item{border-color:#28A54C;}
+ .post-heading.fillbg h2,.post-heading.fillbg .post-author,.greenbox .post-heading.fillbg span, .post-heading.fillbg  .indicater,.post-heading.fillbg  .indicater .icon{color:#fff;}
+
+
+.greenbox .post-heading span{font-style:italic;}
+
+
+
+
+					  
 
 /* endcss */
 /* added by leena */
