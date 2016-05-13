@@ -5625,6 +5625,17 @@ angular.module('your_app_name.controllers', [])
                         session.publish(publisher);
                         var mic = 1;
                         var mute = 1;
+                        var mutevideo = 1;
+                        jQuery(".muteVideo").click(function () {
+
+                            if (mutevideo == 1) {
+                                publisher.publishVideo(false);
+                                mutevideo = 0;
+                            } else {
+                                publisher.publishVideo(true);
+                                mutevideo = 1;
+                            }
+                        });
                         jQuery(".muteMic").click(function () {
                             if (mic == 1) {
                                 publisher.publishAudio(false);
