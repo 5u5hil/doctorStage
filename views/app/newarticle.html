@@ -3,9 +3,9 @@
         <span> Text Article  </span>
     </ion-nav-title>
     <div class="row tabnav headtab">
-        <div class="col"><span class="nbtn active"  rel="tabone"  >Step 1</span></div>
-        <div class="col"><span class="nbtn"  rel="tabtwo"  >Step 2</span></div>
-        <div class="col"><span class="nbtn" rel="tabthree"  >Step 3</span></div>
+        <div class="col"><span class="nbtn active"  rel="tabone"  >1. Describe</span></div>
+        <div class="col"><span class="nbtn"  rel="tabtwo"  >2. Write Article</span></div>
+        <div class="col"><span class="nbtn" rel="tabthree"  >3. Confirm</span></div>
     </div>
     <form name="addNewArticle" id="addNewArticle" enctype="multipart/form-data" novalidate >
 
@@ -33,7 +33,7 @@
 
                 <div class="item item-divider mt15">Share With </div>
 
-                <select name="sharewith" ng-model="sharewith"  class="cselectn timeoption" required="">
+                <select name="sharewith" ng-model="sharewith"  class="cselectn" required="">
                     <option value="" selected="selected" >Please Select</option>
                     <option  ng-repeat="tg in target_groups" value="{{tg.id}}"> {{tg.target_group}} </option>
                 </select>

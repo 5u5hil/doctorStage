@@ -1843,7 +1843,7 @@ angular.module('your_app_name.controllers', [])
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.clab = response.data;
-               // $scope.cntentvalCount = Math.random(response.data.content_value.length);
+                // $scope.cntentvalCount = Math.random(response.data.content_value.length);
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1910,10 +1910,11 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading) {
-			var wh=jQuery(window).height();
-			jQuery('.mediascreen').css('height',wh-150);
-			jQuery('.videoscreen').css('height',wh-150);
-			
+            $scope.checkboxval = false;
+            var wh = jQuery(window).height();
+            jQuery('.mediascreen').css('height', wh - 150);
+            jQuery('.videoscreen').css('height', wh - 150);
+
             jQuery('.videoscreen').hide();
 
             $scope.doctorId = window.localStorage.getItem('id');
@@ -2100,7 +2101,7 @@ angular.module('your_app_name.controllers', [])
                     }
 
                     $scope.reRecording = function () {
-						 jQuery('.videoscreen').hide();
+                        jQuery('.videoscreen').hide();
                         jQuery('.mediascreen').show();
                         jQuery('.mediascreen').html('<div id="subscribersDiv" class="subscribediv">Initializing Video</div>');
                         jQuery('.next').hide();
@@ -2178,40 +2179,49 @@ angular.module('your_app_name.controllers', [])
                         return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
                     }
 
-                    
-					
-					   $ionicModal.fromTemplateUrl('viewvideo', {
-							scope: $scope
-						}).then(function (modal) {
-							$scope.modal = modal;
-						});
-					
-                    $scope.playVideo = function (archiveid){
-                         $http({
-                                method: 'GET',
-                                url: domain + 'contentlibrary/pay-recent-video',
-                                params: {archiveId: archiveid}
-                            }).then(function sucessCallback(response) {
-                                console.log(response.data);
-                                $scope.playurl = response.data;
-                              
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
-							
-							$scope.modal.show()
-						  }
-					
-					
-					  
-					
-						
-                    
+
+
+                    $ionicModal.fromTemplateUrl('viewvideo', {
+                        scope: $scope
+                    }).then(function (modal) {
+                        $scope.modal = modal;
+                    });
+
+                    $scope.playVideo = function (archiveid) {
+                        $http({
+                            method: 'GET',
+                            url: domain + 'contentlibrary/pay-recent-video',
+                            params: {archiveId: archiveid}
+                        }).then(function sucessCallback(response) {
+                            console.log(response.data);
+                            $scope.playurl = response.data;
+
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+
+                        $scope.modal.show()
+                    }
+
+
+
+
+
+
 
                 }
 
 
             }
+            $scope.isChecked = function () {
+                if (jQuery("input[type='checkbox']:checked").length)
+                {
+                    $scope.checkboxval = false;
+                } else {
+                    $scope.checkboxval = true;
+                }
+            }
+
 
         })
 
