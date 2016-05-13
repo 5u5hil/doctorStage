@@ -36,11 +36,13 @@
                     <ion-radio name="sharewith" ng-model="sharewith"  ng-repeat="tg in target_groups" value="{{tg.id}}">{{tg.target_group}}</ion-radio>
                 </ion-list> -->
 
-                <div class="list">
-				
-				<select class="cselect" style="padding:10px;">
+			<select class="cselectn">
 				<option ng-repeat="tg in target_groups" value="{{tg.id}}">{{tg.target_group}}</option>
 				</select>
+				
+                <div class="list">
+				
+			
 				
 				
                 </div>
@@ -86,8 +88,8 @@
         <div class="footerbar">
             <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
             <div class="tab-buttons">
-                <div class="fixedbar tbtn active" rel="tabone">
-                    <div class="col bar button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewVideoArticle.title.$invalid || addNewVideoArticle.desc.$invalid">Next</div>
+                <div class="fixedbar row tbtn active" rel="tabone">
+                    <div class="col button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewVideoArticle.title.$invalid || addNewVideoArticle.desc.$invalid">Next</div>
                 </div>
                 <div class="fixedbar row tbtn" rel="tabtwo">
                     <div class="col  button btn-share btn-add start" ng-click="recordVideo()"><i class="ion-record f20"></i> Start Recording</div>

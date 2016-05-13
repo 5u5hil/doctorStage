@@ -11,7 +11,7 @@
 
         <input type="hidden" name="docid" value="{{doctorId}}"  ng-model="doctorId"/>
 
-        <ion-content class="has-footer"> 
+        <ion-content> 
 
 
             <div class="tabcon2 notetab mt60" id="tabone" >
@@ -33,7 +33,7 @@
 
                 <div class="item item-divider mt15">Share With </div>
 
-                <select name="sharewith" ng-model="sharewith"  class="timeoption" required="">
+                <select name="sharewith" ng-model="sharewith"  class="cselectn timeoption" required="">
                     <option value="" selected="selected" >Please Select</option>
                     <option  ng-repeat="tg in target_groups" value="{{tg.id}}"> {{tg.target_group}} </option>
                 </select>
@@ -65,8 +65,8 @@
         <div class="footerbar">
 
             <div class="tab-buttons">
-                <div class="fixedbar tbtn active" rel="tabone">
-                    <div class="col bar button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewArticle.title.$invalid || addNewArticle.desc.$invalid || addNewArticle.sharewith.$invalid">Next</div>
+                <div class="fixedbar row tbtn active" rel="tabone">
+                    <div class="col button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewArticle.title.$invalid || addNewArticle.desc.$invalid || addNewArticle.sharewith.$invalid">Next</div>
                 </div>
                 <div class="fixedbar row tbtn" rel="tabtwo">
 

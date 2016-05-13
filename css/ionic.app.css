@@ -9603,6 +9603,14 @@ input[type="date"]:before{
              /* font-weight:bold; */
 }
 
+
+.cselectn{    position: static !important;
+             width: 100%;
+             direction: ltr !important;
+             padding:10px !important;
+             /* font-weight:bold; */ border:0;
+}
+
 .card-viewbtn{text-align: center;
               background: #387ef5; 
               padding: 5px;
