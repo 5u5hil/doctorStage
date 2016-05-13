@@ -1855,6 +1855,7 @@ angular.module('your_app_name.controllers', [])
         .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.category_sources = [];
+            $scope.checkboxval = false;
             $scope.categoryId = $stateParams.categoryId;
             $http({
                 method: 'GET',
@@ -1865,6 +1866,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.category = response.data.category;
                 $scope.target_groups = response.data.target_groups;
                 $scope.languages = response.data.languages;
+                $scope.catId = response.data.user_cat.catId;
 
             }, function errorCallback(e) {
                 console.log(e);
@@ -1886,6 +1888,22 @@ angular.module('your_app_name.controllers', [])
                 });
 
             }
+            $scope.tabclick = function (taburl) {
+                jQuery('.notetab').hide();
+                jQuery('#' + taburl).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.tab-buttons .tbtn').removeClass('active');
+                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+            }
+            $scope.isChecked = function () {
+                if (jQuery("input[type='checkbox']:checked").length)
+                {
+                    $scope.checkboxval = false;
+                } else {
+                    $scope.checkboxval = true;
+                }
+            }
 
         })
 
@@ -1898,7 +1916,7 @@ angular.module('your_app_name.controllers', [])
 
             $scope.doctorId = window.localStorage.getItem('id');
 
-           
+
             $scope.sessionId = '';
             $scope.token = '';
             $scope.aid = '';
@@ -2066,14 +2084,14 @@ angular.module('your_app_name.controllers', [])
                             }).then(function sucessCallback(response) {
                                 console.log(response.data);
                                 $scope.url = response.data.url;
-                               window.localStorage.setItem('viedoUrl', $scope.url);
-                               window.localStorage.setItem('archiveId', $scope.aid);
+                                window.localStorage.setItem('viedoUrl', $scope.url);
+                                window.localStorage.setItem('archiveId', $scope.aid);
 
-                              
+
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
-                            
+
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -2157,6 +2175,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.trustSrc = function (src) {
                         return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
                     }
+
                     
 					
 					   $ionicModal.fromTemplateUrl('viewvideo', {
@@ -2186,6 +2205,7 @@ angular.module('your_app_name.controllers', [])
 					
 						
                     
+
                 }
 
 
