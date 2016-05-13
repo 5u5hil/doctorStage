@@ -863,7 +863,7 @@ angular.module('your_app_name', [
 
                     .state('app.content-library-details', {
                         //  cache: false,
-                        url: "/content-library-details.html",
+                        url: "/content-library-details",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/content-library/content-library-details.html",

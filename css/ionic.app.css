@@ -5693,6 +5693,7 @@ input, button, select, textarea {
     margin: 0;
     padding-right: 24px;
     background-color: transparent; }
+	
 .item-input .button .icon {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 24px;
