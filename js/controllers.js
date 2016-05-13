@@ -1890,6 +1890,10 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading) {
+			var wh=jQuery(window).height();
+			jQuery('.mediascreen').css('height',wh-150);
+			jQuery('.videoscreen').css('height',wh-150);
+			
             jQuery('.videoscreen').hide();
 
             $scope.doctorId = window.localStorage.getItem('id');
@@ -2076,6 +2080,7 @@ angular.module('your_app_name.controllers', [])
                     }
 
                     $scope.reRecording = function () {
+						 jQuery('.videoscreen').hide();
                         jQuery('.mediascreen').show();
                         jQuery('.mediascreen').html('<div id="subscribersDiv" class="subscribediv">Initializing Video</div>');
                         jQuery('.next').hide();
@@ -2153,9 +2158,15 @@ angular.module('your_app_name.controllers', [])
                         return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
                     }
                     
+					
+					   $ionicModal.fromTemplateUrl('viewvideo', {
+							scope: $scope
+						}).then(function (modal) {
+							$scope.modal = modal;
+						});
+					
                     $scope.playVideo = function (archiveid){
-                        
-                        $http({
+                         $http({
                                 method: 'GET',
                                 url: domain + 'contentlibrary/pay-recent-video',
                                 params: {archiveId: archiveid}
@@ -2166,8 +2177,14 @@ angular.module('your_app_name.controllers', [])
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
-                        
-                    }
+							
+							$scope.modal.show()
+						  }
+					
+					
+					  
+					
+						
                     
                 }
 
