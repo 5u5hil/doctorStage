@@ -1,6 +1,6 @@
 <ion-view class="category-feeds-view">
-    <ion-nav-title>
-        <span>Video Article</span>
+    <ion-nav-title>{{doctorId}}
+        <span>Video Article  </span>
     </ion-nav-title>
     <div class="row tabnav headtab">
         <div class="col"><span class="nbtn active"  rel="tabone"  >Step 1</span></div>
@@ -8,11 +8,15 @@
         <div class="col"><span class="nbtn" rel="tabthree"  >Step 3</span></div>
     </div>
     <form name="addNewVideoArticle" id="addNewVideoArticle" enctype="multipart/form-data" novalidate>
+
+        <input type="hidden" name="docid" value="{{doctorId}}"  ng-model="doctorId"/>
+        <input type="hidden" name="viedoUrl" value="{{viedoUrl}}"  ng-model="viedoUrl"/>
+        <input type="hidden" name="archiveId" value="{{aid}}"  ng-model="archiveId"/>
         <ion-content class="has-footer"> 
 
-            <input type="hidden" name="docid" value="{{doctorId}}"  ng-model='doctorId'/>
-            <input type="hidden" name="viedoUrl" value="{{viedoUrl}}"  ng-model='viedoUrl'/>
-            <input type="hidden" name="archiveId" value="{{archiveId}}"  ng-model='archiveId'/>
+
+
+
 
             <div class="tabcon2 notetab mt60" id="tabone" >
                 <div class="item item-divider mt15">Title</div>
@@ -42,7 +46,13 @@
                     <div id='subscribersDiv' class="subscribediv">Initializing Video</div> 
                 </div>
                 <div class="videoscreen">
-                    <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(viedoUrl)}}"></iframe>
+
+                    video here
+                   <!-- <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(viedoUrl)}}"></iframe>-->
+               
+                   <input type="button" name="playvideo" ng-click="playVideo(aid)" value="Play Video">
+                   
+                   <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(viedoUrl)}}"></iframe>
                 </div>
 
             </div>	
@@ -69,7 +79,7 @@
             <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
             <div class="tab-buttons">
                 <div class="fixedbar tbtn active" rel="tabone">
-                    <div class="col bar button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewVideoArticle.title.$invalid || addNewVideoArticle.desc.$invalid ">Next</div>
+                    <div class="col bar button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewVideoArticle.title.$invalid || addNewVideoArticle.desc.$invalid">Next</div>
                 </div>
                 <div class="fixedbar row tbtn" rel="tabtwo">
                     <div class="col  button btn-share btn-add start" ng-click="recordVideo()">Start Recording</div>
@@ -79,7 +89,7 @@
                 </div>
                 <div  class="fixedbar row tbtn" rel="tabthree">
 
-                    <button type="submit" class="col button btn-add" ng-disabled="addNewVideoArticle.catchoice.$invalid || addNewVideoArticle.langchoice.$invalid " ng-click="submitNewVideoArticle()">Submit</button>
+                    <button type="submit" class="col button btn-add" ng-disabled="addNewVideoArticle.catchoice.$invalid || addNewVideoArticle.langchoice.$invalid" ng-click="submitNewVideoArticle()">Submit</button>
                 </div>
             </div>
         </div>

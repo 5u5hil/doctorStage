@@ -1879,9 +1879,9 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (response == '1') {
                         alert('Article added sucessfully.');
-                        $state.go('app.content-library',  {reload: true});
+                        $state.go('app.content-library', {reload: true});
                     } else {
-                        $state.go('app.content-library',  {reload: true});
+                        $state.go('app.content-library', {reload: true});
                     }
                 });
 
@@ -1893,8 +1893,8 @@ angular.module('your_app_name.controllers', [])
             jQuery('.videoscreen').hide();
 
             $scope.doctorId = window.localStorage.getItem('id');
-            
-            $scope.archiveId = '';
+
+           
             $scope.sessionId = '';
             $scope.token = '';
             $scope.aid = '';
@@ -1931,9 +1931,9 @@ angular.module('your_app_name.controllers', [])
                         $scope.viedoUrl = window.localStorage.removeItem('viedoUrl');
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
                         alert('Video Article added sucessfully.');
-                        $state.go('app.content-library',  {reload: true});
+                        $state.go('app.content-library', {reload: true});
                     } else {
-                        $state.go('app.content-library',  {reload: true});
+                        $state.go('app.content-library', {reload: true});
                     }
                 });
 
@@ -1948,7 +1948,7 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
                 if (taburl == 'tabtwo')
                 {
-                     jQuery('.videoscreen').hide();
+                    jQuery('.videoscreen').hide();
                     $scope.doctorId = window.localStorage.getItem('id');
                     $http({
                         method: 'GET',
@@ -2018,7 +2018,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.recording = 'On';
                         jQuery('.start').hide();
                         jQuery('.stop').show();
-                         jQuery('.videoscreen').hide();
+                        jQuery('.videoscreen').hide();
                         jQuery('.mediascreen').show();
                         jQuery('.next').hide();
                         jQuery('.rerecording').hide();
@@ -2062,14 +2062,14 @@ angular.module('your_app_name.controllers', [])
                             }).then(function sucessCallback(response) {
                                 console.log(response.data);
                                 $scope.url = response.data.url;
-                                $scope.viedoUrl = window.localStorage.setItem('viedoUrl', $scope.url);
-                                $scope.archiveId = window.localStorage.setItem('archiveId', $scope.aid);
+                               window.localStorage.setItem('viedoUrl', $scope.url);
+                               window.localStorage.setItem('archiveId', $scope.aid);
 
-                                //  $state.go("app.new-video-article", {reload: true});
+                              
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
-                            // $state.go("app.new-video-article", {reload: true});
+                            
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -2151,11 +2151,28 @@ angular.module('your_app_name.controllers', [])
 
                     $scope.trustSrc = function (src) {
                         return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
-                    };
+                    }
+                    
+                    $scope.playVideo = function (archiveid){
+                        
+                        $http({
+                                method: 'GET',
+                                url: domain + 'contentlibrary/pay-recent-video',
+                                params: {archiveId: archiveid}
+                            }).then(function sucessCallback(response) {
+                                console.log(response.data);
+                                $scope.playurl = response.data;
+                              
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+                        
+                    }
+                    
                 }
 
 
-            };
+            }
 
         })
 
@@ -2259,6 +2276,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.url = response.data.url;
                         window.localStorage.setItem('viedoUrl', $scope.url);
                         window.localStorage.setItem('archiveId', $scope.aid);
+                        $scope.naresh = window.localStorage.setItem('naresh', $scope.aid);
 
                         $state.go("app.new-video-article", {reload: true});
                     }, function errorCallback(e) {
