@@ -20,9 +20,9 @@
              
             <div  class="list card post-item greenbox" ng-repeat="contentLab in clab">
                 <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
-                <div class="row post-heading item item-text-wrap">
+                    <div class="row post-heading item item-text-wrap "  ng-class="{'fillbg': contentLab.content_type == 'video' }">
 				<div class="col col-75">
-				 <h2 class="post-title">{{contentLab.content_title}}</h2>
+				 <h2 class="post-title">{{contentLab.content_title  | capitalize}}</h2>
                     <p class="post-author">
                         By <span>{{contentLab.user}}</span> <span>{{contentLab.created_at| dateFormat3}}</span>
                     </p>
@@ -30,15 +30,15 @@
 				<div class="col col-25 ">
 				
 				
-				<div class="indicater txt-center video">
+                                    <div ng-if="contentLab.content_type =='video'" class="indicater txt-center video">
 				<i class="icon ion-ios-videocam f20"></i><br/>
-				10:20
+				{{contentLab.duration}}
 				</div> 
 				
-			<!-- 	<div class="indicater txt-center article">
+			 	<div ng-if="contentLab.content_type =='artcle'" class="indicater txt-center article">
 				<i class="icon ion-ios-list-outline f20"></i><br/>
-				300
-				</div> -->
+				{{contentLab.content_value.length/1000 | ceil}} min read
+				</div> 
 				
 				</div>
 				</div>
@@ -47,9 +47,10 @@
                     <p class="post-excerpt pb10" dynamic-anchor-fix>
                         {{contentLab.content_desc}}
                     </p>
-                    <p class="imgincard pb10" ng-if="contentLab.header_img != null">  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
-					
-                     <div  class="framecontainer mb10"  ng-if="contentLab.header_img == null"> 
+                    <div ng-if="contentLab.header_img != null  ">
+                    <p class="imgincard pb10" >  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
+                    </div>		
+                     <div  class="framecontainer mb10"  ng-if="contentLab.url != null"> 
                 <!--   <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(contentLab.url)}}"></iframe> -->
 					 
 					 
@@ -64,10 +65,10 @@
 					 
                      </div>
                     <div class="post-actions ">
-                        <p class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
+                        <p class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}}  </span>
                         </p>
-                        <p class="pb10"> <strong>Tags </strong>|  </p>
-                         <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language}}, </span> </p>
+                        <!--<p class="pb10"> <strong>Tags </strong>|  </p>-->
+                         <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language | capitalize}} {{$last==true? '': ',&nbsp;'}} </span> </p>
                     </div>
                 </div>
                 </a>

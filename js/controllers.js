@@ -1824,6 +1824,7 @@ angular.module('your_app_name.controllers', [])
         })
         .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.category_sources = [];
+            $scope.Math = window.Math;
             $scope.categoryId = $stateParams.categoryId;
 
             $ionicModal.fromTemplateUrl('create-library', {
@@ -1841,7 +1842,8 @@ angular.module('your_app_name.controllers', [])
                 params: {doctorId: window.localStorage.getItem('id')}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.clab = response.data
+                $scope.clab = response.data;
+               // $scope.cntentvalCount = Math.random(response.data.content_value.length);
             }, function errorCallback(e) {
                 console.log(e);
             });
