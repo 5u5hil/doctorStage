@@ -1081,37 +1081,27 @@ angular.module('your_app_name.controllers', [])
                 });
                 $ionicLoading.hide();
             });
-
             $scope.doit = function () {
                 console.log("removeitem");
                 window.localStorage.removeItem('startSlot');
                 window.localStorage.removeItem('endSlot');
             };
-
             $scope.doesit = function () {
                 console.log("removeitem iv");
                 window.localStorage.removeItem('IVstartSlot');
                 window.localStorage.removeItem('IVendSlot');
                 window.localStorage.removeItem('instantV');
             };
-
             $scope.checkAvailability = function (uid, prodId) {
                 $scope.interface = window.localStorage.getItem('interface_id');
                 console.log("prodId " + prodId);
                 console.log("uid " + uid);
-                $rootScope.$broadcast('loading:hide');
-                $ionicLoading.show();
-                $http({
-                    method: 'GET',
-                    url: domain + 'kookoo/check-doctor-availability',
-                    params: {id: uid, interface: $scope.interface}
-                }).then(function successCallback(responseData) {
-                    if (responseData.data.status == 1) {
-                        $state.go('app.checkavailable', {'data': prodId, 'uid': uid});
-                    } else {
-                        alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                    }
-                });
+                var curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+                $scope.startSlot = $filter('date')(getAfterTime(curTime, 10), 'yyyy-MM-dd HH:mm:ss');
+                $scope.endSlot = $filter('date')(getAfterTime($scope.startSlot, 30), 'yyyy-MM-dd HH:mm:ss');
+                $scope.bookingStart = $scope.startSlot;
+                console.log($scope.startSlot+"===="+$scope.endSlot);
+                $scope.bookAppointment(prodId, 1);
             };
             $scope.getNextSlots = function (nextDate, supsassId, key, serv) {
                 console.log(nextDate + '=======' + supsassId + '=====' + key + "Seveice == " + serv);
@@ -1312,190 +1302,8 @@ angular.module('your_app_name.controllers', [])
             }, 10);
         })
 
-        .controller('CheckavailableCtrl', function ($scope, $rootScope, $ionicLoading, $state, $http, $stateParams, $timeout, $ionicModal, $ionicPopup) {
-            $scope.data = $stateParams.data;
-            $scope.uid = $stateParams.uid;
-            $scope.interface = window.localStorage.getItem('interface_id');
-            $http({
-                method: 'GET',
-                url: domain + 'kookoo/check-dr-availability',
-                params: {id: $scope.uid, interface: $scope.interface}
-            }).then(function successCallback(responseData) {
-                $scope.check_availability = responseData.data.check_availability
-                $scope.instant_video = responseData.data.instant_video
-
-            });
-            $scope.patientId = window.localStorage.getItem('patientId');
-            $scope.drId = window.localStorage.getItem('id');
-            console.log($scope.drId + "--" + $scope.patientId);
-            /* patient confirm */
-            $scope.showConfirm = function () {
-                var confirmPopup = $ionicPopup.confirm({
-                    title: 'Confirmation',
-                    template: '<p align="center"><strong>Doctor is Available</strong></p><div>The specialist has accepted your request for an instant video call. Do you want to continue?</div>'
-                });
-                confirmPopup.then(function (res) {
-                    if (res != true) {
-                        $scope.kookooID = window.localStorage.getItem('kookooid');
-                        $scope.prodid = window.localStorage.getItem('prodId');
-                        $http({
-                            method: 'GET',
-                            url: domain + 'kookoo/reject-by-patient',
-                            params: {kookooid: $scope.kookooID}
-                        }).then(function successCallback(patientresponse) {
-                            console.log(patientresponse.data);
-                            console.log($scope.drId + "--" + $scope.patientId);
-                            window.localStorage.removeItem('kookooid');
-                            //$state.go('app.doctrslist', {}, {reload: true});
-                            $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
-                        }, function errorCallback(patientresponse) {
-                            //  alert('Oops something went wrong!');
-                        });
-                    } else {
-                        $http({
-                            method: 'GET',
-                            url: domain + 'kookoo/accept-by-patient',
-                            params: {kookooid: $scope.kookooID}
-                        }).then(function successCallback(patientresponse) {
-                            console.log(patientresponse.data);
-                            if (patientresponse.data == '1') {
-                                console.log($scope.drId + "--" + $scope.patientId);
-                                $state.go('app.payment');
-                            }
-                        }, function errorCallback(patientresponse) {
-                            //  alert('Oops something went wrong!');
-                        });
-                    }
-                });
-            };
-            /*timer */
-            $scope.IsVisible = false;
-            $scope.counter = 60;
-            var stopped;
-            $scope.countdown = function (dataId, uid) {
-                window.localStorage.setItem('prodId', $scope.data);
-                window.localStorage.setItem('instantV', 'instantV');
-                window.localStorage.setItem('mode', 1);
-                //alert(dataId);
-                $scope.kookooID = window.localStorage.getItem('kookooid');
-                var myListener = $rootScope.$on('loading:show', function (event, data) {
-                    $ionicLoading.hide();
-                });
-                $scope.$on('$destroy', myListener);
-                var myListenern = $rootScope.$on('loading:hide', function (event, data) {
-                    $ionicLoading.hide();
-                });
-                $scope.$on('$destroy', myListenern);
-                $scope.$on('$destroy', function () {
-                    $scope.checkavailval = 0;
-                    console.log("jhffffhjfhj" + $scope.checkavailval);
-                    $timeout.cancel(stopped);
-                    window.localStorage.removeItem('kookooid');
-
-                });
-                $http({
-                    method: 'GET',
-                    url: domain + 'kookoo/check-kookoo-value',
-                    params: {kookooId: $scope.kookooID}
-                }).then(function successCallback(responsekookoo) {
-                    console.log(responsekookoo.data);
-                    $scope.checkavailval = responsekookoo.data;
-                    if ($scope.checkavailval == 1)
-                    {
-                        $timeout.cancel(stopped);
-                        $scope.showConfirm();
-                        // $state.go('app.payment');
-                    } else if ($scope.checkavailval == 2)
-                    {
-                        $timeout.cancel(stopped);
-                        window.localStorage.removeItem('kookooid');
-                        alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                        $state.go('app.doctr-services', {'id': $scope.patientId}, {reload: true});
-                        //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
-                    }
-                }, function errorCallback(responsekookoo) {
-                    if (responsekookoo.data == 0)
-                    {
-                        alert('No doctrs available');
-                        $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
-                        //$state.go('app.ass-patient', {'id': $scope.patientId, 'drId': $scope.drId}, {reload: true});
-                    }
-                });
-                $scope.IsVisible = true;
-                stopped = $timeout(function () {
-                    // console.log($scope.counter);
-                    $scope.counter--;
-                    $scope.countdown();
-                }, 1000);
-                if ($scope.counter == 59) {
-                    $scope.kookooID = window.localStorage.getItem('kookooid');
-                    var myListener = $rootScope.$on('loading:show', function (event, data) {
-                        $ionicLoading.hide();
-                    });
-                    $scope.$on('$destroy', myListener);
-                    var myListenern = $rootScope.$on('loading:hide', function (event, data) {
-                        $ionicLoading.hide();
-                    });
-                    $scope.$on('$destroy', myListenern);
-                    $http({
-                        method: 'GET',
-                        url: domain + 'kookoo/check-doctrs-response',
-                        params: {uid: $scope.uid, pid: window.localStorage.getItem('id')}
-                    }).then(function successCallback(response) {
-                        //console.log(response);
-                        console.log($scope.patientId + "--@@@@@--" + $scope.drId);
-
-                        if (response.data == '0')
-                        {
-                            $timeout.cancel(stopped);
-                            alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                            $state.go('app.doctr-services', {'id': $scope.patientId}, {reload: true});
-                            //$state.go('app.doctrslist', {}, {reload: true});
-                        } else {
-                            window.localStorage.setItem('kookooid', response.data);
-                            window.localStorage.setItem('kookooid1', response.data);
-                        }
-
-                    }, function errorCallback(response) {
-                        alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                        $state.go('app.doctr-services', {'id': $scope.patientId}, {reload: true});
-                    });
-                }
-                if ($scope.counter == 0) {
-                    $scope.IsVisible = false;
-                    // $scope.showConfirm();
-                    $timeout.cancel(stopped);
-                    alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                    $state.go('app.doctr-services', {'id': $scope.patientId}, {reload: true});
-                }
-            };
-            $scope.hidediv = function () {
-                $scope.IsVisible = false;
-                $timeout.cancel(stopped);
-                $scope.prodid = window.localStorage.getItem('prodId');
-                $scope.kookooID = window.localStorage.getItem('kookooid');
-                $http({
-                    method: 'GET',
-                    url: domain + 'kookoo/cancel-by-patient',
-                    params: {kookooid: $scope.kookooID}
-                }).then(function successCallback(patientresponse) {
-                    //console.log(patientresponse.data);
-                    //console.log('Patient Id' + $scope.patientId + 'Doctr Id = ' + $scope.drId);
-                    //$timeout.cancel(stopped);
-                    if (patientresponse.data) {
-                        window.localStorage.removeItem('kookooid');
-                        //$state.go('app.doctrslist', {}, {reload: true});
-                        $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
-                    }
-                }, function errorCallback(patientresponse) {
-                    console.log(e);
-                    $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
-                });
-            };
-        })
-
         .controller('AppPreviewCtrl', function ($scope, $http, $state, $filter, $location, $stateParams, $rootScope, $ionicLoading, $ionicGesture, $timeout, $ionicHistory) {
-            $scope.counter1 = 300;
+            $scope.counter1 = 3;
             var stopped1;
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.drId = window.localStorage.getItem('id');
@@ -1509,26 +1317,9 @@ angular.module('your_app_name.controllers', [])
                     $scope.paynowcountdown();
                 }, 1000);
                 if ($scope.counter1 == 0) {
-                    //console.log('fadsf af daf');
+                    //console.log('fadsf af daf');                    
                     $timeout.cancel(stopped1);
-                    $scope.kookooID = window.localStorage.getItem('kookooid1');
-                    $scope.prodid = window.localStorage.getItem('prodId');
-                    $http({
-                        method: 'GET',
-                        url: domain + 'kookoo/payment-time-expired',
-                        params: {kookooid: $scope.kookooID}
-
-                    }).then(function successCallback(responseData) {
-                        alert('Sorry, Your payment time expired');
-                        window.localStorage.removeItem('kookooid');
-                        window.localStorage.removeItem('kookooid1');
-                        $timeout(function () {
-                            // $state.go('app.consultation-profile', {'id':$scope.product[0].user_id}, {reload: true});
-                            $state.go('app.consultations-list', {reload: true});
-                        }, 3000);
-                    }, function errorCallback(response) {
-                        $state.go('app.consultations-list', {reload: true});
-                    });
+                    $state.go('app.doctr-services', {id: $scope.patientId}, {reload: true});
                 }
             };
             $timeout(function () {
@@ -1826,7 +1617,7 @@ angular.module('your_app_name.controllers', [])
 
 
         })
-        
+
         .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.category_sources = [];
             $scope.Math = window.Math;
@@ -1859,7 +1650,7 @@ angular.module('your_app_name.controllers', [])
 
 
         })
-        
+
         .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.category_sources = [];

@@ -12,7 +12,6 @@
                 <div class="whitetab profile">
                     <div class="schedule">
                         <my-tabs class="themetabs">
-
                             <div ng-repeat="serv in services">          
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
@@ -23,7 +22,6 @@
                                                         <li>{{videoProd.desc}}</li>
                                                         <li ng-repeat="vInc in videoInc track by $index">{{vInc.mode}}, {{vInc.desc}},
                                                             <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
-
                                                         </li>
                                                     </ul>
                                                     <div class="clr"></div>
@@ -37,7 +35,7 @@
                                                         <div class="sche-date">
                                                             <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">Earliest Slot</div> 
                                                             <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
-                                                                <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
+                                                            <input type="hidden" ng-model="nextdate[$index]" value="nextdate[$index]|datetime"/>
                                                             <div class="rightarrow" ng-click="getNextSlots(nextdate, vs.supersaas_id, $index, serv)">Next Slot</div>
                                                         </div>
                                                         <div ng-if="schV[$index] == vs.supersaas_id">
