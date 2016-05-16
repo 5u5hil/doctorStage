@@ -32,12 +32,12 @@
 
                             <div ng-if="contentLab.content_type == 'video'" class="indicater txt-center video">
                                 <i class="icon ion-ios-videocam f20"></i><br/>
-                               {{contentLab.duration | timesec}} min(s)
+                               {{contentLab.duration | timesec}} 
                             </div> 
 
                             <div ng-if="contentLab.content_type == 'artcle'" class="indicater txt-center article">
                                 <i class="icon ion-ios-list-outline f20"></i><br/>
-                                {{contentLab.content_value.length / 1000| ceil}} min(s) read
+                                {{contentLab.content_value.length / 1000| ceil}} min(s)
                             </div> 
 
                         </div>
@@ -52,7 +52,7 @@
                         </div>		
                         <div  class="framecontainer mb10"  ng-if="contentLab.content_type == 'video'"> 
                            
-                            <video width="100%" style="min-height:50px;" controls>
+                            <video width="100%" style="min-height:50px;" controls preload="metadata">
                                 <source src="{{trustSrc(contentLab.url)}}" type="video/mp4">
                                
                               Your browser does not support the video tag.
@@ -60,10 +60,10 @@
 
                         </div>
                         <div class="post-actions ">
-                            <p class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '.': ',&nbsp;'}}  </span>
+                            <p class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}}  </span>
                             </p>
                             <!--<p class="pb10"> <strong>Tags </strong>|  </p>-->
-                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language| capitalize}} {{$last==true? '.': ',&nbsp;'}} </span> </p>
+                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language| capitalize}} {{$last==true? '': ',&nbsp;'}} </span> </p>
                         </div>
                     </div>
                 </a>

@@ -11,7 +11,7 @@
 
         <input type="hidden" name="docid" value="{{doctorId}}"  ng-model="doctorId"/>
         <input type="hidden" name="viedoUrl" value="{{viedoUrl}}"  ng-model="viedoUrl"/>
-        <input type="hidden" name="archiveId" value="{{aid}}"  ng-model="archiveId"/>
+        <input type="hidden" name="archiveId" value="{{aid}}"  ng-model="aid"/>
         <ion-content class="has-footer"> 
 
 
@@ -51,7 +51,7 @@
             </div>	
 
             <div class="notetab mt48 mrl2" id="tabtwo" style="display:none;" >
-                <div class="fltr-mesg" > <span><strong>Recording:</strong> {{recording}}</span> &nbsp <span><strong>Time:</strong> {{timer}}</span></div>
+                <div class="fltr-mesg" > <span><strong>Recording:</strong> {{recording}}</span> <!--&nbsp <span><strong>Time:</strong> {{timer}}</span> --></div>
                 <div class="mediascreen">
                     <div id='subscribersDiv' class="subscribediv">Initializing Video</div> 
                 </div>
@@ -113,7 +113,7 @@
 <script id="viewvideo" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Actions</h1>	 
+    <h1 class="title">View Recording</h1>	 
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>

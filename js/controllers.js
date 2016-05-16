@@ -2196,6 +2196,7 @@ angular.module('your_app_name.controllers', [])
                     });
 
                     $scope.playVideo = function (archiveid) {
+                         $ionicLoading.show({template: 'Loading...'});
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/pay-recent-video',

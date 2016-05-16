@@ -18,15 +18,16 @@
                 </div>	
                 <div  class="framecontainer mb10"  ng-if="cval.content_type == 'video'"> 
 
-                    <video width="100%" style="min-height:50px;" controls>
+                    <video width="100%" style="min-height:50px;" controls preload="metadata" autoplay>
                         <source src="{{trustSrc(cval.url)}}" type="video/mp4">
 
                         Your browser does not support the video tag.
                     </video> 
 
                 </div>
-
-
+                <p class="post-text">
+                    {{cval.content_value}}
+                </p>
             </div>
 
         </div>
