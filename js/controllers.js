@@ -1920,8 +1920,8 @@ angular.module('your_app_name.controllers', [])
         .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading) {
             $scope.checkboxval = false;
             var wh = jQuery(window).height();
-            jQuery('.mediascreen').css('height', wh - 150);
-            jQuery('.videoscreen').css('height', wh - 150);
+            jQuery('.mediascreen').css('height', wh - 152);
+            jQuery('.videoscreen').css('height', wh - 152);
 
             jQuery('.videoscreen').hide();
 
