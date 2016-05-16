@@ -44,6 +44,10 @@
                     <i class="icon ion-person-stalker"></i>
                     <h2 class="menu-text">Patients</h2>
                 </ion-item>
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.content-library">
+                    <i class="icon ion-ios-book"></i>
+                    <h2 class="menu-text">Library</h2>
+                </ion-item>
                 <!--<ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.dietplan">
                     <i class="icon ion-medkit"></i>
                     <h2 class="menu-text">Diet Plan</h2>
@@ -53,10 +57,7 @@
                     <h2 class="menu-text">Settings</h2>
                 </ion-item>
                 
-                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.content-library">
-                    <i class="icon ion-gear-a"></i>
-                    <h2 class="menu-text">Library</h2>
-                </ion-item>
+                 
                 
                 <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == 1" ng-click="logout()" >
                     <i class="icon ion-android-unlock"></i>
