@@ -32,6 +32,7 @@
 
 
                 <div class="item item-divider mt15">Share With </div>
+
                 <!--       <ion-list ng-init="sharewith = 2">
                           <ion-radio name="sharewith" ng-model="sharewith"  ng-repeat="tg in target_groups" value="{{tg.id}}">{{tg.target_group}}</ion-radio>
                       </ion-list> -->
@@ -118,11 +119,16 @@
     <ion-content>
 
 
-    <video width="100%" style="min-height:50px;" controls autoplay>
-    <source src="{{trustSrc(playurl)}}" type="video/mp4">
-    <source src="{{trustSrc(playurl)}}" type="video/ogg">
-    Your browser does not support the video tag.
-    </video> 
+
+
+<iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(playurl)}}"></iframe>
+
+	<!-- <video width="100%" style="min-height:50px;" controls autoplay>
+						  <source src="{{trustSrc(playurl)}}" type="video/mp4">
+						  <source src="{{trustSrc(playurl)}}" type="video/ogg">
+						  Your browser does not support the video tag.
+						</video>  -->
+
 
 
     </ion-content>

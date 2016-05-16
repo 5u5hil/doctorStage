@@ -4,6 +4,7 @@
     </ion-nav-title>
     <ion-content class="bgwhite">
         <div class="posts-list">
+
             <div class="post-view  post-content item-text-wrap p10">
                 <h2 class="post-title">{{cval.content_title}}</h2>
                 <p class="post-author">
@@ -24,11 +25,12 @@
                     </video> 
 
                 </div>
-                <p class="post-text">
-                    {{cval.content_value}}
-                </p>
+
+
             </div>
+
         </div>
+
     </ion-content>
     <ion-footer-bar class="post-footer bar bar-footer" ng-if="cval.content_type == 'artcle'">
         <div class="row" > 

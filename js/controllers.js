@@ -1826,6 +1826,7 @@ angular.module('your_app_name.controllers', [])
 
 
         })
+        
         .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.category_sources = [];
             $scope.Math = window.Math;
@@ -1858,6 +1859,7 @@ angular.module('your_app_name.controllers', [])
 
 
         })
+        
         .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.category_sources = [];
