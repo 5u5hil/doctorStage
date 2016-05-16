@@ -3,25 +3,35 @@
         <span>Library</span>
     </ion-nav-title>
     <ion-content class="bgwhite">
-
-
         <div class="posts-list">
-
-
-
-
             <div class="post-view  post-content item-text-wrap p10">
+                <h2 class="post-title">{{cval.content_title}}</h2>
+                <p class="post-author">
+                    By <span>{{cval.fname}} {{cval.lname}}</span> <span>{{cval.created_at| dateFormat3}}</span>
+                </p>
+                <p class="post-excerpt pb10" dynamic-anchor-fix>
+                    {{cval.content_desc}}
+                </p>
+                <div ng-if="cval.content_type == 'artcle'">
+                    <p class="imgincard pb10" ng-if="cval.header_img != ''" >  <img src="{{attachpath}}{{cval.header_img}}" /></p>
+                </div>	
+                <div  class="framecontainer mb10"  ng-if="cval.content_type == 'video'"> 
+
+                    <video width="100%" style="min-height:50px;" controls>
+                        <source src="{{trustSrc(cval.url)}}" type="video/mp4">
+
+                        Your browser does not support the video tag.
+                    </video> 
+
+                </div>
                 <p class="post-text">
                     {{cval.content_value}}
                 </p>
             </div>
-
-
-
         </div>
     </ion-content>
-    <ion-footer-bar class="post-footer bar bar-footer">
-        <div class="row">
+    <ion-footer-bar class="post-footer bar bar-footer" ng-if="cval.content_type == 'artcle'">
+        <div class="row" > 
             <div class="col col-20 col-center">
                 <a class="button button-icon icon icon-right ion-plus" bigger-text=".post-view .post-text">A</a>
             </div>

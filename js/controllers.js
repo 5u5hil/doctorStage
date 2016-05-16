@@ -1808,7 +1808,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter) {
+        .controller('ViewContentCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.contentId = $stateParams.id;
             $http({
                 method: 'GET',
@@ -1820,6 +1820,10 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
+            };
+
 
         })
         .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {

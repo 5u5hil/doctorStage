@@ -127,6 +127,25 @@ angular.module('your_app_name.filters', [])
 
             };
         })
+
+        .filter('timesec', function ($filter)
+        {
+            return function (totalSeconds)
+            {
+                var hours = Math.floor(totalSeconds / 3600);
+                var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
+                var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
+
+                // round seconds
+                seconds = Math.round(seconds * 100) / 100
+
+                // var result = (hours < 10 ? "0" + hours : hours);
+                var  result =  (minutes < 10 ? "0" + minutes : minutes);
+                result += ":" + (seconds < 10 ? "0" + seconds : seconds);
+                return result;
+            }
+        })
+
         .filter('time1', function ($filter)
         {
             return function (input)
@@ -209,15 +228,15 @@ angular.module('your_app_name.filters', [])
                 return input.split(splitChar)[splitIndex];
             }
 
-            
+
         })
-        
+
         .filter('ceil', function () {
-                return function (input) {
-                    return Math.ceil(input);
-                };
-            })
-            
+            return function (input) {
+                return Math.ceil(input);
+            };
+        })
+
         .filter('searchFor', function () {
 
             // All filters must return a function. The first parameter
