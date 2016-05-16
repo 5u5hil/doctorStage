@@ -23,6 +23,17 @@
                                                         <li ng-repeat="vInc in videoInc track by $index">{{vInc.mode}}, {{vInc.desc}},
                                                             <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
                                                         </li>
+                                                        <li ng-repeat="vf in videoFollow">
+                                                                <span ng-if="vf.type == 'inclusion'">
+                                                                    <span ng-if="vf.validity != 0">
+                                                                        {{vf.mode==1? 'Video':vf.mode==2? 'Chat':vf.mode==3? 'Clinic':vf.mode==4? 'Home':''}} consult for {{vf.validity}} days
+                                                                    </span>
+                                                                </span>
+                                                                <span ng-if="vf.type == 'discounts'">
+                                                                    <span ng-if="vf.value != 0"> Discount Coupon of {{vf.value}}%</span> for {{vf.mode==1? 'Video':vf.mode==2? 'Chat':vf.mode==3? 'Clinic':vf.mode==4? 'Home':''}} Consult
+                                                                    <span ng-if="vf.instance != 0"> (Valid for {{vf.instance}} use{{vf.instance>1? 's':''}}<span ng-if="vf.validity != 0"> within {{vf.validity}} days</span>)</span>
+                                                                </span>
+                                                            </li>
                                                     </ul>
                                                     <div class="clr"></div>
                                                     <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
@@ -82,6 +93,17 @@
                                                 <li ng-repeat="cInc in clinicInc track by $index">{{cInc.mode}}, {{cInc.desc}},
                                                     <span ng-if="cInc.discount < 100">Discount : {{cInc.discount}} %</span>, {{cInc.validity_in_days}} Days
                                                 </li>
+                                                <li ng-repeat="cf in clinicFollow">
+                                                    <span ng-if="cf.type == 'inclusion'">
+                                                        <span ng-if="cf.validity != 0">
+                                                            {{cf.mode==1? 'Video':cf.mode==2? 'Chat':cf.mode==3? 'Clinic':cf.mode==4? 'Home':''}} consult for {{cf.validity}} Days
+                                                        </span>
+                                                    </span>
+                                                    <span ng-if="cf.type == 'discounts'">
+                                                        <span ng-if="cf.value != 0">, Discount Coupon of {{cf.value}}%</span> for {{cf.mode==1? 'Video':cf.mode==2? 'Chat':cf.mode==3? 'Clinic':cf.mode==4? 'Home':''}} Consult
+                                                        <span ng-if="cf.instance != 0">(Valid for {{cf.instance}} use{{vf.instance>1? 's':''}}<span ng-if="cf.validity != 0"> within {{cf.validity}} Days</span>) </span>
+                                                    </span>
+                                                </li>
                                             </ul>
                                             <div class="clr"></div>
                                             <div class="item item-body p0 brd-0" ng-repeat="cs in clinicSch track by $index">
@@ -118,6 +140,16 @@
                                         <div class="tabcontainer"> 
                                             <ul class="clist">
                                                 <li><strong>{{chatProd.desc}}</strong></li>
+                                                <li ng-repeat="cf in chatFollow">
+                                                    <span ng-if="cf.type == 'inclusion'">
+                                                        <span ng-if="cf.validity != 0">
+                                                            {{cf.mode==1? 'Video':cf.mode==2? 'Chat':cf.mode==3? 'Clinic':cf.mode==4? 'Home':''}} consult for {{cf.validity}} Days
+                                                        </span>
+                                                    </span>
+                                                    <span ng-if="cf.type == 'discounts'"><span ng-if="cf.value != 0">, Discount Coupon of {{cf.value}}%</span> for {{cf.mode==1? 'Video':cf.mode==2? 'Chat':cf.mode==3? 'Clinic':cf.mode==4? 'Home':''}} Consult
+                                                        <span ng-if="cf.instance != 0"> (Valid for {{cf.instance}} use{{vf.instance>1? 's':''}}<span ng-if="cf.validity != 0"> within {{cf.validity}} Days</span>) </span>
+                                                    </span>
+                                                </li>
                                             </ul>
                                             <p>
                                                 <button class="button button-block button-positive" ng-click="bookChatAppointment(chatProd.id, serv)"> Proceed</button>
