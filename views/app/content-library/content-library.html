@@ -1,8 +1,8 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
         <span>Library</span>
-    
-        
+
+
     </ion-nav-title>
     <ion-nav-buttons side="right"  >
         <button  ng-click="modal.show()" class="button button-positive w100p brdradious0"> 
@@ -16,66 +16,68 @@
         </div>	
 
 
-        <div class="posts-list">
-             
+        <div class="posts-list" ng-if="clab != ''">
+
             <div  class="list card post-item greenbox" ng-repeat="contentLab in clab">
                 <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
-                <div class="row post-heading item item-text-wrap">
-				<div class="col col-75">
-				 <h2 class="post-title">{{contentLab.content_title}}</h2>
-                    <p class="post-author">
-                        By <span>{{contentLab.user}}</span> <span>{{contentLab.created_at| dateFormat3}}</span>
-                    </p>
-				</div>
-				<div class="col col-25 ">
-				
-				
-				<div class="indicater txt-center video">
-				<i class="icon ion-ios-videocam f20"></i><br/>
-				10:20
-				</div> 
-				
-			<!-- 	<div class="indicater txt-center article">
-				<i class="icon ion-ios-list-outline f20"></i><br/>
-				300
-				</div> -->
-				
-				</div>
-				</div>
-				 
-                <div class="post-content item item-text-wrap" post-content>
-                    <p class="post-excerpt pb10" dynamic-anchor-fix>
-                        {{contentLab.content_desc}}
-                    </p>
-                    <p class="imgincard pb10" ng-if="contentLab.header_img != null">  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
-					
-                     <div  class="framecontainer mb10"  ng-if="contentLab.header_img == null"> 
-                <!--   <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(contentLab.url)}}"></iframe> -->
-					 
-					 
-						<video width="100%" style="min-height:50px;" controls>
-						  <source src="{{trustSrc(contentLab.url)}}" type="video/mp4">
-						  <source src="{{trustSrc(contentLab.url)}}" type="video/ogg">
-						  Your browser does not support the video tag.
-						</video> 
-										 
-		
-					 
-					 
-                     </div>
-                    <div class="post-actions ">
-                        <p class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}  </span>
-                        </p>
-                        <p class="pb10"> <strong>Tags </strong>|  </p>
-                         <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language}}, </span> </p>
+                    <div class="row post-heading item item-text-wrap "  ng-class="{'fillbg': contentLab.content_type == 'video' }">
+                        <div class="col col-75">
+                            <h2 class="post-title">{{contentLab.content_title| capitalize}}</h2>
+                            <p class="post-author">
+                                By <span>{{contentLab.user}}</span> <span>{{contentLab.created_at| dateFormat3}}</span>
+                            </p>
+                        </div>
+                        <div class="col col-25 ">
+
+
+                            <div ng-if="contentLab.content_type == 'video'" class="indicater txt-center video">
+                                <i class="icon ion-ios-videocam f20"></i><br/>
+                                {{contentLab.duration}} min watch
+                            </div> 
+
+                            <div ng-if="contentLab.content_type == 'artcle'" class="indicater txt-center article">
+                                <i class="icon ion-ios-list-outline f20"></i><br/>
+                                {{contentLab.content_value.length / 1000| ceil}} min read
+                            </div> 
+
+                        </div>
                     </div>
-                </div>
+
+                    <div class="post-content item item-text-wrap" post-content>
+                        <p class="post-excerpt pb10" dynamic-anchor-fix>
+                            {{contentLab.content_desc}}
+                        </p>
+                        <div ng-if="contentLab.content_type == 'artcle'">
+                            <p class="imgincard pb10" ng-if="contentLab.header_img != ''" >  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
+                        </div>		
+                        <div  class="framecontainer mb10"  ng-if="contentLab.content_type == 'video'"> 
+                            <!--   <iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(contentLab.url)}}"></iframe> -->
+
+
+                            <video width="100%" style="min-height:50px;" controls>
+                                <source src="{{trustSrc(contentLab.url)}}" type="video/mp4">
+                               
+                              Your browser does not support the video tag.
+                            </video> 
+
+
+
+
+                        </div>
+                        <div class="post-actions ">
+                            <p class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '.': ',&nbsp;'}}  </span>
+                            </p>
+                            <!--<p class="pb10"> <strong>Tags </strong>|  </p>-->
+                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language| capitalize}} {{$last==true? '.': ',&nbsp;'}} </span> </p>
+                        </div>
+                    </div>
                 </a>
             </div>
 
         </div>
+       
     </ion-content>
-    
+
 </ion-view>
 
 
