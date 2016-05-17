@@ -1809,7 +1809,7 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log(error.message);
                             } else {
-                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%",resolution:"1280*720"});
+                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%",resolution:"1280*720",frameRate:30});
                                 session.publish(publisher);
                                 var mic = 1;
                                 var mute = 1;
