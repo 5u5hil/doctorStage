@@ -1809,7 +1809,7 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log(error.message);
                             } else {
-                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
+                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%",resolution:"1280*720"});
                                 session.publish(publisher);
                                 var mic = 1;
                                 var mute = 1;
@@ -5390,6 +5390,28 @@ angular.module('your_app_name.controllers', [])
             $scope.recId = '';
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
+            
+             $scope.$on('$destroy', function () {
+
+                try {
+                    publisher.destroy();
+                    subscriber.destroy();
+                    session.unsubscribe();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+
+                } catch (err) {
+
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+                }
+            });
+            
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -5822,21 +5844,32 @@ angular.module('your_app_name.controllers', [])
 
             //End Consultaion code
             $scope.exitVideo = function () {
-                try {
-                    publisher.destroy();
-                    subscriber.destroy();
-                    session.unsubscribe();
-                    session.disconnect();
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    })
-                    $state.go('app.doctor-consultations', {}, {reload: true});
-                } catch (err) {
-                    $ionicHistory.nextViewOptions({
-                        historyRoot: true
-                    })
-                    $state.go('app.doctor-consultations', {}, {reload: true});
+
+
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/doctor-exit-video',
+                    params: {id: $scope.appId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    try {
+                        publisher.destroy();
+                        subscriber.destroy();
+                        session.unsubscribe();
+                        session.disconnect();
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.doctor-consultations', {}, {reload: true});
+                    } catch (err) {
+                        $ionicHistory.nextViewOptions({
+                            historyRoot: true
+                        })
+                        $state.go('app.doctor-consultations', {}, {reload: true});
                 }
+                }, function errorCallback(e) {
+                   
+                    $state.go('app.consultations-current', {}, {reload: true});
+                });
             };
 
             $scope.addnote = function () {
