@@ -1812,12 +1812,12 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log(error.message);
                             } else {
-                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%", resolution: "1280*720", frameRate: 30});
+                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                                 session.publish(publisher);
 
-                                publisher.on('streamCreated', function (event) {
-                                    console.log('Frame rate: ' + event.stream.frameRate);
-                                });
+//                                publisher.on('streamCreated', function (event) {
+//                                    console.log('Frame rate: ' + event.stream.frameRate);
+//                                });
                                 var mic = 1;
                                 var mute = 1;
                                 jQuery(".muteMic").click(function () {
@@ -1951,12 +1951,12 @@ angular.module('your_app_name.controllers', [])
                                 if (error) {
                                     console.log(error.message);
                                 } else {
-                                    console.log("jhjagsdjagdhj");
-                                    publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%", resolution: "1280*720", frameRate: 30});
+                                    // console.log("jhjagsdjagdhj");
+                                    publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                                     session.publish(publisher);
-                                    publisher.on('streamCreated', function (event) {
-                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
-                                    });
+//                                    publisher.on('streamCreated', function (event) {
+//                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
+//                                    });
                                     var mic = 1;
                                     var mute = 1;
                                     jQuery(".muteMic").click(function () {
@@ -5430,6 +5430,7 @@ angular.module('your_app_name.controllers', [])
                 //console.log(response.data);
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
+                $scope.vjhId = response.data.vjhId;
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
@@ -5461,10 +5462,20 @@ angular.module('your_app_name.controllers', [])
                     if (error) {
                         console.log(error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%", resolution: "1280*720", frameRate: 7});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
                         publisher.on('streamCreated', function (event) {
-                            console.log('Frame rate rerecording: ' + event.stream.frameRate);
+//                            console.log('Frame rate rerecording: ' + event.stream.frameRate);
+                            $http({
+                                method: 'GET',
+                                url: domain + 'appointment/update-frame-rate',
+                                params: {vjhId: $scope.vjhId}
+                            }).then(function sucessCallback(response) {
+                                console.log(response);
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
                         });
                         var mic = 1;
                         var mute = 1;
