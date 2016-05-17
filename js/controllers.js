@@ -1794,10 +1794,12 @@ angular.module('your_app_name.controllers', [])
                             $ionicLoading.hide();
                             alert("Your device is not compatible");
                         }
+
+
                         session.on({
                             streamCreated: function (event) {
                                 subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
-                            console.log('Frame rates'+ event.stream.frameRate);
+                                console.log('Frame rates' + event.stream.frameRate);
                             },
                             sessionDisconnected: function (event) {
                                 if (event.reason === 'networkDisconnected') {
@@ -1810,8 +1812,12 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log(error.message);
                             } else {
-                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%",resolution:"1280*720",frameRate:30});
+                                publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%", resolution: "1280*720", frameRate: 30});
                                 session.publish(publisher);
+
+                                publisher.on('streamCreated', function (event) {
+                                    console.log('Frame rate: ' + event.stream.frameRate);
+                                });
                                 var mic = 1;
                                 var mute = 1;
                                 jQuery(".muteMic").click(function () {
@@ -1946,8 +1952,11 @@ angular.module('your_app_name.controllers', [])
                                     console.log(error.message);
                                 } else {
                                     console.log("jhjagsdjagdhj");
-                                    publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
+                                    publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%", resolution: "1280*720", frameRate: 30});
                                     session.publish(publisher);
+                                    publisher.on('streamCreated', function (event) {
+                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
+                                    });
                                     var mic = 1;
                                     var mute = 1;
                                     jQuery(".muteMic").click(function () {
@@ -2069,7 +2078,7 @@ angular.module('your_app_name.controllers', [])
                     if (error) {
                         console.log(error.message);
                     } else {
-                        publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
+                        publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%", resolution: "1280*720", frameRate: 30});
                         session.publish(publisher);
                         var mic = 1;
                         var mute = 1;
@@ -5391,8 +5400,8 @@ angular.module('your_app_name.controllers', [])
             $scope.recId = '';
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
-            
-             $scope.$on('$destroy', function () {
+
+            $scope.$on('$destroy', function () {
 
                 try {
                     publisher.destroy();
@@ -5412,7 +5421,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
-            
+
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -5439,7 +5448,7 @@ angular.module('your_app_name.controllers', [])
                     },
                     streamCreated: function (event) {
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
-                    console.log('Doctor Frame rates '+ event.stream.frameRate);
+                        console.log('Doctor Frame rates ' + event.stream.frameRate);
                     },
                     sessionDisconnected: function (event) {
                         if (event.reason === 'networkDisconnected') {
@@ -5452,8 +5461,11 @@ angular.module('your_app_name.controllers', [])
                     if (error) {
                         console.log(error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%", resolution: "1280*720", frameRate: 7});
                         session.publish(publisher);
+                        publisher.on('streamCreated', function (event) {
+                            console.log('Frame rate rerecording: ' + event.stream.frameRate);
+                        });
                         var mic = 1;
                         var mute = 1;
                         var mutevideo = 1;
@@ -5867,9 +5879,9 @@ angular.module('your_app_name.controllers', [])
                             historyRoot: true
                         })
                         $state.go('app.doctor-consultations', {}, {reload: true});
-                }
+                    }
                 }, function errorCallback(e) {
-                   
+
                     $state.go('app.consultations-current', {}, {reload: true});
                 });
             };
