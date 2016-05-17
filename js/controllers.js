@@ -1797,6 +1797,7 @@ angular.module('your_app_name.controllers', [])
                         session.on({
                             streamCreated: function (event) {
                                 subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
+                            console.log('Frame rates'+ event.stream.frameRate);
                             },
                             sessionDisconnected: function (event) {
                                 if (event.reason === 'networkDisconnected') {
@@ -5438,6 +5439,7 @@ angular.module('your_app_name.controllers', [])
                     },
                     streamCreated: function (event) {
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
+                    console.log('Doctor Frame rates '+ event.stream.frameRate);
                     },
                     sessionDisconnected: function (event) {
                         if (event.reason === 'networkDisconnected') {
