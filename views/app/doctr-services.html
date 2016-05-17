@@ -15,7 +15,7 @@
                             <div ng-repeat="serv in services">          
                                 <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
                                     <my-tabs class="themetabs">
-                                        <my-tab icon="ion-calendar tabicon" title="Scheduled Video" ng-click="doesit();">
+                                        <my-tab icon="ion-calendar tabicon" title="Scheduled Video" >
                                             <div class="">
                                                 <div class="mt15"> 
                                                     <ul class="clist">
@@ -66,7 +66,7 @@
                                             </div>
                                         </my-tab>
                                         <div ng-if="instVideo != ''">
-                                            <my-tab title="Instant Video" icon="ion-ios-bolt tabicon" ng-click="doit();">
+                                            <my-tab title="Instant Video" icon="ion-ios-bolt tabicon">
                                                 <div class="">
                                                     <div class="tabcontainer"> 
                                                         <p><b>How Instant Video Works</b></p>
