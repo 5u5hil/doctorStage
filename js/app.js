@@ -26,6 +26,8 @@ angular.module('your_app_name', [
     'ionic.contrib.ui.tinderCards',
     'youtube-embed'
 ])
+
+
         .run(function ($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
             $ionicPlatform.on("deviceready", function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -75,6 +77,8 @@ angular.module('your_app_name', [
                 PushNotificationsService.register();
             });
         })
+        
+        
 
         .config(function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider) {
             $httpProvider.interceptors.push(function ($rootScope) {
