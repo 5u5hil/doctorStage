@@ -5,7 +5,7 @@
     <ion-content>
          <div class="row tabnav">
             <div class="col"><a  ui-sref="app.chatlist"   >Active</a></div>            
-            <div class="col"><a ui-sref="app.past-chatlist"  class="active" >Closed</a> </div>
+            <div class="col"><a ui-sref="app.assistantChatList"  class="active" >Closed</a> </div>
           
         </div>
        <!-- <div class="row tabnav">
@@ -26,24 +26,26 @@
                     <div class="col mytab"><a  ui-sref="app.past-chatlist" ui-sref-opts="{reload: true}">Past  </a></div>
                 </div>-->
         <div class="list cdetail-list" >
-            <div class="chatlist pchat" ng-repeat="cp in chatParticipants">
-                <a class="item item-icon-right" ui-sref="app.past-chat({'id': cp[0].chat_id})" ui-sref-opts="{reload: true}">
+            <div class="chatlist {{cp.state=='Past'? 'pchat':cp.state=='Active'? 'achat':'pchat'}}" ng-repeat="cp in chatParticipants| filter:chatFilter">
+                <a class="item item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ui-sref-opts="{reload: true}">
                     <img class="user-image-circle" ng-if="participant[$index][0].image != ''" ng-src="{{imgpath}}{{participant[$index][0].image}}"><img class="user-image-circle" ng-if="participant[$index][0].image == ''" ng-src="img/default-user.jpg">
                     <span class="title">{{participant[$index][0].fname}}</span>
                     <div ng-if="msg[$index] != ''" >
                         <p class="description">{{msg[$index].message}}</p>
                         <span class="chat-time" ng-if="curDate == (msg[$index].tstamp| dateFormat2 )">{{msg[$index].tstamp| time1}} <br/>
-                            <div class="countright" ng-if="unreadCnt[$index] != '0'">{{unreadCnt[$index]}}</div>
+                            <div class="countright" ng-if="unreadCnt[$index] != 0">{{unreadCnt[$index]}}</div>
                         </span>
                         <span class="chat-time" ng-if="curDate != (msg[$index].tstamp| dateFormat2 )">{{msg[$index].tstamp| dateFormat3}} <br/>
-                            <div class="countright" ng-if="unreadCnt[$index] != '0'">{{unreadCnt[$index]}}</div>
+                            <div class="countright" ng-if="unreadCnt[$index] != 0">{{unreadCnt[$index]}}</div>
                         </span>
                     </div>
                 </a>
             </div>
         </div>
     </ion-content>
-    
+    <!--    <div class="footerbar fixedbar">
+            <a class="button btn-share" ><i class="icon ion-android-add-circle"></i> New</a>
+        </div>-->
 </ion-view>
 
 

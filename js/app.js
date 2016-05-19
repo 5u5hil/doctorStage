@@ -278,6 +278,7 @@ angular.module('your_app_name', [
 
 
                     .state('app.chat', {
+                         cache: false,
                         url: "/chat/{id:int}",
                         views: {
                             'menuContent': {
@@ -286,8 +287,19 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                     .state('app.past-chat', {
+                          cache: false,
+                        url: "/past-chat/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat.html",
+                                controller: 'PastChatCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.chatlist', {
+                         cache: false,
                         url: "/chatlist",
                         views: {
                             'menuContent': {
@@ -298,6 +310,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.past-chatlist', {
+                         cache: false,
                         url: "/past-chatlist",
                         views: {
                             'menuContent': {

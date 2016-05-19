@@ -1609,7 +1609,7 @@ angular.module('your_app_name.controllers', [])
                 params: {conId: $scope.contentId}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.cval = response.data.aa;
+                $scope.cval = response.data;
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1660,7 +1660,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
             $http({
                 method: 'GET',
-                url: domain + 'contentlibrary/get-article-details',
+                url: domain + 'contentlibrary/get-text-article-details',
                 params: {doctorId: window.localStorage.getItem('id')}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
@@ -1732,7 +1732,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
             $http({
                 method: 'GET',
-                url: domain + 'contentlibrary/get-article-details',
+                url: domain + 'contentlibrary/get-video-article-details',
                 params: {doctorId: window.localStorage.getItem('id')}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
@@ -1812,6 +1812,7 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log(error.message);
                             } else {
+                                jQuery('.start').show();
                                 publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                                 session.publish(publisher);
 
@@ -1997,27 +1998,28 @@ angular.module('your_app_name.controllers', [])
                     });
 
                     $scope.playVideo = function (archiveid) {
-                        $ionicLoading.show({template: 'Loading...'});
+
+                        $ionicLoading.show({template: 'Retriving Video...'});
+                        //   $timeout(function () {
                         $http({
                             method: 'GET',
-                            url: domain + 'contentlibrary/pay-recent-video',
+                            url: domain + 'contentlibrary/play-recent-video',
                             params: {archiveId: archiveid}
                         }).then(function sucessCallback(response) {
                             console.log(response.data);
+                            //alert(response.data);
                             $scope.playurl = response.data;
-
+                            if ($scope.playurl != '') {
+                                $ionicLoading.hide();
+                                $scope.modal.show();
+                            } else {
+                                $scope.playVideo(archiveid);
+                            }
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-
-                        $scope.modal.show()
+                        //   }, 1000);
                     }
-
-
-
-
-
-
 
                 }
 
@@ -4998,7 +5000,47 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
+        .controller('PastChatListCtrl', function ($scope, $http, $ionicLoading, $stateParams, $rootScope, $filter) {
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.participant = [];
+            $scope.msg = [];
+            $scope.unreadCnt = [];
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-past-chats-list',
+                params: {drid: $scope.doctorId, interface: $scope.interface}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.chatParticipants = response.data;
+
+                angular.forEach($scope.chatParticipants, function (value, key) {
+                    $ionicLoading.show({template: 'Loading...'});
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctorsapp/get-chat-msg',
+                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
+                    }).then(function successCallback(responseData) {
+                        console.log(responseData);
+                        $scope.participant[key] = responseData.data.user;
+                        $scope.msg[key] = responseData.data.msg;
+                        $scope.unreadCnt[key] = responseData.data.unreadCnt;
+                        $rootScope.$digest;
+                        $ionicLoading.hide();
+                    }, function errorCallback(response) {
+                        console.log(response.responseText);
+                    });
+                });
+                $ionicLoading.hide();
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+        })
+
         .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             if (session) {
                 session.disconnect();
             }
@@ -5021,10 +5063,17 @@ angular.module('your_app_name.controllers', [])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
-                        console.log(responseData);
+                        // console.log(responseData);
+                        //$scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+                        // $scope.chatMsgTime = $filter('date')(new Date(responseData.data.msg.tstamp), 'yyyy-MM-dd');
+                        //console.log($scope.curDate + '@@@' + $scope.chatMsgTime);
+
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
                         $scope.unreadCnt[key] = responseData.data.unreadCnt;
+
+                        // 
+
                         $rootScope.$digest;
                     }, function errorCallback(response) {
                         console.log(response.responseText);
@@ -5059,7 +5108,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ChatCtrl', function ($scope, $http, $stateParams, $timeout, $filter) {
+        .controller('ChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -5085,12 +5134,12 @@ angular.module('your_app_name.controllers', [])
                 var session = OT.initSession($scope.apiKey, $scope.sessionId);
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
-                console.log(chatWidget);
+                console.log("error source 1" + chatWidget);
                 session.connect($scope.token, function (err) {
                     if (!err) {
                         console.log("Connection success");
                     } else {
-                        console.error(err);
+                        console.error("error source 2" + err);
                     }
                 });
             }, function errorCallback(e) {
@@ -5109,13 +5158,102 @@ angular.module('your_app_name.controllers', [])
             $('#chat').css('height', $scope.iframeHeight);
             //Previous Chat 
             $scope.appendprevious = function () {
+                console.log('connectioning.....');
+                $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
-                        var msgTime = $filter('date')(new Date(value.tstamp), 'hh:mm a');
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
+
                         if (value.sender_id == $scope.partId) {
+                            $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         } else {
+                            $ionicLoading.hide();
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        }
+                    });
+                })
+            };
+
+            $scope.movebottom = function () {
+                jQuery(function () {
+                    var dh = $('.ot-bubbles').height();
+                    $('.chatscroll').scrollTop(dh);
+                    //	console.log(wh);
+
+                })
+            };
+
+            $timeout(function () {
+
+                $scope.appendprevious();
+                $scope.movebottom();
+            }, 1000);
+        })
+
+        .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+            $scope.chatId = $stateParams.id;
+            window.localStorage.setItem('chatId', $stateParams.id);
+            $scope.partId = window.localStorage.getItem('id');
+            $scope.msg = '';
+            var apiKey = '45121182';
+            //console.log($scope.chatId);
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-chat-token-past',
+                params: {chatId: $scope.chatId, userId: $scope.partId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.user = response.data.user;
+                $scope.otherUser = response.data.otherUser;
+                $scope.chatMsgs = response.data.chatMsgs;
+                $scope.sessionId = response.data.chatSession;
+                console.log(response.data.chatMsgs);
+                $scope.apiKey = apiKey;
+                var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                $scope.session = session;
+                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                console.log("error source 1" + chatWidget);
+                session.connect($scope.token, function (err) {
+                    if (!err) {
+                        console.log("Connection success");
+                    } else {
+                        console.error("error source 2" + err);
+                    }
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.returnjs = function () {
+                jQuery(function () {
+                    var wh = jQuery('window').height();
+                    jQuery('#chat').css('height', wh);
+                    //	console.log(wh);
+                })
+            };
+            $scope.returnjs();
+            $scope.iframeHeight = $(window).height() - 88;
+            $('#chat').css('height', $scope.iframeHeight);
+            //Previous Chat 
+
+            $scope.appendprevious = function () {
+              //  console.log('connectioning.....');
+                $ionicLoading.show({template: 'Retrieving messages...'});
+              //  console.log('connectioning.....1');
+                $(function () {
+                   // console.log('connectioning.....12');
+                    angular.forEach($scope.chatMsgs, function (value, key) {
+                        //console.log(value);
+                       // console.log('connectioning.....123');
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
+
+                        if (value.sender_id == $scope.partId) {
+                           // console.log('connectioning.....1234');
+                            $ionicLoading.hide();
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        } else {
+                            $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         }
                     });
@@ -5241,35 +5379,7 @@ angular.module('your_app_name.controllers', [])
             }, 1000);
         })
 
-        .controller('PastChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
-            $scope.doctorId = window.localStorage.getItem('id');
-            $scope.participant = [];
-            $scope.msg = [];
-            $http({
-                method: 'GET',
-                url: domain + 'doctorsapp/get-past-chats',
-                params: {drid: $scope.doctorId}
-            }).then(function sucessCallback(response) {
-                console.log(response.data);
-                $scope.chatParticipants = response.data;
-                angular.forEach($scope.chatParticipants, function (value, key) {
-                    $http({
-                        method: 'GET',
-                        url: domain + 'doctorsapp/get-chat-msg',
-                        params: {partId: value[0].participant_id, chatId: value[0].chat_id}
-                    }).then(function successCallback(responseData) {
-                        console.log(responseData);
-                        $scope.participant[key] = responseData.data.user;
-                        $scope.msg[key] = responseData.data.msg;
-                        $rootScope.$digest;
-                    }, function errorCallback(response) {
-                        console.log(response.responseText);
-                    });
-                });
-            }, function errorCallback(e) {
-                console.log(e);
-            });
-        })
+
 
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
@@ -5430,7 +5540,7 @@ angular.module('your_app_name.controllers', [])
                 //console.log(response.data);
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
-                $scope.vjhId = response.data.vjhId;
+
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
@@ -5464,19 +5574,19 @@ angular.module('your_app_name.controllers', [])
                     } else {
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
-                        publisher.on('streamCreated', function (event) {
+                        //                       publisher.on('streamCreated', function (event) {
 //                            console.log('Frame rate rerecording: ' + event.stream.frameRate);
-                            $http({
-                                method: 'GET',
-                                url: domain + 'appointment/update-frame-rate',
-                                 params: {vjhId: $scope.vjhId,framerate:event.stream.frameRate}
-                            }).then(function sucessCallback(response) {
-                                console.log(response);
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
+//                            $http({
+//                                method: 'GET',
+//                                url: domain + 'appointment/update-frame-rate',
+//                                 params: {vjhId: $scope.vjhId,framerate:event.stream.frameRate}
+//                            }).then(function sucessCallback(response) {
+//                                console.log(response);
+//                            }, function errorCallback(e) {
+//                                console.log(e);
+//                            });
 
-                        });
+                        //                       });
                         var mic = 1;
                         var mute = 1;
                         var mutevideo = 1;
@@ -5920,16 +6030,16 @@ angular.module('your_app_name.controllers', [])
                 $scope.searchbox = true;
             };
 
-            $http({
-                method: 'GET',
-                url: domain + 'inventory/get-all-phc-location',
-                params: {interface: $scope.interface}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.healthCenter = response.data.telecentre;
-            }, function errorCallback(e) {
-                console.log(e);
-            });
+            /* $http({
+             method: 'GET',
+             url: domain + 'inventory/get-all-phc-location',
+             params: {interface: $scope.interface}
+             }).then(function successCallback(response) {
+             console.log(response.data);
+             $scope.healthCenter = response.data.telecentre;
+             }, function errorCallback(e) {
+             console.log(e);
+             });*/
 
             $scope.searchBy = function (type) {
                 console.log(type);
