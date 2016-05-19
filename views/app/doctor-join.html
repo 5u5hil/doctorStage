@@ -1,6 +1,6 @@
 <ion-view class="rjoin-view" >
     <ion-nav-title>
-        <span> {{user[0].fname}} {{user[0].lname}}</span>
+        <span> {{user.fname}} {{user.lname}}</span>
     </ion-nav-title>
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear" ng-click="exitVideo()"> Exit</button>
@@ -8,7 +8,7 @@
     <div class="bar bar-subheader cbar">
         <div class="row">
             <div class="col txt-centre"><h5>Appointment at {{app[0].appointments.scheduled_start_time|time1}}</h5></div>
-            <div class="addnebtn btn-share ion-medkit" ng-click="inventory();"></div>
+          <!--  <div class="addnebtn btn-share ion-medkit" ng-click="inventory();"></div> -->
             <div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
         </div>
     </div>

@@ -1891,7 +1891,7 @@ angular.module('your_app_name.controllers', [])
 
                     $scope.recordingStop = function () {
                         publisher.destroy();
-                        $timeout.cancel(stoppedTimer);
+                     //   $timeout.cancel(stoppedTimer);
                         $scope.recording = 'Off';
                         jQuery('.stop').hide();
                         jQuery('.mediascreen').hide();
@@ -2048,8 +2048,8 @@ angular.module('your_app_name.controllers', [])
 
                 }
 
-
-            }
+        
+            
             $scope.isChecked = function () {
                 if (jQuery("input[type='checkbox']:checked").length)
                 {
@@ -5459,7 +5459,7 @@ angular.module('your_app_name.controllers', [])
                 //console.log(response.data);
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
-                $scope.vjhId = response.data.vjhId;
+               // $scope.vjhId = response.data.vjhId;
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
@@ -5901,8 +5901,6 @@ angular.module('your_app_name.controllers', [])
 
             //End Consultaion code
             $scope.exitVideo = function () {
-
-
                 $http({
                     method: 'GET',
                     url: domain + 'appointment/doctor-exit-video',
