@@ -1609,7 +1609,7 @@ angular.module('your_app_name.controllers', [])
                 params: {conId: $scope.contentId}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $scope.cval = response.data.aa;
+                $scope.cval = response.data
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1660,7 +1660,7 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
             $http({
                 method: 'GET',
-                url: domain + 'contentlibrary/get-article-details',
+                url: domain + 'contentlibrary/get-text-article-details',
                 params: {doctorId: window.localStorage.getItem('id')}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
@@ -1710,6 +1710,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading) {
             $scope.checkboxval = false;
+            var stoppedTimer;
             var wh = jQuery(window).height();
             jQuery('.mediascreen').css('height', wh - 152);
             jQuery('.videoscreen').css('height', wh - 152);
@@ -1726,13 +1727,15 @@ angular.module('your_app_name.controllers', [])
             $scope.url = '';
             $scope.viedoUrl = '';
             $scope.recording = 'Off';
-            $scope.timer = '00:00:00';
+            //$scope.result = '00:00';
+            //var stoppedTimer;
+
 
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $http({
                 method: 'GET',
-                url: domain + 'contentlibrary/get-article-details',
+                url: domain + 'contentlibrary/get-video-article-details',
                 params: {doctorId: window.localStorage.getItem('id')}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
@@ -1780,6 +1783,7 @@ angular.module('your_app_name.controllers', [])
                         params: {doctorId: window.localStorage.getItem('id')}
                     }).then(function sucessCallback(response) {
                         console.log(response.data);
+
                         var aid = '';
                         var apiKey = '45121182';
                         var sessionId = response.data.sessionId;
@@ -1812,6 +1816,7 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log(error.message);
                             } else {
+                                jQuery('.start').show();
                                 publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                                 session.publish(publisher);
 
@@ -1844,8 +1849,24 @@ angular.module('your_app_name.controllers', [])
                         console.log(e);
                     });
 
-                    $scope.recordVideo = function () {
-
+//                    $scope.recordVideo = function () {
+//                        $scope.Timercounter = 0;
+//                        $scope.onTimeout = function () {
+//                            stoppedTimer = $timeout(function () {
+//                                $scope.Timercounter++;
+//                                 console.log($scope.Timercounter);
+//                                $scope.seconds = $scope.Timercounter % 60;
+//                                $scope.minutes = Math.floor($scope.Timercounter / 60);
+//                                var mytimeout = $timeout($scope.onTimeout, 1000);
+//                                $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
+//                                $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
+//                            })
+//                        }
+//                        // var mytimeout = $timeout($scope.onTimeout, 1000);
+//
+//                        $timeout(function () {
+//                            $scope.onTimeout();
+//                        }, 1000);
                         $scope.recording = 'On';
                         jQuery('.start').hide();
                         jQuery('.stop').show();
@@ -1870,6 +1891,7 @@ angular.module('your_app_name.controllers', [])
 
                     $scope.recordingStop = function () {
                         publisher.destroy();
+                        $timeout.cancel(stoppedTimer);
                         $scope.recording = 'Off';
                         jQuery('.stop').hide();
                         jQuery('.mediascreen').hide();
@@ -1878,7 +1900,7 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.next').show();
                         jQuery('.rerecording').show();
 
-
+                        $ionicLoading.show({template: 'Loading...'});
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/recording-stop',
@@ -1893,9 +1915,10 @@ angular.module('your_app_name.controllers', [])
                             }).then(function sucessCallback(response) {
                                 console.log(response.data);
                                 $scope.url = response.data.url;
+                                // alert($scope.url);
                                 window.localStorage.setItem('viedoUrl', $scope.url);
                                 window.localStorage.setItem('archiveId', $scope.aid);
-
+                                $ionicLoading.hide();
 
                             }, function errorCallback(e) {
                                 console.log(e);
@@ -1913,8 +1936,9 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.next').hide();
                         jQuery('.rerecording').hide();
                         jQuery('.stop').hide();
+                        jQuery('.start').hide();
 
-                        jQuery('.start').show();
+
                         $scope.doctorId = window.localStorage.getItem('id');
                         $http({
                             method: 'GET',
@@ -1954,6 +1978,7 @@ angular.module('your_app_name.controllers', [])
                                     // console.log("jhjagsdjagdhj");
                                     publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                                     session.publish(publisher);
+                                    jQuery('.start').show();
 //                                    publisher.on('streamCreated', function (event) {
 //                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
 //                                    });
@@ -1997,26 +2022,28 @@ angular.module('your_app_name.controllers', [])
                     });
 
                     $scope.playVideo = function (archiveid) {
-                        $ionicLoading.show({template: 'Loading...'});
+
+                        $ionicLoading.show({template: 'Retriving Video...'});
+                        //   $timeout(function () {
                         $http({
                             method: 'GET',
-                            url: domain + 'contentlibrary/pay-recent-video',
+                            url: domain + 'contentlibrary/play-recent-video',
                             params: {archiveId: archiveid}
                         }).then(function sucessCallback(response) {
                             console.log(response.data);
+                            //alert(response.data);
                             $scope.playurl = response.data;
-
+                            if ($scope.playurl != '') {
+                                $ionicLoading.hide();
+                                $scope.modal.show();
+                            } else {
+                                $scope.playVideo(archiveid);
+                            }
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-
-                        $scope.modal.show()
+                        //   }, 1000);
                     }
-
-
-
-
-
 
 
                 }
@@ -2078,7 +2105,7 @@ angular.module('your_app_name.controllers', [])
                     if (error) {
                         console.log(error.message);
                     } else {
-                        publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%", resolution: "1280*720", frameRate: 30});
+                        publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                         session.publish(publisher);
                         var mic = 1;
                         var mute = 1;
@@ -5400,6 +5427,8 @@ angular.module('your_app_name.controllers', [])
             $scope.recId = '';
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
+            $scope.vjhId = '';
+            $scope.framerate = '';
 
             $scope.$on('$destroy', function () {
 
@@ -5464,19 +5493,22 @@ angular.module('your_app_name.controllers', [])
                     } else {
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
-                        publisher.on('streamCreated', function (event) {
-//                            console.log('Frame rate rerecording: ' + event.stream.frameRate);
-                            $http({
-                                method: 'GET',
-                                url: domain + 'appointment/update-frame-rate',
-                                 params: {vjhId: $scope.vjhId,framerate:event.stream.frameRate}
-                            }).then(function sucessCallback(response) {
-                                console.log(response);
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
-
-                        });
+//                        publisher.on('streamCreated', function (event) {
+//                          console.log('Frame rate rerecording: ' + event.stream.frameRate);
+//                            console.log('Frame rate: ' + event.stream.frameRate);
+//                            $scope.framerate = event.stream.frameRate;
+//                            console.log('Frame: ' + $scope.framerate);
+//                            $http({
+//                                method: 'GET',
+//                                url: domain + 'appointment/update-frame-rate',
+//                                params: {vjhId: $scope.vjhId, framerate:  $scope.framerate}
+//                            }).then(function sucessCallback(response) {
+//                                console.log(response);
+//                            }, function errorCallback(e) {
+//                                console.log(e);
+//                            });
+//
+//                        });
                         var mic = 1;
                         var mute = 1;
                         var mutevideo = 1;

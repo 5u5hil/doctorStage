@@ -378,5 +378,22 @@ angular.module('your_app_name.directives', [])
                     }
                 };
             }])
-			
-		
+
+        .directive('input', function ()
+        {
+            return {
+                restrict: 'E',
+                link: function (scope, element, attrs)
+                {
+                    element.bind("keydown keypress", function (event) {
+                        //  element.bind('focus', function () {});
+                        if (event.which === 13) {
+                            return false;
+                        }
+                    })
+
+                }
+            }
+        })
+
+

@@ -123,6 +123,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app', {
+                        cache: false,
                         url: "/app",
                         abstract: true,
                         templateUrl: "views/app/side-menu.html",
