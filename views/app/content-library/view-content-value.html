@@ -12,9 +12,8 @@
                 </p>
                 <div class="post-actions" style="font-style: italic;">
                     <p  class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in cval.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}} </span>
-                    </p>
-
-                    <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in cval.lang">{{language| capitalize}}{{$last==true? '': ',&nbsp;'}} </span> </p>
+                        <br>
+                        <strong>Language </strong>| <span ng-repeat="language in cval.lang">{{language| capitalize}}{{$last==true? '': ',&nbsp;'}} </span> </p>
                 </div>
                 <p class="post-excerpt pb10" dynamic-anchor-fix style="font-style: italic;"> 
                     {{cval.content_desc}}
