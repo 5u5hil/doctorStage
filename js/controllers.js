@@ -5215,13 +5215,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
                 console.log("error source 1" + chatWidget);
-                session.connect($scope.token, function (err) {
-                    if (!err) {
-                        console.log("Connection success");
-                    } else {
-                        console.error("error source 2" + err);
-                    }
-                });
+               
             }, function errorCallback(e) {
                 console.log(e);
             });
