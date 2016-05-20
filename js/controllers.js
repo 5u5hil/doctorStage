@@ -5552,7 +5552,7 @@ angular.module('your_app_name.controllers', [])
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
                     },
                     streamCreated: function (event) {
-                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%", nameDisplayMode:"on", buttonDisplayMode:"off"});
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
                         console.log('Doctor Frame rates ' + event.stream.frameRate);
                     },
                     sessionDisconnected: function (event) {
@@ -5566,7 +5566,7 @@ angular.module('your_app_name.controllers', [])
                     if (error) {
                         console.log(error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%",name:"You", nameDisplayMode:"on", buttonDisplayMode:"off"});
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         session.publish(publisher);
                         //                       publisher.on('streamCreated', function (event) {
 //                            console.log('Frame rate rerecording: ' + event.stream.frameRate);
