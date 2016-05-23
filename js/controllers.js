@@ -2080,7 +2080,7 @@ angular.module('your_app_name.controllers', [])
                     if (error) {
                         console.log(error.message);
                     } else {
-                        publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%", resolution: "1280*720", frameRate: 30});
+                        publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                         session.publish(publisher);
                         var mic = 1;
                         var mute = 1;
@@ -5215,7 +5215,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
                 console.log("error source 1" + chatWidget);
-               
+
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -5232,18 +5232,18 @@ angular.module('your_app_name.controllers', [])
             //Previous Chat 
 
             $scope.appendprevious = function () {
-              //  console.log('connectioning.....');
+                //  console.log('connectioning.....');
                 $ionicLoading.show({template: 'Retrieving messages...'});
-              //  console.log('connectioning.....1');
+                //  console.log('connectioning.....1');
                 $(function () {
-                   // console.log('connectioning.....12');
+                    // console.log('connectioning.....12');
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
-                       // console.log('connectioning.....123');
+                        // console.log('connectioning.....123');
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
 
                         if (value.sender_id == $scope.partId) {
-                           // console.log('connectioning.....1234');
+                            // console.log('connectioning.....1234');
                             $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         } else {
@@ -5525,7 +5525,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
-
+            $ionicLoading.show({template: 'Loading...'});
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -5549,69 +5549,74 @@ angular.module('your_app_name.controllers', [])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
+                        var subscribers = session.getSubscribersForStream(event.stream);
+                        console.log('stream distroy: ' + subscribers);
+                        console.log('on session Destroy reason: ' + event.reason);
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
+                        session.unsubscribe();
                     },
                     streamCreated: function (event) {
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
-                        console.log('Doctor Frame rates ' + event.stream.frameRate);
+                        var subscribers2 = session.getSubscribersForStream(event.stream);
+                        console.log('stream created: ' + subscribers2);
                     },
                     sessionDisconnected: function (event) {
+                        var subscribers3 = session.getSubscribersForStream(event.stream);
+                        console.log('sessionDisconnected : ' + subscribers3);
                         if (event.reason === 'networkDisconnected') {
+                            var subscribers4 = session.getSubscribersForStream(event.stream);
+                            console.log('sessionDisconnected----1 : ' + subscribers4);
                             alert('You lost your internet connection.'
                                     + 'Please check your connection and try connecting again.');
                         }
                     }
                 });
+                publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                 session.connect(token, function (error) {
                     if (error) {
-                        console.log(error.message);
+                        $ionicLoading.hide();
+                        alert("Error connecting: ", error.code, error.message);
                     } else {
-                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
-                        session.publish(publisher);
-                        //                       publisher.on('streamCreated', function (event) {
-//                            console.log('Frame rate rerecording: ' + event.stream.frameRate);
-//                            $http({
-//                                method: 'GET',
-//                                url: domain + 'appointment/update-frame-rate',
-//                                 params: {vjhId: $scope.vjhId,framerate:event.stream.frameRate}
-//                            }).then(function sucessCallback(response) {
-//                                console.log(response);
-//                            }, function errorCallback(e) {
-//                                console.log(e);
-//                            });
+                        // publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                        //  session.publish(publisher);
+                        session.publish(publisher, function (error) {
+                            if (error) {
+                                console.log("publisher Error code/msg: ", error.code, error.message);
+                            } else {
+                                var mic = 1;
+                                var mute = 1;
+                                var mutevideo = 1;
+                                jQuery(".muteVideo").click(function () {
 
-                        //                       });
-                        var mic = 1;
-                        var mute = 1;
-                        var mutevideo = 1;
-                        jQuery(".muteVideo").click(function () {
+                                    if (mutevideo == 1) {
+                                        publisher.publishVideo(false);
+                                        mutevideo = 0;
+                                    } else {
+                                        publisher.publishVideo(true);
+                                        mutevideo = 1;
+                                    }
+                                });
+                                jQuery(".muteMic").click(function () {
+                                    if (mic == 1) {
+                                        publisher.publishAudio(false);
+                                        mic = 0;
+                                    } else {
+                                        publisher.publishAudio(true);
+                                        mic = 1;
+                                    }
+                                });
+                                jQuery(".muteSub").click(function () {
+                                    if (mute == 1) {
+                                        subscriber.subscribeToAudio(false);
+                                        mute = 0;
+                                    } else {
+                                        subscriber.subscribeToAudio(true);
+                                        mute = 1;
+                                    }
+                                });
+                            }
+                        });
 
-                            if (mutevideo == 1) {
-                                publisher.publishVideo(false);
-                                mutevideo = 0;
-                            } else {
-                                publisher.publishVideo(true);
-                                mutevideo = 1;
-                            }
-                        });
-                        jQuery(".muteMic").click(function () {
-                            if (mic == 1) {
-                                publisher.publishAudio(false);
-                                mic = 0;
-                            } else {
-                                publisher.publishAudio(true);
-                                mic = 1;
-                            }
-                        });
-                        jQuery(".muteSub").click(function () {
-                            if (mute == 1) {
-                                subscriber.subscribeToAudio(false);
-                                mute = 0;
-                            } else {
-                                subscriber.subscribeToAudio(true);
-                                mute = 1;
-                            }
-                        });
                     }
                 });
             }, function errorCallback(e) {
@@ -5973,12 +5978,7 @@ angular.module('your_app_name.controllers', [])
 
             //End Consultaion code
             $scope.exitVideo = function () {
-                $http({
-                    method: 'GET',
-                    url: domain + 'appointment/doctor-exit-video',
-                    params: {id: $scope.appId, userId: $scope.userId}
-                }).then(function successCallback(response) {
-                    try {
+                try {
                         publisher.destroy();
                         subscriber.destroy();
                         session.unsubscribe();
@@ -5986,13 +5986,20 @@ angular.module('your_app_name.controllers', [])
                         $ionicHistory.nextViewOptions({
                             historyRoot: true
                         })
-                        $state.go('app.doctor-consultations', {}, {reload: true});
+                       // $state.go('app.doctor-consultations', {}, {reload: true});
                     } catch (err) {
                         $ionicHistory.nextViewOptions({
                             historyRoot: true
                         })
-                        $state.go('app.doctor-consultations', {}, {reload: true});
+                       // $state.go('app.doctor-consultations', {}, {reload: true});
                     }
+                $http({
+                    method: 'GET',
+                    url: domain + 'appointment/doctor-exit-video',
+                    params: {id: $scope.appId, userId: $scope.userId}
+                }).then(function successCallback(response) {
+                    $state.go('app.doctor-consultations', {}, {reload: true});
+                    
                 }, function errorCallback(e) {
 
                     $state.go('app.consultations-current', {}, {reload: true});
