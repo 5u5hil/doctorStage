@@ -5556,7 +5556,19 @@ angular.module('your_app_name.controllers', [])
                         session.unsubscribe();
                     },
                     streamCreated: function (event) {
-                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
+                        subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"},
+                            function (error) {
+                                    if (error) {
+                                        console.log("subscriber Error " + error.code+'--'+error.message);
+                                    } else {
+                                        console.log('Subscriber added.');
+                                        var subscribers2 = session.getSubscribersForStream(event.stream);
+                                        console.log('Subscriber length.' + subscribers2.length);
+                                        alert('APK Subscriber length.'+subscribers2.length)
+                                        console.log('stream created: ' + subscribers2);
+                                        
+                                    }
+                                });
                         var subscribers2 = session.getSubscribersForStream(event.stream);
                         console.log('stream created: ' + subscribers2);
                     },
@@ -5583,6 +5595,9 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                             } else {
+                                 var subscribers5 = session.getSubscribersForStream(event.stream);
+                                  console.log('on publish length.' + subscribers5.length);
+                                        alert('APK on publish length.'+subscribers5.length)
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
