@@ -5557,16 +5557,37 @@ angular.module('your_app_name.controllers', [])
                     },
                     streamCreated: function (event) {
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"},
-                            function (error) {
+                                function (error) {
                                     if (error) {
-                                        console.log("subscriber Error " + error.code+'--'+error.message);
+                                        console.log("subscriber Error " + error.code + '--' + error.message);
                                     } else {
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                        alert('APK Subscriber length.'+subscribers2.length)
+                                        alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
-                                        
+                                        var prevStats;
+                                        window.setInterval(function () {
+                                            subscriber.getStats(function (error, stats) {
+                                                if (error) {
+                                                    console.error('Error getting subscriber stats. ', error.message);
+                                                    return;
+                                                }
+                                                if (prevStats) {
+                                                    var videoPacketLossRatio = stats.video.packetsLost /
+                                                            (stats.video.packetsLost + stats.video.packetsReceived);
+                                                    console.log('video packet loss ratio: ', videoPacketLossRatio);
+                                                    var videoBitRate = 8 * (stats.video.bytesReceived - prevStats.video.bytesReceived);
+                                                    console.log('video bit rate: ', videoBitRate, 'bps');
+                                                    var audioPacketLossRatio = stats.audio.packetsLost /
+                                                            (stats.audio.packetsLost + stats.audio.packetsReceived);
+                                                    console.log('audio packet loss ratio: ', audioPacketLossRatio);
+                                                    var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
+                                                    console.log('audio bit rate: ', audioBitRate, 'bps');
+                                                }
+                                                prevStats = stats;
+                                            });
+                                        }, 1000);
                                     }
                                 });
                         var subscribers2 = session.getSubscribersForStream(event.stream);
@@ -5595,9 +5616,9 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                             } else {
-                                 var subscribers5 = session.getSubscribersForStream(event.stream);
-                                  console.log('on publish length.' + subscribers5.length);
-                                        alert('APK on publish length.'+subscribers5.length)
+                                var subscribers5 = session.getSubscribersForStream(event.stream);
+                                console.log('on publish length.' + subscribers5.length);
+                                alert('APK on publish length.' + subscribers5.length)
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
@@ -5994,27 +6015,27 @@ angular.module('your_app_name.controllers', [])
             //End Consultaion code
             $scope.exitVideo = function () {
                 try {
-                        publisher.destroy();
-                        subscriber.destroy();
-                        session.unsubscribe();
-                        session.disconnect();
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true
-                        })
-                       // $state.go('app.doctor-consultations', {}, {reload: true});
-                    } catch (err) {
-                        $ionicHistory.nextViewOptions({
-                            historyRoot: true
-                        })
-                       // $state.go('app.doctor-consultations', {}, {reload: true});
-                    }
+                    publisher.destroy();
+                    subscriber.destroy();
+                    session.unsubscribe();
+                    session.disconnect();
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    // $state.go('app.doctor-consultations', {}, {reload: true});
+                } catch (err) {
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+                    // $state.go('app.doctor-consultations', {}, {reload: true});
+                }
                 $http({
                     method: 'GET',
                     url: domain + 'appointment/doctor-exit-video',
                     params: {id: $scope.appId, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     $state.go('app.doctor-consultations', {}, {reload: true});
-                    
+
                 }, function errorCallback(e) {
 
                     $state.go('app.consultations-current', {}, {reload: true});
