@@ -5616,6 +5616,24 @@ angular.module('your_app_name.controllers', [])
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                             } else {
+                                publisher.on('streamCreated', function (event) {
+                                    var subscribers5 = session.getSubscribersForStream(event.stream);
+                                    //console.log('on publish: ' + subscribers5);
+                                    console.log('on publish lenghth.' + subscribers5.length);
+                                    alert('APK on publish lenghth.' + subscribers5.length)
+                                    //  console.log('stream created: ' + subscribers5);
+                                })
+
+                                publisher.on('streamDestroyed', function (event) {
+                                    var subscribers6 = session.getSubscribersForStream(event.stream);
+                                    console.log('on Destroy: ' + subscribers6);
+                                    console.log('on Destroy reason: ' + event.reason);
+                                    subscriber.destroy();
+                                    console.log("subscriber.destroy" + subscriber.destroy);
+                                    session.unsubscribe();
+                                    session.disconnect()
+                                })
+
                                 var subscribers5 = session.getSubscribersForStream(event.stream);
                                 console.log('on publish length.' + subscribers5.length);
                                 alert('APK on publish length.' + subscribers5.length)
@@ -6024,6 +6042,7 @@ angular.module('your_app_name.controllers', [])
                     })
                     // $state.go('app.doctor-consultations', {}, {reload: true});
                 } catch (err) {
+                       alert('err while exitvideo ' + err);
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
