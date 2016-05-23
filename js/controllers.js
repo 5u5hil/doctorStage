@@ -5493,6 +5493,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
+             $ionicLoading.show({template: 'Loading...'});
             var imgCnt = 0;
             $scope.images = [];
             $scope.image = [];
@@ -5525,7 +5526,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
-            $ionicLoading.show({template: 'Loading...'});
+          
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -5551,7 +5552,9 @@ angular.module('your_app_name.controllers', [])
                         event.preventDefault();
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                        console.log('on session Destroy reason: ' + event.reason);
+                         alert('stream distroy length: ' +subscribers.length);
+                        console.log('on stream Destroy reason: ' + event.reason);
+                       alert('on stream Destroy reason: ' + event.reason);
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
                         session.unsubscribe();
                     },
@@ -5590,53 +5593,57 @@ angular.module('your_app_name.controllers', [])
                                         }, 1000);
                                     }
                                 });
-                        var subscribers2 = session.getSubscribersForStream(event.stream);
-                        console.log('stream created: ' + subscribers2);
+                      
                     },
                     sessionDisconnected: function (event) {
                         var subscribers3 = session.getSubscribersForStream(event.stream);
                         console.log('sessionDisconnected : ' + subscribers3);
                         if (event.reason === 'networkDisconnected') {
-                            var subscribers4 = session.getSubscribersForStream(event.stream);
-                            console.log('sessionDisconnected----1 : ' + subscribers4);
+                             $ionicLoading.hide();
                             alert('You lost your internet connection.'
                                     + 'Please check your connection and try connecting again.');
+                            var subscribers4 = session.getSubscribersForStream(event.stream);
+                            console.log('sessionDisconnected----1 : ' + subscribers4.length);
+                           
+                            
                         }
                     }
                 });
-                publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+              
                 session.connect(token, function (error) {
                     if (error) {
                         $ionicLoading.hide();
-                        alert("Error connecting: ", error.code, error.message);
+                        alert("Error connecting session doctors: ", error.code, error.message);
                     } else {
-                        // publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         //  session.publish(publisher);
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
+                                alert("publisher Error code/msg: ", error.code, error.message);
                             } else {
                                 publisher.on('streamCreated', function (event) {
-                                    var subscribers5 = session.getSubscribersForStream(event.stream);
+                                   // var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                    alert('APK on publish lenghth.' + subscribers5.length)
+                                    alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
-                                })
+                                });
 
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
+                                    alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
+                                     alert('on Destroy reason: ' + event.reason);
+                                   //  session.unsubscribe();
                                     subscriber.destroy();
-                                    console.log("subscriber.destroy" + subscriber.destroy);
-                                    session.unsubscribe();
-                                    session.disconnect()
-                                })
+                                      alert("publisher.destroy");
+                                   // console.log("subscriber.destroy" + subscriber.destroy);
+                                   // session.disconnect()
+                                });
 
-                                var subscribers5 = session.getSubscribersForStream(event.stream);
-                                console.log('on publish length.' + subscribers5.length);
-                                alert('APK on publish length.' + subscribers5.length)
+                               
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
@@ -6034,19 +6041,24 @@ angular.module('your_app_name.controllers', [])
             $scope.exitVideo = function () {
                 try {
                     publisher.destroy();
+                     alert('publisher destroy');
                     subscriber.destroy();
-                    session.unsubscribe();
+                      alert('subscriber destroy');
+                    //session.unsubscribe();
                     session.disconnect();
+                     alert('session disconnected');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                    // $state.go('app.doctor-consultations', {}, {reload: true});
+                  
                 } catch (err) {
                        alert('err while exitvideo ' + err);
+                         session.disconnect();
+                          alert('session disconnected');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                    // $state.go('app.doctor-consultations', {}, {reload: true});
+                  
                 }
                 $http({
                     method: 'GET',
