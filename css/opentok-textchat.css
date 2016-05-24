@@ -42,7 +42,8 @@
 section.ot-bubble.mine {
   
   margin-left: 1em;
-  border-bottom: 0.2em solid #ECEBEB;
+/*   border-bottom: 0.2em solid #ECEBEB; */
+  border-bottom:0;
   white-space: nowrap;
 }
 
