@@ -5046,7 +5046,10 @@ angular.module('your_app_name.controllers', [])
             });
         })
 
-        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
+        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter,$state) {
+			
+			
+			
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             if (session) {
                 session.disconnect();
@@ -5116,7 +5119,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
-            $scope.chatId = $stateParams.id;
+			 $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
             $scope.msg = '';
@@ -5220,7 +5223,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.apiKey = apiKey;
                 var session = OT.initSession($scope.apiKey, $scope.sessionId);
                 $scope.session = session;
-                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+               // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#pchat'});
                 console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
@@ -5229,13 +5232,14 @@ angular.module('your_app_name.controllers', [])
             $scope.returnjs = function () {
                 jQuery(function () {
                     var wh = jQuery('window').height();
-                    jQuery('#chat').css('height', wh);
+                    jQuery('#pchat').css('height', wh);
+					
                     //	console.log(wh);
                 })
             };
             $scope.returnjs();
-            $scope.iframeHeight = $(window).height() - 88;
-            $('#chat').css('height', $scope.iframeHeight);
+            $scope.iframeHeight = $(window).height()-87;
+            $('#pchat').css('height', $scope.iframeHeight);
             //Previous Chat 
 
             $scope.appendprevious = function () {
@@ -5243,6 +5247,7 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 //  console.log('connectioning.....1');
                 $(function () {
+					jQuery('.ot-textchat .ot-input').remove();
                     // console.log('connectioning.....12');
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
@@ -5252,10 +5257,10 @@ angular.module('your_app_name.controllers', [])
                         if (value.sender_id == $scope.partId) {
                             // console.log('connectioning.....1234');
                             $ionicLoading.hide();
-                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                            $('#pchat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         } else {
                             $ionicLoading.hide();
-                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                            $('#pchat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         }
                     });
                 })

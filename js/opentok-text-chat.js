@@ -59,7 +59,7 @@ ChatUI = function (ChatMessage) {
     '  <div>',
     '    <p class="ot-error-zone" hidden>Error sending the message!</p>',
     '    <p class="ot-new-messages" hidden>\u25BE&nbsp;New messages</p>',
-    '    <textarea placeholder="Send a message&hellip;" class="ot-composer">' + '</textarea>',
+    '<textarea placeholder="Send a message&hellip;" class="ot-composer">' + '</textarea>',
     '    <div class="ot-bottom-line">',
     '      <p class="ot-character-counter"><span></span> characters left</p>',
     '      <button class="ot-send-button">Send&nbsp;\u27E9</button>',
@@ -270,8 +270,8 @@ ChatUI = function (ChatMessage) {
      * @method disableSending
      */
     disableSending: function () {
-      this._sendButton.disabled = true;
-      this._composer.disabled = true;
+   //  this._sendButton.disabled = true;
+   // this._composer.disabled = true;
     },
     _shouldGroup: function (message) {
       if (this._lastMessage && this._lastMessage.senderId === message.senderId) {

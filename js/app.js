@@ -292,7 +292,7 @@ angular.module('your_app_name', [
                         url: "/past-chat/{id:int}",
                         views: {
                             'menuContent': {
-                                templateUrl: "views/app/chat.html",
+                                templateUrl: "views/app/pastchat.html",
                                 controller: 'PastChatCtrl'
                             }
                         }

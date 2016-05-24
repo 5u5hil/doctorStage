@@ -28,7 +28,10 @@
                 </div>-->
         <div class="list cdetail-list" >
             <div class="chatlist achat" ng-repeat="cp in chatParticipants| filter:chatFilter">
-                <a class="item item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ui-sref-opts="{reload: true}">
+                <a class="item item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ui-sref-opts="{reload: true}" >
+				
+				
+
                     <img class="user-image-circle" ng-if="participant[$index][0].image != ''" ng-src="{{imgpath}}{{participant[$index][0].image}}"><img class="user-image-circle" ng-if="participant[$index][0].image == ''" ng-src="img/default-user.jpg">
                     <span class="title">{{participant[$index][0].fname}}</span>
                     <div ng-if="msg[$index] != ''" >
