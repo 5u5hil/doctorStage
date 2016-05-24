@@ -1765,7 +1765,7 @@ angular.module('your_app_name.controllers', [])
             }
 			
             $scope.tabclick = function (taburl) {
-				//$ionicScrollDelegate.resize();
+				$ionicScrollDelegate.resize();
 				$ionicScrollDelegate.scrollTop();
 				
                 jQuery('.notetab').hide();
