@@ -1708,7 +1708,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading,$ionicScrollDelegate) {
             $scope.checkboxval = false;
             var wh = jQuery(window).height();
            // jQuery('.mediascreen').css('height', wh - 152);
@@ -1765,6 +1765,9 @@ angular.module('your_app_name.controllers', [])
             }
 			
             $scope.tabclick = function (taburl) {
+				//$ionicScrollDelegate.resize();
+				$ionicScrollDelegate.scrollTop();
+				
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
 			   console.log(taburl+'fasdfa');

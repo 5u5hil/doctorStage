@@ -9491,7 +9491,7 @@ input[type="date"]:before{
 .tabinactive{display:none;
              -webkit-transform: translate(0,0);
 }
-.notetab{margin-top:42px; position: absolute;
+.notetab{margin-top:45px; position: absolute;
     width: 99%;}
 .footerspacer{height:30px;}
 
