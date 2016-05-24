@@ -18,7 +18,7 @@
 
 
 
-            <div class="notetab mt60 mrl2" id="tabone" >
+            <div class="notetab mrl2" id="tabone" >
                 <div class="item item-divider mt15">Title</div>
                 <label class="item item-input">
                     <input type="text" name="title" ng-model="title" placeholder="Title" maxlength="100"  required="" />
@@ -42,32 +42,30 @@
                     <option ng-repeat="tg in target_groups" value="{{tg.id}}">{{tg.target_group}}</option>
                 </select>
 
-                <div class="list">
-
-
-
-
-                </div>
+                <div class="list"> </div>
+				<div class="footerspacer"></div>
+				
             </div>	
 
-            <div class="notetab mt48 mrl2" id="tabtwo" style="display:none;" >
+            <div class="notetab mrl2" id="tabtwo" style="display:none;" >
                 <div class="fltr-mesg" > <span><strong>Recording:</strong> {{recording}}</span> <!--&nbsp <span><strong>Time:</strong> {{result}}</span> --></div>
                 <div class="mediascreen">
                     <div id='subscribersDiv' class="subscribediv">Initializing Video</div> 
                 </div>
 
                 <div class="videoscreen">
-
-                    <div class="vbtn">
+					<div class="vbtn">
                         <button type="button"  ng-click="playVideo(aid)" >
                             <i class="ion-play f20"></i> <br/>View
                         </button>
-
-                    </div>  
+					</div>  
 
                 </div> 
 
             </div>	
+
+			
+			
 
             <div class="notetab mt60 mrl2" id="tabthree" style="display:none;" >
                 <div class="item item-divider mt15">Category {{catchoice}}</div>
@@ -93,6 +91,7 @@
                 <div class="fixedbar row tbtn active brd0" rel="tabone">
                     <div class="col button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewVideoArticle.title.$invalid || addNewVideoArticle.desc.$invalid || addNewVideoArticle.sharewith.$invalid">Next</div>
                 </div>
+				
                 <div class="fixedbar row tbtn" rel="tabtwo">
                     <div class="col  button btn-share btn-add start brd0 hide" ng-click="recordVideo()"><i class="ion-record f20"></i> Start Recording</div>
                     <div class="col  button  btn-delete stop hide" ng-click="recordingStop()" ><i class="ion-stop f20 brd0"></i>  Stop Recording</div>

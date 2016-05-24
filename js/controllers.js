@@ -1711,8 +1711,9 @@ angular.module('your_app_name.controllers', [])
         .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading) {
             $scope.checkboxval = false;
             var wh = jQuery(window).height();
-            jQuery('.mediascreen').css('height', wh - 152);
-            jQuery('.videoscreen').css('height', wh - 152);
+           // jQuery('.mediascreen').css('height', wh - 152);
+            jQuery('.notetab').css('height', wh - 147);
+           // jQuery('.videoscreen').css('height', wh - 204);
 
             jQuery('.videoscreen').hide();
 
@@ -1762,10 +1763,13 @@ angular.module('your_app_name.controllers', [])
                 });
 
             }
-
+			
             $scope.tabclick = function (taburl) {
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
+			   console.log(taburl+'fasdfa');
+				
+				
                 jQuery('.headtab span').removeClass('active');
                 jQuery('.tab-buttons .tbtn').removeClass('active');
                 jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
