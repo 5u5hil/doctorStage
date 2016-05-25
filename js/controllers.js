@@ -1708,12 +1708,11 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading,$ionicScrollDelegate) {
+        .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading) {
             $scope.checkboxval = false;
             var wh = jQuery(window).height();
-           // jQuery('.mediascreen').css('height', wh - 152);
-            jQuery('.notetab').css('height', wh - 147);
-           // jQuery('.videoscreen').css('height', wh - 204);
+            jQuery('.mediascreen').css('height', wh - 152);
+            jQuery('.videoscreen').css('height', wh - 152);
 
             jQuery('.videoscreen').hide();
 
@@ -5599,6 +5598,22 @@ angular.module('your_app_name.controllers', [])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
+                                                    
+                                                      $http({
+                                                method: 'GET',
+                                                url: domain + 'log/stats-log',
+                                                params: {id: $scope.appId,
+                                                    userId: $scope.userId,
+                                                    videoPacketLossRatio: videoPacketLossRatio,
+                                                    videoBitRate: videoBitRate,
+                                                    audioPacketLossRatio: audioPacketLossRatio,
+                                                    audioBitRate: audioBitRate
+                                                }
+                                            }).then(function successCallback(response) {
+
+                                            }, function errorCallback(e) {
+
+                                            });
                                                 }
                                                 prevStats = stats;
                                             });
