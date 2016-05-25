@@ -5220,8 +5220,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
-                var session = OT.initSession($scope.apiKey, $scope.sessionId);
-                $scope.session = session;
+              //  var session = OT.initSession($scope.apiKey, $scope.sessionId);
+              //  $scope.session = session;
                // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#pchat'});
                 console.log("error source 1" + chatWidget);
 
