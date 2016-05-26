@@ -1701,9 +1701,9 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicScrollDelegate, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
-            $scope.category_sources = [];
+            $scope.category_sources = []; 
             $scope.checkboxval = false;
             $scope.categoryId = $stateParams.categoryId;
             $http({
