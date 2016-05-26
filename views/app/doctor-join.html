@@ -5,8 +5,8 @@
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear" ng-click="exitVideo()"> Exit</button>
     </ion-nav-buttons>
-    <div class="bar bar-subheader cbar">
-        <div class="row">
+    <div class="bar bar-subheader cbar" >
+        <div class="row" style="margin-top:-5px;">
             <div class="col txt-centre"><h5>Appointment at {{app[0].appointments.scheduled_start_time|time1}}</h5></div>
           <!--  <div class="addnebtn btn-share ion-medkit" ng-click="inventory();"></div> -->
             <div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
@@ -20,7 +20,87 @@
             <div id='myPublisherDiv' style="position:absolute;right: 10px;bottom:10px"></div> 
             <div id='subscribersDiv' class="subscribediv">Waiting for patient to join!</div> 
         </div>
+		
+		
+		<div class="crighttab greentab" id="cstab1">
+		<div class="ctabbtn" ng-click="pulltab('cstab1')">
+		<span class="ion-chevron-left"></span>
+		</div>
+    		<div class="sidetabcontent">
+       <ion-scroll direction="y" class="theroot">
+     
+    
+
+            <h3>Title </h3>
+           
+                    <br/>
+             <div class="item item-divider">Question </div>
+
+                 <label class="item item-input">
+                <input type="text" placeholder="Enter text">
+              </label>
+              <label class="item item-input">
+                 <input type="text" placeholder="Enter text">
+              </label>
+
+<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+
+
+<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+
+
+<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+
+
+<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+
+<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+
+
+  </ion-scroll>
+
+          </div>
+		</div>
+
+	  <div class="crighttab greentab" id="cstab2" >
+        <div class="ctabbtn" ng-click="pulltab('cstab2')" style="top:45px;">
+        <span class="ion-chevron-left"></span>
+        </div>
+            <div class="p10">
+              <div  class="list card post-item greenbox" >
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Patient name</h2>
+                        </div>
+                         <div class="col col-25 txt-right">
+                         <span class="infomore" ng-click="infomore('minfo1')">More <i class="ion-android-arrow-forward"></i></span>
+                         </div>
+                     </div>
+
+                    <div class="post-content item item-text-wrap" post-content>
+                        <p class="post-excerpt pb10">
+                           Lorem Ipsum is simply dummy text of the printing
+                        </p>
+                       
+                        <div class="infomore-div" id="minfo1">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    
+
+
+
     </ion-content>
+	
+	
     <div class="sticyfooter joinfooter">
         <div class="tabs tabs-icon-top">
             <div class="tab-item muteMic" onclick="classtoggle(this)">

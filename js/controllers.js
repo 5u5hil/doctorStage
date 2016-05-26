@@ -1588,6 +1588,8 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+			
+			
 
         })
 
@@ -5505,6 +5507,8 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
              $ionicLoading.show({template: 'Loading...'});
+            
+
             var imgCnt = 0;
             $scope.images = [];
             $scope.image = [];
@@ -5719,6 +5723,11 @@ angular.module('your_app_name.controllers', [])
                     $(b).on("click", function () {
                         jQuery('.ciframecontainer').removeClass('active');
                     })
+
+
+                  
+
+
                 })
             };
 
@@ -6161,6 +6170,33 @@ angular.module('your_app_name.controllers', [])
                 alert($scope.searchkey);
                 $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
             };
+			
+            $scope.infomore=function(r){
+                 jQuery('#'+r).toggleClass('active');
+    
+            }
+
+
+
+
+        sidetab('#cstab1');    
+         sidetab('#cstab2'); 
+
+		$scope.pulltab=function(d){
+            var ww=(jQuery(window).width())-40;
+            jQuery('#'+d).toggleClass('active');
+
+            if(jQuery('#'+d).hasClass('active')){
+                jQuery('#'+d).css('transform','translate3d(0px, 0px, 0px)')
+            }else{
+                  jQuery('#'+d).css('transform','translate3d('+ww+'px, 0px, 0px)')
+            }
+
+		
+		}	
+			
+			
+			
         })
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {

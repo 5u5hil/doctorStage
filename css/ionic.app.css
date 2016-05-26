@@ -9518,6 +9518,50 @@ input[type="date"]:before{
 .tab-buttons .fixedbar{padding:0;}
 .tab-buttons .fixedbar .button{border-radius:0;}
 
+
+
+ .greentab .ctabbtn{ background: #28A54C; color:#fff; }
+ .greentab .ctabbtn span{color:#fff;}
+  .sidetabcontent{padding: 10px;}
+
+.crighttab{
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    top: 60px;
+      height: 514px;
+   background: #F7F7F7;
+    box-shadow: -2px 0 0px #28A54C;
+    z-index: 9;
+	transition: 300ms ease-in; 
+transform: translate3d(600px, 0px, 0px);
+	
+	}
+.crighttab.active{
+	transition: 300ms ease-in-out;
+	/* transform: translate3d(0px, 0px, 0px);*/
+}
+.ctabbtn{padding: 10px 10px;
+    top: 0;
+ 
+    position: absolute;
+    left: -40px;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    border-radius: 8px 0 0 8px;
+    text-align: center;
+    font-size: 20px;}
+.fieldtab{display: block; margin: 10px 0;}
+.fieldtab input{width: 100%; border: 1px #eee solid;}
+
+.infomore-div{display:none;}
+.infomore-div.active{display: block;}
+.theroot{position: absolute; height: 100%; width:100%;}
+
+
+
+
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{
 
@@ -9568,7 +9612,9 @@ input[type="date"]:before{
 .recvideo{top:0; height:100% !important;}
 
 .brd0{border:0 !important;}
-					  
+				
+
+
 
 /* endcss */
 /* added by leena */
