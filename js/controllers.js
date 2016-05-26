@@ -763,7 +763,8 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('DoctorSettingsCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $state) {
+        .controller('DoctorSettingsCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
+           $scope.userId = window.localStorage.getItem('id');
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-doctor-setting',
@@ -773,6 +774,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.instant_permission = response.data.schedule;
                 $scope.instant_status = response.data.status;
                 $scope.status = $scope.instant_status.presence;
+                $scope.notification = response.data.notification;
                 if ($scope.instant_permission.instant_permission) {
                     jQuery('#setting').removeClass('hide');
                 } else {
@@ -828,6 +830,50 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.pushNotification = function (notification) {
+                console.log("val " + notification);
+                if (notification == true) {
+//               alert('register user');
+                    $ionicPlatform.on("deviceready", function () {
+
+
+                        window.plugins.OneSignal.getIds(function (ids) {
+
+                            console.log('getIds: ' + JSON.stringify(ids));
+                            //  alert('UserID: ' + JSON.stringify(ids.userId));
+                            $http({
+                                method: 'GET',
+                                url: domain + 'notification/insertPlayerId',
+                                params: {userId: window.localStorage.getItem('id'), playerId: ids.userId}
+                            }).then(function successCallback(response) {
+                                if (response.data == 1) {
+                                    alert('Notification setting updated');
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
+                        });
+                    });
+                } else {
+                    $ionicPlatform.on("deviceready", function () {
+                       // window.plugins.OneSignal.enableInAppAlertNotification(true);
+                        $http({
+                            method: 'GET',
+                            url: domain + 'notification/changeStatus',
+                            params: {userId: window.localStorage.getItem('id')}
+                        }).then(function successCallback(response) {
+                            if (response.data == 1) {
+                                alert('Notification setting updated');
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    });
+                }
+            }
+
             $scope.checkp = function (val) {
                 if (val) {
                     jQuery('#setting').removeClass('hide');
@@ -1764,16 +1810,16 @@ angular.module('your_app_name.controllers', [])
                 });
 
             }
-			
+
             $scope.tabclick = function (taburl) {
-				$ionicScrollDelegate.resize();
-				$ionicScrollDelegate.scrollTop();
-				
+                $ionicScrollDelegate.resize();
+                $ionicScrollDelegate.scrollTop();
+
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
-			   console.log(taburl+'fasdfa');
-				
-				
+                console.log(taburl + 'fasdfa');
+
+
                 jQuery('.headtab span').removeClass('active');
                 jQuery('.tab-buttons .tbtn').removeClass('active');
                 jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
@@ -5047,10 +5093,10 @@ angular.module('your_app_name.controllers', [])
             });
         })
 
-        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter,$state) {
-			
-			
-			
+        .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter, $state) {
+
+
+
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             if (session) {
                 session.disconnect();
@@ -5120,7 +5166,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
-			 $scope.chatId = $stateParams.id;
+            $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
             $scope.msg = '';
@@ -5222,10 +5268,9 @@ angular.module('your_app_name.controllers', [])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
-              //  var session = OT.initSession($scope.apiKey, $scope.sessionId);
-              //  $scope.session = session;
-               // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#pchat'});
-                console.log("error source 1" + chatWidget);
+
+
+                //  console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
                 console.log(e);
@@ -5234,12 +5279,12 @@ angular.module('your_app_name.controllers', [])
                 jQuery(function () {
                     var wh = jQuery('window').height();
                     jQuery('#pchat').css('height', wh);
-					
+
                     //	console.log(wh);
                 })
             };
             $scope.returnjs();
-            $scope.iframeHeight = $(window).height()-87;
+            $scope.iframeHeight = $(window).height() - 87;
             $('#pchat').css('height', $scope.iframeHeight);
             //Previous Chat 
 
@@ -5248,7 +5293,7 @@ angular.module('your_app_name.controllers', [])
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 //  console.log('connectioning.....1');
                 $(function () {
-					jQuery('.ot-textchat .ot-input').remove();
+                    jQuery('.ot-textchat .ot-input').remove();
                     // console.log('connectioning.....12');
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
@@ -5506,8 +5551,8 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
-             $ionicLoading.show({template: 'Loading...'});
-            
+
+            $ionicLoading.show({template: 'Loading...'});
 
             var imgCnt = 0;
             $scope.images = [];
@@ -5541,7 +5586,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
-          
+
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -5567,9 +5612,9 @@ angular.module('your_app_name.controllers', [])
                         event.preventDefault();
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                         alert('stream distroy length: ' +subscribers.length);
+                        alert('stream distroy length: ' + subscribers.length);
                         console.log('on stream Destroy reason: ' + event.reason);
-                       alert('on stream Destroy reason: ' + event.reason);
+                        alert('on stream Destroy reason: ' + event.reason);
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
                         session.unsubscribe();
                     },
@@ -5602,59 +5647,74 @@ angular.module('your_app_name.controllers', [])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
-                                                    
-                                                      $http({
-                                                method: 'GET',
-                                                url: domain + 'log/stats-log',
-                                                params: {id: $scope.appId,
-                                                    userId: $scope.userId,
-                                                    videoPacketLossRatio: videoPacketLossRatio,
-                                                    videoBitRate: videoBitRate,
-                                                    audioPacketLossRatio: audioPacketLossRatio,
-                                                    audioBitRate: audioBitRate
-                                                }
-                                            }).then(function successCallback(response) {
 
-                                            }, function errorCallback(e) {
+                                                    $http({
+                                                        method: 'GET',
+                                                        url: domain + 'log/stats-log',
+                                                        params: {id: $scope.appId,
+                                                            userId: $scope.userId,
+                                                            videoPacketLossRatio: videoPacketLossRatio,
+                                                            videoBitRate: videoBitRate,
+                                                            audioPacketLossRatio: audioPacketLossRatio,
+                                                            audioBitRate: audioBitRate
+                                                        }
+                                                    }).then(function successCallback(response) {
 
-                                            });
+                                                    }, function errorCallback(e) {
+
+                                                    });
                                                 }
                                                 prevStats = stats;
                                             });
                                         }, 1000);
                                     }
                                 });
-                      
+
                     },
                     sessionDisconnected: function (event) {
                         var subscribers3 = session.getSubscribersForStream(event.stream);
                         console.log('sessionDisconnected : ' + subscribers3);
                         if (event.reason === 'networkDisconnected') {
-                             $ionicLoading.hide();
+                            $ionicLoading.hide();
                             alert('You lost your internet connection.'
                                     + 'Please check your connection and try connecting again.');
                             var subscribers4 = session.getSubscribersForStream(event.stream);
                             console.log('sessionDisconnected----1 : ' + subscribers4.length);
-                           
-                            
+
+
                         }
                     }
                 });
-              
+
                 session.connect(token, function (error) {
                     if (error) {
                         $ionicLoading.hide();
                         alert("Error connecting session doctors: ", error.code, error.message);
                     } else {
-                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
+
+
+
+                        publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         //  session.publish(publisher);
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                                 alert("publisher Error code/msg: ", error.code, error.message);
                             } else {
+
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'notification/push-notification',
+                                    params: {id: $scope.appId, userId: $scope.userId}
+                                }).then(function successCallback(response) {
+
+
+                                }, function errorCallback(e) {
+
+
+                                });
                                 publisher.on('streamCreated', function (event) {
-                                   // var subscribers5 = session.getSubscribersForStream(event.stream);
+                                    // var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
                                     alert('APK on publish lenghth.');
@@ -5666,15 +5726,15 @@ angular.module('your_app_name.controllers', [])
                                     console.log('on Destroy: ' + subscribers6);
                                     alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
-                                     alert('on Destroy reason: ' + event.reason);
-                                   //  session.unsubscribe();
+                                    alert('on Destroy reason: ' + event.reason);
+                                    //  session.unsubscribe();
                                     subscriber.destroy();
-                                      alert("publisher.destroy");
-                                   // console.log("subscriber.destroy" + subscriber.destroy);
-                                   // session.disconnect()
+                                    alert("publisher.destroy");
+                                    // console.log("subscriber.destroy" + subscriber.destroy);
+                                    // session.disconnect()
                                 });
 
-                               
+
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
@@ -6077,24 +6137,24 @@ angular.module('your_app_name.controllers', [])
             $scope.exitVideo = function () {
                 try {
                     publisher.destroy();
-                     alert('publisher destroy');
+                    alert('publisher destroy');
                     subscriber.destroy();
-                      alert('subscriber destroy');
+                    alert('subscriber destroy');
                     //session.unsubscribe();
                     session.disconnect();
-                     alert('session disconnected');
+                    alert('session disconnected');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                  
+
                 } catch (err) {
-                       alert('err while exitvideo ' + err);
-                         session.disconnect();
-                          alert('session disconnected');
+                    alert('err while exitvideo ' + err);
+                    session.disconnect();
+                    alert('session disconnected');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-                  
+
                 }
                 $http({
                     method: 'GET',

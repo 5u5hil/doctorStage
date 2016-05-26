@@ -28,7 +28,7 @@
 		  <ion-radio ng-model="status" ng-checked="instant_status.presence == status"  class="radioptions" ng-click="doctor_presence(status)"ng-value="'1'">Online</ion-radio>
 		</ion-list> 
 	 
-	 
+	  <ion-toggle ng-model="notification" ng-checked="notification.user_id == userId" ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
 
       <div class="item item-divider">Instant Video</div>
 	<div class="sinfo">Note : These settings are only for instant video and will not affect your scheduled time slots.</div>

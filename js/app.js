@@ -26,8 +26,43 @@ angular.module('your_app_name', [
     'ionic.contrib.ui.tinderCards',
     'youtube-embed'
 ])
-        .run(function ($ionicPlatform, PushNotificationsService, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
+        .run(function ($ionicPlatform, PushNotificationsService,$state, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
             $ionicPlatform.on("deviceready", function () {
+                
+                var notificationOpenedCallback = function (jsonData) {
+                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                    console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+
+                    // $state.go("app.content-library-setting");
+                    try
+                    {
+                        if (jsonData.additionalData) {
+                            alert("Inside additionalData");
+                            if (jsonData.additionalData.yourUrlKey) {
+                                 alert("Inside additionalData yourUrlKey");
+                                location.href = jsonData.additionalData.yourUrlKey;
+                            }
+                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
+                                alert("Button id1 pressed!");
+                        }
+                        alert("befre state go");
+                        $state.go("app.content-library-setting");
+                         alert("after state go");
+                        // window.location.href = '/content-library-setting';
+                    } catch (err)
+                    {
+                        alert('No redirection '+err);
+                    }
+
+
+                };
+
+                window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
+                        {googleProjectNumber: "769295732267"}, // jainam account GCM id
+                        notificationOpenedCallback);
+
+                window.plugins.OneSignal.enableInAppAlertNotification(true);
+                
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -36,7 +71,7 @@ angular.module('your_app_name', [
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
-                PushNotificationsService.register();
+                //PushNotificationsService.register();
             });
             $rootScope.$on('loading:show', function () {
                 $ionicLoading.show({template: 'Loading'})
@@ -72,7 +107,7 @@ angular.module('your_app_name', [
             });
 
             $ionicPlatform.on("resume", function () {
-                PushNotificationsService.register();
+               // PushNotificationsService.register();
             });
         })
 
