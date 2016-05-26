@@ -763,7 +763,8 @@ angular.module('your_app_name.controllers', [])
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('DoctorSettingsCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading, $state) {
+        .controller('DoctorSettingsCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
+           $scope.userId = window.localStorage.getItem('id');
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-doctor-setting',
@@ -773,6 +774,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.instant_permission = response.data.schedule;
                 $scope.instant_status = response.data.status;
                 $scope.status = $scope.instant_status.presence;
+                $scope.notification = response.data.notification;
                 if ($scope.instant_permission.instant_permission) {
                     jQuery('#setting').removeClass('hide');
                 } else {
@@ -828,6 +830,50 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.pushNotification = function (notification) {
+                console.log("val " + notification);
+                if (notification == true) {
+//               alert('register user');
+                    $ionicPlatform.on("deviceready", function () {
+
+
+                        window.plugins.OneSignal.getIds(function (ids) {
+
+                            console.log('getIds: ' + JSON.stringify(ids));
+                            //  alert('UserID: ' + JSON.stringify(ids.userId));
+                            $http({
+                                method: 'GET',
+                                url: domain + 'notification/insertPlayerId',
+                                params: {userId: window.localStorage.getItem('id'), playerId: ids.userId}
+                            }).then(function successCallback(response) {
+                                if (response.data == 1) {
+                                    alert('Notification setting updated');
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
+                        });
+                    });
+                } else {
+                    $ionicPlatform.on("deviceready", function () {
+                        window.plugins.OneSignal.enableInAppAlertNotification(true);
+                        $http({
+                            method: 'GET',
+                            url: domain + 'notification/changeStatus',
+                            params: {$userId: window.localStorage.getItem('id')}
+                        }).then(function successCallback(response) {
+                            if (response.data == 1) {
+                                alert('Notification setting updated');
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    });
+                }
+            }
+
             $scope.checkp = function (val) {
                 if (val) {
                     jQuery('#setting').removeClass('hide');
@@ -5222,7 +5268,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.apiKey = apiKey;
 
 
-              //  console.log("error source 1" + chatWidget);
+                //  console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
                 console.log(e);
@@ -5657,11 +5703,11 @@ angular.module('your_app_name.controllers', [])
                                     url: domain + 'notification/push-notification',
                                     params: {id: $scope.appId, userId: $scope.userId}
                                 }).then(function successCallback(response) {
-                                   
+
 
                                 }, function errorCallback(e) {
 
-                                   
+
                                 });
                                 publisher.on('streamCreated', function (event) {
                                     // var subscribers5 = session.getSubscribersForStream(event.stream);
