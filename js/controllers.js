@@ -858,7 +858,7 @@ angular.module('your_app_name.controllers', [])
                     });
                 } else {
                     $ionicPlatform.on("deviceready", function () {
-                        window.plugins.OneSignal.enableInAppAlertNotification(true);
+                       // window.plugins.OneSignal.enableInAppAlertNotification(true);
                         $http({
                             method: 'GET',
                             url: domain + 'notification/changeStatus',
