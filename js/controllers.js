@@ -862,7 +862,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'GET',
                             url: domain + 'notification/changeStatus',
-                            params: {$userId: window.localStorage.getItem('id')}
+                            params: {userId: window.localStorage.getItem('id')}
                         }).then(function successCallback(response) {
                             if (response.data == 1) {
                                 alert('Notification setting updated');
