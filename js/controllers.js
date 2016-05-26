@@ -764,7 +764,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorSettingsCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
-           $scope.userId = window.localStorage.getItem('id');
+            $scope.userId = window.localStorage.getItem('id');
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-doctor-setting',
@@ -858,7 +858,7 @@ angular.module('your_app_name.controllers', [])
                     });
                 } else {
                     $ionicPlatform.on("deviceready", function () {
-                       // window.plugins.OneSignal.enableInAppAlertNotification(true);
+                        // window.plugins.OneSignal.enableInAppAlertNotification(true);
                         $http({
                             method: 'GET',
                             url: domain + 'notification/changeStatus',
@@ -1634,8 +1634,8 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-			
-			
+
+
 
         })
 
@@ -5569,17 +5569,27 @@ angular.module('your_app_name.controllers', [])
             $scope.$on('$destroy', function () {
 
                 try {
+                    publisher.off();
+                    alert('EXIT : publisher off try');
                     publisher.destroy();
+                    alert('publisher destroy');
                     subscriber.destroy();
-                    session.unsubscribe();
+                    alert('subscriber destroy');
+                    //session.unsubscribe();
+                    session.off();
+                    alert('EXIT : session off');
                     session.disconnect();
+                    alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
-
                 } catch (err) {
-
+                    alert('err while exitvideo ' + err);
+                    session.off();
+                    alert('EXIT : session off catch');
+                    session.disconnect();
+                    alert('session disconnected');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -5691,9 +5701,6 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         alert("Error connecting session doctors: ", error.code, error.message);
                     } else {
-
-
-
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         //  session.publish(publisher);
                         session.publish(publisher, function (error) {
@@ -5701,7 +5708,7 @@ angular.module('your_app_name.controllers', [])
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                                 alert("publisher Error code/msg: ", error.code, error.message);
                             } else {
-
+                                alert('dasfasf');
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
@@ -5710,8 +5717,6 @@ angular.module('your_app_name.controllers', [])
 
 
                                 }, function errorCallback(e) {
-
-
                                 });
                                 publisher.on('streamCreated', function (event) {
                                     // var subscribers5 = session.getSubscribersForStream(event.stream);
@@ -5785,7 +5790,7 @@ angular.module('your_app_name.controllers', [])
                     })
 
 
-                  
+
 
 
                 })
@@ -6136,19 +6141,25 @@ angular.module('your_app_name.controllers', [])
             //End Consultaion code
             $scope.exitVideo = function () {
                 try {
+                    publisher.off();
+                    alert('EXIT : publisher off try');
                     publisher.destroy();
                     alert('publisher destroy');
                     subscriber.destroy();
                     alert('subscriber destroy');
                     //session.unsubscribe();
+                    session.off();
+                    alert('EXIT : session off');
                     session.disconnect();
-                    alert('session disconnected');
+                    alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
                 } catch (err) {
                     alert('err while exitvideo ' + err);
+                    session.off();
+                    alert('EXIT : session off catch');
                     session.disconnect();
                     alert('session disconnected');
                     $ionicHistory.nextViewOptions({
@@ -6230,33 +6241,33 @@ angular.module('your_app_name.controllers', [])
                 alert($scope.searchkey);
                 $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
             };
-			
-            $scope.infomore=function(r){
-                 jQuery('#'+r).toggleClass('active');
-    
+
+            $scope.infomore = function (r) {
+                jQuery('#' + r).toggleClass('active');
+
             }
 
 
 
 
-        sidetab('#cstab1');    
-         sidetab('#cstab2'); 
+            sidetab('#cstab1');
+            sidetab('#cstab2');
 
-		$scope.pulltab=function(d){
-            var ww=(jQuery(window).width())-40;
-            jQuery('#'+d).toggleClass('active');
+            $scope.pulltab = function (d) {
+                var ww = (jQuery(window).width()) - 40;
+                jQuery('#' + d).toggleClass('active');
 
-            if(jQuery('#'+d).hasClass('active')){
-                jQuery('#'+d).css('transform','translate3d(0px, 0px, 0px)')
-            }else{
-                  jQuery('#'+d).css('transform','translate3d('+ww+'px, 0px, 0px)')
+                if (jQuery('#' + d).hasClass('active')) {
+                    jQuery('#' + d).css('transform', 'translate3d(0px, 0px, 0px)')
+                } else {
+                    jQuery('#' + d).css('transform', 'translate3d(' + ww + 'px, 0px, 0px)')
+                }
+
+
             }
 
-		
-		}	
-			
-			
-			
+
+
         })
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
