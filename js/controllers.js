@@ -6242,9 +6242,17 @@ angular.module('your_app_name.controllers', [])
                 alert($scope.searchkey);
                 $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
             };
-
+				
+				$scope.intext='more';
+				
             $scope.infomore = function (r) {
                 jQuery('#' + r).toggleClass('active');
+				if(jQuery('#' + r).hasClass('active')){
+					$scope.intext='less'
+				}
+				else{
+					$scope.intext='more';
+				}
 
             }
 

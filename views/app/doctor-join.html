@@ -27,13 +27,9 @@
 		<span class="ion-chevron-left"></span>
 		</div>
     		<div class="sidetabcontent">
-       <ion-scroll direction="y" class="theroot">
-     
-    
-
-            <h3>Title </h3>
-           
-                    <br/>
+			<ion-scroll direction="y" class="theroot">
+			<h3>Title </h3>
+            <br/>
              <div class="item item-divider">Question </div>
 
                  <label class="item item-input">
@@ -67,6 +63,7 @@
         <span class="ion-chevron-left"></span>
         </div>
             <div class="p10">
+			<ion-scroll direction="y" class="theroot">
               <div  class="list card post-item greenbox" >
                 <div class="card-content p0">
                     <div class="row post-heading item item-text-wrap ">
@@ -74,7 +71,11 @@
                             <h2 class="post-title">Patient name</h2>
                         </div>
                          <div class="col col-25 txt-right">
-                         <span class="infomore" ng-click="infomore('minfo1')">More <i class="ion-android-arrow-forward"></i></span>
+                         <div class="infomore" ng-click="infomore('minfo1')">
+						 <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+						 
+						
+						 </div>
                          </div>
                      </div>
 
@@ -92,6 +93,7 @@
                     </div>
                 </div>
             </div>
+			</ion-scroll>
           </div>
         </div>
     
