@@ -8738,12 +8738,16 @@ input.custominput{width: 100%;
 .parat0 p{margin-top:0;}
 
 .viewchats{margin-top:20px;}
-.mediascreen{position:relative;     /* height: 85vh; */ height: 100%;
+.mediascreen,.mdhight{position:relative;     /* height: 85vh; */ height: 100%;
              -webkit-transition:all 0.3s ease-out;
 }
-.mediascreen.minscreen{height: 35vh;
+.mdhight{height: 86vh;}
+
+.mediascreen.minscreen, .mdhight.minscreen{height: 35vh;
                        -webkit-transition:all 0.3s ease-in;
 }
+
+
 
 .media-sview{    position: absolute;
                  width: 130px;
