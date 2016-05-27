@@ -6243,9 +6243,10 @@ angular.module('your_app_name.controllers', [])
                 $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
             };
 				
-				$scope.intext='more';
 				
-            $scope.infomore = function (r) {
+		/* rightsidetab */
+			$scope.intext='more';
+			 $scope.infomore = function (r) {
                 jQuery('#' + r).toggleClass('active');
 				if(jQuery('#' + r).hasClass('active')){
 					$scope.intext='less'
@@ -6256,10 +6257,7 @@ angular.module('your_app_name.controllers', [])
 
             }
 
-
-
-
-            sidetab('#cstab1');
+			sidetab('#cstab1');
             sidetab('#cstab2');
 
             $scope.pulltab = function (d) {
@@ -6275,7 +6273,7 @@ angular.module('your_app_name.controllers', [])
 
             }
 
-
+			/* end of rightsidetab */
 
         })
 
