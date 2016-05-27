@@ -5597,7 +5597,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
-
+              $scope.pushEvent = 'video_join';
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -5709,11 +5709,11 @@ angular.module('your_app_name.controllers', [])
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                                 alert("publisher Error code/msg: ", error.code, error.message);
                             } else {
-                                alert('dasfasf');
+                                // alert('dasfasf');
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
-                                    params: {id: $scope.appId, userId: $scope.userId}
+                                    params: {id: $scope.appId, userId: $scope.userId,pushEvent:$scope.pushEvent}
                                 }).then(function successCallback(response) {
 
 

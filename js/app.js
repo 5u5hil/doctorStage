@@ -45,9 +45,9 @@ angular.module('your_app_name', [
                             if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
                                 alert("Button id1 pressed!");
                         }
-                        alert("befre state go");
-                        $state.go("app.content-library-setting");
-                         alert("after state go");
+                       // alert("befre state go");
+                       // $state.go("app.content-library-setting");
+                       //  alert("after state go");
                         // window.location.href = '/content-library-setting';
                     } catch (err)
                     {
