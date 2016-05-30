@@ -165,7 +165,7 @@
                                 <div ng-if="rec.value == '00:00:00'"> NA </div>
                                 <div ng-if="rec.value != '00:00:00' && rec.value != ''">{{rec.value|time1}}</div>
                             </div>
-                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
+                            <div class="" ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value==''? 'NA': rec.value}}</div>
 
                             <div class="clist-data-icon" ng-if="rec.fields.field == 'Attachments'" >
                                 <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
