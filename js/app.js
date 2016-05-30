@@ -26,7 +26,7 @@ angular.module('your_app_name', [
     'ionic.contrib.ui.tinderCards',
     'youtube-embed'
 ])
-        .run(function ($ionicPlatform, PushNotificationsService,$state, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
+        .run(function ($ionicPlatform,$state,$http,$rootScope, $ionicConfig, $timeout, $ionicLoading) {
             $ionicPlatform.on("deviceready", function () {
                 
                 var notificationOpenedCallback = function (jsonData) {
@@ -60,6 +60,27 @@ angular.module('your_app_name', [
                 window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
                         {googleProjectNumber: "769295732267"}, // jainam account GCM id
                         notificationOpenedCallback);
+                        
+                window.plugins.OneSignal.getIds(function (ids) {
+                    console.log('getIds: ' + JSON.stringify(ids));
+                    if (window.localStorage.getItem('id')) {
+                       var userId = window.localStorage.getItem('id');
+                    } else {
+                        var userId = '';
+                    }
+
+                    $http({
+                        method: 'GET',
+                        url: domain + 'notification/insertPlayerId',
+                        params: {userId: userId, playerId: ids.userId, pushToken: ids.pushToken}
+                    }).then(function successCallback(response) {
+                        if (response.data == 1) {
+                          //  alert('Notification setting updated');
+                        }
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                });
 
                 window.plugins.OneSignal.enableInAppAlertNotification(true);
                 

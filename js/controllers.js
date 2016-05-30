@@ -44,7 +44,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         //LOGIN
-        .controller('LoginCtrl', function ($scope, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+        .controller('LoginCtrl', function ($scope, $http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             $scope.doLogIn = function () {
                 $ionicLoading.show({template: 'Loading...'});
                 var data = new FormData(jQuery("#loginuser")[0]);
@@ -65,7 +65,29 @@ angular.module('your_app_name.controllers', [])
                             $rootScope.username = response.fname;
                             $rootScope.userimage = response.image;
                             $ionicLoading.hide();
-                            $state.go('app.homepage');
+                            window.plugins.OneSignal.getIds(function (ids) {
+                                console.log('getIds: ' + JSON.stringify(ids));
+                                if (window.localStorage.getItem('id')) {
+                                    $scope.userId = window.localStorage.getItem('id');
+                                } else {
+                                    $scope.userId = '';
+                                }
+
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'notification/insertPlayerId',
+                                    params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                }).then(function successCallback(response) {
+                                    if (response.data == 1) {
+                                      //  alert('Notification setting updated');
+                                       $state.go('app.homepage');
+                                    }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                     $state.go('app.homepage');
+                                });
+                            });
+                           
                         } else {
                             $rootScope.userLogged = 0;
                             $scope.loginError = response;
