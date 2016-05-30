@@ -69,37 +69,41 @@
                         </div>
                     </div>
                     <div ng-if="category[0].category == 7" >
-                        <span >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</span>
+                        <div class="item item-divider" >{{rec.fields.field}} {{rec.fields.is_mandatory==1? '*':''}}</div>
                         <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Doctor' || rec.fields.field == 'Referred By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >
                             <!--- ng-show="angular.isNumber(rec.value)"  -->
-                            <div>{{doctors.fname}} {{doctors.lname}}</div>
+                            <div class="item item-input">{{doctors.fname}} {{doctors.lname}}</div>
                         </div>
-                        <div ng-if="rec.fields.field == 'Related Problem'">
-                            {{problem.value}}
+                        <div class="item item-input" ng-if="rec.fields.field == 'Related Problem' && problem!= ''">
+                            {{problem.value==''? 'NA': problem.value}}
+                        </div>
+                        <div class="item item-input" ng-if="rec.fields.field == 'Related Problem' && problem == ''">
+                            {{problem==''? 'NA': problem.value}}
                         </div>
                         <div ng-if="rec.fields.field == 'Payment Mode'">
-                            <div ng-if="rec.value == '0'">NA</div>
-                            <div ng-if="rec.value != '0'">{{rec.value}}</div>
+                            <div class="item item-input" ng-if="rec.value == '0'">NA</div>
+                            <div class="item item-input" ng-if="rec.value == ''">NA</div>
+                            <div class="item item-input" ng-if="rec.value != ''">{{rec.value}}</div>
                         </div>
                         <div ng-if="rec.fields.field != 'Prescribed By' && rec.fields.field != 'Doctor' && rec.fields.field != 'Measured By' && rec.fields.field != 'Referred By' && rec.fields.field != 'Performed By' && rec.fields.field != 'Consultant' && rec.fields.field != 'Related Problem' && rec.fields.field != 'Payment Mode'">
                             <div ng-if="rec.fields.field_type == 8">
                                 <div ng-if="rec.fields.field == 'End Date'">
-                                    <div ng-if="rec.value == ''"></div>
-                                    <div ng-if="rec.value == '0000-00-00'"> </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                                    <div class="item item-input" ng-if="rec.value == ''"></div>
+                                    <div class="item item-input" ng-if="rec.value == '0000-00-00'"> </div>
+                                    <div class="item item-input" ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
                                 </div>
                                 <div ng-if="rec.fields.field != 'End Date'">
-                                    <div ng-if="rec.value == ''"></div>
-                                    <div ng-if="rec.value == '0000-00-00'">  </div>
-                                    <div ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
+                                    <div class="item item-input" ng-if="rec.value == ''"></div>
+                                    <div class="item item-input" ng-if="rec.value == '0000-00-00'">  </div>
+                                    <div class="item item-input" ng-if="rec.value != '0000-00-00' && rec.value != ''">{{rec.value|dateFormat4}}</div>
                                 </div>
                             </div>
                             <div ng-if="rec.fields.field_type == 12">
-                                <div ng-if="rec.value == ''"> NA </div>
-                                <div ng-if="rec.value == '00:00:00'"> NA </div>
-                                <div ng-if="rec.value != '00:00:00'">{{rec.value|time1}}</div>
+                                <div class="item item-input" ng-if="rec.value == ''"> NA </div>
+                                <div class="item item-input" ng-if="rec.value == '00:00:00'"> NA </div>
+                                <div class="item item-input" ng-if="rec.value != '00:00:00'">{{rec.value|time1}}</div>
                             </div>
-                            <div ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value}}</div>
+                            <div class="item item-input" ng-if="rec.fields.field_type != 8 && rec.fields.field_type != 12"> {{rec.value==''? 'NA': rec.value}}</div>
                         </div>
                         <div class="clist-data-icon" ng-If="rec.fields.field == 'Attachments'" >
                             <h5 class="mt0">Attached Files ({{rec.attachments.length}})</h5>
