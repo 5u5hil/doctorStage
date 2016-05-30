@@ -79,15 +79,15 @@ angular.module('your_app_name.controllers', [])
                                     params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
                                 }).then(function successCallback(response) {
                                     if (response.data == 1) {
-                                      //  alert('Notification setting updated');
-                                       $state.go('app.homepage');
+                                        //  alert('Notification setting updated');
+                                        $state.go('app.homepage');
                                     }
                                 }, function errorCallback(e) {
                                     console.log(e);
-                                     $state.go('app.homepage');
+                                    $state.go('app.homepage');
                                 });
                             });
-                           
+
                         } else {
                             $rootScope.userLogged = 0;
                             $scope.loginError = response;
@@ -1725,7 +1725,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicScrollDelegate, $ionicModal, $ionicLoading) {
             $scope.doctorId = window.localStorage.getItem('id');
-            $scope.category_sources = []; 
+            $scope.category_sources = [];
             $scope.checkboxval = false;
             $scope.categoryId = $stateParams.categoryId;
             $http({
@@ -1778,10 +1778,10 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading,$ionicScrollDelegate) {
+        .controller('NewVideoArticleCtrl', function ($scope, $sce, $filter, $http, $state, $timeout, $stateParams, $ionicModal, $ionicLoading, $ionicScrollDelegate) {
             $scope.checkboxval = false;
             var wh = jQuery(window).height();
-           // jQuery('.mediascreen').css('height', wh - 152);
+            // jQuery('.mediascreen').css('height', wh - 152);
             jQuery('.notetab').css('height', wh - 147);
             jQuery('.videoscreen').css('height', wh - 152);
 
@@ -1797,7 +1797,10 @@ angular.module('your_app_name.controllers', [])
             $scope.url = '';
             $scope.viedoUrl = '';
             $scope.recording = 'Off';
-            $scope.timer = '00:00:00';
+//            $scope.timer = '00:00:00';
+            var stoppedTimer;
+            $scope.Timercounter = 0;
+
 
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
@@ -1922,7 +1925,25 @@ angular.module('your_app_name.controllers', [])
                         console.log(e);
                     });
 
+
+
                     $scope.recordVideo = function () {
+                       $scope.Timercounter = 0;
+                        $scope.onTimeout = function () {
+                            stoppedTimer = $timeout(function () {
+                                $scope.Timercounter++;
+                                $scope.seconds = $scope.Timercounter % 60;
+                                $scope.minutes = Math.floor($scope.Timercounter / 60);
+                                //  var mytimeout = $timeout($scope.onTimeout, 1000);
+                                $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
+                                $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
+                                $scope.onTimeout();
+                            }, 1000)
+                        }
+
+                        $timeout(function () {
+                            $scope.onTimeout();
+                        }, 0);
 
                         $scope.recording = 'On';
                         jQuery('.start').hide();
@@ -1947,6 +1968,9 @@ angular.module('your_app_name.controllers', [])
 
 
                     $scope.recordingStop = function () {
+                        //alert('stoppedTimer ' + stoppedTimer);
+                        // alert($scope.Timercounter);
+                        $timeout.cancel(stoppedTimer);
                         publisher.destroy();
                         $scope.recording = 'Off';
                         jQuery('.stop').hide();
@@ -1985,6 +2009,8 @@ angular.module('your_app_name.controllers', [])
                     }
 
                     $scope.reRecording = function () {
+
+                    $scope.Timercounter = 0;
                         jQuery('.videoscreen').hide();
                         jQuery('.mediascreen').show();
                         jQuery('.mediascreen').html('<div id="subscribersDiv" class="subscribediv">Initializing Video</div>');
@@ -1992,7 +2018,8 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.rerecording').hide();
                         jQuery('.stop').hide();
 
-                        jQuery('.start').show();
+
+
                         $scope.doctorId = window.localStorage.getItem('id');
                         $http({
                             method: 'GET',
@@ -2032,6 +2059,7 @@ angular.module('your_app_name.controllers', [])
                                     // console.log("jhjagsdjagdhj");
                                     publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                                     session.publish(publisher);
+                                    jQuery('.start').show();
 //                                    publisher.on('streamCreated', function (event) {
 //                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
 //                                    });
@@ -5619,7 +5647,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
-              $scope.pushEvent = 'video_join';
+            $scope.pushEvent = 'video_join';
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-patient',
@@ -5735,7 +5763,7 @@ angular.module('your_app_name.controllers', [])
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
-                                    params: {id: $scope.appId, userId: $scope.userId,pushEvent:$scope.pushEvent}
+                                    params: {id: $scope.appId, userId: $scope.userId, pushEvent: $scope.pushEvent}
                                 }).then(function successCallback(response) {
 
 
@@ -6264,22 +6292,21 @@ angular.module('your_app_name.controllers', [])
                 alert($scope.searchkey);
                 $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
             };
-				
-				
-		/* rightsidetab */
-			$scope.intext='more';
-			 $scope.infomore = function (r) {
+
+
+            /* rightsidetab */
+            $scope.intext = 'more';
+            $scope.infomore = function (r) {
                 jQuery('#' + r).toggleClass('active');
-				if(jQuery('#' + r).hasClass('active')){
-					$scope.intext='less'
-				}
-				else{
-					$scope.intext='more';
-				}
+                if (jQuery('#' + r).hasClass('active')) {
+                    $scope.intext = 'less'
+                } else {
+                    $scope.intext = 'more';
+                }
 
             }
 
-			sidetab('#cstab1');
+            sidetab('#cstab1');
             sidetab('#cstab2');
 
             $scope.pulltab = function (d) {
@@ -6295,7 +6322,7 @@ angular.module('your_app_name.controllers', [])
 
             }
 
-			/* end of rightsidetab */
+            /* end of rightsidetab */
 
         })
 
