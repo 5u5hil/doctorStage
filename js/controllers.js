@@ -15,12 +15,23 @@ angular.module('your_app_name.controllers', [])
         .controller('AppCtrl', function ($scope, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $timeout, $ionicHistory) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.userType = 'patient';
+            $scope.action = 'logout';
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
             }
             $scope.logout = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'get-login-logout-log',
+                    params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                }).then(function successCallback(response) {
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
                 $ionicLoading.show({template: 'Logging out....'});
                 $http({
                     method: 'GET',
@@ -45,6 +56,9 @@ angular.module('your_app_name.controllers', [])
 
         //LOGIN
         .controller('LoginCtrl', function ($scope, $http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userType = 'patient';
+            $scope.action = 'login';
             $scope.doLogIn = function () {
                 $ionicLoading.show({template: 'Loading...'});
                 var data = new FormData(jQuery("#loginuser")[0]);
@@ -65,29 +79,41 @@ angular.module('your_app_name.controllers', [])
                             $rootScope.username = response.fname;
                             $rootScope.userimage = response.image;
                             $ionicLoading.hide();
-                            window.plugins.OneSignal.getIds(function (ids) {
-                                console.log('getIds: ' + JSON.stringify(ids));
-                                if (window.localStorage.getItem('id')) {
-                                    $scope.userId = window.localStorage.getItem('id');
-                                } else {
-                                    $scope.userId = '';
-                                }
-
-                                $http({
-                                    method: 'GET',
-                                    url: domain + 'notification/insertPlayerId',
-                                    params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
-                                }).then(function successCallback(response) {
-                                    if (response.data == 1) {
-                                        //  alert('Notification setting updated');
-                                        $state.go('app.homepage');
-                                    }
-                                }, function errorCallback(e) {
-                                    console.log(e);
-                                    $state.go('app.homepage');
-                                });
+                            $http({
+                                method: 'GET',
+                                url: domain + 'get-login-logout-log',
+                                params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                            }).then(function successCallback(response) {
+                            }, function errorCallback(e) {
+                                console.log(e);
                             });
+                            try {
+                                window.plugins.OneSignal.getIds(function (ids) {
+                                    console.log('getIds: ' + JSON.stringify(ids));
+                                    if (window.localStorage.getItem('id')) {
+                                        $scope.userId = window.localStorage.getItem('id');
+                                    } else {
+                                        $scope.userId = '';
+                                    }
 
+                                    $http({
+                                        method: 'GET',
+                                        url: domain + 'notification/insertPlayerId',
+                                        params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                    }).then(function successCallback(response) {
+                                        if (response.data == 1) {
+                                            //  alert('Notification setting updated');
+
+                                        }
+                                    }, function errorCallback(e) {
+                                        console.log(e);
+
+                                    });
+                                });
+                            } catch (err) {
+
+                            }
+                            $state.go('app.homepage');
                         } else {
                             $rootScope.userLogged = 0;
                             $scope.loginError = response;
@@ -1928,7 +1954,7 @@ angular.module('your_app_name.controllers', [])
 
 
                     $scope.recordVideo = function () {
-                       $scope.Timercounter = 0;
+                        $scope.Timercounter = 0;
                         $scope.onTimeout = function () {
                             stoppedTimer = $timeout(function () {
                                 $scope.Timercounter++;
@@ -2010,7 +2036,7 @@ angular.module('your_app_name.controllers', [])
 
                     $scope.reRecording = function () {
 
-                    $scope.Timercounter = 0;
+                        $scope.Timercounter = 0;
                         jQuery('.videoscreen').hide();
                         jQuery('.mediascreen').show();
                         jQuery('.mediascreen').html('<div id="subscribersDiv" class="subscribediv">Initializing Video</div>');

@@ -60,7 +60,8 @@ angular.module('your_app_name', [
                 window.plugins.OneSignal.init("eaa13ee8-5f59-4fe7-a532-aa47d00cbba0",
                         {googleProjectNumber: "769295732267"}, // jainam account GCM id
                         notificationOpenedCallback);
-                        
+                try
+                    {        
                 window.plugins.OneSignal.getIds(function (ids) {
                     console.log('getIds: ' + JSON.stringify(ids));
                     if (window.localStorage.getItem('id')) {
@@ -81,6 +82,10 @@ angular.module('your_app_name', [
                         console.log(e);
                     });
                 });
+                } catch (err)
+                    {
+                        console.log('No redirection '+err);
+                    }
 
                 window.plugins.OneSignal.enableInAppAlertNotification(true);
                 
