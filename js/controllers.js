@@ -4,10 +4,12 @@ var subscriber;
 angular.module('your_app_name.controllers', [])
 
         .controller('AuthCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
+            $rootScope.interface = window.localStorage.setItem('interface_id', '8');
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
+
             }
         })
 
@@ -16,8 +18,9 @@ angular.module('your_app_name.controllers', [])
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
             $scope.userId = window.localStorage.getItem('id');
-            $scope.userType = 'patient';
+            $scope.userType = 'doctor';
             $scope.action = 'logout';
+            $scope.interface = window.localStorage.getItem('interface_id');
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
@@ -57,7 +60,7 @@ angular.module('your_app_name.controllers', [])
         //LOGIN
         .controller('LoginCtrl', function ($scope, $http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
-            $scope.userType = 'patient';
+            $scope.userType = 'doctor';
             $scope.action = 'login';
             $scope.doLogIn = function () {
                 $ionicLoading.show({template: 'Loading...'});
@@ -70,7 +73,7 @@ angular.module('your_app_name.controllers', [])
                     contentType: false,
                     processData: false,
                     success: function (response) {
-                        //  console.log("@@@@"+response.fname);
+                        console.log("@@@@" + response.fname);
                         if (angular.isObject(response)) {
                             $scope.loginError = '';
                             $scope.loginError.digest;
@@ -5647,26 +5650,26 @@ angular.module('your_app_name.controllers', [])
 
                 try {
                     publisher.off();
-                    alert('EXIT : publisher off try');
+                    //alert('EXIT : publisher off try');
                     publisher.destroy();
-                    alert('publisher destroy');
+                    //alert('publisher destroy');
                     subscriber.destroy();
-                    alert('subscriber destroy');
+                    //alert('subscriber destroy');
                     //session.unsubscribe();
                     session.off();
-                    alert('EXIT : session off');
+                    //alert('EXIT : session off');
                     session.disconnect();
-                    alert('session disconnected try');
+                    // alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
                 } catch (err) {
-                    alert('err while exitvideo ' + err);
+                    //alert('err while exitvideo ' + err);
                     session.off();
-                    alert('EXIT : session off catch');
+                    //alert('EXIT : session off catch');
                     session.disconnect();
-                    alert('session disconnected');
+                    //alert('session disconnected');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -5785,7 +5788,26 @@ angular.module('your_app_name.controllers', [])
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                                 alert("publisher Error code/msg: ", error.code, error.message);
                             } else {
-                                // alert('dasfasf');
+                                 alert($scope.app[0].appointments.scheduled_start_time);
+                                if ($scope.app[0].appointments.scheduled_start_time) {
+                                    var stoppedTimer;
+                                    $scope.Timercounter = 0;
+                                    $scope.onTimeout = function () {
+                                        stoppedTimer = $timeout(function () {
+                                            $scope.Timercounter++;
+                                            $scope.seconds = $scope.Timercounter % 60;
+                                            $scope.minutes = Math.floor($scope.Timercounter / 60);
+                                            //  var mytimeout = $timeout($scope.onTimeout, 1000);
+                                            $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
+                                            $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
+                                            $scope.onTimeout();
+                                        }, 1000)
+                                    }
+
+                                    $timeout(function () {
+                                        $scope.onTimeout();
+                                    }, 0);
+                                }
                                 $http({
                                     method: 'GET',
                                     url: domain + 'notification/push-notification',
@@ -6219,26 +6241,26 @@ angular.module('your_app_name.controllers', [])
             $scope.exitVideo = function () {
                 try {
                     publisher.off();
-                    alert('EXIT : publisher off try');
+                    // alert('EXIT : publisher off try');
                     publisher.destroy();
-                    alert('publisher destroy');
+                    //alert('publisher destroy');
                     subscriber.destroy();
-                    alert('subscriber destroy');
+                    //alert('subscriber destroy');
                     //session.unsubscribe();
                     session.off();
-                    alert('EXIT : session off');
+                    //alert('EXIT : session off');
                     session.disconnect();
-                    alert('session disconnected try');
+                    // alert('session disconnected try');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
 
                 } catch (err) {
-                    alert('err while exitvideo ' + err);
+                    // alert('err while exitvideo ' + err);
                     session.off();
-                    alert('EXIT : session off catch');
+                    // alert('EXIT : session off catch');
                     session.disconnect();
-                    alert('session disconnected');
+                    // alert('session disconnected');
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
