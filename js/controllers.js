@@ -5631,9 +5631,9 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
-
+            
             $ionicLoading.show({template: 'Loading...'});
-
+                 $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
             $scope.image = [];
@@ -5645,7 +5645,8 @@ angular.module('your_app_name.controllers', [])
             $scope.recId = '';
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
-
+            var stoppedTimer;
+             $scope.Timercounter = 0;
             $scope.$on('$destroy', function () {
 
                 try {
@@ -5786,11 +5787,14 @@ angular.module('your_app_name.controllers', [])
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
-                                alert("publisher Error code/msg: ", error.code, error.message);
+                               // alert("publisher Error code/msg: ", error.code, error.message);
+                                
+//                                alert($scope.app[0].appointments.scheduled_start_time);
+//                                alert($scope.curDate);
                             } else {
                                  alert($scope.app[0].appointments.scheduled_start_time);
-                                if ($scope.app[0].appointments.scheduled_start_time) {
-                                    var stoppedTimer;
+                                if ($scope.app[0].appointments.scheduled_start_time == $scope.curDate) {
+                                    
                                     $scope.Timercounter = 0;
                                     $scope.onTimeout = function () {
                                         stoppedTimer = $timeout(function () {
@@ -6240,6 +6244,7 @@ angular.module('your_app_name.controllers', [])
             //End Consultaion code
             $scope.exitVideo = function () {
                 try {
+                    $timeout.cancel(stoppedTimer);
                     publisher.off();
                     // alert('EXIT : publisher off try');
                     publisher.destroy();
@@ -6256,6 +6261,7 @@ angular.module('your_app_name.controllers', [])
                     })
 
                 } catch (err) {
+                    $timeout.cancel(stoppedTimer);
                     // alert('err while exitvideo ' + err);
                     session.off();
                     // alert('EXIT : session off catch');
