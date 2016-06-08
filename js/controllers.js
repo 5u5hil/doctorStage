@@ -4908,6 +4908,35 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+
+                  $scope.itemsDisplayall = 2
+                $scope.addMoreItemall = function(done) {  
+                    if ($scope.all_app_past.length > $scope.itemsDisplayall){
+                        console.log('all');
+                    $scope.itemsDisplayall += 1; // load number of more items
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete')
+                } 
+
+                 $scope.Displaythisweek = 2
+                $scope.Itemthisweek = function(done) {  
+                    if ($scope.week_past_data.length > $scope.Displaythisweek){
+                        console.log('week');
+                    $scope.Displaythisweek += 1; // load number of more items
+                    }
+                    $scope.$broadcast('scroll.infiniteScrollComplete')
+                } 
+
+
+
+
+
+
+
+
+
+
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
