@@ -4713,6 +4713,11 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+
+            $scope.doRefresh = function() {
+           $scope.$broadcast('scroll.refreshComplete');
+          };
+
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');

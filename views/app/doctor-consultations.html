@@ -6,6 +6,12 @@
           <button class="button button-icon button-clear ion-person"></button>
       </ion-nav-buttons> -->
     <ion-content>
+<ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
+
+
         <div class="row tabnav">
             <div class="col"><a nav-clear menu-close ui-sref="app.doctor-consultations" class="active" >Active</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultation-past">Past</a></div>

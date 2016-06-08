@@ -141,7 +141,7 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
   position: fixed;
   margin: 0 0;
  bottom: 0; 
-  width:100%;
+  width:100%; box-shadow: -1px 0 2px rgba(0,0,0,0.2);
 }
 
 .ot-textchat .ot-composer {
