@@ -255,6 +255,473 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
+        .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+            // Load the modal from the given template URL
+            $ionicModal.fromTemplateUrl('addrecord.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.getCategory = function () {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'records/get-record-categories',
+                        params: {userId: $scope.userid, interface: $scope.interface}
+                    }).then(function successCallback(response) {
+                        $scope.cats = response.data;
+                        $scope.modal.show();
+                        // angular.forEach(response.data, function (value, key) {
+                        // $scope.cats.push({text: value.category, id: value.id});
+                        // });
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                };
+                $scope.addRecord = function ($ab) {
+                    $state.go('app.add-category', {'id': $ab}, {reload: true});
+                    $scope.modal.hide();
+                };
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+        })
+        .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+
+            $scope.images = [];
+            $scope.image = [];
+            $scope.tempImgs = [];
+            $scope.prescription = 'Yes';
+            $scope.coverage = 'Family Floater';
+            $scope.probstatus = 'Current';
+            $scope.taskstatus = 'Onetime';
+            $scope.assignfor = 'Self';
+            $scope.conId = [];
+            $scope.conIds = [];
+            $scope.selConditions = [];
+            $scope.curTime = new Date();
+            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
+            $scope.userId = get('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.categoryId = $stateParams.id;
+            $scope.fields = [];
+            $scope.problems = [];
+            $scope.doctrs = [];
+            $scope.day = '';
+            $scope.meals = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+            $scope.mealDetails = [];
+            $scope.dayMeal = [];
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: 'GET',
+                url: domain + 'records/add',
+                params: {id: $stateParams.id, patientId: $scope.patientId, userId: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.record = response.data.record;
+                $scope.fields = response.data.fields;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $scope.category = $stateParams.id;
+                $scope.conditions = response.data.knownHistory;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
+                if ($scope.category == '6') {
+                    angular.forEach($scope.fields, function (value, key) {
+                        if (value.field == 'Coverage') {
+                            $scope.coverage = 'Family Floater';
+                        }
+                    });
+                }
+                if ($scope.category == '14') {
+                    angular.forEach($scope.fields, function (value, key) {
+                        if (value.field == 'Status') {
+                            console.log(value.field);
+                            $scope.probstatus = 'Current';
+                        }
+                    });
+                }
+                $ionicLoading.hide();
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            $scope.getCondition = function (id, con) {
+                console.log(id + "==" + con);
+                var con = con.toString();
+                if ($scope.conId[id]) {
+                    $scope.conIds.push(id);
+                    $scope.selConditions.push({'condition': con});
+                } else {
+                    var index = $scope.conIds.indexOf(id);
+                    $scope.conIds.splice(index, 1);
+                    for (var i = $scope.selConditions.length - 1; i >= 0; i--) {
+                        if ($scope.selConditions[i].condition == con) {
+                            $scope.selConditions.splice(i, 1);
+                        }
+                    }
+                }
+                jQuery("#selcon").val($scope.conIds);
+                console.log($scope.selConditions);
+                console.log($scope.conIds);
+            };
+            $scope.addOther = function (name, field, val) {
+                console.log(name, field, val);
+                addOther(name, field, val);
+            };
+            $scope.addNewElement = function (ele) {
+                addNew(ele);
+            };
+            $scope.submit = function () {
+                //console.log(jQuery("#addRecordForm")[0].length);                
+                //alert($scope.tempImgs.length);
+
+                if (jQuery("#addRecordForm")[0].length > 2) {
+                    $ionicLoading.show({template: 'Adding...'});
+                    var data = new FormData(jQuery("#addRecordForm")[0]);
+                    callAjax("POST", domain + "records/save", data, function (response) {
+                        console.log(response);
+                        $ionicLoading.hide();
+                        if (angular.isObject(response.records)) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true
+                            });
+                            $scope.recIds = response.records.id;
+                            var confirm = window.confirm("Do you really want to share?");
+                            if (confirm) {
+                                console.log($scope.recIds);
+                                $http({
+                                    method: 'POST',
+                                    url: domain + 'doctrsrecords/share',
+                                    params: {id: $scope.recIds, userId: $scope.userId, docId:  $scope.patientId, shared: 0}
+                                }).then(function successCallback(response) {
+                                    console.log(response);
+                                    if (response.data == 'Success') {
+                                        alert("Records shared successfully!");
+                                        $state.go('app.records-view', {'id': $scope.categoryId, 'patientId': $scope.patientId, 'shared': 0}, {}, {reload: true});
+                                    }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+
+                            } else {
+
+                                alert("Record added successfully!");
+                                $timeout(function () {
+                                    $state.go('app.records-view', {'id': $scope.categoryId, 'patientId': $scope.patientId, 'shared': 0}, {}, {reload: true});
+                                }, 1000);
+                            }
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                }
+
+
+                function getImgUrl(imageName) {
+                    var name = imageName.substr(imageName.lastIndexOf('/') + 1);
+                    var trueOrigin = cordova.file.dataDirectory + name;
+                    return trueOrigin;
+                }
+            };
+
+            $scope.getPrescription = function (pre) {
+                console.log('pre ' + pre);
+                if (pre === ' No') {
+                    console.log("no");
+                    jQuery('#convalid').addClass('hide');
+                } else if (pre === 'Yes') {
+                    console.log("yes");
+                    jQuery('#convalid').removeClass('hide');
+                }
+            };
+            //Take images with camera
+            $scope.takePict = function (name) {
+                //console.log(name);
+                var camimg_holder = $("#camera-status");
+                camimg_holder.empty();
+                // 2
+                var options = {
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
+                    allowEdit: false,
+                    encodingType: Camera.EncodingType.JPEG,
+                };
+                // 3
+                $cordovaCamera.getPicture(options).then(function (imageData) {
+                    //alert(imageData);
+                    onImageSuccess(imageData);
+                    function onImageSuccess(fileURI) {
+                        createFileEntry(fileURI);
+                    }
+                    function createFileEntry(fileURI) {
+                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+                    }
+                    // 5
+                    function copyFile(fileEntry) {
+                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+                        var newName = makeid() + name;
+                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
+                            fileEntry.copyTo(
+                                    fileSystem2,
+                                    newName,
+                                    onCopySuccess,
+                                    fail
+                                    );
+                        },
+                                fail);
+                    }
+                    // 6
+                    function onCopySuccess(entry) {
+                        var imageName = entry.nativeURL;
+                        $scope.$apply(function () {
+                            $scope.tempImgs.push(imageName);
+                        });
+                        $scope.picData = getImgUrl(imageName);
+                        //alert($scope.picData);
+                        $scope.ftLoad = true;
+                        camimg_holder.append('<button class="button button-positive remove" onclick="removeCamFile()">Remove Files</button><br/>');
+                        $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(camimg_holder);
+                    }
+                    function fail(error) {
+                        console.log("fail: " + error.code);
+                    }
+                    function makeid() {
+                        var text = "";
+                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                        for (var i = 0; i < 5; i++) {
+                            text += possible.charAt(Math.floor(Math.random() * possible.length));
+                        }
+                        return text;
+                    }
+                    function getImgUrl(imageName) {
+                        var name = imageName.substr(imageName.lastIndexOf('/') + 1);
+                        var trueOrigin = cordova.file.dataDirectory + name;
+                        return trueOrigin;
+                    }
+                }, function (err) {
+                    console.log(err);
+                });
+            };
+
+            $scope.uploadPicture = function () {
+                //$ionicLoading.show({template: 'Uploading..'});
+                var fileURL = $scope.picData;
+                var name = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                var options = new FileUploadOptions();
+                options.fileKey = "file";
+                options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
+                options.mimeType = "image/jpeg";
+                options.chunkedMode = true;
+                var params = {};
+//                params.value1 = "someparams";
+//                params.value2 = "otherparams";
+//                options.params = params;
+                var uploadSuccess = function (response) {
+                    alert('Success  ====== ');
+                    console.log("Code = " + r.responseCode);
+                    console.log("Response = " + r.response);
+                    console.log("Sent = " + r.bytesSent);
+                    //$scope.image.push(name);
+                    //$ionicLoading.hide();
+                }
+                var ft = new FileTransfer();
+                ft.upload(fileURL, encodeURI(domain + 'records/upload'), uploadSuccess, function (error) {
+                    //$ionicLoading.show({template: 'Error in connecting...'});
+                    //$ionicLoading.hide();
+                }, options);
+            };
+
+            $scope.chkDt = function (dt) {
+                console.log(dt);
+                console.log($scope.curTime);
+                console.log($scope.curTime < dt);
+                if (!($scope.curTime < dt)) {
+                    alert('End date should be greater than start date.');
+                    jQuery('#enddt').val('');
+                }
+            };
+
+            $scope.check = function (val) {
+                console.log(val);
+                if ($scope.categoryId == 7) {
+                    if (val) {
+                        jQuery('#billStatus').val('Paid');
+                        jQuery('#billmode').removeClass('hide');
+                    } else {
+                        jQuery('#billStatus').val('Unpaid');
+                        jQuery('#billmode').addClass('hide');
+                    }
+                }
+                if ($scope.categoryId == 3) {
+                    if (val) {
+                        jQuery('#mediStatus').val('Active');
+                    } else {
+                        jQuery('#mediStatus').val('Inactive');
+                    }
+                }
+                if ($scope.categoryId == 2) {
+                    if (val) {
+                        jQuery('#immrcvdate').val('Received');
+                        jQuery('#imdtrcv').removeClass('hide');
+                        jQuery('.imd').removeClass('hide');
+                    } else {
+                        jQuery('#immrcvdate').val('To be received');
+                        jQuery('#imdtrcv').addClass('hide');
+                        jQuery('.imd').addClass('hide');
+                    }
+                }
+                if ($scope.categoryId == 4) {
+                    if (val) {
+                        jQuery('#proconduct').val('Conducted On');
+                        jQuery('#proconon').removeClass('hide');
+                        jQuery('.proc').removeClass('hide');
+                        jQuery('#proconbef').addClass('hide');
+                    } else {
+                        jQuery('#proconduct').val('To be conducted');
+                        jQuery('#proconon').addClass('hide');
+                        jQuery('.proc').addClass('hide');
+                        jQuery('#proconbef').removeClass('hide');
+                    }
+                }
+                if ($scope.categoryId == 5) {
+                    if (val) {
+                        jQuery('#invconduct').val('Conducted');
+                        jQuery('#invconon').removeClass('hide');
+                        jQuery('.inv').removeClass('hide');
+                        jQuery('#invconbef').addClass('hide');
+                    } else {
+                        jQuery('#invconduct').val('To be conducted');
+                        jQuery('#invconon').addClass('hide');
+                        jQuery('.inv').addClass('hide');
+                        jQuery('#invconbef').removeClass('hide');
+                    }
+                }
+            };
+
+            $scope.rcheck = function (val) {
+                console.log(val);
+                if ($scope.categoryId == 2) {
+                    if (val) {
+                        jQuery('#immrepeat').val('Yes');
+                        jQuery('#imrpton').removeClass('hide');
+                        //jQuery('.imd').removeClass('hide');
+                    } else {
+                        jQuery('#immrepeat').val('No');
+                        jQuery('#imrpton').addClass('hide');
+                        //jQuery('.imd').addClass('hide');
+                    }
+                }
+            };
+
+            $scope.shCheck = function (val) {
+                console.log(val);
+                if ($scope.categoryId == 3) {
+                    if (val == '') {
+                        jQuery('#prescribeDt').addClass('hide');
+                    } else {
+                        jQuery('#prescribeDt').removeClass('hide');
+                    }
+                }
+            };
+
+            $scope.radChange = function (prob) {
+                console.log(prob);
+                if ($scope.categoryId == 14) {
+                    if (prob != 'Past') {
+                        jQuery('#probend').addClass('hide');
+                    } else {
+                        jQuery('#probend').removeClass('hide');
+                    }
+                }
+                if ($scope.categoryId == 30) {
+                    if (prob == 'Repeat') {
+                        jQuery('.taskn').removeClass('hide');
+                    } else if (prob == 'Onetime') {
+                        jQuery('.taskn').addClass('hide');
+                    }
+                }
+            };
+
+            $scope.setFile = function (element) {
+                $scope.currentFile = element.files[0];
+                console.log('length = ' + element.files.length);
+                var image_holder = $("#image-holder");
+                image_holder.empty();
+                if (element.files.length > 0) {
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
+                    //jQuery('#valid-till').attr('required', true);
+                    image_holder.append('<button class="button button-small button-assertive remove icon ion-close" onclick="removeFile()"></button>');
+                } else {
+                    jQuery('#convalid').addClass('hide');
+                    jQuery('#coninprec').addClass('hide');
+                    //jQuery('#valid-till').attr('required', false);
+                }
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < element.files.length; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+//                            $("<img />", {
+//                                "src": e.target.result,
+//                                "class": "thumb-image"
+//                            }).appendTo(image_holder);
+                            $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL(element.files[0]);
+                    }
+                }
+            };
+
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.daymodal = function (day) {
+                    console.log('Index = ' + day + ' day' + (day - 1));
+                    $scope.day = 'day' + (day - 1);
+                    $scope.modal.show();
+                };
+
+            });
+            $scope.dietdetails = function (days) {
+                console.log(days);
+                $scope.dayMeal = [];
+                for (var i = 1, j = 1; i <= days; i++, j++) {
+                    $scope.mealDetails['day' + (i - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+                    $scope.dayMeal.push(i);
+                    console.log(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
+                    console.log((i - 1));
+                    //jQuery('#day' + (i - 1)).val(JSON.stringify($scope.mealDetails['day' + (i - 1)]));
+                }
+                console.log($scope.mealDetails);
+                var stdt = $('#diet-start').val();
+                var endDate = getDayAfter(stdt, days);
+                console.log(endDate);
+                $('#diet-end').val($filter('date')(endDate, 'yyyy-MM-dd'));
+            };
+            $scope.saveMeal = function (day) {
+                console.log(day);
+                //console.log('Is empty object ' + checkIsMealEmpty($scope.mealDetails[day]));
+                if (checkIsMealEmpty($scope.mealDetails[day]) == 'not empty') {
+                    console.log('Has value');
+                    jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
+                    jQuery('#fill' + day.charAt(day.length - 1)).removeClass('filled-data').addClass('filldata');
+                } else {
+                    console.log('Empty');
+                }
+                //console.log(JSON.stringify($scope.mealDetails[day]));
+                $scope.modal.hide();
+            };
+
+            $scope.submitmodal = function () {
+                $scope.modal.hide();
+                $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+            };
+        })
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
@@ -1030,6 +1497,7 @@ angular.module('your_app_name.controllers', [])
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
             console.log($scope.patientId);
+            window.localStorage.setItem('patientId', $scope.patientId)
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-patient-details',
@@ -5665,9 +6133,9 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
-            
+
             $ionicLoading.show({template: 'Loading...'});
-                 $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
             $scope.image = [];
@@ -5680,7 +6148,7 @@ angular.module('your_app_name.controllers', [])
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
             var stoppedTimer;
-             $scope.Timercounter = 0;
+            $scope.Timercounter = 0;
             $scope.$on('$destroy', function () {
 
                 try {
@@ -5821,14 +6289,14 @@ angular.module('your_app_name.controllers', [])
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
-                               // alert("publisher Error code/msg: ", error.code, error.message);
-                                
+                                // alert("publisher Error code/msg: ", error.code, error.message);
+
 //                                alert($scope.app[0].appointments.scheduled_start_time);
 //                                alert($scope.curDate);
                             } else {
-                                 alert($scope.app[0].appointments.scheduled_start_time);
+                                alert($scope.app[0].appointments.scheduled_start_time);
                                 if ($scope.app[0].appointments.scheduled_start_time == $scope.curDate) {
-                                    
+
                                     $scope.Timercounter = 0;
                                     $scope.onTimeout = function () {
                                         stoppedTimer = $timeout(function () {

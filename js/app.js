@@ -700,7 +700,7 @@ angular.module('your_app_name', [
 
                     .state('app.records-view', {
                         cache: false,
-                        url: "/records-view/{id:int}/{patientId:int}/{shared:int}",
+                        url: "/records-view/{id:string}/{patientId:string}/{shared:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/records-view.html",
@@ -1026,6 +1026,17 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 //templateUrl: "views/app/bookmarks.html",
                                 controller: 'AppCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.add-category', {
+                        cache: false,
+                        url: "/add-category/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/add-record.html",
+                                controller: 'AddRecordCtrl'
                             }
                         }
                     })

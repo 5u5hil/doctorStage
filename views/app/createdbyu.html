@@ -10,7 +10,7 @@
         <div class="list cdetail-list">
             <div class="mt15 pt50p" ng-if="userRecords.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
             <div class="crecordlist" ng-repeat="cat in userRecords| orderBy: 'category'">
-                <!--                <a class="item"  ui-sref="#">
+                <!-- <a class="item"  ui-sref="#">
                                     <span class="title">Allergies</span>	
                                     <span class="count">5</span>	
                                 </a>
@@ -20,7 +20,7 @@
                                 </a>-->
                 <div class="clistck">
                     <ion-checkbox ng-model="catId[cat.id]" ng-value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" class="chkcat">Checkbox Label</ion-checkbox>
-                    <!--<input type="checkbox" class="chkcat" id="{{cat.id}}" value="{{cat.id}}" ng-change="getIds('{{cat.id}}')" />-->
+
                 </div>
                 <a  class="item item-icon-left item-icon-right " ui-sref="app.records-view({'id' : cat.id, 'patientId': patient.id, 'shared': shared, 'res' : 'json'})">
                     <span class="title">{{cat.category}}</span>	
@@ -39,7 +39,7 @@
         <content has-header="true" padding="true" class="fullwh" style="position: absolute; height: 100%;
         width: 100%;
         overflow: auto;">
-        <div class="mcontent">
+        <div class="mcontent mt60">
         <div class="list" >
         <div class="item f17bold" ng-repeat="cat in cats"  ng-click="addRecord({{cat.id}})"  >{{cat.category}}</div>
         </div>
@@ -54,7 +54,7 @@
     <div class="footerbar button-bar">
         <a class="button btn-delete" ng-click="delete()" ><i class="icon ion-trash-b"></i> Delete</a>
         <a class="button btn-share" ng-click="modal.show()"><i class="icon ion-android-share-alt" ></i> Share</a>
-        <!-- <a class="button" ng-controller="AdsCtrl" ng-click="manageAdMob()" ><i class="icon ion-android-add-circle"></i> Add</a> -->
+        <a class="button" ng-controller="AdsCtrl"  ng-click="getCategory()" ><i class="icon ion-android-add-circle"></i> Add</a>
         <!---<a class="button btn-add" ><i class="icon ion-android-add-circle"></i> Add</a>-->
     </div>
 </ion-view>
@@ -75,7 +75,4 @@
     </div>
     </ion-modal-view>
 </script>
-
-
-
 
