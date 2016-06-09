@@ -212,3 +212,5 @@
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     opacity: 1; }
+.searchbar{background:#387ef5;}	
+.button-clear.button-clear,.platform-android .filter-bar-wrapper .item-input-inset .filter-bar-cancel{color:#fff;}
