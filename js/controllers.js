@@ -5180,11 +5180,9 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state,$ionicFilterBar) {
 
-            $scope.doRefresh = function() {
-           $scope.$broadcast('scroll.refreshComplete');
-          };
+
 
             $scope.drId = get('id');
             $scope.userId = get('id');
@@ -5227,6 +5225,43 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
 
+			
+				
+		/* search plugin */
+			 var filterBarInstance;
+				$scope.showFilterBar = function () {					
+				  filterBarInstance = $ionicFilterBar.show({
+					items: $scope.items,
+					update: function (filteredItems, filterText) {
+					  $scope.items = filteredItems;
+					  if (filterText) {
+						console.log(filterText);
+						$scope.filterall = filterText
+					  }
+					 else{$scope.filterall='';}
+					}
+				  });
+				};
+				$scope.refreshItems = function () {
+				  if (filterBarInstance) {
+					filterBarInstance();
+					filterBarInstance = null;
+				  }
+
+				  $timeout(function () {
+					//getItems();
+					$scope.$broadcast('scroll.refreshComplete');
+				  }, 1000);
+				};
+			/* end of search plugin */
+			
+			
+			
+			
+			
+			
+			
+			
             $scope.approveAppointment = function (appId, prodId, mode, startTime, endTime) {
                 $http({
                     method: 'GET',
@@ -5330,7 +5365,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+        .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state,$ionicFilterBar) {
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -5398,6 +5433,37 @@ angular.module('your_app_name.controllers', [])
 
 
 
+				
+				/* search plugin */
+			 var filterBarInstance;
+				$scope.showFilterBar = function () {					
+				  filterBarInstance = $ionicFilterBar.show({
+					items: $scope.items,
+					update: function (filteredItems, filterText) {
+					  $scope.items = filteredItems;
+					  if (filterText) {
+						console.log(filterText);
+						$scope.filterall = filterText
+					  }
+					 else{$scope.filterall='';}
+					}
+				  });
+				};
+				$scope.refreshItems = function () {
+				  if (filterBarInstance) {
+					filterBarInstance();
+					filterBarInstance = null;
+				  }
+
+				  $timeout(function () {
+					//getItems();
+					$scope.$broadcast('scroll.refreshComplete');
+				  }, 1000);
+				};
+			 /* end of search plugin */
+				
+				
+				
 
 
 

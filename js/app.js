@@ -24,6 +24,7 @@ angular.module('your_app_name', [
     'ngCordova',
     'slugifier',
     'ionic.contrib.ui.tinderCards',
+	'jett.ionic.filter.bar',
     'youtube-embed'
 ])
         .run(function ($ionicPlatform, $state, $http, $rootScope, $ionicConfig, $timeout, $ionicLoading) {

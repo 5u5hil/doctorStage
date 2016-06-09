@@ -2,14 +2,13 @@
     <ion-nav-title>
         <span>Consultations</span>
     </ion-nav-title>
-    <!--   <ion-nav-buttons side="right">
-          <button class="button button-icon button-clear ion-person"></button>
-      </ion-nav-buttons> -->
+<ion-nav-buttons side="secondary">
+    <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
+    </button>
+  </ion-nav-buttons>
     <ion-content>
-<ion-refresher
-    pulling-text="Pull to refresh..."
-    on-refresh="doRefresh()">
-  </ion-refresher>
+  <ion-refresher pulling-text="Pull to refresh..."  on-refresh="refreshItems()">
+    </ion-refresher>
 
 
         <div class="row tabnav">
@@ -22,7 +21,7 @@
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_data.length==0? 'No appointments': ''}}</h4>
                         <div class="posts-list"><!--| orderBy: '-appointments.scheduled_start_time'-->
-                            <div  class="list card post-item" ng-repeat="td in todays_data">
+                            <div  class="list card post-item" ng-repeat="td in todays_data | filter:filterall">
                                 <div class="post-content item item-text-wrap p0">
                                     <a ui-sref="app.doctor-current-tab({'id': td.app.appointment_id})" class="card-content p0">
                                         <div class="item item-divider">
@@ -93,7 +92,7 @@
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{week_data.length==0? 'No appointments': ''}}</h4> 
                         <div class="posts-list"  > <!--| orderBy: '-appointments.scheduled_start_time'-->
-                            <div  class="list card post-item" ng-repeat="app in week_data">
+                            <div  class="list card post-item" ng-repeat="app in week_data | filter:filterall">
                                 <div class="post-content item item-text-wrap p0"> 
                                     <a ui-sref="app.doctor-current-tab({'id': app.app.id})" class="card-content p0">
                                         <div class="item item-divider">
@@ -159,7 +158,7 @@
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{all_data.length==0? 'No appointments': ''}}</h4>
                         <div class="posts-list"  ><!---->
-                            <div  class="list card post-item" ng-repeat="app in all_data">
+                            <div  class="list card post-item" ng-repeat="app in all_data | filter:filterall">
                                 <div class="post-content item item-text-wrap p0">
                                     <a ui-sref="app.doctor-current-tab({'id': app.app.id})" class="card-content p0">
                                         <div class="item item-divider">
