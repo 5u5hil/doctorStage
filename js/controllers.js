@@ -5382,7 +5382,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.addMoreItemall = function(done) {  
                     if ($scope.all_app_past.length > $scope.itemsDisplayall){
                         console.log('all');
-                    $scope.itemsDisplayall += 1; // load number of more items
+                    $scope.itemsDisplayall += 2; // load number of more items
                     }
                     $scope.$broadcast('scroll.infiniteScrollComplete')
                 } 
@@ -5391,7 +5391,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.Itemthisweek = function(done) {  
                     if ($scope.week_past_data.length > $scope.Displaythisweek){
                         console.log('week');
-                    $scope.Displaythisweek += 1; // load number of more items
+                    $scope.Displaythisweek += 2; // load number of more items
                     }
                     $scope.$broadcast('scroll.infiniteScrollComplete')
                 } 
