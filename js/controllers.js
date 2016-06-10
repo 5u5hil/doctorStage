@@ -6217,7 +6217,7 @@ angular.module('your_app_name.controllers', [])
             $scope.prescription = 'Yes';
             var stoppedTimer;
             $scope.Timercounter = 0;
-             var statstimer;
+            var statstimer;
             $scope.$on('$destroy', function () {
 
                 try {
@@ -6235,6 +6235,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 } catch (err) {
                     //alert('err while exitvideo ' + err);
@@ -6245,6 +6247,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
+                    window.clearInterval(statstimer);
+                    statstimer = '';
 
                 }
             });
@@ -6330,7 +6334,7 @@ angular.module('your_app_name.controllers', [])
                                                 }
                                                 prevStats = stats;
                                             });
-                                        }, 1000);
+                                        }, 5000);
                                     }
                                 });
 
@@ -6829,6 +6833,8 @@ angular.module('your_app_name.controllers', [])
                     //alert('EXIT : session off');
                     session.disconnect();
                     // alert('session disconnected try');
+                    window.clearInterval(statstimer);
+                    statstimer = '';
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -6843,7 +6849,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-
+                    window.clearInterval(statstimer);
+                    statstimer = '';
                 }
                 $http({
                     method: 'GET',
