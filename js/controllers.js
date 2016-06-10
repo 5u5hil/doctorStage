@@ -394,7 +394,7 @@ angular.module('your_app_name.controllers', [])
                                 $http({
                                     method: 'POST',
                                     url: domain + 'doctrsrecords/share',
-                                    params: {id: $scope.recIds, userId: $scope.userId, docId:  $scope.patientId, shared: 0}
+                                    params: {id: $scope.recIds, userId: $scope.userId, docId: $scope.patientId, shared: 0}
                                 }).then(function successCallback(response) {
                                     console.log(response);
                                     if (response.data == 'Success') {
@@ -5180,7 +5180,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state,$ionicFilterBar) {
+        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar) {
 
 
 
@@ -5225,43 +5225,44 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
 
-			
-				
-		/* search plugin */
-			 var filterBarInstance;
-				$scope.showFilterBar = function () {					
-				  filterBarInstance = $ionicFilterBar.show({
-					items: $scope.items,
-					update: function (filteredItems, filterText) {
-					  $scope.items = filteredItems;
-					  if (filterText) {
-						console.log(filterText);
-						$scope.filterall = filterText
-					  }
-					 else{$scope.filterall='';}
-					}
-				  });
-				};
-				$scope.refreshItems = function () {
-				  if (filterBarInstance) {
-					filterBarInstance();
-					filterBarInstance = null;
-				  }
 
-				  $timeout(function () {
-					//getItems();
-					$scope.$broadcast('scroll.refreshComplete');
-				  }, 1000);
-				};
-			/* end of search plugin */
-			
-			
-			
-			
-			
-			
-			
-			
+
+            /* search plugin */
+            var filterBarInstance;
+            $scope.showFilterBar = function () {
+                filterBarInstance = $ionicFilterBar.show({
+                    items: $scope.items,
+                    update: function (filteredItems, filterText) {
+                        $scope.items = filteredItems;
+                        if (filterText) {
+                            console.log(filterText);
+                            $scope.filterall = filterText
+                        } else {
+                            $scope.filterall = '';
+                        }
+                    }
+                });
+            };
+            $scope.refreshItems = function () {
+                if (filterBarInstance) {
+                    filterBarInstance();
+                    filterBarInstance = null;
+                }
+
+                $timeout(function () {
+                    //getItems();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, 1000);
+            };
+            /* end of search plugin */
+
+
+
+
+
+
+
+
             $scope.approveAppointment = function (appId, prodId, mode, startTime, endTime) {
                 $http({
                     method: 'GET',
@@ -5365,7 +5366,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state,$ionicFilterBar) {
+        .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar) {
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -5413,57 +5414,58 @@ angular.module('your_app_name.controllers', [])
             });
 
 
-                  $scope.itemsDisplayall = 2
-                $scope.addMoreItemall = function(done) {  
-                    if ($scope.all_app_past.length > $scope.itemsDisplayall){
-                        console.log('all');
+            $scope.itemsDisplayall = 2
+            $scope.addMoreItemall = function (done) {
+                if ($scope.all_app_past.length > $scope.itemsDisplayall) {
+                    console.log('all');
                     $scope.itemsDisplayall += 2; // load number of more items
-                    }
-                    $scope.$broadcast('scroll.infiniteScrollComplete')
-                } 
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete')
+            }
 
-                 $scope.Displaythisweek = 2
-                $scope.Itemthisweek = function(done) {  
-                    if ($scope.week_past_data.length > $scope.Displaythisweek){
-                        console.log('week');
+            $scope.Displaythisweek = 2
+            $scope.Itemthisweek = function (done) {
+                if ($scope.week_past_data.length > $scope.Displaythisweek) {
+                    console.log('week');
                     $scope.Displaythisweek += 2; // load number of more items
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete')
+            }
+
+
+
+
+            /* search plugin */
+            var filterBarInstance;
+            $scope.showFilterBar = function () {
+                filterBarInstance = $ionicFilterBar.show({
+                    items: $scope.items,
+                    update: function (filteredItems, filterText) {
+                        $scope.items = filteredItems;
+                        if (filterText) {
+                            console.log(filterText);
+                            $scope.filterall = filterText
+                        } else {
+                            $scope.filterall = '';
+                        }
                     }
-                    $scope.$broadcast('scroll.infiniteScrollComplete')
-                } 
+                });
+            };
+            $scope.refreshItems = function () {
+                if (filterBarInstance) {
+                    filterBarInstance();
+                    filterBarInstance = null;
+                }
+
+                $timeout(function () {
+                    //getItems();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, 1000);
+            };
+            /* end of search plugin */
 
 
 
-				
-				/* search plugin */
-			 var filterBarInstance;
-				$scope.showFilterBar = function () {					
-				  filterBarInstance = $ionicFilterBar.show({
-					items: $scope.items,
-					update: function (filteredItems, filterText) {
-					  $scope.items = filteredItems;
-					  if (filterText) {
-						console.log(filterText);
-						$scope.filterall = filterText
-					  }
-					 else{$scope.filterall='';}
-					}
-				  });
-				};
-				$scope.refreshItems = function () {
-				  if (filterBarInstance) {
-					filterBarInstance();
-					filterBarInstance = null;
-				  }
-
-				  $timeout(function () {
-					//getItems();
-					$scope.$broadcast('scroll.refreshComplete');
-				  }, 1000);
-				};
-			 /* end of search plugin */
-				
-				
-				
 
 
 
@@ -6215,6 +6217,7 @@ angular.module('your_app_name.controllers', [])
             $scope.prescription = 'Yes';
             var stoppedTimer;
             $scope.Timercounter = 0;
+             var statstimer;
             $scope.$on('$destroy', function () {
 
                 try {
@@ -6269,6 +6272,8 @@ angular.module('your_app_name.controllers', [])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
+                        window.clearInterval(statstimer);
+                        statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
                         alert('stream distroy length: ' + subscribers.length);
@@ -6289,7 +6294,7 @@ angular.module('your_app_name.controllers', [])
                                         alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
-                                        window.setInterval(function () {
+                                        statstimer = window.setInterval(function () {
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
