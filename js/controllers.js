@@ -6258,7 +6258,7 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'appointment/join-patient',
                 params: {id: $scope.appId, userId: $scope.userId}
             }).then(function sucessCallback(response) {
-                //console.log(response.data);
+                console.log(response.data);
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
 
@@ -6370,9 +6370,9 @@ angular.module('your_app_name.controllers', [])
 //                                alert($scope.curDate);
                             } else {
                                 alert($scope.app[0].appointments.scheduled_start_time);
-                                if ($scope.app[0].appointments.scheduled_start_time == $scope.curDate) {
+                                if ($scope.app[0].appointments.scheduled_start_time >= $scope.curDate && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time ) {
 
-                                    $scope.Timercounter = 0;
+                                    $scope.Timercounter = getTimeDiffSec($scope.app[0].appointments.scheduled_start_time,$scope.curDate);
                                     $scope.onTimeout = function () {
                                         stoppedTimer = $timeout(function () {
                                             $scope.Timercounter++;
@@ -6388,6 +6388,8 @@ angular.module('your_app_name.controllers', [])
                                     $timeout(function () {
                                         $scope.onTimeout();
                                     }, 0);
+                                }else{
+                                    $scope.Timercounter ='00:00';
                                 }
                                 $http({
                                     method: 'GET',
