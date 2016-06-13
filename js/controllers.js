@@ -6193,15 +6193,15 @@ angular.module('your_app_name.controllers', [])
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
 
             $ionicLoading.show({template: 'Loading...'});
-            if (!get('loadedOnce')) {
-                store({'loadedOnce': 'true'});
-                $window.location.reload(true);
-                // don't reload page, but clear localStorage value so it'll get reloaded next time
-
-            } else {
-                // set the flag and reload the page
-                window.localStorage.removeItem('loadedOnce');
-            }
+//            if (!get('loadedOnce')) {
+//                store({'loadedOnce': 'true'});
+//                $window.location.reload(true);
+//                // don't reload page, but clear localStorage value so it'll get reloaded next time
+//
+//            } else {
+//                // set the flag and reload the page
+//                window.localStorage.removeItem('loadedOnce');
+//            }
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
