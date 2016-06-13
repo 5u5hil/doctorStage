@@ -5181,9 +5181,6 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar) {
-
-
-
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -5255,13 +5252,6 @@ angular.module('your_app_name.controllers', [])
                 }, 1000);
             };
             /* end of search plugin */
-
-
-
-
-
-
-
 
             $scope.approveAppointment = function (appId, prodId, mode, startTime, endTime) {
                 $http({
@@ -5337,7 +5327,7 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.curTime >= start || $scope.curTime <= end) {
                     console.log('redirect');
                     //$state.go('app.patient-join', {}, {reload: true});
-                    $state.go('app.doctor-join', {'id': appId, 'mode': mode}, {reload: true});
+                    $state.go('app.doctor-join', {'id': appId, 'mode': mode});
                 } else {
                     alert("You can join video before 15 minutes.");
                 }
@@ -6203,6 +6193,15 @@ angular.module('your_app_name.controllers', [])
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
 
             $ionicLoading.show({template: 'Loading...'});
+            if (!get('loadedOnce')) {
+                store({'loadedOnce': 'true'});
+                $window.location.reload(true);
+                // don't reload page, but clear localStorage value so it'll get reloaded next time
+
+            } else {
+                // set the flag and reload the page
+                window.localStorage.removeItem('loadedOnce');
+            }
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
@@ -6367,13 +6366,18 @@ angular.module('your_app_name.controllers', [])
                                 // alert("publisher Error code/msg: ", error.code, error.message);
 
                                 alert($scope.app[0].appointments.scheduled_start_time);
+                                console.log('scheduled_start_time' + $scope.app[0].appointments.scheduled_start_time);
                                 alert($scope.curDate);
+                                console.log('curDate' + $scope.curDate);
                                 alert($scope.app[0].appointments.scheduled_end_time);
-                            } else {
-                                alert($scope.app[0].appointments.scheduled_start_time);
-                                if ($scope.app[0].appointments.scheduled_start_time >= $scope.curDate && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time ) {
+                                console.log('scheduled_end_time' + $scope.app[0].appointments.scheduled_end_time);
+                                if ($scope.curDate >= $scope.app[0].appointments.scheduled_start_time && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time) {
+                                    console.log('inside appt, between tym');
+                                    $scope.Timercounter = getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate);
+                                    console.log('getTimeDiffSec' + getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate));
 
-                                    $scope.Timercounter = getTimeDiffSec($scope.app[0].appointments.scheduled_start_time,$scope.curDate);
+
+
                                     $scope.onTimeout = function () {
                                         stoppedTimer = $timeout(function () {
                                             $scope.Timercounter++;
@@ -6389,8 +6393,35 @@ angular.module('your_app_name.controllers', [])
                                     $timeout(function () {
                                         $scope.onTimeout();
                                     }, 0);
-                                }else{
-                                    $scope.Timercounter ='00:00';
+                                } else {
+                                    $scope.Timercounter = '00:00';
+                                }
+                            } else {
+                                alert($scope.app[0].appointments.scheduled_start_time);
+                                if ($scope.curDate >= $scope.app[0].appointments.scheduled_start_time && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time) {
+                                    console.log('inside appt, between tym');
+                                    $scope.Timercounter = getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate);
+                                    console.log('getTimeDiffSec' + getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate));
+
+
+
+                                    $scope.onTimeout = function () {
+                                        stoppedTimer = $timeout(function () {
+                                            $scope.Timercounter++;
+                                            $scope.seconds = $scope.Timercounter % 60;
+                                            $scope.minutes = Math.floor($scope.Timercounter / 60);
+                                            //  var mytimeout = $timeout($scope.onTimeout, 1000);
+                                            $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
+                                            $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
+                                            $scope.onTimeout();
+                                        }, 1000)
+                                    }
+
+                                    $timeout(function () {
+                                        $scope.onTimeout();
+                                    }, 0);
+                                } else {
+                                    $scope.Timercounter = '00:00';
                                 }
                                 $http({
                                     method: 'GET',
@@ -6472,10 +6503,6 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.ciframecontainer').removeClass('active');
                     })
 
-
-
-
-
                 })
             };
 
@@ -6496,15 +6523,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.adjquery();
             }, 4000);
 
-            if (!get('loadedOnce')) {
-                store({'loadedOnce': 'true'});
-                $window.location.reload(true);
-                // don't reload page, but clear localStorage value so it'll get reloaded next time
 
-            } else {
-                // set the flag and reload the page
-                window.localStorage.removeItem('loadedOnce');
-            }
 
             //ADD Consultation note
             $http({
