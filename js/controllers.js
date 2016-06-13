@@ -6366,8 +6366,9 @@ angular.module('your_app_name.controllers', [])
                                 console.log("publisher Error code/msg: ", error.code, error.message);
                                 // alert("publisher Error code/msg: ", error.code, error.message);
 
-//                                alert($scope.app[0].appointments.scheduled_start_time);
-//                                alert($scope.curDate);
+                                alert($scope.app[0].appointments.scheduled_start_time);
+                                alert($scope.curDate);
+                                alert($scope.app[0].appointments.scheduled_end_time);
                             } else {
                                 alert($scope.app[0].appointments.scheduled_start_time);
                                 if ($scope.app[0].appointments.scheduled_start_time >= $scope.curDate && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time ) {
