@@ -6216,7 +6216,7 @@ angular.module('your_app_name.controllers', [])
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
             var stoppedTimer;
-            $scope.Timercounter = 0;
+            $scope.Timercounter;
             var statstimer;
             $scope.$on('$destroy', function () {
 
