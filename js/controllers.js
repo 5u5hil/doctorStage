@@ -6298,6 +6298,7 @@ angular.module('your_app_name.controllers', [])
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
+                                              $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
