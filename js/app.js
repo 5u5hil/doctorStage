@@ -59,20 +59,20 @@ angular.module('your_app_name', [
 //                };
 
                 var notificationOpenedCallback = function (jsonData) {
-                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                   // alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
 
                     // $state.go("app.content-library-setting");
                     try
                     {
                         if (jsonData.additionalData) {
-                            alert("Inside additionalData");
-                            alert("id " + jsonData.additionalData.actionSelected);
+                           // alert("Inside additionalData");
+                          //  alert("id " + jsonData.additionalData.actionSelected);
 
                             if (jsonData.additionalData.actionSelected == "id1")
                             {
 
-                                alert("Button id1 pressed!");
+                               // alert("Button id1 pressed!");
                                 $http({
                                     method: 'GET',
                                     url: domain + 'tracker/captured',
@@ -89,7 +89,7 @@ angular.module('your_app_name', [
                             }
                             if (jsonData.additionalData.actionSelected == "id2")
                             {
-                                alert("Button id2 pressed!");
+                               /// alert("Button id2 pressed!");
 
                                 $http({
                                     method: 'GET',
@@ -106,7 +106,7 @@ angular.module('your_app_name', [
                             }
                             if (jsonData.additionalData.actionSelected == "id3")
                             {
-                                alert("Button id3 pressed!");
+                               // alert("Button id3 pressed!");
 
                                 $http({
                                     method: 'GET',
@@ -124,7 +124,7 @@ angular.module('your_app_name', [
 
                     } catch (err)
                     {
-                        alert('No redirection ' + err);
+                       // alert('No redirection ' + err);
                     }
 
 
