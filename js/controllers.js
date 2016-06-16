@@ -6279,9 +6279,9 @@ angular.module('your_app_name.controllers', [])
                         statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                        alert('stream distroy length: ' + subscribers.length);
+                        //alert('stream distroy length: ' + subscribers.length);
                         console.log('on stream Destroy reason: ' + event.reason);
-                        alert('on stream Destroy reason: ' + event.reason);
+                        //alert('on stream Destroy reason: ' + event.reason);
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
                         session.unsubscribe();
                     },
@@ -6294,7 +6294,7 @@ angular.module('your_app_name.controllers', [])
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                        alert('APK Subscriber length.' + subscribers2.length)
+                                        //alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
@@ -6363,41 +6363,9 @@ angular.module('your_app_name.controllers', [])
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
-                                // alert("publisher Error code/msg: ", error.code, error.message);
-
-                                alert($scope.app[0].appointments.scheduled_start_time);
-                                console.log('scheduled_start_time' + $scope.app[0].appointments.scheduled_start_time);
-                                alert($scope.curDate);
-                                console.log('curDate' + $scope.curDate);
-                                alert($scope.app[0].appointments.scheduled_end_time);
-                                console.log('scheduled_end_time' + $scope.app[0].appointments.scheduled_end_time);
-                                if ($scope.curDate >= $scope.app[0].appointments.scheduled_start_time && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time) {
-                                    console.log('inside appt, between tym');
-                                    $scope.Timercounter = getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate);
-                                    console.log('getTimeDiffSec' + getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate));
-
-
-
-                                    $scope.onTimeout = function () {
-                                        stoppedTimer = $timeout(function () {
-                                            $scope.Timercounter++;
-                                            $scope.seconds = $scope.Timercounter % 60;
-                                            $scope.minutes = Math.floor($scope.Timercounter / 60);
-                                            //  var mytimeout = $timeout($scope.onTimeout, 1000);
-                                            $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
-                                            $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
-                                            $scope.onTimeout();
-                                        }, 1000)
-                                    }
-
-                                    $timeout(function () {
-                                        $scope.onTimeout();
-                                    }, 0);
-                                } else {
-                                    $scope.Timercounter = '00:00';
-                                }
+                              
                             } else {
-                                alert($scope.app[0].appointments.scheduled_start_time);
+                                //alert($scope.app[0].appointments.scheduled_start_time);
                                 if ($scope.curDate >= $scope.app[0].appointments.scheduled_start_time && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time) {
                                     console.log('inside appt, between tym');
                                     $scope.Timercounter = getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate);
