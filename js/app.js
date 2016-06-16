@@ -784,7 +784,7 @@ angular.module('your_app_name', [
 
                     .state('app.record-details', {
                         cache: false,
-                        url: "/record-details/{id:int}/{patientId:int}/{catId:int}",
+                        url: "/record-details/{id:string}/{patientId:string}/{catId:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/record-details.html",
