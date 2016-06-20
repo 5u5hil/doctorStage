@@ -7,7 +7,7 @@
     </ion-nav-buttons>
     <div class="bar bar-subheader cbar" >
         <div class="row">
-            <div class="col txt-left"><h5> {{app[0].appointments.scheduled_start_time|time1}}</h5></div>
+            <div class="col txt-left"><h5> {{appDetails[0].appointments.scheduled_start_time|time1}}</h5></div>
             <div class="col txt-right"><h5> {{result}}</h5></div>
           <!--  <div class="addnebtn btn-share ion-medkit" ng-click="inventory();"></div> -->
             <div class="addnebtn btn-add ion-plus" ng-click="addnote();"></div>
@@ -341,9 +341,6 @@
 
     </div>
 </div>
-
-
-
 
 <div class="custpopup-container" id="selectnote">
     <div class="custpopup">

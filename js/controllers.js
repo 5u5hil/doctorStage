@@ -6259,7 +6259,7 @@ angular.module('your_app_name.controllers', [])
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.user = response.data.user;
-                $scope.app = response.data.app;
+                $scope.appDetails = response.data.app;
 
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
@@ -6298,7 +6298,7 @@ angular.module('your_app_name.controllers', [])
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
-                                              $ionicLoading.hide();
+                                            $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
@@ -6364,7 +6364,7 @@ angular.module('your_app_name.controllers', [])
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
-                              
+
                             } else {
                                 //alert($scope.app[0].appointments.scheduled_start_time);
                                 if ($scope.curDate >= $scope.app[0].appointments.scheduled_start_time && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time) {
@@ -6857,6 +6857,62 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.addnote = function () {
+                
+                //Consusltation note details fetch
+                $http({
+                    method: "GET",
+                    url: domain + "doctrsrecords/get-app-details",
+                    params: {appId: $scope.appId}
+                }).then(function successCallback(response) {
+                    console.log(response.data.patient.id);
+                    $scope.patientId = response.data.patient.id;
+                    $scope.doctorId = response.data.doctr.id
+                    $scope.app = response.data.app;
+                    $scope.record = response.data.record;
+                    $scope.recordDetails = response.data.recordDetails;
+                    if ($scope.recordDetails.length > 0) {
+                        angular.forEach($scope.recordDetails, function (val, key) {
+                            if (val.fields.field == 'Case Id') {
+                                $scope.caseId = val.value;
+                                $scope.casetype = 0;
+                                jQuery('.fields #precase').removeClass('hide');
+                            }
+                        });
+                        $scope.recId = response.data.record.id;
+                    }
+                    if (response.data.app.mode == 1) {
+                        $scope.mode = 'Video';
+                    } else if (response.data.app.mode == 2) {
+                        $scope.mode = 'Chat';
+                    } else if (response.data.app.mode = 3) {
+                        $scope.mode = 'Clinic'
+                    } else if (response.data.app.mode == 4) {
+                        $scope.mode = 'Home';
+                    }
+                    console.log($scope.mode);
+                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
+                    window.localStorage.setItem('patientId', $scope.patientId);
+                    window.localStorage.setItem('doctorId', $scope.doctorId);
+                    console.log($scope.conDate);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-fields',
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.record = response.data.record;
+                        $scope.fields = response.data.fields;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.doctrs;
+                        $scope.patients = response.data.patients;
+                        $scope.cases = response.data.cases;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
                 jQuery('.mediascreen').toggleClass('minscreen');
                 jQuery('#consultnote-slide').toggleClass('active');
                 jQuery('#inventory-slide').removeClass('active');
