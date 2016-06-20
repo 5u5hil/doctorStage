@@ -6402,22 +6402,22 @@ angular.module('your_app_name.controllers', [])
                                 }, function errorCallback(e) {
                                 });
                                 publisher.on('streamCreated', function (event) {
-                                    // var subscribers5 = session.getSubscribersForStream(event.stream);
+                                     var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                    alert('APK on publish lenghth.');
+                                  //  alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
                                 });
 
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                    alert('on Destroy: ' + subscribers6)
+                                   // alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
-                                    alert('on Destroy reason: ' + event.reason);
+                                    //alert('on Destroy reason: ' + event.reason);
                                     //  session.unsubscribe();
                                     subscriber.destroy();
-                                    alert("publisher.destroy");
+                                   // alert("publisher.destroy");
                                     // console.log("subscriber.destroy" + subscriber.destroy);
                                     // session.disconnect()
                                 });
@@ -6426,8 +6426,9 @@ angular.module('your_app_name.controllers', [])
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
+                                alert("fsdfsdf");
                                 jQuery(".muteVideo").click(function () {
-
+                                    alert("Vcvxcvxc");
                                     if (mutevideo == 1) {
                                         publisher.publishVideo(false);
                                         mutevideo = 0;
