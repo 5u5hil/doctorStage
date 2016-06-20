@@ -6366,11 +6366,11 @@ angular.module('your_app_name.controllers', [])
                                 console.log("publisher Error code/msg: ", error.code, error.message);
 
                             } else {
-                                //alert($scope.app[0].appointments.scheduled_start_time);
-                                if ($scope.curDate >= $scope.app[0].appointments.scheduled_start_time && $scope.curDate <= $scope.app[0].appointments.scheduled_end_time) {
+                                //alert($scope.appDetails[0].appointments.scheduled_start_time);
+                                if ($scope.curDate >= $scope.appDetails[0].appointments.scheduled_start_time && $scope.curDate <= $scope.appDetails[0].appointments.scheduled_end_time) {
                                     console.log('inside appt, between tym');
-                                    $scope.Timercounter = getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate);
-                                    console.log('getTimeDiffSec' + getTimeDiffSec($scope.app[0].appointments.scheduled_start_time, $scope.curDate));
+                                    $scope.Timercounter = getTimeDiffSec($scope.appDetails[0].appointments.scheduled_start_time, $scope.curDate);
+                                    console.log('getTimeDiffSec' + getTimeDiffSec($scope.appDetails[0].appointments.scheduled_start_time, $scope.curDate));
 
 
 
