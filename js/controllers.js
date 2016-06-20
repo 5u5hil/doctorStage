@@ -6426,9 +6426,9 @@ angular.module('your_app_name.controllers', [])
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
-                                alert("fsdfsdf");
+                               
                                 jQuery(".muteVideo").click(function () {
-                                    alert("Vcvxcvxc");
+                                    console.log("Vcvxcvxc");
                                     if (mutevideo == 1) {
                                         publisher.publishVideo(false);
                                         mutevideo = 0;
