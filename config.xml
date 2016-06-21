@@ -56,12 +56,13 @@
     <splash src="splash/ios/Defaultipr.png" platform="ios" width="1536" height="2048" />
     
     -->
-    <preference name="phonegap-version" value="cli-5.2.0" />
+    <preference name="phonegap-version" value="cli-6.0.0" />
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="UIWebViewBounce" value="false" />
     
-    <plugin name="com.tokbox.cordova.opentok" spec="1.0.3" source="pgb" />
+    <plugin name="Cordova-Plugin-OpenTok-JBS" version="1.0.0" source="npm" />
+    <!--<plugin name="com.tokbox.cordova.opentok" spec="1.0.3" source="pgb" />-->
     <plugin name="org.crosswalk.engine" spec="1.3.0" source="pgb" />
     <gap:plugin name="org.apache.cordova.splashscreen" source="npm" />
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
@@ -76,9 +77,9 @@
     <gap:plugin name="de.appplant.cordova.plugin.printer" />  
     <plugin name="com.onesignal.plugins.onesignal" spec="1.9.0" source="pgb" />   
 
-    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
+    <!--<gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />-->
     <gap:plugin name="de.appplant.cordova.plugin.hidden-statusbar-overlay"  version="1.2.0" />
-    <!--<gap:plugin name="com.pushwoosh.plugins.pushwoosh" version="3.4.2" />-->
+   
     
     <access origin="*"/> <!-- allow all pages, use for development -->
     <allow-navigation href="*" />

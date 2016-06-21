@@ -24,34 +24,107 @@ angular.module('your_app_name', [
     'ngCordova',
     'slugifier',
     'ionic.contrib.ui.tinderCards',
+	'jett.ionic.filter.bar',
     'youtube-embed'
 ])
-        .run(function ($ionicPlatform,$state,$http,$rootScope, $ionicConfig, $timeout, $ionicLoading) {
+        .run(function ($ionicPlatform, $state, $http, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
             $ionicPlatform.on("deviceready", function () {
-                
+
+//                var notificationOpenedCallback = function (jsonData) {
+//                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+//                    console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+//
+//                    // $state.go("app.content-library-setting");
+//                    try
+//                    {
+//                        if (jsonData.additionalData) {
+//                            alert("Inside additionalData");
+//                            if (jsonData.additionalData.yourUrlKey) {
+//                                 alert("Inside additionalData yourUrlKey");
+//                                location.href = jsonData.additionalData.yourUrlKey;
+//                            }
+//                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
+//                                alert("Button id1 pressed!");
+//                        }
+//                       // alert("befre state go");
+//                       // $state.go("app.content-library-setting");
+//                       //  alert("after state go");
+//                        // window.location.href = '/content-library-setting';
+//                    } catch (err)
+//                    {
+//                        alert('No redirection '+err);
+//                    }
+//
+//
+//                };
+
                 var notificationOpenedCallback = function (jsonData) {
-                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                   // alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
 
                     // $state.go("app.content-library-setting");
                     try
                     {
                         if (jsonData.additionalData) {
-                            alert("Inside additionalData");
-                            if (jsonData.additionalData.yourUrlKey) {
-                                 alert("Inside additionalData yourUrlKey");
-                                location.href = jsonData.additionalData.yourUrlKey;
+                           // alert("Inside additionalData");
+                          //  alert("id " + jsonData.additionalData.actionSelected);
+
+                            if (jsonData.additionalData.actionSelected == "id1")
+                            {
+
+                               // alert("Button id1 pressed!");
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 1}
+                                }).then(function successCallback(response) {
+
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
+
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
                             }
-                            if (jsonData.additionalData.actionSelected && jsonData.additionalData.actionSelected.id == "id1")
-                                alert("Button id1 pressed!");
+                            if (jsonData.additionalData.actionSelected == "id2")
+                            {
+                               /// alert("Button id2 pressed!");
+
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionButtons[1].icon, status: 2}
+                                }).then(function successCallback(response) {
+
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
+                            if (jsonData.additionalData.actionSelected == "id3")
+                            {
+                               // alert("Button id3 pressed!");
+
+                                $http({
+                                    method: 'GET',
+                                    url: domain + 'tracker/captured',
+                                    params: {actionid: jsonData.additionalData.actionButtons[2].icon, status: 3}
+                                }).then(function successCallback(response) {
+                                    if (jsonData.additionalData.yourUrlKey) {
+                                        location.href = jsonData.additionalData.yourUrlKey;
+                                    }
+                                }, function errorCallback(e) {
+                                    console.log(e);
+                                });
+                            }
                         }
-                       // alert("befre state go");
-                       // $state.go("app.content-library-setting");
-                       //  alert("after state go");
-                        // window.location.href = '/content-library-setting';
+
                     } catch (err)
                     {
-                        alert('No redirection '+err);
+                       // alert('No redirection ' + err);
                     }
 
 
@@ -61,34 +134,34 @@ angular.module('your_app_name', [
                         {googleProjectNumber: "769295732267"}, // jainam account GCM id
                         notificationOpenedCallback);
                 try
-                    {        
-                window.plugins.OneSignal.getIds(function (ids) {
-                    console.log('getIds: ' + JSON.stringify(ids));
-                    if (window.localStorage.getItem('id')) {
-                       var userId = window.localStorage.getItem('id');
-                    } else {
-                        var userId = '';
-                    }
-
-                    $http({
-                        method: 'GET',
-                        url: domain + 'notification/insertPlayerId',
-                        params: {userId: userId, playerId: ids.userId, pushToken: ids.pushToken}
-                    }).then(function successCallback(response) {
-                        if (response.data == 1) {
-                          //  alert('Notification setting updated');
+                {
+                    window.plugins.OneSignal.getIds(function (ids) {
+                        console.log('getIds: ' + JSON.stringify(ids));
+                        if (window.localStorage.getItem('id')) {
+                            var userId = window.localStorage.getItem('id');
+                        } else {
+                            var userId = '';
                         }
-                    }, function errorCallback(e) {
-                        console.log(e);
+
+                        $http({
+                            method: 'GET',
+                            url: domain + 'notification/insertPlayerId',
+                            params: {userId: userId, playerId: ids.userId, pushToken: ids.pushToken}
+                        }).then(function successCallback(response) {
+                            if (response.data == 1) {
+                                //  alert('Notification setting updated');
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
                     });
-                });
                 } catch (err)
-                    {
-                        console.log('No redirection '+err);
-                    }
+                {
+                    console.log('No redirection ' + err);
+                }
 
                 window.plugins.OneSignal.enableInAppAlertNotification(true);
-                
+
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
                 if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -133,7 +206,7 @@ angular.module('your_app_name', [
             });
 
             $ionicPlatform.on("resume", function () {
-               // PushNotificationsService.register();
+                // PushNotificationsService.register();
             });
         })
 
@@ -339,7 +412,7 @@ angular.module('your_app_name', [
 
 
                     .state('app.chat', {
-                         cache: false,
+                        cache: false,
                         url: "/chat/{id:int}",
                         views: {
                             'menuContent': {
@@ -348,8 +421,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                     .state('app.past-chat', {
-                          cache: false,
+                    .state('app.past-chat', {
+                        cache: false,
                         url: "/past-chat/{id:int}",
                         views: {
                             'menuContent': {
@@ -360,7 +433,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.chatlist', {
-                         cache: false,
+                        cache: false,
                         url: "/chatlist",
                         views: {
                             'menuContent': {
@@ -371,7 +444,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.past-chatlist', {
-                         cache: false,
+                        cache: false,
                         url: "/past-chatlist",
                         views: {
                             'menuContent': {
@@ -700,7 +773,7 @@ angular.module('your_app_name', [
 
                     .state('app.records-view', {
                         cache: false,
-                        url: "/records-view/{id:int}/{patientId:int}/{shared:int}",
+                        url: "/records-view/{id:string}/{patientId:string}/{shared:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/records-view.html",
@@ -711,7 +784,7 @@ angular.module('your_app_name', [
 
                     .state('app.record-details', {
                         cache: false,
-                        url: "/record-details/{id:int}/{patientId:int}/{catId:int}",
+                        url: "/record-details/{id:string}/{patientId:string}/{catId:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/record-details.html",
@@ -1026,6 +1099,17 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 //templateUrl: "views/app/bookmarks.html",
                                 controller: 'AppCtrl'
+                            }
+                        }
+                    })
+
+                    .state('app.add-category', {
+                        cache: false,
+                        url: "/add-category/{id:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/add-record.html",
+                                controller: 'AddRecordCtrl'
                             }
                         }
                     })
