@@ -12,8 +12,8 @@
                 <div class="whitetab profile">
                     <div class="schedule">
                         <my-tabs class="themetabs">
-                            <div ng-repeat="serv in services">          
-                                <my-tab  icon="ion-ios-videocam tabicon" title="Video"  ng-if="serv == 1">
+                            <div ng-repeat="serv in service track by $index">          
+                                <my-tab  icon="ion-ios-videocam tabicon" title="Video" ng-if="serv == 1">
                                     <my-tabs class="themetabs">
                                         <my-tab icon="ion-calendar tabicon" title="Scheduled Video" >
                                             <div class="">
@@ -24,16 +24,16 @@
                                                             <span ng-if="vInc.discount < 100">Discount : {{vInc.discount}} %</span>, {{vInc.validity_in_days}} Days
                                                         </li>
                                                         <li ng-repeat="vf in videoFollow">
-                                                                <span ng-if="vf.type == 'inclusion'">
-                                                                    <span ng-if="vf.validity != 0">
-                                                                        {{vf.mode==1? 'Video':vf.mode==2? 'Chat':vf.mode==3? 'Clinic':vf.mode==4? 'Home':''}} consult for {{vf.validity}} days
-                                                                    </span>
+                                                            <span ng-if="vf.type == 'inclusion'">
+                                                                <span ng-if="vf.validity != 0">
+                                                                    {{vf.mode==1? 'Video':vf.mode==2? 'Chat':vf.mode==3? 'Clinic':vf.mode==4? 'Home':''}} consult for {{vf.validity}} days
                                                                 </span>
-                                                                <span ng-if="vf.type == 'discounts'">
-                                                                    <span ng-if="vf.value != 0"> Discount Coupon of {{vf.value}}%</span> for {{vf.mode==1? 'Video':vf.mode==2? 'Chat':vf.mode==3? 'Clinic':vf.mode==4? 'Home':''}} Consult
-                                                                    <span ng-if="vf.instance != 0"> (Valid for {{vf.instance}} use{{vf.instance>1? 's':''}}<span ng-if="vf.validity != 0"> within {{vf.validity}} days</span>)</span>
-                                                                </span>
-                                                            </li>
+                                                            </span>
+                                                            <span ng-if="vf.type == 'discounts'">
+                                                                <span ng-if="vf.value != 0"> Discount Coupon of {{vf.value}}%</span> for {{vf.mode==1? 'Video':vf.mode==2? 'Chat':vf.mode==3? 'Clinic':vf.mode==4? 'Home':''}} Consult
+                                                                <span ng-if="vf.instance != 0"> (Valid for {{vf.instance}} use{{vf.instance>1? 's':''}}<span ng-if="vf.validity != 0"> within {{vf.validity}} days</span>)</span>
+                                                            </span>
+                                                        </li>
                                                     </ul>
                                                     <div class="clr"></div>
                                                     <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
@@ -52,7 +52,7 @@
                                                         <div ng-if="schV[$index] == vs.supersaas_id">
                                                             {{vSch[$index]==''? 'No slots available':''}}
                                                             <ul class="timesheet"  ng-repeat="(key,slot) in vSch[$index] track by $index">
-                                                                <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id)"> 
+                                                                <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], vs.supersaas_id, vs.id)"> 
                                                                     {{slt['start'][0]|time1}}
                                                                     <!--{{slt['finish'][0]|time}}   -->                    
                                                                 </li>
@@ -86,7 +86,7 @@
                                         </div>
                                     </my-tabs>
                                 </my-tab>
-                                <my-tab  icon="ion-medkit tabicon" title="Clinic"  ng-if="serv == 3">
+                                <my-tab  icon="ion-medkit tabicon" title="Clinic" ng-if="serv == 3">
                                     <div class="">
                                         <div class="mt15"> 
                                             <ul class="clist">
@@ -122,7 +122,7 @@
                                                 <div ng-if="schC[$index] == cs.supersaas_id">
                                                     {{cSch[$index]==''? 'No slots available':''}}
                                                     <ul class="timesheet"  ng-repeat="(key,slot) in cSch[$index] track by $index">
-                                                        <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextCdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], cs.supersaas_id)"> 
+                                                        <li onclick="toggleclass(this);" ng-repeat="slt in slot" ng-if="slt['sdate'] < nextCdate[$parent.$parent.$index]" ng-model="timeslot" ng-click="bookSlot(slt['start'][0], slt['finish'][0], cs.supersaas_id, cs.id)"> 
                                                             {{slt['start'][0]|time1}}
                                                             <!--{{slt['finish'][0]|time}}   -->                    
                                                         </li>

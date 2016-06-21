@@ -1321,15 +1321,17 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                 });
             };
-            $scope.bookSlot = function (starttime, endtime, supid) {
+            $scope.bookSlot = function (starttime, endtime, supid, servId) {
                 $scope.bookingStart = starttime;
                 $scope.bookingEnd = endtime;
                 $scope.supId = supid;
+                $scope.servId = servId;
             };
             $scope.bookAppointment = function (prodId, serv) {
                 // $scope.pleaseselectslot = response.data.pleaseselectslot;
                 console.log($scope.bookingStart);
                 if ($scope.bookingStart) {
+                    window.localStorage.setItem('servId', $scope.servId);
                     window.localStorage.setItem('supid', $scope.supId);
                     window.localStorage.setItem('startSlot', $scope.bookingStart);
                     window.localStorage.setItem('endSlot', $scope.bookingEnd);
@@ -1424,6 +1426,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.paynowcountdown();
             }, 0);
             $scope.mode = window.localStorage.getItem('mode');
+            $scope.servId = window.localStorage.getItem('servId');
             $scope.supid = window.localStorage.getItem('supid');
             $scope.startSlot = window.localStorage.getItem('startSlot');
             $scope.endSlot = window.localStorage.getItem('endSlot');
@@ -1474,7 +1477,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsweb/book-appointment',
-                    params: {prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
+                    params: {prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, servId: $scope.servId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
                 }).then(function successCallback(response) {
                     //console.log(response.data);
                     $ionicLoading.hide();
@@ -4714,9 +4717,9 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
 
-            $scope.doRefresh = function() {
-           $scope.$broadcast('scroll.refreshComplete');
-          };
+            $scope.doRefresh = function () {
+                $scope.$broadcast('scroll.refreshComplete');
+            };
 
             $scope.drId = get('id');
             $scope.userId = get('id');
@@ -5516,8 +5519,6 @@ angular.module('your_app_name.controllers', [])
             }, 1000);
         })
 
-
-
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
 
@@ -5636,9 +5637,9 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
-            
+
             $ionicLoading.show({template: 'Loading...'});
-                 $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
             $scope.image = [];
@@ -5651,7 +5652,7 @@ angular.module('your_app_name.controllers', [])
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
             var stoppedTimer;
-             $scope.Timercounter = 0;
+            $scope.Timercounter = 0;
             $scope.$on('$destroy', function () {
 
                 try {
@@ -5792,14 +5793,14 @@ angular.module('your_app_name.controllers', [])
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
-                               // alert("publisher Error code/msg: ", error.code, error.message);
-                                
+                                // alert("publisher Error code/msg: ", error.code, error.message);
+
 //                                alert($scope.app[0].appointments.scheduled_start_time);
 //                                alert($scope.curDate);
                             } else {
-                                 alert($scope.app[0].appointments.scheduled_start_time);
+                                alert($scope.app[0].appointments.scheduled_start_time);
                                 if ($scope.app[0].appointments.scheduled_start_time == $scope.curDate) {
-                                    
+
                                     $scope.Timercounter = 0;
                                     $scope.onTimeout = function () {
                                         stoppedTimer = $timeout(function () {
