@@ -2484,21 +2484,23 @@ angular.module('your_app_name.controllers', [])
                             params: {archiveStop: 1, archiveId: $scope.aid}
                         }).then(function sucessCallback(response) {
                             console.log(response.data);
+                            $scope.playVideo($scope.aid);
+//                            $http({
+//                                method: 'GET',
+//                                url: domain + 'contentlibrary/recording-response',
+//                                params: {archiveId: $scope.aid}
+//                            }).then(function sucessCallback(response) {
+//                                console.log(response.data);
+//                                $scope.url = response.data.url;
+//                                window.localStorage.setItem('viedoUrl', $scope.url);
+//                                window.localStorage.setItem('archiveId', $scope.aid);
+//
+//
+//                            }, function errorCallback(e) {
+//                                console.log(e);
+//                            });
 
-                            $http({
-                                method: 'GET',
-                                url: domain + 'contentlibrary/recording-response',
-                                params: {archiveId: $scope.aid}
-                            }).then(function sucessCallback(response) {
-                                console.log(response.data);
-                                $scope.url = response.data.url;
-                                window.localStorage.setItem('viedoUrl', $scope.url);
-                                window.localStorage.setItem('archiveId', $scope.aid);
 
-
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
 
                         }, function errorCallback(e) {
                             console.log(e);
@@ -2560,26 +2562,26 @@ angular.module('your_app_name.controllers', [])
 //                                    publisher.on('streamCreated', function (event) {
 //                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
 //                                    });
-                                    var mic = 1;
-                                    var mute = 1;
-                                    jQuery(".muteMic").click(function () {
-                                        if (mic == 1) {
-                                            publisher.publishAudio(false);
-                                            mic = 0;
-                                        } else {
-                                            publisher.publishAudio(true);
-                                            mic = 1;
-                                        }
-                                    });
-                                    jQuery(".muteSub").click(function () {
-                                        if (mute == 1) {
-                                            subscriber.subscribeToAudio(false);
-                                            mute = 0;
-                                        } else {
-                                            subscriber.subscribeToAudio(true);
-                                            mute = 1;
-                                        }
-                                    });
+//                                    var mic = 1;
+//                                    var mute = 1;
+//                                    jQuery(".muteMic").click(function () {
+//                                        if (mic == 1) {
+//                                            publisher.publishAudio(false);
+//                                            mic = 0;
+//                                        } else {
+//                                            publisher.publishAudio(true);
+//                                            mic = 1;
+//                                        }
+//                                    });
+//                                    jQuery(".muteSub").click(function () {
+//                                        if (mute == 1) {
+//                                            subscriber.subscribeToAudio(false);
+//                                            mute = 0;
+//                                        } else {
+//                                            subscriber.subscribeToAudio(true);
+//                                            mute = 1;
+//                                        }
+//                                    });
                                 }
                             });
                         }, function errorCallback(e) {
@@ -2613,7 +2615,7 @@ angular.module('your_app_name.controllers', [])
                             $scope.playurl = response.data;
                             if ($scope.playurl != '') {
                                 $ionicLoading.hide();
-                                $scope.modal.show();
+                               // $scope.modal.show();
                             } else {
                                 $scope.playVideo(archiveid);
                             }
@@ -2621,6 +2623,10 @@ angular.module('your_app_name.controllers', [])
                             console.log(e);
                         });
                         //   }, 1000);
+                    }
+                    
+                    $scope.playVideoPreview = function(){
+                        $scope.modal.show();
                     }
 
                 }
@@ -6402,22 +6408,22 @@ angular.module('your_app_name.controllers', [])
                                 }, function errorCallback(e) {
                                 });
                                 publisher.on('streamCreated', function (event) {
-                                     var subscribers5 = session.getSubscribersForStream(event.stream);
+                                    var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                  //  alert('APK on publish lenghth.');
+                                    //  alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
                                 });
 
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                   // alert('on Destroy: ' + subscribers6)
+                                    // alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
                                     //alert('on Destroy reason: ' + event.reason);
                                     //  session.unsubscribe();
                                     subscriber.destroy();
-                                   // alert("publisher.destroy");
+                                    // alert("publisher.destroy");
                                     // console.log("subscriber.destroy" + subscriber.destroy);
                                     // session.disconnect()
                                 });
@@ -6426,7 +6432,7 @@ angular.module('your_app_name.controllers', [])
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
-                               
+
                                 jQuery(".muteVideo").click(function () {
                                     console.log("Vcvxcvxc");
                                     if (mutevideo == 1) {
@@ -6858,7 +6864,7 @@ angular.module('your_app_name.controllers', [])
             };
 
             $scope.addnote = function () {
-                
+
                 //Consusltation note details fetch
                 $http({
                     method: "GET",
