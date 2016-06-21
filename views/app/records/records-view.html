@@ -33,16 +33,32 @@
                                     <span ng-if="detail.fields.field == 'Related Problem'" >
                                         {{problems[$parent.$parent.$index].value}}
                                     </span>
+                                    <span ng-if="catId == 30">
+                                        <span ng-if="detail.fields.field == 'Frequency'" >
+                                            <span ng-if="detail.value == 'Repeat'">{{detail.value}} in {{repeatNo[$parent.$parent.$parent.$parent.$index]}} {{repeatFreq[$parent.$parent.$parent.$parent.$index]}}</span>
+                                            <span ng-if="detail.value != 'Repeat'">{{detail.value}}</span>
+                                        </span>
+                                    </span>
+                                    <span ng-if="catId != 30">
+                                        <span ng-if="detail.fields.field == 'Frequency'" ng-init="fdata = ((detail.value) / 24)">
+                                            {{fdata}} time{{fdata!=1? 's':''}} in day{{fdata!=1? 's':''}}
+                                        </span>
+                                    </span>
                                     <span ng-if="detail.fields.field == 'Patient'" >
                                         {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}}
                                     </span>
                                     <span ng-if="detail.fields.field == 'Case Id'" >
                                         {{cases[$parent.$parent.$index].value}}
                                     </span>
-                                    <span ng-if="detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                    <span ng-if="detail.fields.name != 'no-of-times' && detail.fields.field != 'Frequency' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                         <span ng-if="detail.fields.field_type == 8">{{detail.value|dateFormat4}}</span>
                                         <span ng-if="detail.fields.field_type == 12">{{detail.value|time1}}</span>
-                                        <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12">{{detail.value}}</span>
+                                        <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12">
+                                            <span ng-if="detail.value == ''">NA</span>
+                                            <span ng-if="detail.value != ''">{{detail.value}}</span>
+                                        </span>
+                                    </span>
+                                    <span ng-if="detail.fields.name == 'no-of-times'"> 1
                                     </span>
                                 </p>
                                 <!--{{$index % 2 == 0|| $index == limit? '</p>' : ''}}
@@ -70,7 +86,7 @@
     <div class="footerbar button-bar" id="rec1" >
         <a class="button btn-delete" style="width:50%;" ng-click="recordDelete()"><i class="icon ion-trash-b"></i> Delete</a>
         <a class="button btn-share" style="width:50%;"  ng-click="recordShare()"><i class="icon ion-android-share-alt"></i> Share</a> 
-         <a class="button btn-add" style="width:50%;" ng-controller="AdsCtrl"  ng-click="getCategory(rec.id)"><i class="icon ion-android-add-circle"></i> Add </a> 
+        <a class="button btn-add" style="width:50%;" ng-controller="AdsCtrl"  ng-click="getCategory(rec.id)"><i class="icon ion-android-add-circle"></i> Add </a> 
     </div>
 
     <div class="footerbar button-bar rec2" id="rec2">        

@@ -302,6 +302,8 @@ angular.module('your_app_name.controllers', [])
             $scope.selConditions = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.endDate = '0000-00-00';
+            $scope.endTime = $filter('date')($scope.endTime, 'HH:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
             $scope.userId = get('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -636,10 +638,16 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
                 if ($scope.categoryId == 30) {
-                    if (prob == 'Repeat') {
+                    if (prob != 'Onetime') {
+                        jQuery('#endtime').removeClass('hide');
+                        jQuery('#enddate').removeClass('hide');
                         jQuery('.taskn').removeClass('hide');
-                    } else if (prob == 'Onetime') {
+
+                    } else {
+                        jQuery('#endtime').addClass('hide');
+                        jQuery('#enddate').addClass('hide');
                         jQuery('.taskn').addClass('hide');
+
                     }
                 }
             };
@@ -731,6 +739,8 @@ angular.module('your_app_name.controllers', [])
             $scope.limit = 3;
             $scope.recId = [];
             $scope.recIds = [];
+            $scope.repeatFreq = [];
+            $scope.repeatNo = [];
             $scope.userId = get('id');
             $http({
                 method: 'GET',
@@ -743,6 +753,20 @@ angular.module('your_app_name.controllers', [])
                     if ($scope.records[0].record_metadata.length == 6) {
                         $scope.limit = 3; //$scope.records[0].record_metadata.length;
                     }
+                    angular.forEach($scope.records, function (value, key) {
+                        console.log(key);
+                        angular.forEach(value.record_metadata, function (val, k) {
+                            console.log();
+                            if ($scope.catId == 30) {
+                                if (val.field_id == 'no-of-frequency') {
+                                    $scope.repeatFreq[key] = val.value;
+                                }
+                                if (val.field_id == 'no-of-times') {
+                                    $scope.repeatNo[key] = val.value;
+                                }
+                            }
+                        });
+                    });
                 }
                 $scope.category = response.data.category;
                 $scope.createdby = response.data.createdby;
