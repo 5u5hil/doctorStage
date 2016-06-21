@@ -2484,6 +2484,7 @@ angular.module('your_app_name.controllers', [])
                             params: {archiveStop: 1, archiveId: $scope.aid}
                         }).then(function sucessCallback(response) {
                             console.log(response.data);
+
                             $scope.playVideo($scope.aid);
 //                            $http({
 //                                method: 'GET',
@@ -2602,9 +2603,7 @@ angular.module('your_app_name.controllers', [])
                     });
 
                     $scope.playVideo = function (archiveid) {
-
                         $ionicLoading.show({template: 'Retriving Video...'});
-                        //   $timeout(function () {
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/play-recent-video',
@@ -2615,17 +2614,17 @@ angular.module('your_app_name.controllers', [])
                             $scope.playurl = response.data;
                             if ($scope.playurl != '') {
                                 $ionicLoading.hide();
-                               // $scope.modal.show();
+                                // $scope.modal.show();
                             } else {
                                 $scope.playVideo(archiveid);
                             }
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-                        //   }, 1000);
+
                     }
-                    
-                    $scope.playVideoPreview = function(){
+
+                    $scope.playVideoPreview = function () {
                         $scope.modal.show();
                     }
 
