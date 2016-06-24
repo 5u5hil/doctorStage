@@ -27,8 +27,8 @@
                     <div class="col mytab"><a  ui-sref="app.past-chatlist" ui-sref-opts="{reload: true}">Past  </a></div>
                 </div>-->
         <div class="list cdetail-list" >
-            <div class="chatlist achat" ng-repeat="cp in chatParticipants| filter:chatFilter">
-                <a class="item item-icon-right" ui-sref="app.chat({'id': cp[0].chat_id})" ui-sref-opts="{reload: true}" >
+            <div class="chatlist achat" ng-repeat="cp in chatParticipants">
+                <a class="item item-icon-right" ng-click="goChat(cp[0].chat_id, cp[0].chat_session.start_time, '{{cp[0].chat_session.start_time|dateFormat5}}')">
 				
 				
 

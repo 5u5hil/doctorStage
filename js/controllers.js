@@ -5799,9 +5799,6 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter, $state) {
-
-
-
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             if (session) {
                 session.disconnect();
@@ -5844,7 +5841,14 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
+            $scope.goChat = function (chatId, chatStart, chatDate) {
+                //var chatDate = $filter('date')(chatStart, 'MMM dd, yyyy - HH:mm a');
+                if (chatStart <= $scope.curDate)
+                    $state.go('app.chat', {'id': chatId}, {reload: true});
+                else {
+                    alert('You can start chat at ' + chatDate);
+                }
+            };
             $scope.chatIncludes = [];
             $scope.includeChat = function (state) {
                 var i = $.inArray(state, $scope.chatIncludes);
