@@ -1328,22 +1328,40 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorSettingsCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
             $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.video = 0;
+            $scope.chat = 0;
+            $scope.clinic = 0;
+            $scope.home = 0;
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-doctor-setting',
-                params: {docId: window.localStorage.getItem('id')}
+                params: {docId: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
+                $scope.services = response.data.services;
+                $scope.docServices = response.data.docServices;
+                $scope.docSettings = response.data.docSettings;
                 $scope.instant_permission = response.data.schedule;
                 $scope.instant_status = response.data.status;
                 $scope.status = $scope.instant_status.presence;
                 $scope.notification = response.data.notification;
+                angular.forEach($scope.docServices, function(value, key){
+                    if(value.service.id=='1' && value.active=='1'){
+                        $scope.video = 1;
+                    }else if(value.service.id=='2' && value.active=='1'){
+                        $scope.chat = 1;
+                    }else if(value.service.id=='3' && value.active=='1'){
+                        $scope.clinic = 1;
+                    }else if(value.service.id=='4' && value.active=='1'){
+                        $scope.home = 1;
+                    }
+                });
                 if ($scope.instant_permission.instant_permission) {
                     jQuery('#setting').removeClass('hide');
                 } else {
                     jQuery('#setting').addClass('hide');
                 }
-
                 $scope.instant_days = [{text: "Monday", value: '1'},
                     {text: "Tuesday", value: '2'},
                     {text: "Wednesday", value: '3'},
