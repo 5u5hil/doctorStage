@@ -26,6 +26,7 @@ angular.module('your_app_name.controllers', [])
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
             }
+            $ionicLoading.show({template: 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'get-dr-sidemenu',
@@ -33,6 +34,7 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 if (response.data) {
                     $scope.menuItem = response.data.menuItem;
+                    $ionicLoading.hide();
                 } else {
                 }
             }, function errorCallback(response) {
@@ -2160,7 +2162,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope) {
+        .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $ionicLoading) {
             $rootScope.recCId = "";
             $rootScope.measurement = "";
             //$rootScope.famHist = ""
@@ -2183,6 +2185,7 @@ angular.module('your_app_name.controllers', [])
             window.localStorage.removeItem('appId');
             window.localStorage.removeItem('drId');
             window.localStorage.removeItem('doctorId');
+            $ionicLoading.show({template: 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-chat-unread-cnt',
@@ -2200,6 +2203,7 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 if (response.data) {
                     $scope.menuItem = response.data.menuItem;
+                    $ionicLoading.hide();
                 } else {
                 }
             }, function errorCallback(response) {
