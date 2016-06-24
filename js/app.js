@@ -210,6 +210,18 @@ angular.module('your_app_name', [
                         console.log("setting transition to android and disabling swipe back");
                     }, 0);
                 }
+                try {
+                    if (toState.name == "app.doctor-join")
+                    {
+                        console.log("false state");
+                        window.plugins.OneSignal.enableInAppAlertNotification(false);
+                    } else {
+                        console.log("true state");
+                        window.plugins.OneSignal.enableInAppAlertNotification(true);
+                    }
+                } catch (err) {
+
+                }
             });
             $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
                 if (toState.name.indexOf('app.feeds-categories') > -1)
