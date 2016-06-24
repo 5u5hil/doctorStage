@@ -180,8 +180,8 @@ angular.module('your_app_name.controllers', [])
             $scope.shared = 0;
             $scope.catIds = [];
             $scope.catId = [];
-            $scope.docId = '';
             $scope.userId = get('id');
+            $scope.docId = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-patient-record-category',
@@ -233,7 +233,7 @@ angular.module('your_app_name.controllers', [])
             //Share all records by Category
             $scope.share = function () {
                 if ($scope.catIds.length > 0) {
-                    if ($scope.docId != '') {
+                    if ($scope.patientId != '') {
                         var confirm = window.confirm("Do you really want to share?");
                         if (confirm) {
                             console.log($scope.catIds);
@@ -245,7 +245,8 @@ angular.module('your_app_name.controllers', [])
                                 console.log(response);
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
-                                    $state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
+                                    window.location.reload();
+                                    //$state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
@@ -302,7 +303,7 @@ angular.module('your_app_name.controllers', [])
                 animation: 'slide-in-up'
             });
         })
-        
+
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
 
@@ -747,7 +748,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
             };
         })
-        
+
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
@@ -760,6 +761,7 @@ angular.module('your_app_name.controllers', [])
             $scope.repeatFreq = [];
             $scope.repeatNo = [];
             $scope.userId = get('id');
+            $scope.docId = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-records-details',
@@ -870,7 +872,7 @@ angular.module('your_app_name.controllers', [])
                             $http({
                                 method: 'POST',
                                 url: domain + 'doctrsrecords/share-by-category',
-                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
+                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
                                 console.log(response);
                                 if (response.data == 'Success') {
@@ -937,6 +939,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = get('id');
             $scope.shared = $stateParams.shared;
             $scope.patientId = $stateParams.patientId;
+            $scope.docId = get('id');
             $scope.measurements = {value: 'no'};
             $scope.obj = {value: 'no'};
             $scope.testResult = {value: 'no'};
@@ -1005,7 +1008,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'POST',
                             url: domain + 'doctrsrecords/share',
-                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
+                            params: {id: $scope.recordId, userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             console.log(response);
                             if (response.data == 'Success') {
@@ -5242,7 +5245,7 @@ angular.module('your_app_name.controllers', [])
                 $state.go("app.view-medicine", {'id': consultationId}, {reload: true});
             };
         })
-        
+
         .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar) {
             $scope.doRefresh = function () {
                 $scope.$broadcast('scroll.refreshComplete');

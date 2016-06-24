@@ -243,7 +243,7 @@
     </ion-content>
     <div class="footerbar button-bar">
         <a class="button btn-delete" confirmed-click="delete(category[0].id)" ng-confirm-click="Do you really want to delete?" ><i class="icon ion-trash-b"></i> Delete</a>
-        <a class="button btn-share" ng-controller="shareModalCtrl" ng-click="modal.show()"><i class="icon ion-android-share-alt"></i> Share</a>
+        <a class="button btn-share" ng-controller="shareModalCtrl" ng-click="share()"><i class="icon ion-android-share-alt"></i> Share</a>
         <!--<a class="button btn-edit" ui-sref="app.edit({'id' : category[0].id,'cat' : category[0].category, 'res' : 'json'})"><i class="icon ion-edit"></i> Edit</a>--->
     </div>
 </ion-view>
