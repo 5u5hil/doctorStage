@@ -302,6 +302,7 @@ angular.module('your_app_name.controllers', [])
                 animation: 'slide-in-up'
             });
         })
+        
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
 
@@ -746,6 +747,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
             };
         })
+        
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
@@ -5240,12 +5242,11 @@ angular.module('your_app_name.controllers', [])
                 $state.go("app.view-medicine", {'id': consultationId}, {reload: true});
             };
         })
-        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
-
+        
+        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar) {
             $scope.doRefresh = function () {
                 $scope.$broadcast('scroll.refreshComplete');
             };
-
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -5286,9 +5287,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
-
-
             /* search plugin */
             var filterBarInstance;
             $scope.showFilterBar = function () {
@@ -5297,7 +5295,7 @@ angular.module('your_app_name.controllers', [])
                     update: function (filteredItems, filterText) {
                         $scope.items = filteredItems;
                         if (filterText) {
-                            console.log(filterText);
+                            //console.log(filterText);
                             $scope.filterall = filterText
                         } else {
                             $scope.filterall = '';
@@ -5467,8 +5465,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
-
             $scope.itemsDisplayall = 2
             $scope.addMoreItemall = function (done) {
                 if ($scope.all_app_past.length > $scope.itemsDisplayall) {
@@ -5477,7 +5473,6 @@ angular.module('your_app_name.controllers', [])
                 }
                 $scope.$broadcast('scroll.infiniteScrollComplete')
             }
-
             $scope.Displaythisweek = 2
             $scope.Itemthisweek = function (done) {
                 if ($scope.week_past_data.length > $scope.Displaythisweek) {
@@ -5486,10 +5481,6 @@ angular.module('your_app_name.controllers', [])
                 }
                 $scope.$broadcast('scroll.infiniteScrollComplete')
             }
-
-
-
-
             /* search plugin */
             var filterBarInstance;
             $scope.showFilterBar = function () {
@@ -5498,7 +5489,7 @@ angular.module('your_app_name.controllers', [])
                     update: function (filteredItems, filterText) {
                         $scope.items = filteredItems;
                         if (filterText) {
-                            console.log(filterText);
+                            //console.log(filterText);
                             $scope.filterall = filterText
                         } else {
                             $scope.filterall = '';
@@ -5518,16 +5509,6 @@ angular.module('your_app_name.controllers', [])
                 }, 1000);
             };
             /* end of search plugin */
-
-
-
-
-
-
-
-
-
-
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
@@ -5554,7 +5535,6 @@ angular.module('your_app_name.controllers', [])
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
-
             $scope.viewMedicine = function (consultationId) {
                 //alert(noteId);
                 // store({'noteId': noteId});
