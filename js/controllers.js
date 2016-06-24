@@ -272,14 +272,15 @@ angular.module('your_app_name.controllers', [])
 
         .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
             // Load the modal from the given template URL
             $ionicModal.fromTemplateUrl('addrecord.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.getCategory = function () {
                     $http({
                         method: 'GET',
-                        url: domain + 'records/get-record-categories',
-                        params: {userId: $scope.userid, interface: $scope.interface}
+                        url: domain + 'records/get-doctor-record-categories',
+                        params: {userId: $scope.userId, interface: $scope.interface}
                     }).then(function successCallback(response) {
                         $scope.cats = response.data;
                         $scope.modal.show();
