@@ -10,12 +10,14 @@
 	
 	
         <div class="list catlist">
-            <a class="item item-icon-right" ui-sref="app.doctor-consultations" >
-
-                <i class="cicon ion-medkit"></i>
-                <span class="ctitle">Consultations</span>	
+            <a class="item item-icon-right" ng-repeat="menu in menuItem"  ui-sref="{{menu.url}}" ng-if="menu.intereface_menu.menu!='settings'">
+                <i class="cicon {{menu.intereface_menu.menu=='patients'? 'ion-person-stalker':menu.intereface_menu.menu=='consultations'? 'ion-medkit':menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit':menu.intereface_menu.menu=='inventory'? 'ion-person-stalker':'ion-cube'}}"></i>
+                <span class="ctitle">{{menu.intereface_menu.menu|capitalize}}</span>	
+                <span class="chat-time" ng-if="menu.intereface_menu.menu=='chats'">
+                    <div class="countright" ng-if="unreadCnt != 0">{{unreadCnt}}</div>
+                </span>	
             </a>
-           <a class="item item-icon-right" ui-sref="app.chatlist" >
+<!--           <a class="item item-icon-right" ui-sref="app.chatlist" >
                 <i class="cicon ion-chatboxes"></i>
                 <span class="ctitle">Chats</span>
                 <span class="chat-time">
@@ -28,7 +30,7 @@
             </a> 
             <a class="item item-icon-right" ui-sref="app.content-library" >
                 <i class="cicon ion-ios-book"></i>
-                <span class="ctitle">Library</span>	
+                <span class="ctitle">Library</span>	-->
             </a> 
             <!--            <a class="item item-icon-right" ui-sref="app.inventory" >
                             <i class="cicon ion-person-stalker"></i>

@@ -26,6 +26,19 @@ angular.module('your_app_name.controllers', [])
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
             }
+            $http({
+                method: 'GET',
+                url: domain + 'get-dr-sidemenu',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.menuItem = response.data.menuItem;
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
+
             $scope.logout = function () {
                 $http({
                     method: 'GET',
@@ -2180,7 +2193,18 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
+            $http({
+                method: 'GET',
+                url: domain + 'get-dr-homemenu',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.menuItem = response.data.menuItem;
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
 
 
         })
