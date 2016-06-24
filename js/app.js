@@ -24,7 +24,7 @@ angular.module('your_app_name', [
     'ngCordova',
     'slugifier',
     'ionic.contrib.ui.tinderCards',
-	'jett.ionic.filter.bar',
+    'jett.ionic.filter.bar',
     'youtube-embed'
 ])
         .run(function ($ionicPlatform, $state, $http, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
@@ -59,72 +59,92 @@ angular.module('your_app_name', [
 //                };
 
                 var notificationOpenedCallback = function (jsonData) {
-                   // alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                    // alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
 
                     // $state.go("app.content-library-setting");
                     try
                     {
                         if (jsonData.additionalData) {
-                           // alert("Inside additionalData");
-                          //  alert("id " + jsonData.additionalData.actionSelected);
+                            // alert("Inside additionalData");
+                            //  alert("id " + jsonData.additionalData.actionSelected);
 
-                            if (jsonData.additionalData.actionSelected == "id1")
-                            {
-
-                               // alert("Button id1 pressed!");
-                                $http({
-                                    method: 'GET',
-                                    url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 1}
-                                }).then(function successCallback(response) {
-
-                                    if (jsonData.additionalData.yourUrlKey) {
-                                        location.href = jsonData.additionalData.yourUrlKey;
+                            $http({
+                                method: 'GET',
+                                url: domain + 'trigger/action-trigger',
+                                params: {action: jsonData.additionalData, status: 1}
+                            }).then(function successCallback(response) {
+                                console.log(response.data);
+                                try {
+                                    if (response.data) {
+                                        location.href = response.data;
+                                    } else if (jsonData.additionalData.defaultUrl) {
+                                        location.href = jsonData.additionalData.defaultUrl;
                                     }
+                                } catch (err) {
+                                    location.href = jsonData.additionalData.defaultUrl;
+                                }
 
-                                }, function errorCallback(e) {
-                                    console.log(e);
-                                });
-                            }
-                            if (jsonData.additionalData.actionSelected == "id2")
-                            {
-                               /// alert("Button id2 pressed!");
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
 
-                                $http({
-                                    method: 'GET',
-                                    url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[1].icon, status: 2}
-                                }).then(function successCallback(response) {
-
-                                    if (jsonData.additionalData.yourUrlKey) {
-                                        location.href = jsonData.additionalData.yourUrlKey;
-                                    }
-                                }, function errorCallback(e) {
-                                    console.log(e);
-                                });
-                            }
-                            if (jsonData.additionalData.actionSelected == "id3")
-                            {
-                               // alert("Button id3 pressed!");
-
-                                $http({
-                                    method: 'GET',
-                                    url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[2].icon, status: 3}
-                                }).then(function successCallback(response) {
-                                    if (jsonData.additionalData.yourUrlKey) {
-                                        location.href = jsonData.additionalData.yourUrlKey;
-                                    }
-                                }, function errorCallback(e) {
-                                    console.log(e);
-                                });
-                            }
+//                            if (jsonData.additionalData.actionSelected == "id1")
+//                            {
+//
+//                               // alert("Button id1 pressed!");
+//                                $http({
+//                                    method: 'GET',
+//                                    url: domain + 'tracker/captured',
+//                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 1}
+//                                }).then(function successCallback(response) {
+//
+//                                    if (jsonData.additionalData.yourUrlKey) {
+//                                        location.href = jsonData.additionalData.yourUrlKey;
+//                                    }
+//
+//                                }, function errorCallback(e) {
+//                                    console.log(e);
+//                                });
+//                            }
+//                            if (jsonData.additionalData.actionSelected == "id2")
+//                            {
+//                               /// alert("Button id2 pressed!");
+//
+//                                $http({
+//                                    method: 'GET',
+//                                    url: domain + 'tracker/captured',
+//                                    params: {actionid: jsonData.additionalData.actionButtons[1].icon, status: 2}
+//                                }).then(function successCallback(response) {
+//
+//                                    if (jsonData.additionalData.yourUrlKey) {
+//                                        location.href = jsonData.additionalData.yourUrlKey;
+//                                    }
+//                                }, function errorCallback(e) {
+//                                    console.log(e);
+//                                });
+//                            }
+//                            if (jsonData.additionalData.actionSelected == "id3")
+//                            {
+//                               // alert("Button id3 pressed!");
+//
+//                                $http({
+//                                    method: 'GET',
+//                                    url: domain + 'tracker/captured',
+//                                    params: {actionid: jsonData.additionalData.actionButtons[2].icon, status: 3}
+//                                }).then(function successCallback(response) {
+//                                    if (jsonData.additionalData.yourUrlKey) {
+//                                        location.href = jsonData.additionalData.yourUrlKey;
+//                                    }
+//                                }, function errorCallback(e) {
+//                                    console.log(e);
+//                                });
+//                            }
                         }
 
                     } catch (err)
                     {
-                       // alert('No redirection ' + err);
+                        // alert('No redirection ' + err);
                     }
 
 
