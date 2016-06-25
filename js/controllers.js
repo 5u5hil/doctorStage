@@ -1502,6 +1502,24 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+            
+            
+            $scope.doc_services_setting = function(service){
+                $scope.service = service;
+                console.log(service);
+                alert('fsdfsdf');
+                if(service == 'Video'){
+                     $http({
+                method: 'GET',
+                url: domain + 'doctors/update-service-setting',
+                params: {userId: $scope.userId,service: $scope.service}
+            }).then(function successCallback(response) {
+                
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+                }
+            }
         })
 
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
