@@ -305,6 +305,17 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    
+                    .state('app.update-doctor-setting', {
+                        cache: false,
+                        url: "/update-doctor-setting",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/update-doctor-setting.html",
+                                controller: 'DoctorSettingsCtrl'
+                            }
+                        }
+                    })
 
                     /* doctor join */
                     .state('dpatient', {
