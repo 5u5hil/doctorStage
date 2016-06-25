@@ -12,8 +12,7 @@
         <div ng-if='service == "Video"'>
             
                 <form  name="servicevideo" id="servicevideo">
-                        <input type="hidden" name="did" id="did" value="{{instant_permission.doctor_id}}">
-                        <ion-toggle ng-model="instantvideo" ng-checked="instant_permission.instant_permission" ng-click="checkp(instantvideo)" name="permission"  toggle-class="toggle-positive"> Allow Instant Video </ion-toggle>
+                        <input type="hidden" name="did" id="did" value="">
                         <!-- <div class="sinfo">Enabling this will send you instant video calls only when you are marked "Online"</div>
                         
                         <ion-toggle ng-model="airplaneMode" toggle-class="toggle-positive"> When Online Only </ion-toggle>-->
@@ -25,50 +24,20 @@
                                     <div class="col-80">
                                         <div  class="row" style="padding: 0;">
                                             <div class="col-50">
-                                                <select class="timeoption" name="availfrom" >
-                                                    <option ng-repeat="days in instant_days" ng-selected="days.value == instant_permission.instant_days" value="{{ days.value}}" > {{ days.text}}</option>
-                                                </select>
+                                                fdsfd
                                             </div>
-                                            <span class="optiondivider">To </span>
-                                            <div class="col-50">
-                                                <select class="timeoption" name="availto">
-                                                    <option ng-repeat="days_end in instant_days_end" ng-selected="days_end.value == instant_permission.instant_day_end" value="{{ days_end.value}}" > {{ days_end.text}}</option>
-                                                </select>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="item">
-                                <div  class="row">
-                                    <div class="col-20">Time </div>
-                                    <div class="col-80">
-                                        <div  class="row" style="padding: 0;">
-                                            <div class="col-50">
-                                                <select class="timeoption" name="timestart">
-                                                    <option  ng-repeat="time in instant_time" ng-selected="time.value == instant_permission.instant_start_time" value="{{ time.value}}" > {{ time.text}}</option>
-                                                </select>
-                                            </div>
-                                            <span class="optiondivider">To </span>
-                                            <div class="col-50">
-                                                <select class="timeoption"  name="timeend">
-                                                    <option  ng-repeat="time_end in instant_time_end" ng-selected="time_end.value == instant_permission.instant_end_time" value="{{ time_end.value}}" > {{ time_end.text}}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          
                         </span>
                         <button class="button button-block button-positive" ng-click="submitInstantPermission()">
                             Save
                         </button>
                     </form>
 
-
-
-                
-           
         </div>
     </ion-content>
 </ion-view>

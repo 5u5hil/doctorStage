@@ -312,7 +312,7 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/update-doctor-setting.html",
-                                controller: 'DoctorSettingsCtrl'
+                                controller: 'UpdateDoctorSettingsCtrl'
                             }
                         }
                     })
