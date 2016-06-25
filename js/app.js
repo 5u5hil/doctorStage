@@ -308,7 +308,7 @@ angular.module('your_app_name', [
                     
                     .state('app.update-doctor-setting', {
                         cache: false,
-                        url: "/update-doctor-setting",
+                        url: "/update-doctor-setting/{data:string}/{uid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/update-doctor-setting.html",
