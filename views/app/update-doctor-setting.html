@@ -9,7 +9,7 @@
 
 
         <div ng-if="service == 'Video'">
-
+            <div>{{service}}</div>
             <form  name="servicevideo" id="servicevideo">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
 
@@ -46,7 +46,7 @@
 
         </div>
         <div ng-if="service == 'Chat'">
-
+            <div>{{service}}</div>
             <form  name="servicechat" id="servicechat">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
 
@@ -83,7 +83,7 @@
 
         </div>
         <div ng-if="service == 'Clinic'" >
-
+            <div>{{service}}</div>
             <form  name="serviceclinic" id="serviclinic">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
 
@@ -97,32 +97,32 @@
 
                     Clinic-1   {{serv.address}}  {{serv.city}}   {{serv.pincode}}
                     <br>
-                    
+
                     <div ng-repeat="clinicS in schedule" >
 
                         <div ng-repeat="cschedule in clinicS" ng-if="serv.id == cschedule.doctor_services_id">
-                             <span class="" id="setting"> 
-                            <div class="item">
-                                <div class="row">
-                                    <div >{{cschedule.day_of_week}}</div>
-                                    <div>
-                                        <div  class="row" style="padding: 0;">
-                                            <div class="col-50">
-                                                <select class="timeoption" name="timefrom" >
-                                                    <option ng-repeat="times in clinic_time_start"  ng-selected="times.value == cschedule.fromtime" value="{{ times.value}}" > {{ times.text}}</option>
-                                                </select>
-                                            </div>
-                                            <span class="optiondivider">To </span>
-                                            <div class="col-50">
-                                                <select class="timeoption" name="timeto">
-                                                    <option ng-repeat="timee in clinic_time_end"  ng-selected="timee.value == cschedule.totime" value="{{ timee.value}}" > {{ timee.text}}</option>
-                                                </select>
+                            <span class="" id="setting"> 
+                                <div class="item">
+                                    <div class="row">
+                                        <div >{{cschedule.day_of_week}}</div>
+                                        <div>
+                                            <div  class="row" style="padding: 0;">
+                                                <div class="col-50">
+                                                    <select class="timeoption" name="timefrom" >
+                                                        <option ng-repeat="times in clinic_time_start"  ng-selected="times.value == cschedule.fromtime" value="{{ times.value}}" > {{ times.text}}</option>
+                                                    </select>
+                                                </div>
+                                                <span class="optiondivider">To </span>
+                                                <div class="col-50">
+                                                    <select class="timeoption" name="timeto">
+                                                        <option ng-repeat="timee in clinic_time_end"  ng-selected="timee.value == cschedule.totime" value="{{ timee.value}}" > {{ timee.text}}</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                             </span>
+                            </span>
                             <br>
 
 
@@ -148,8 +148,8 @@
 
             </form>
         </div>
-         <div ng-if="service == 'Home'">
-
+        <div ng-if="service == 'Home'">
+            <div>{{service}}</div>
             <form  name="servicehome" id="servicehome">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
 
@@ -166,7 +166,7 @@
                             <div  class="row" style="padding: 0;">
                                 <div class="col-50">
                                     <select class="timeoption" name="availfrom" >
-                                        <option ng-repeat="days_start in video_days_start"  ng-selected="days.value == schedule[0].day_of_week" value="{{ days.value}}" > {{ days.text}}</option>
+                                        <option ng-repeat="days_start in video_days_start"  ng-selected="days_start.value == schedule[0].day_of_week" value="{{ days_start.value}}" > {{ days_start.text}}</option>
                                     </select>
                                 </div>
                                 <div class="col-50">
@@ -180,10 +180,10 @@
                                     </select>
                                 </div>
                             </div>
-                             <span class="optiondivider">To </span>
-                             
+                            <span class="optiondivider">To </span>
+
                             <div  class="row" style="padding:0;">
-                               
+
                                 <div class="col-50">
                                     <select class="timeoption" name="availto">
                                         <option ng-repeat="days_end in video_days_end"  ng-selected="days_end.value == schedule[1].day_of_week" value="{{ days_end.value}}" > {{ days_end.text}} </option>
@@ -209,6 +209,67 @@
             </form>
 
         </div>
+        <div ng-if="service == 'Instant Video'">
+            <div>Instant Video</div>
+            <form  name="instantpermission" id="instantpermission">
+                <input type="hidden" name="did" id="did" value="{{uid}}">
+
+                <div class="item item-divider mt15" > Price</div>
+                <div class="item item-input">
+                    <input type="number" placeholder="Price" name="price" value="{{price[0].price}}" />                         
+
+                </div>
+
+                <span class="" id="setting">  
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-20">Days </div>
+                            <div class="col-80">
+                                <div  class="row" style="padding: 0;">
+                                    <div class="col-50">
+                                        <select class="timeoption" name="availfrom" >
+                                            <option ng-repeat="days in instant_days" ng-selected="days.value == schedule.instant_days" value="{{ days.value}}" > {{ days.text}}</option>
+                                        </select>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-50">
+                                        <select class="timeoption" name="availto">
+                                            <option ng-repeat="days_end in instant_days_end" ng-selected="days_end.value == schedule.instant_day_end" value="{{ days_end.value}}" > {{ days_end.text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div  class="row">
+                            <div class="col-20">Time </div>
+                            <div class="col-80">
+                                <div  class="row" style="padding: 0;">
+                                    <div class="col-50">
+                                        <select class="timeoption" name="timestart">
+                                            <option  ng-repeat="time in instant_time" ng-selected="time.value == schedule.instant_start_time" value="{{ time.value}}" > {{ time.text}}</option>
+                                        </select>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-50">
+                                        <select class="timeoption"  name="timeend">
+                                            <option  ng-repeat="time_end in instant_time_end" ng-selected="time_end.value == schedule.instant_end_time" value="{{ time_end.value}}" > {{ time_end.text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </span>
+                <button class="button button-block button-positive" ng-click="submitInstantPermission()">
+                    Save
+                </button>
+            </form>
+
+        </div>
+
+
 
 
 

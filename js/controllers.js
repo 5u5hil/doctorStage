@@ -1417,12 +1417,18 @@ angular.module('your_app_name.controllers', [])
                 }
             }
 
-            $scope.checkp = function (val) {
-                if (val) {
-                    jQuery('#setting').removeClass('hide');
-                } else {
-                    jQuery('#setting').addClass('hide');
-                }
+            $scope.checkinstantpermission = function (val) {
+                // alert(val)
+                $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-instant-permission',
+                    params: {userId: window.localStorage.getItem('id'), value: $scope.val}
+                }).then(function successCallback(response) {
+                     alert('Instant Video Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             }
             $scope.submitInstantPermission = function () {
                 var data = new FormData(jQuery("#instantpermission")[0]);
@@ -1447,6 +1453,22 @@ angular.module('your_app_name.controllers', [])
                     error: function (e) {
                         //  console.log(e.responseText);
                     }
+                });
+            }
+
+            $scope.checkService = function (val,userid, serviceid) {
+                alert(val)
+                $scope.serviceid = serviceid;
+                $scope.userid = userid;
+                 $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-service-permission',
+                    params: {userId: window.localStorage.getItem('id'), serviceid: $scope.serviceid,value: $scope.val}
+                }).then(function successCallback(response) {
+                    alert('Service Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
                 });
             }
 
@@ -1484,10 +1506,14 @@ angular.module('your_app_name.controllers', [])
 //                }
             }
         })
-        .controller('UpdateDoctorSettingsCtrl', function ($scope, $state,$http, $stateParams, $ionicModal, $ionicLoading) {
+        .controller('UpdateDoctorSettingsCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.service = $stateParams.data;
             $scope.uid = $stateParams.uid;
             alert($scope.service);
+            $scope.video = 0;
+            $scope.chat = 0;
+            $scope.clinic = 0;
+            $scope.home = 0;
 
             $http({
                 method: 'GET',
@@ -1495,9 +1521,56 @@ angular.module('your_app_name.controllers', [])
                 params: {userId: $scope.userId, service: $scope.service}
             }).then(function successCallback(response) {
                 console.log(response.data);
-              
+
                 $scope.price = response.data.getPrice;
                 $scope.schedule = response.data.getSchedule;
+                // $scope.instant_permission = response.data.schedule;
+
+                $scope.instant_days = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_days_end = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_time = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                $scope.instant_time_end = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+
                 $scope.video_days_start = [{text: "Monday", value: 'Monday'},
                     {text: "Tuesday", value: 'Tuesday'},
                     {text: "Wednesday", value: 'Wednesday'},
@@ -1543,12 +1616,51 @@ angular.module('your_app_name.controllers', [])
                     {text: "22:00", value: '22:00:00'},
                     {text: "23:00", value: '23:00:00'}];
                 $scope.drservice = response.data.getService;
-               
-           
+                angular.forEach($scope.docServices, function (value, key) {
+                    if (value.service.id == '1' && value.active == '1') {
+                        $scope.video = 1;
+                    } else if (value.service.id == '2' && value.active == '1') {
+                        $scope.chat = 1;
+                    } else if (value.service.id == '3' && value.active == '1') {
+                        $scope.clinic = 1;
+                    } else if (value.service.id == '4' && value.active == '1') {
+                        $scope.home = 1;
+                    }
+                });
+
                 //$state.go('app.update-doctor-setting', {'data': $scope.service, 'uid': $scope.userId});
             }, function errorCallback(e) {
                 console.log(e);
             });
+
+            $scope.submitInstantPermission = function () {
+                var data = new FormData(jQuery("#instantpermission")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-permission",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+                        if (response == '0') {
+                            alert('End time cannot be earlier than start time');
+                        }
+                        if (response == '2') {
+                            alert('End day cannot be earlier than start day');
+                        }
+                        alert('Instant Video Permission Updated');
+                        $state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
+
+
 
 
         })
