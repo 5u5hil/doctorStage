@@ -12,6 +12,7 @@
             <div>{{service}}</div>
             <form  name="servicevideo" id="servicevideo">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
+                <input type="hidden" name="sid" id="sid" value="1">
 
                 <div class="item item-divider mt15" > Price</div>
                 <div class="item item-input">
@@ -39,6 +40,26 @@
                         </div>
                     </div>
                 </div>
+                 <div class="item">
+                        <div  class="row">
+                            <div class="col-20">Time </div>
+                            <div class="col-80">
+                                <div  class="row" style="padding: 0;">
+                                    <div class="col-50">
+                                        <select class="timeoption" name="timestart">
+                                            <option  ng-repeat="time in instant_time" ng-selected="time.value == schedule[0].fromtime" value="{{ time.value}}" > {{ time.text}}</option>
+                                        </select>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-50">
+                                        <select class="timeoption"  name="timeend">
+                                            <option  ng-repeat="time_end in instant_time_end" ng-selected="time_end.value == schedule[0].totime" value="{{ time_end.value}}" > {{ time_end.text}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <button class="button button-block button-positive" ng-click="submitVideoService()">
                     Save
                 </button>

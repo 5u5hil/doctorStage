@@ -25,16 +25,26 @@
                     <div class="item item-divider mt15">Video</div>
                     <div ng-if="ds.edit == '1'">
                         <div  ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" ng-click="doc_services_setting('Video')" >
-                           Click Here to Update Video Service Setting {{dServ.active}}
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
+
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+
+                            Click Here to Update Video Service Setting 
                         </div>
-                        <ion-toggle ng-model="video" ng-checked="video == 1" ng-click="checkService(video,userId,'1')" name="{{serv.service.service}}"  toggle-class="toggle-positive"> Allow Video Service </ion-toggle>
+                        <ion-toggle ng-model="video" ng-checked="video == 1" ng-click="checkService(video, userId, '1')" name="{{serv.service.service}}"  toggle-class="toggle-positive"> Allow Video Service </ion-toggle>
 
 
                     </div>
                     <div ng-if="ds.edit == '0'">
                         <div ng-repeat="dServ in docServices" ng-disabled="ds.edit == '0'" ng-if="dServ.service.service == ds.setting_control.control" >
-
-                            <ion-toggle ng-model="video" ng-checked="video==1" name="{{serv.service.service}}" ng-disabled="ds.edit == '0'"  toggle-class="toggle-positive"> Allow Video Service </ion-toggle>
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            <ion-toggle ng-model="video" ng-checked="video == 1" name="{{serv.service.service}}" ng-disabled="ds.edit == '0'"  toggle-class="toggle-positive"> Allow Video Service </ion-toggle>
 
                         </div>
                     </div>
@@ -50,15 +60,23 @@
                         </div>
                         <div ng-if="dServ.service.service == ds.setting_control.control" >
                             <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" ng-click="doc_services_setting('Chat')" >
-                               Click Here to Update Chats Service Setting {{dServ.active}}
+                                <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                                <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '2'">
+                                    <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                                </div>
+                                Click Here to Update Chats Service Setting {{dServ.active}}
                             </div>
-                            <ion-toggle ng-model="chat" ng-checked="chat==1"  name="{{serv.service.service}}" ng-click="checkService(chat,userId,'2')" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
+                            <ion-toggle ng-model="chat" ng-checked="chat == 1"  name="{{serv.service.service}}" ng-click="checkService(chat, userId, '2')" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
                         </div>
 
                     </div>
                     <div ng-if="ds.edit == '0'">
                         <div ng-repeat="dServ in docServices" ng-disabled="ds.edit == '0'" ng-if="dServ.service.service == ds.setting_control.control" >
-                            <ion-toggle ng-model="chat" ng-checked="chat==1"  name="{{serv.service.service}}" ng-disabled="ds.edit == '0'" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '2'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            <ion-toggle ng-model="chat" ng-checked="chat == 1"  name="{{serv.service.service}}" ng-disabled="ds.edit == '0'" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
 
                         </div>
                     </div>
@@ -68,15 +86,24 @@
                     <div class="item item-divider mt15">Clinic</div>
                     <div ng-if="ds.edit == '1'">
                         <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" ng-click="doc_services_setting('Clinic')" >
-                          Click Here to Update Clinic Service Setting  {{dServ.active}}
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '3'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            Click Here to Update Clinic Service Setting  
                         </div>
-                        <ion-toggle ng-model="clinic" ng-checked="clinic==1"  name="{{serv.service.service}}" ng-click="checkService(clinic,userId,'3')" toggle-class="toggle-positive"> Allow Clinic Appointment </ion-toggle>
+                        <ion-toggle ng-model="clinic" ng-checked="clinic == 1"  name="{{serv.service.service}}" ng-click="checkService(clinic, userId, '3')" toggle-class="toggle-positive"> Allow Clinic Appointment </ion-toggle>
 
 
                     </div>
                     <div ng-if="ds.edit == '0'">
                         <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" >
-                            <ion-toggle ng-model="clinic" ng-checked="clinic==1"  name="{{serv.service.service}}"  toggle-class="toggle-positive"> Allow Clinic Appointment </ion-toggle>
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '3'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+
+                            <ion-toggle ng-model="clinic" ng-checked="clinic == 1"  name="{{serv.service.service}}"  toggle-class="toggle-positive"> Allow Clinic Appointment </ion-toggle>
 
                         </div>
                     </div>
@@ -85,16 +112,24 @@
                     <div class="item item-divider mt15"> Home </div>
                     <div ng-if="ds.edit == '1'">
                         <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
-                           Click Here to Update Home Service Setting
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '4'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            Click Here to Update Home Service Setting
                         </div>
-                        <ion-toggle ng-model="home" ng-checked="home==1"  name="{{serv.service.service}}"   ng-click="checkService(home,userId,'4')"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
+                        <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"   ng-click="checkService(home, userId, '4')"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
 
 
                     </div>
                     <div ng-if="ds.edit == '0'">
 
                         <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
-                            <ion-toggle ng-model="home" ng-checked="home==1"  name="{{serv.service.service}}"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
 
                         </div>
                     </div>

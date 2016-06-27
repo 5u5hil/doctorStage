@@ -1307,6 +1307,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.docServices = response.data.docServices;
                 $scope.docSettings = response.data.docSettings;
                 $scope.instant_permission = response.data.schedule;
+                $scope.getSchedule = response.data.getSchedule;
                 $scope.instant_status = response.data.status;
                 $scope.status = $scope.instant_status.presence;
                 $scope.notification = response.data.notification;
@@ -1652,7 +1653,32 @@ angular.module('your_app_name.controllers', [])
                             alert('End day cannot be earlier than start day');
                         }
                         alert('Instant Video Permission Updated');
-                        $state.go('app.doctor-setting', {}, {reload: true});
+                        window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
+            
+            $scope.submitVideoService = function(){
+               
+                 var data = new FormData(jQuery("#servicevideo")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-service",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+                       
+                        alert('Video Setting Updated');
+                        window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
                     },
                     error: function (e) {
                         //  console.log(e.responseText);
