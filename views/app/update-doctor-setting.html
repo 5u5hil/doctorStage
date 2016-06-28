@@ -11,6 +11,7 @@
         <div ng-if="service == 'Video'">
             <div>{{service}}</div>
             <form  name="servicevideo" id="servicevideo">
+                <input type="hidden" name="doctor_services_id" id="doctor_services_id" value="{{schedule[0].doctor_services_id}}">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
                 <input type="hidden" name="sid" id="sid" value="1">
 
@@ -26,11 +27,11 @@
                     <div class="row" ng-repeat="day in days">
                         <div class="col-20">{{day}} </div>
                         <div class="col-80" >
-                            <input class="form-control" type="hidden" readonly value="{{$day}}"  name="day[]">
+                            <input class="form-control" type="hidden" readonly value="{{day}}"  name="day[]">
                             <div ng-repeat="scheduleval in schedule" >
 
                                 <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
-                                    <input class="form-control" type="hidden" value="{{dayid[$index][0]}}" name="drservId-{{dayid[$index][0]}}[]">
+                                    <input class="form-control" type="hidden" value="{{dayid[$index][0]}}" name="drservId-0[]">
                                     <div class="col-20">
                                         <lable class="item item-input">
                                             <input ng-model="dayfrom[$index][0]" type="time" name="fromtime1[]" class="form-control" value="{{dayfrom[$index][0]}}" >
@@ -42,7 +43,7 @@
                                             <input ng-model="dayto[$index][0]" type="time" name="totime1[]" class="form-control" value="{{dayto[$index][0]}}" >
                                         </lable>
                                     </div>
-                                    <input class="form-control" type="hidden" value="{{dayid[$index][1]}}" name="drservId-{{dayid[$index][1]}}[]">
+                                    <input class="form-control" type="hidden" value="{{dayid[$index][1]}}" name="drservId-1[]">
                                     <div class="col-20">
                                         <lable class="item item-input">
                                             <input ng-model="dayfrom[$index][1]" type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom[$index][1]}}" >
@@ -179,148 +180,166 @@
         </div>
         <div ng-if="service == 'Clinic'" >
             <div>{{service}}</div>
-            <form  name="serviceclinic" id="serviclinic">
+             <form  name="serviceclinic" id="serviceclinic">
+                <input type="hidden" name="doctor_services_id" id="doctor_services_id" value="{{schedule[0].doctor_services_id}}">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
+                <input type="hidden" name="sid" id="sid" value="1">
 
                 <div class="item item-divider mt15" > Price</div>
                 <div class="item item-input">
                     <input type="number" placeholder="Price" name="price" value="{{price[0].price}}" />                         
 
                 </div>
-                <div class="item item-divider mt15" > Clinic </div>
-                <div ng-repeat="serv in drservice">
-                    <div  class="item item-input">
-                        Clinic-1   {{serv.address}}  {{serv.city}}   {{serv.pincode}}
-                    </div>
+                <div class="item item-divider mt15" > Schedules</div>
+                <div class="row" ng-repeat="day in days">
+                    <div class="col-20">{{day}} </div>
+                    <div class="col-80" >
+                        <input class="form-control" type="hidden" readonly value="{{day}}"  name="day[]">
+                        <div ng-repeat="scheduleval in schedule" >
 
-                    <div ng-repeat="clinicS in schedule" >
-
-                        <div ng-repeat="cschedule in clinicS" ng-if="serv.id == cschedule.doctor_services_id">
-                            <span class="" id="setting"> 
-                                <div class="item">
-                                    <div class="row" ng-repeat="day in days">
-                                        <div class="col-20">{{day}} </div>
-                                        <div class="col-80">
-
-                                            <div  class="row" style="padding: 0;">
-                                                <div class="col-50">
-                                                    <select class="timeoption" name="timefrom" >
-                                                        <option ng-repeat="times in clinic_time_start"  ng-selected="times.value == cschedule.fromtime" value="{{ times.value}}" > {{ times.text}}</option>
-                                                    </select>
-                                                </div>
-                                                <span class="optiondivider">To </span>
-                                                <div class="col-50">
-                                                    <select class="timeoption" name="timeto">
-                                                        <option ng-repeat="timee in clinic_time_end"  ng-selected="timee.value == cschedule.totime" value="{{ timee.value}}" > {{ timee.text}}</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
+                                <input class="form-control" type="hidden" value="{{dayid[$index][0]}}" name="drservId-0[]">
+                                <div class="col-20">
+                                    <lable class="item item-input">
+                                        <input ng-model="dayfrom[$index][0]" type="time" name="fromtime1[]" class="form-control" value="{{dayfrom[$index][0]}}" >
+                                    </lable>
                                 </div>
-                            </span>
-                            <br>
+                                <span class="optiondivider">To </span>
+                                <div class="col-20">
+                                    <lable class="item item-input">
+                                        <input ng-model="dayto[$index][0]" type="time" name="totime1[]" class="form-control" value="{{dayto[$index][0]}}" >
+                                    </lable>
+                                </div>
+                                <input class="form-control" type="hidden" value="{{dayid[$index][1]}}" name="drservId-1[]">
+                                <div class="col-20">
+                                    <lable class="item item-input">
+                                        <input ng-model="dayfrom[$index][1]" type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom[$index][1]}}" >
+                                    </lable>
+                                </div>
+                                <span class="optiondivider">To </span>
+                                <div class="col-20">
+                                    <lable class="item item-input">
+                                        <input ng-model="dayto[$index][1]" type="time" name="totime2[]" class="form-control" value="{{dayto[$index][1]}}" >
+                                    </lable>
+                                </div>
 
+                            </div>
 
                         </div>
+                        <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1">
+                            <input class="form-control" type="hidden" value="" name="drservId-0[]">
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="fromtime1[]" class="form-control" value="" >
+                                </lable>
+                            </div>
+                            <span class="optiondivider">To </span>
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="totime1[]" class="form-control" value="" >
+                                </lable>
+                            </div>
+                            <input class="form-control" type="hidden" value="" name="drservId-1[]">
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="fromtime2[]"  class="form-control" value="" >
+                                </lable>
+                            </div>
+                            <span class="optiondivider">To </span>
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="totime2[]" class="form-control" value="" >
+                                </lable>
+                            </div>
 
-
-                    </div>
-
-
-                    <div class="item item-divider" > Clinic Approval </div>
-                    <div class="item item-input">
-                        <select class="autoapprove timeoption" name="autoapprove" >
-                            <option ng-selected="serv.need_approval == 1" value="1" > Yes</option>
-                            <option ng-selected="serv.need_approval == 0"  value="0" > No</option>
-                        </select>
+                        </div>
                     </div>
                 </div>
-
 
                 <button class="button button-block button-positive" ng-if="permission == 1" ng-click="submitClinicService()">
                     Save
                 </button>
-
             </form>
         </div>
         <div ng-if="service == 'Home'">
             <div>{{service}}</div>
             <form  name="servicehome" id="servicehome">
+                <input type="hidden" name="doctor_services_id" id="doctor_services_id" value="{{schedule[0].doctor_services_id}}">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
+                <input type="hidden" name="sid" id="sid" value="1">
 
                 <div class="item item-divider mt15" > Price</div>
                 <div class="item item-input">
                     <input type="number" placeholder="Price" name="price" value="{{price[0].price}}" />                         
 
                 </div>
+                <div class="item item-divider mt15" > Schedules</div>
+                <div class="row" ng-repeat="day in days">
+                    <div class="col-20">{{day}} </div>
+                    <div class="col-80" >
+                        <input class="form-control" type="hidden" readonly value="{{day}}"  name="day[]">
+                        <div ng-repeat="scheduleval in schedule" >
 
-                <div class="item">
-                    <div class="row" ng-repeat="day in days">
-                        <div class="col-20">{{day}} </div>
-                        <div class="col-80" >
-                            <div ng-repeat="scheduleval in schedule" >
-
-                                <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
-
-                                    <div class="col-20">
-                                        <lable class="item item-input">
-                                            <input ng-model="dayfrom[$index][0]" type="time" name="fromtime1[]" class="form-control" value="{{dayfrom[$index][0]}}" >
-                                        </lable>
-                                    </div>
-                                    <span class="optiondivider">To </span>
-                                    <div class="col-20">
-                                        <lable class="item item-input">
-                                            <input ng-model="dayto[$index][0]" type="time" name="totime1[]" class="form-control" value="{{dayto[$index][0]}}" >
-                                        </lable>
-                                    </div>
-
-                                    <div class="col-20">
-                                        <lable class="item item-input">
-                                            <input ng-model="dayfrom[$index][1]" type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom[$index][1]}}" >
-                                        </lable>
-                                    </div>
-                                    <span class="optiondivider">To </span>
-                                    <div class="col-20">
-                                        <lable class="item item-input">
-                                            <input ng-model="dayto[$index][1]" type="time" name="totime2[]" class="form-control" value="{{dayto[$index][1]}}" >
-                                        </lable>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1">
-
+                            <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
+                                <input class="form-control" type="hidden" value="{{dayid[$index][0]}}" name="drservId-0[]">
                                 <div class="col-20">
                                     <lable class="item item-input">
-                                        <input ng-model="time" type="time" name="fromtime1[]" class="form-control" value="{{dayfrom}}" >
+                                        <input ng-model="dayfrom[$index][0]" type="time" name="fromtime1[]" class="form-control" value="{{dayfrom[$index][0]}}" >
                                     </lable>
                                 </div>
                                 <span class="optiondivider">To </span>
                                 <div class="col-20">
                                     <lable class="item item-input">
-                                        <input ng-model="time" type="time" name="totime1[]" class="form-control" value="{{dayto}}" >
+                                        <input ng-model="dayto[$index][0]" type="time" name="totime1[]" class="form-control" value="{{dayto[$index][0]}}" >
                                     </lable>
                                 </div>
-
+                                <input class="form-control" type="hidden" value="{{dayid[$index][1]}}" name="drservId-1[]">
                                 <div class="col-20">
                                     <lable class="item item-input">
-                                        <input ng-model="time" type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom}}" >
+                                        <input ng-model="dayfrom[$index][1]" type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom[$index][1]}}" >
                                     </lable>
                                 </div>
                                 <span class="optiondivider">To </span>
                                 <div class="col-20">
                                     <lable class="item item-input">
-                                        <input ng-model="time" type="time" name="totime2[]" class="form-control" value="{{dayto}}" >
+                                        <input ng-model="dayto[$index][1]" type="time" name="totime2[]" class="form-control" value="{{dayto[$index][1]}}" >
                                     </lable>
                                 </div>
 
                             </div>
+
+                        </div>
+                        <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1">
+                            <input class="form-control" type="hidden" value="" name="drservId-0[]">
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="fromtime1[]" class="form-control" value="" >
+                                </lable>
+                            </div>
+                            <span class="optiondivider">To </span>
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="totime1[]" class="form-control" value="" >
+                                </lable>
+                            </div>
+                            <input class="form-control" type="hidden" value="" name="drservId-1[]">
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="fromtime2[]"  class="form-control" value="" >
+                                </lable>
+                            </div>
+                            <span class="optiondivider">To </span>
+                            <div class="col-20">
+                                <lable class="item item-input">
+                                    <input ng-model="time" type="time" name="totime2[]" class="form-control" value="" >
+                                </lable>
+                            </div>
+
                         </div>
                     </div>
                 </div>
-                <button class="button button-block button-positive" ng-if="permission == 1" ng-click="submitVideoService()">
+
+                <button class="button button-block button-positive" ng-if="permission == 1" ng-click="submitHomeService()">
                     Save
                 </button>
             </form>

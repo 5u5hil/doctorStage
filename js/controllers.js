@@ -1736,15 +1736,31 @@ angular.module('your_app_name.controllers', [])
                 $scope.days = response.data.days;
                 $scope.servicdayArray = response.data.servicdayArray;
                 $scope.schedule = response.data.getSchedule;
-                angular.forEach($scope.schedule, function (value, key) {
-                    console.log(value.dayfrom + " ==  " + key);
-                    $scope.dayfrom[key] = (value.dayfrom).split(',');
-                    $scope.dayto[key] = (value.dayto).split(',');
-                    $scope.dayid[key] = (value.dayid).split(',');
-                });
-                console.log($scope.dayfrom);
-                 
-                 console.log($scope.dayfrom);
+                //               if (response.data.service != 'Clinic') {
+                //                   console.log('clinic' + $scope.schedule)
+                if (response.data.service != 'Instant Video') {
+                    angular.forEach($scope.schedule, function (value, key) {
+                        console.log(value.dayfrom + " ==  " + key);
+                        $scope.dayfrom[key] = (value.dayfrom).split(',');
+                        $scope.dayto[key] = (value.dayto).split(',');
+                        $scope.dayid[key] = (value.dayid).split(',');
+                    });
+                    console.log($scope.dayfrom);
+                }
+
+                //                   console.log($scope.dayfrom);
+//                } else {
+//                    angular.forEach($scope.schedule, function (value, key) {
+//                        console.log(value[].dayfrom + " ==  " + key);
+//                        angular.forEach(value, function (val, k) {
+//                          //   console.log(val.dayfrom + " ==  " + key);
+//                       $scope.dayfrom[k] = (val.dayfrom).split(',');
+//                        $scope.dayto[k] = (val.dayto).split(',');
+//                        $scope.dayid[k] = (val.dayid).split(',');
+//                        });
+//                    });
+//                    console.log($scope.dayfrom);
+//                }
 
 //                 $scope.scheduleid = response.data.getSchedule;
 //                  $scope.schedulefrom = response.data.getSchedule;
@@ -1909,9 +1925,71 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             }
+            $scope.submitHomeService = function () {
+
+                var data = new FormData(jQuery("#servicehome")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-service",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+
+                        // alert('Video Setting Updated');
+                        //  window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
 
             $scope.submitClinicService = function () {
+                var data = new FormData(jQuery("#servicevideo")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-service",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
 
+                        // alert('Video Setting Updated');
+                        //  window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+                var data = new FormData(jQuery("#servicevideo")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-service",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+
+                        // alert('Video Setting Updated');
+                        //  window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
             }
 
 
