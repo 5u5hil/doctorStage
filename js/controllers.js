@@ -1739,11 +1739,12 @@ angular.module('your_app_name.controllers', [])
                 angular.forEach($scope.schedule, function (value, key) {
                     console.log(value.dayfrom + " ==  " + key);
                     $scope.dayfrom[key] = (value.dayfrom).split(',');
-                    $scope.dayto[key] = (value.dayfrom).split(',');
-                    $scope.dayid[key] = (value.dayfrom).split(',');
+                    $scope.dayto[key] = (value.dayto).split(',');
+                    $scope.dayid[key] = (value.dayid).split(',');
                 });
                 console.log($scope.dayfrom);
-                 console.log($filter('date')(new Date(), $scope.dayfrom));
+                 
+                 console.log($scope.dayfrom);
 
 //                 $scope.scheduleid = response.data.getSchedule;
 //                  $scope.schedulefrom = response.data.getSchedule;
@@ -1887,10 +1888,10 @@ angular.module('your_app_name.controllers', [])
 
             $scope.submitVideoService = function () {
 
-                var data = new FormData(jQuery("#serviceclinic")[0]);
+                var data = new FormData(jQuery("#servicevideo")[0]);
                 $.ajax({
                     type: 'POST',
-                    url: domain + "doctors/update-doctor-clinic-service",
+                    url: domain + "doctors/update-doctor-service",
                     data: data,
                     cache: false,
                     contentType: false,
