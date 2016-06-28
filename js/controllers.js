@@ -1637,7 +1637,7 @@ angular.module('your_app_name.controllers', [])
             }
 
             $scope.checkinstantpermission = function (val) {
-                // alert(val)
+                alert(val)
                 $scope.val = val;
                 $http({
                     method: 'GET',
@@ -1706,8 +1706,8 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.doc_services_setting = function (permission, service) {
-                alert(permission);
-                alert(service);
+                // alert(permission);
+                // alert(service);
                 $scope.service = service;
                 $scope.permission = permission;
                 console.log(service);
@@ -1720,11 +1720,10 @@ angular.module('your_app_name.controllers', [])
             $scope.service = $stateParams.data;
             $scope.permission = $stateParams.permission;
             $scope.uid = $stateParams.uid;
-            alert($scope.service);
-            $scope.video = 0;
-            $scope.chat = 0;
-            $scope.clinic = 0;
-            $scope.home = 0;
+            // alert($scope.service);
+            $scope.dayfrom = [];
+            $scope.dayto = [];
+            $scope.dayid = [];
 
             $http({
                 method: 'GET',
@@ -1734,7 +1733,21 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
 
                 $scope.price = response.data.getPrice;
+                $scope.days = response.data.days;
+                $scope.servicdayArray = response.data.servicdayArray;
                 $scope.schedule = response.data.getSchedule;
+                angular.forEach($scope.schedule, function (value, key) {
+                    console.log(value.dayfrom + " ==  " + key);
+                    $scope.dayfrom[key] = (value.dayfrom).split(',');
+                    $scope.dayto[key] = (value.dayfrom).split(',');
+                    $scope.dayid[key] = (value.dayfrom).split(',');
+                });
+                console.log($scope.dayfrom);
+                 console.log($filter('date')(new Date(), $scope.dayfrom));
+
+//                 $scope.scheduleid = response.data.getSchedule;
+//                  $scope.schedulefrom = response.data.getSchedule;
+//                   $scope.scheduleto = response.data.getSchedule;
                 // $scope.instant_permission = response.data.schedule;
 
                 $scope.instant_days = [{text: "Monday", value: '1'},
@@ -1874,10 +1887,10 @@ angular.module('your_app_name.controllers', [])
 
             $scope.submitVideoService = function () {
 
-                var data = new FormData(jQuery("#servicevideo")[0]);
+                var data = new FormData(jQuery("#serviceclinic")[0]);
                 $.ajax({
                     type: 'POST',
-                    url: domain + "doctors/update-doctor-service",
+                    url: domain + "doctors/update-doctor-clinic-service",
                     data: data,
                     cache: false,
                     contentType: false,
@@ -1886,14 +1899,18 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         console.log(response);
 
-                        alert('Video Setting Updated');
-                        window.location.reload();
+                        // alert('Video Setting Updated');
+                        //  window.location.reload();
                         //$state.go('app.doctor-setting', {}, {reload: true});
                     },
                     error: function (e) {
                         //  console.log(e.responseText);
                     }
                 });
+            }
+
+            $scope.submitClinicService = function () {
+
             }
 
 

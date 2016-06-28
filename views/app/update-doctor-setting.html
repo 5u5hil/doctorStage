@@ -9,7 +9,7 @@
 
 
         <div ng-if="service == 'Video'">
-            <div>{{service}} {{permission}}</div>
+            <div>{{service}}</div>
             <form  name="servicevideo" id="servicevideo">
                 <input type="hidden" name="did" id="did" value="{{uid}}">
                 <input type="hidden" name="sid" id="sid" value="1">
@@ -20,46 +20,74 @@
 
                 </div>
                 <div class="item item-divider mt15" > Schedules</div>
+                
                 <div class="item">
-                    <div class="row">
-                        <div class="col-20">Schedule Days </div>
-                        <div class="col-80">
-                            <div  class="row" style="padding: 0;">
-                                <div class="col-50">
-                                    <select class="timeoption" name="availfrom" >
-                                        <option ng-repeat="days in video_days_start" class="avail-{{schedule[0].id}}" ng-selected="days.value == schedule[0].day_of_week" value="{{ days.value}}" > {{ days.text}}</option>
-                                    </select>
+
+                    <div class="row" ng-repeat="day in days">
+                        <div class="col-20">{{day}} </div>
+                        <div class="col-80" >
+                            <div ng-repeat="scheduleval in schedule" >
+                            
+                                <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
+                                       
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="dayfrom[$index][0]" type="time" name="fromtime1[]" class="form-control" value="{{dayfrom[$index][0]}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="dayto[$index][0]" type="time" name="totime1[]" class="form-control" value="{{dayto[$index][0]}}" >
+                                        </lable>
+                                    </div>
+
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="dayfrom[$index][1]" type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom[$index][1]}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="dayto[$index][1]" type="time" name="totime2[]" class="form-control" value="{{dayto[$index][1]}}" >
+                                        </lable>
+                                    </div>
+
                                 </div>
-                                <span class="optiondivider">To </span>
-                                <div class="col-50">
-                                    <select class="timeoption" name="availto">
-                                        <option ng-repeat="days_end in video_days_end" class="avail-{{schedule[1].id}}" ng-selected="days_end.value == schedule[1].day_of_week" value="{{ days_end.value}}" > {{ days_end.text}}</option>
-                                    </select>
-                                </div>
+                                
                             </div>
+                             <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1 ">
+                                       
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="time" type="time" name="fromtime1[]" class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="time" type="time" name="totime1[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="time" type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input ng-model="time" type="time" name="totime2[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
+                                </div>
                         </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div  class="row">
-                        <div class="col-20">Time </div>
-                        <div class="col-80">
-                            <div  class="row" style="padding: 0;">
-                                <div class="col-50">
-                                    <select class="timeoption" name="timestart">
-                                        <option  ng-repeat="time in instant_time" ng-selected="time.value == schedule[0].fromtime" value="{{ time.value}}" > {{ time.text}}</option>
-                                    </select>
-                                </div>
-                                <span class="optiondivider">To </span>
-                                <div class="col-50">
-                                    <select class="timeoption"  name="timeend">
-                                        <option  ng-repeat="time_end in instant_time_end" ng-selected="time_end.value == schedule[0].totime" value="{{ time_end.value}}" > {{ time_end.text}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
                 <button class="button button-block button-positive" ng-if="permission == 1" ng-click="submitVideoService()">
                     Save
                 </button>
@@ -78,22 +106,67 @@
                 </div>
 
                 <div class="item">
-                    <div class="row">
-                        <div class="col-20">Schedule Days </div>
-                        <div class="col-80">
-                            <div  class="row" style="padding: 0;">
-                                <div class="col-50">
-                                    <select class="timeoption" name="availfrom" >
-                                        <option ng-repeat="days in video_days_start" class="avail-{{schedule[0].id}}" ng-selected="days.value == schedule[0].day_of_week" value="{{ days.value}}" > {{ days.text}}</option>
-                                    </select>
+                    <div class="row" ng-repeat="day in days">
+                        <div class="col-20">{{day}} </div>
+                        <div class="col-80" >
+                            <div ng-repeat="scheduleval in schedule" >
+                             
+                                <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
+                                       {{scheduleval.dayfrom}}
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime1[]" class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime1[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime2[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
                                 </div>
-                                <span class="optiondivider">To </span>
-                                <div class="col-50">
-                                    <select class="timeoption" name="availto">
-                                        <option ng-repeat="days_end in video_days_end" class="avail-{{schedule[1].id}}" ng-selected="days_end.value == schedule[1].day_of_week" value="{{ days_end.value}}" > {{ days_end.text}}</option>
-                                    </select>
-                                </div>
+                                
                             </div>
+                             <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1 ">
+                                       
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime1[]" class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime1[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime2[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -114,19 +187,20 @@
 
                 </div>
                 <div class="item item-divider mt15" > Clinic </div>
-                <div class="item item-input" ng-repeat="serv in drservice">
-
-                    Clinic-1   {{serv.address}}  {{serv.city}}   {{serv.pincode}}
-                    <br>
+                <div ng-repeat="serv in drservice">
+                    <div  class="item item-input">
+                        Clinic-1   {{serv.address}}  {{serv.city}}   {{serv.pincode}}
+                    </div>
 
                     <div ng-repeat="clinicS in schedule" >
 
                         <div ng-repeat="cschedule in clinicS" ng-if="serv.id == cschedule.doctor_services_id">
                             <span class="" id="setting"> 
                                 <div class="item">
-                                    <div class="row">
-                                        <div >{{cschedule.day_of_week}}</div>
-                                        <div>
+                                    <div class="row" ng-repeat="day in days">
+                                        <div class="col-20">{{day}} </div>
+                                        <div class="col-80">
+
                                             <div  class="row" style="padding: 0;">
                                                 <div class="col-50">
                                                     <select class="timeoption" name="timefrom" >
@@ -151,11 +225,11 @@
 
 
                     </div>
-                    <br>
+
 
                     <div class="item item-divider" > Clinic Approval </div>
-                    <div class="">
-                        <select class="autoapprove" name="autoapprove">
+                    <div class="item item-input">
+                        <select class="autoapprove timeoption" name="autoapprove" >
                             <option ng-selected="serv.need_approval == 1" value="1" > Yes</option>
                             <option ng-selected="serv.need_approval == 0"  value="0" > No</option>
                         </select>
@@ -180,47 +254,68 @@
 
                 </div>
 
-                <div class="item">
-                    <div class="row">
-                        <div class="col-20">Schedule Days </div>
-                        <div class="col-80">
-                            <div  class="row" style="padding: 0;">
-                                <div class="col-50">
-                                    <select class="timeoption" name="availfrom" >
-                                        <option ng-repeat="days_start in video_days_start"  ng-selected="days_start.value == schedule[0].day_of_week" value="{{ days_start.value}}" > {{ days_start.text}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-50">
-                                    <select class="timeoption" name="availfromstarttime" >
-                                        <option ng-repeat="times in clinic_time_start"  ng-selected="times.value == schedule[0].fromtime" value="{{ times.value}}" > {{ times.text}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-50">
-                                    <select class="timeoption" name="availfromendtime" >
-                                        <option ng-repeat="timee in clinic_time_end"  ng-selected="timee.value == schedule[0].totime" value="{{ timee.value}}" > {{ timee.text}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <span class="optiondivider">To </span>
+                  <div class="item">
+                    <div class="row" ng-repeat="day in days">
+                        <div class="col-20">{{day}} </div>
+                        <div class="col-80" >
+                            <div ng-repeat="scheduleval in schedule" >
+                             
+                                <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
+                                       {{scheduleval.dayfrom}}
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime1[]" class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime1[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
 
-                            <div  class="row" style="padding:0;">
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime2[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
 
-                                <div class="col-50">
-                                    <select class="timeoption" name="availto">
-                                        <option ng-repeat="days_end in video_days_end"  ng-selected="days_end.value == schedule[1].day_of_week" value="{{ days_end.value}}" > {{ days_end.text}} </option>
-                                    </select>
                                 </div>
-                                <div class="col-50">
-                                    <select class="timeoption" name="availtostarttime" >
-                                        <option ng-repeat="times in clinic_time_start"  ng-selected="times.value == schedule[1].fromtime" value="{{ times.value}}" > {{ times.text}}</option>
-                                    </select>
-                                </div>
-                                <div class="col-50">
-                                    <select class="timeoption" name="availtoendtime" >
-                                        <option ng-repeat="timee in clinic_time_end"  ng-selected="timee.value == schedule[1].totime" value="{{ timee.value}}" > {{ timee.text}}</option>
-                                    </select>
-                                </div>
+                                
                             </div>
+                             <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1 ">
+                                       
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime1[]" class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime1[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="fromtime2[]"  class="form-control" value="{{dayfrom}}" >
+                                        </lable>
+                                    </div>
+                                    <span class="optiondivider">To </span>
+                                    <div class="col-20">
+                                        <lable class="item item-input">
+                                            <input type="time" name="totime2[]" class="form-control" value="{{dayto}}" >
+                                        </lable>
+                                    </div>
+
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -283,7 +378,7 @@
                         </div>
                     </div>
                 </span>
-                <button class="button button-block button-positive" ng-click="submitInstantPermission()">
+                <button class="button button-block button-positive"  ng-if="permission == 1" ng-click="submitInstantPermission()">
                     Save
                 </button>
             </form>
