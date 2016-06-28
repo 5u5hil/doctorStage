@@ -1426,7 +1426,7 @@ angular.module('your_app_name.controllers', [])
                     url: domain + 'doctors/update-instant-permission',
                     params: {userId: window.localStorage.getItem('id'), value: $scope.val}
                 }).then(function successCallback(response) {
-                     alert('Instant Video Status Changed.')
+                    alert('Instant Video Status Changed.')
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -1457,15 +1457,15 @@ angular.module('your_app_name.controllers', [])
                 });
             }
 
-            $scope.checkService = function (val,userid, serviceid) {
-                alert(val)
+            $scope.checkService = function (val, userid, serviceid) {
+
                 $scope.serviceid = serviceid;
                 $scope.userid = userid;
-                 $scope.val = val;
+                $scope.val = val;
                 $http({
                     method: 'GET',
                     url: domain + 'doctors/update-service-permission',
-                    params: {userId: window.localStorage.getItem('id'), serviceid: $scope.serviceid,value: $scope.val}
+                    params: {userId: window.localStorage.getItem('id'), serviceid: $scope.serviceid, value: $scope.val}
                 }).then(function successCallback(response) {
                     alert('Service Status Changed.')
                 }, function errorCallback(e) {
@@ -1507,8 +1507,218 @@ angular.module('your_app_name.controllers', [])
 //                }
             }
         })
+        .controller('DoctorSettingsNewCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.video = 0;
+            $scope.chat = 0;
+            $scope.clinic = 0;
+            $scope.home = 0;
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-doctor-setting-new',
+                params: {docId: window.localStorage.getItem('id'), interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.services = response.data.services;
+                $scope.docServices = response.data.docServices;
+                $scope.docSettings = response.data.docSettings;
+                $scope.instant_permission = response.data.schedule;
+                $scope.getSchedule = response.data.getSchedule;
+                $scope.instant_status = response.data.status;
+                $scope.status = $scope.instant_status.presence;
+                $scope.notification = response.data.notification;
+                $scope.serviceArray = response.data.serviceArray;
+                angular.forEach($scope.docServices, function (value, key) {
+                    if (value.service.id == '1' && value.active == '1') {
+                        $scope.video = 1;
+                    } else if (value.service.id == '2' && value.active == '1') {
+                        $scope.chat = 1;
+                    } else if (value.service.id == '3' && value.active == '1') {
+                        $scope.clinic = 1;
+                    } else if (value.service.id == '4' && value.active == '1') {
+                        $scope.home = 1;
+                    }
+                });
+                if ($scope.instant_permission.instant_permission) {
+                    jQuery('#setting').removeClass('hide');
+                } else {
+                    jQuery('#setting').addClass('hide');
+                }
+                $scope.instant_days = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_days_end = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_time = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                $scope.instant_time_end = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                // $scope.settingsList = [ { text: "Wireless", checked: true }];
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.pushNotification = function (notification) {
+                console.log("val " + notification);
+                if (notification == true) {
+//               alert('register user');
+                    $ionicPlatform.on("deviceready", function () {
+
+
+                        window.plugins.OneSignal.getIds(function (ids) {
+
+                            console.log('getIds: ' + JSON.stringify(ids));
+                            //  alert('UserID: ' + JSON.stringify(ids.userId));
+                            $http({
+                                method: 'GET',
+                                url: domain + 'notification/insertPlayerId',
+                                params: {userId: window.localStorage.getItem('id'), playerId: ids.userId}
+                            }).then(function successCallback(response) {
+                                if (response.data == 1) {
+                                    alert('Notification setting updated');
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+                        });
+                    });
+                } else {
+                    $ionicPlatform.on("deviceready", function () {
+                        // window.plugins.OneSignal.enableInAppAlertNotification(true);
+                        $http({
+                            method: 'GET',
+                            url: domain + 'notification/changeStatus',
+                            params: {userId: window.localStorage.getItem('id')}
+                        }).then(function successCallback(response) {
+                            if (response.data == 1) {
+                                alert('Notification setting updated');
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    });
+                }
+            }
+
+            $scope.checkinstantpermission = function (val) {
+                // alert(val)
+                $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-instant-permission',
+                    params: {userId: window.localStorage.getItem('id'), value: $scope.val}
+                }).then(function successCallback(response) {
+                    alert('Instant Video Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+            $scope.submitInstantPermission = function () {
+                var data = new FormData(jQuery("#instantpermission")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-permission",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+                        if (response == '0') {
+                            alert('End time cannot be earlier than start time');
+                        }
+                        if (response == '2') {
+                            alert('End day cannot be earlier than start day');
+                        }
+                        $state.go('app.doctor-settings-new', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
+
+            $scope.checkService = function (val, userid, serviceid) {
+
+                $scope.serviceid = serviceid;
+                $scope.userid = userid;
+                $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-service-permission',
+                    params: {userId: window.localStorage.getItem('id'), serviceid: $scope.serviceid, value: $scope.val}
+                }).then(function successCallback(response) {
+                    alert('Service Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+
+            $scope.doctor_presence = function (value) {
+                var id = window.localStorage.getItem('id');
+                var data = {status: value, did: id};
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-presense",
+                    data: data,
+                    cache: false,
+                    success: function (response) {
+                        alert('Your status has been changed');
+                        $state.go('app.doctor-settings-new');
+                    }
+                });
+            };
+            $scope.doc_services_setting = function (permission, service) {
+                alert(permission);
+                alert(service);
+                $scope.service = service;
+                $scope.permission = permission;
+                console.log(service);
+                console.log(permission);
+                $state.go('app.update-doctor-setting', {'data': service, 'permission': $scope.permission, 'uid': $scope.userId});
+//                
+            }
+        })
         .controller('UpdateDoctorSettingsCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.service = $stateParams.data;
+            $scope.permission = $stateParams.permission;
             $scope.uid = $stateParams.uid;
             alert($scope.service);
             $scope.video = 0;
@@ -1519,7 +1729,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctors/update-service-setting',
-                params: {userId: $scope.userId, service: $scope.service}
+                params: {userId: $scope.userId, service: $scope.service, permission: $scope.permission}
             }).then(function successCallback(response) {
                 console.log(response.data);
 
@@ -1661,10 +1871,10 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             }
-            
-            $scope.submitVideoService = function(){
-               
-                 var data = new FormData(jQuery("#servicevideo")[0]);
+
+            $scope.submitVideoService = function () {
+
+                var data = new FormData(jQuery("#servicevideo")[0]);
                 $.ajax({
                     type: 'POST',
                     url: domain + "doctors/update-doctor-service",
@@ -1675,7 +1885,7 @@ angular.module('your_app_name.controllers', [])
                     success: function (response) {
                         $ionicLoading.hide();
                         console.log(response);
-                       
+
                         alert('Video Setting Updated');
                         window.location.reload();
                         //$state.go('app.doctor-setting', {}, {reload: true});
@@ -6488,7 +6698,7 @@ angular.module('your_app_name.controllers', [])
                                                             audioBitRate: audioBitRate
                                                         }
                                                     }).then(function successCallback(response) {
-
+                                                        $ionicLoading.hide();
                                                     }, function errorCallback(e) {
 
                                                     });

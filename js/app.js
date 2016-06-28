@@ -306,9 +306,20 @@ angular.module('your_app_name', [
                         }
                     })
                     
+                    .state('app.doctor-settings-new', {
+                        cache: false,
+                        url: "/doctor-settings-new",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/doctor-settings-new.html",
+                                controller: 'DoctorSettingsNewCtrl'
+                            }
+                        }
+                    })
+                    
                     .state('app.update-doctor-setting', {
                         cache: false,
-                        url: "/update-doctor-setting/{data:string}/{uid:string}",
+                        url: "/update-doctor-setting/{data:string}/{permission:string}/{uid:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/update-doctor-setting.html",

@@ -1,0 +1,144 @@
+<ion-view class="settings-view">
+    <!--   <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+      </ion-nav-buttons> -->
+    <ion-nav-title>
+        <span>Settings</span>
+    </ion-nav-title>
+    <ion-content>
+        <div ng-if='docSettings.length == 0'> No seetings</div>
+        <div ng-if='docSettings.length > 0'>
+
+            <ul class="list" ng-repeat="(key, value) in docSettings">
+
+
+                <div ng-repeat="(k, val) in value">
+
+
+
+                    <div ng-if="k == 'Status'">
+
+                        <div class="item item-divider mt15">Status</div>
+                        <ion-list>
+                            <ion-radio ng-model="status" ng-checked="instant_status.presence == status" ng-disabled="val.edit == '0'" class="radioptions" ng-click="doctor_presence(status)" ng-value="'0'">Offline</ion-radio>
+                            <ion-radio ng-model="status" ng-checked="instant_status.presence == status"  ng-disabled="val.edit == '0'" class="radioptions" ng-click="doctor_presence(status)" ng-value="'2'">Busy</ion-radio>
+                            <ion-radio ng-model="status" ng-checked="instant_status.presence == status" ng-disabled="val.edit == '0'"  class="radioptions" ng-click="doctor_presence(status)"ng-value="'1'">Online</ion-radio>
+                        </ion-list>
+
+                    </div>
+                    <div ng-if="k == 'Video'">
+                        <div class="item item-divider mt15 ">Video </div>
+   
+                        <div ng-repeat="dServ in docServices"> 
+                           
+                            <div ng-if="dServ.service.service == 'Video'"> 
+                                <div ng-repeat="videoval in val">
+                                    {{videoval.edit}}
+                                    <div class="item item-divider" ng-if="videoval.control == 'Details Video'"  ng-click="doc_services_setting(videoval.edit,'Video')" style="background-color: #fff">
+                                        {{videoval.control}}   </div>
+                                    <div class="item item-divider"  ng-if="videoval.control != 'Details Video'" style="background-color: #fff">
+                                        {{videoval.control}}   </div>
+                                    <ion-toggle ng-model="video" ng-if="videoval.control == 'Enable Video'" ng-disabled="videoval.edit==0" ng-checked="video == 1" ng-click="checkService(video, userId, '1')" name="{{serv.service.service}}"  toggle-class="toggle-positive">Enable Video</ion-toggle>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div ng-if="dServ.service.service != k" ng-if="serviceArray.indexOf(k) == -1" > 
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
+
+                            </ul>
+                        </div>
+
+
+                    </div>
+
+
+                    <div ng-if="k == 'Chat'">
+                        <div class="item item-divider mt15">Chat</div>
+                        <div ng-repeat="dServ in docServices" > 
+                            <div ng-if="dServ.service.service == k">
+                                <div ng-repeat="videoval in val">
+                                    <div class="item item-divider" ng-if="videoval.control == 'Details Chat'"  ng-click="doc_services_setting(videoval.edit,'Chat')" style="background-color: #fff">
+                                        {{videoval.control}}   </div>
+                                    <div class="item item-divider"  ng-if="videoval.control != 'Details Chat'" style="background-color: #fff" >
+                                        {{videoval.control}}   </div>
+                                    <ion-toggle ng-model="chat" ng-checked="chat == 1" ng-disabled="videoval.edit==0" ng-if="videoval.control == 'Enable Chat'" name="{{serv.service.service}}" ng-click="checkService(chat, userId, '2')" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="dServ.service.service != k" ng-if="serviceArray.indexOf(k) == -1" > 
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-if="k == 'Clinic'">
+                        <div class="item item-divider mt15">Clinic</div>
+
+                        <div ng-repeat="dServ in docServices" ng-if="dServ.service.service == k" >
+                            <div ng-if="dServ.service.service == k" >
+                                <div ng-repeat="videoval in val">
+                                    <div class="item item-divider" ng-if="videoval.control == 'Details Clinic'"  ng-click="doc_services_setting(videoval.edit,'Clinic')" style="background-color: #fff" >
+                                        {{videoval.control}}   </div>
+                                    <div class="item item-divider"  ng-if="videoval.control != 'Details Clinic'" style="background-color: #fff" >
+                                        {{videoval.control}}   </div>
+                                    <ion-toggle ng-model="clinic" ng-checked="clinic == 1" ng-disabled="videoval.edit==0" ng-if="videoval.control == 'Enable Clinic'" name="{{serv.service.service}}" ng-click="checkService(clinic, userId, '3')" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
+                                </div>
+                            </div>
+                        </div>
+                        <div  ng-if="dServ.service.service != k" ng-if="serviceArray.indexOf(k) == -1"> 
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
+
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div ng-if="k == 'Home'">
+                        <div class="item item-divider mt15"> Home </div>
+                        <div ng-repeat="dServ in docServices" ng-if="dServ.service.service == k" > 
+                           {{serviceArray.indexOf(k)}}
+                            <div ng-if="dServ.service.service == k" >
+                                <div ng-repeat="videoval in val">
+                                    <div class="item item-divider" ng-if="videoval.control == 'Details Home'"  ng-click="doc_services_setting(videoval.edit,'Home')" style="background-color: #fff" >
+                                        {{videoval.control}}   </div>
+                                    <div class="item item-divider"  ng-if="videoval.control != 'Details Home'" style="background-color: #fff" >
+                                        {{videoval.control}}   </div>
+                                    <ion-toggle ng-model="home" ng-checked="home == 1" ng-disabled="videoval.edit==0" ng-if="videoval.control == 'Enable Home'" name="{{serv.service.service}}" ng-click="checkService(home, userId, '4')" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div ng-if="dServ.service.service != k"  ng-if="serviceArray.indexOf(k) == -1"> 
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div ng-if="k == 'Notifications'">
+                        <div class="item item-divider mt15">Notifications</div>
+                        <ion-toggle ng-model="notification" ng-disabled="ds.edit == '0'" ng-checked="notification.user_id == userId"  ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
+                    </div>
+                    <div ng-if="k == 'Languages'">
+                        <div class="item item-divider mt15">Languages</div>
+                        <ion-toggle ng-model="languages" ng-disabled="ds.edit == '0'" ng-checked="notification.user_id == userId" ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        <div class="item item-divider mt15" >Instant Video </div>
+        <div ng-click="doc_services_setting('Instant Video')" >
+            <div class="sinfo" >Note : These settings are only for instant video and will not affect your scheduled time slots.</div>
+
+            <input type="hidden" name="did" id="did" value="{{instant_permission.doctor_id}}">
+
+        </div>
+        <ion-toggle ng-model="instant_permission.instant_permission" ng-checked="instant_permission.instant_permission == '1'" ng-click="checkinstantpermission(instant_permission.instant_permission)" name="permission" ng-value="{{instant_permission.instant_permission}}"  toggle-class="toggle-positive"> Allow Instant Video </ion-toggle>
+
+
+    </ion-content>
+</ion-view>

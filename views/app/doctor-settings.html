@@ -111,26 +111,40 @@
                 <div ng-if="ds.setting_control.control == 'Home'">
                     <div class="item item-divider mt15"> Home </div>
                     <div ng-if="ds.edit == '1'">
-                        <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
-                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
-                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '4'">
-                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
-                            </div>
-                            Click Here to Update Home Service Setting
-                        </div>
-                        <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"   ng-click="checkService(home, userId, '4')"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
+                        <div ng-if="dServ.service.service != ds.setting_control.control" >
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
 
+                            </ul>
+                        </div>
+                        <div ng-if="dServ.service.service == ds.setting_control.control" >
+                            <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
+                                <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                                <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '4'">
+                                    <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                                </div>
+                                Click Here to Update Home Service Setting
+                            </div>
+                            <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"   ng-click="checkService(home, userId, '4')"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
+                        </div>
 
                     </div>
                     <div ng-if="ds.edit == '0'">
+                        <div ng-if="dServ.service.service != ds.setting_control.control" >
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
 
-                        <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
-                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
-                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
-                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </ul>
+                        </div>
+                        <div ng-if="dServ.service.service == ds.setting_control.control" >
+                            <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
+                                <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                                <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
+                                    <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                                </div>
+                                <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
+
                             </div>
-                            <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
-
                         </div>
                     </div>
                 </div>
