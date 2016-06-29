@@ -1720,6 +1720,32 @@ angular.module('your_app_name.controllers', [])
             $scope.service = $stateParams.data;
             $scope.permission = $stateParams.permission;
             $scope.uid = $stateParams.uid;
+            
+//            if($scope.service == 'Video'){
+//              //  alert('gfsgdf');
+//                 jQuery('#video').removeClass('hide');
+//                 jQuery('#chat').addClass('hide');
+//                  jQuery('#home').addClass('hide');
+//                   jQuery('#clinic').addClass('hide');
+//            }
+//            if($scope.service == 'Home'){
+//                jQuery('#home').removeClass('hide');
+//                 jQuery('#chat').addClass('hide');
+//                  jQuery('#video').addClass('hide');
+//                   jQuery('#clinic').addClass('hide');
+//            }
+//            if($scope.service == 'Clinic'){
+//                jQuery('#clinic').removeClass('hide');
+//                 jQuery('#chat').addClass('hide');
+//                  jQuery('#home').addClass('hide');
+//                   jQuery('#video').addClass('hide');
+//            }
+//            if($scope.service == 'Chat'){
+//                jQuery('#chat').removeClass('hide');
+//                 jQuery('#video').addClass('hide');
+//                  jQuery('#home').addClass('hide');
+//                   jQuery('#clinic').addClass('hide');
+//            }
             // alert($scope.service);
             $scope.dayfrom = [];
             $scope.dayto = [];
@@ -1950,7 +1976,7 @@ angular.module('your_app_name.controllers', [])
             }
 
             $scope.submitClinicService = function () {
-                var data = new FormData(jQuery("#servicevideo")[0]);
+                var data = new FormData(jQuery("#serviceclinic")[0]);
                 $.ajax({
                     type: 'POST',
                     url: domain + "doctors/update-doctor-service",
@@ -1970,26 +1996,7 @@ angular.module('your_app_name.controllers', [])
                         //  console.log(e.responseText);
                     }
                 });
-                var data = new FormData(jQuery("#servicevideo")[0]);
-                $.ajax({
-                    type: 'POST',
-                    url: domain + "doctors/update-doctor-service",
-                    data: data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        $ionicLoading.hide();
-                        console.log(response);
-
-                        // alert('Video Setting Updated');
-                        //  window.location.reload();
-                        //$state.go('app.doctor-setting', {}, {reload: true});
-                    },
-                    error: function (e) {
-                        //  console.log(e.responseText);
-                    }
-                });
+              
             }
 
 
