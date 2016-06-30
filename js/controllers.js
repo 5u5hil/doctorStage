@@ -1720,7 +1720,7 @@ angular.module('your_app_name.controllers', [])
             $scope.service = $stateParams.data;
             $scope.permission = $stateParams.permission;
             $scope.uid = $stateParams.uid;
-
+            
 //            if($scope.service == 'Video'){
 //              //  alert('gfsgdf');
 //                 jQuery('#video').removeClass('hide');
@@ -1900,24 +1900,6 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
 
-            $scope.checkclinicpermission = function (val, docserviceId, serviceId) {
-                alert(val);
-                alert(docserviceId);
-                alert(serviceId);
-                $scope.val = val;
-                $scope.serviceid = serviceId;
-                $scope.docserviceId = docserviceId;
-                $http({
-                    method: 'GET',
-                    url: domain + 'doctors/update-clinic-status',
-                    params: {userId: window.localStorage.getItem('id'), permission: $scope.val, serviceid: $scope.serviceid, docserviceId: $scope.docserviceId}
-                }).then(function successCallback(response) {
-                    alert('Clinic Service Status Changed.')
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
-            }
-
             $scope.submitInstantPermission = function () {
                 var data = new FormData(jQuery("#instantpermission")[0]);
                 $.ajax({
@@ -2014,7 +1996,7 @@ angular.module('your_app_name.controllers', [])
                         //  console.log(e.responseText);
                     }
                 });
-
+              
             }
 
 
