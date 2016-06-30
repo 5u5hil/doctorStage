@@ -9,7 +9,6 @@ angular.module('your_app_name.controllers', [])
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
-
             }
         })
         // APP
@@ -25,6 +24,20 @@ angular.module('your_app_name.controllers', [])
                 $rootScope.username = window.localStorage.getItem('fname');
                 $rootScope.userimage = window.localStorage.getItem('image');
             }
+            $ionicLoading.show({template: 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'get-dr-sidemenu',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.menuItem = response.data.menuItem;
+                    $ionicLoading.hide();
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
             $scope.logout = function () {
                 $http({
                     method: 'GET',
@@ -108,7 +121,6 @@ angular.module('your_app_name.controllers', [])
                                         }
                                     }, function errorCallback(e) {
                                         console.log(e);
-
                                     });
                                 });
                             } catch (err) {
@@ -163,8 +175,8 @@ angular.module('your_app_name.controllers', [])
             $scope.shared = 0;
             $scope.catIds = [];
             $scope.catId = [];
-            $scope.docId = '';
             $scope.userId = get('id');
+            $scope.docId = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-patient-record-category',
@@ -216,7 +228,7 @@ angular.module('your_app_name.controllers', [])
             //Share all records by Category
             $scope.share = function () {
                 if ($scope.catIds.length > 0) {
-                    if ($scope.docId != '') {
+                    if ($scope.patientId != '') {
                         var confirm = window.confirm("Do you really want to share?");
                         if (confirm) {
                             console.log($scope.catIds);
@@ -228,7 +240,8 @@ angular.module('your_app_name.controllers', [])
                                 console.log(response);
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
-                                    $state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
+                                    window.location.reload();
+                                    //$state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
@@ -246,7 +259,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
@@ -255,14 +267,15 @@ angular.module('your_app_name.controllers', [])
 
         .controller('AdsCtrl', function ($scope, $http, $state, $ionicActionSheet, AdMob, iAd, $ionicModal) {
             $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = get('id');
             // Load the modal from the given template URL
             $ionicModal.fromTemplateUrl('addrecord.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.getCategory = function () {
                     $http({
                         method: 'GET',
-                        url: domain + 'records/get-record-categories',
-                        params: {userId: $scope.userid, interface: $scope.interface}
+                        url: domain + 'records/get-doctor-record-categories',
+                        params: {userId: $scope.userId, interface: $scope.interface}
                     }).then(function successCallback(response) {
                         $scope.cats = response.data;
                         $scope.modal.show();
@@ -284,10 +297,11 @@ angular.module('your_app_name.controllers', [])
                 animation: 'slide-in-up'
             });
         })
-        
+
+
+
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
-
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -301,6 +315,8 @@ angular.module('your_app_name.controllers', [])
             $scope.selConditions = [];
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.endDate = '0000-00-00';
+            $scope.endTime = $filter('date')($scope.endTime, 'HH:mm');
             //$scope.curT = new Date()$filter('date')(new Date(), 'H:i');
             $scope.userId = get('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -393,7 +409,7 @@ angular.module('your_app_name.controllers', [])
                                 $http({
                                     method: 'POST',
                                     url: domain + 'doctrsrecords/share',
-                                    params: {id: $scope.recIds, userId: $scope.userId, docId:  $scope.patientId, shared: 0}
+                                    params: {id: $scope.recIds, userId: $scope.userId, docId: $scope.patientId, shared: 0}
                                 }).then(function successCallback(response) {
                                     console.log(response);
                                     if (response.data == 'Success') {
@@ -403,7 +419,6 @@ angular.module('your_app_name.controllers', [])
                                 }, function errorCallback(e) {
                                     console.log(e);
                                 });
-
                             } else {
 
                                 alert("Record added successfully!");
@@ -424,7 +439,6 @@ angular.module('your_app_name.controllers', [])
                     return trueOrigin;
                 }
             };
-
             $scope.getPrescription = function (pre) {
                 console.log('pre ' + pre);
                 if (pre === ' No') {
@@ -503,7 +517,6 @@ angular.module('your_app_name.controllers', [])
                     console.log(err);
                 });
             };
-
             $scope.uploadPicture = function () {
                 //$ionicLoading.show({template: 'Uploading..'});
                 var fileURL = $scope.picData;
@@ -531,7 +544,6 @@ angular.module('your_app_name.controllers', [])
                     //$ionicLoading.hide();
                 }, options);
             };
-
             $scope.chkDt = function (dt) {
                 console.log(dt);
                 console.log($scope.curTime);
@@ -541,7 +553,6 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#enddt').val('');
                 }
             };
-
             $scope.check = function (val) {
                 console.log(val);
                 if ($scope.categoryId == 7) {
@@ -598,7 +609,6 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
-
             $scope.rcheck = function (val) {
                 console.log(val);
                 if ($scope.categoryId == 2) {
@@ -613,7 +623,6 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
-
             $scope.shCheck = function (val) {
                 console.log(val);
                 if ($scope.categoryId == 3) {
@@ -624,7 +633,6 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
-
             $scope.radChange = function (prob) {
                 console.log(prob);
                 if ($scope.categoryId == 14) {
@@ -635,14 +643,17 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
                 if ($scope.categoryId == 30) {
-                    if (prob == 'Repeat') {
+                    if (prob != 'Onetime') {
+                        jQuery('#endtime').removeClass('hide');
+                        jQuery('#enddate').removeClass('hide');
                         jQuery('.taskn').removeClass('hide');
-                    } else if (prob == 'Onetime') {
+                    } else {
+                        jQuery('#endtime').addClass('hide');
+                        jQuery('#enddate').addClass('hide');
                         jQuery('.taskn').addClass('hide');
                     }
                 }
             };
-
             $scope.setFile = function (element) {
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
@@ -674,7 +685,6 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
-
             $ionicModal.fromTemplateUrl('mealdetails', {
                 scope: $scope
             }).then(function (modal) {
@@ -684,7 +694,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.day = 'day' + (day - 1);
                     $scope.modal.show();
                 };
-
             });
             $scope.dietdetails = function (days) {
                 console.log(days);
@@ -715,13 +724,12 @@ angular.module('your_app_name.controllers', [])
                 //console.log(JSON.stringify($scope.mealDetails[day]));
                 $scope.modal.hide();
             };
-
             $scope.submitmodal = function () {
                 $scope.modal.hide();
                 $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
             };
         })
-        
+
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
@@ -731,7 +739,10 @@ angular.module('your_app_name.controllers', [])
             $scope.limit = 3;
             $scope.recId = [];
             $scope.recIds = [];
+            $scope.repeatFreq = [];
+            $scope.repeatNo = [];
             $scope.userId = get('id');
+            $scope.docId = get('id');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-records-details',
@@ -743,6 +754,20 @@ angular.module('your_app_name.controllers', [])
                     if ($scope.records[0].record_metadata.length == 6) {
                         $scope.limit = 3; //$scope.records[0].record_metadata.length;
                     }
+                    angular.forEach($scope.records, function (value, key) {
+                        console.log(key);
+                        angular.forEach(value.record_metadata, function (val, k) {
+                            console.log();
+                            if ($scope.catId == 30) {
+                                if (val.field_id == 'no-of-frequency') {
+                                    $scope.repeatFreq[key] = val.value;
+                                }
+                                if (val.field_id == 'no-of-times') {
+                                    $scope.repeatNo[key] = val.value;
+                                }
+                            }
+                        });
+                    });
                 }
                 $scope.category = response.data.category;
                 $scope.createdby = response.data.createdby;
@@ -791,7 +816,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.recIds.splice(index, 1);
                 }
                 console.log($scope.recIds);
-
             };
             $scope.getDocId = function (id) {
                 console.log(id);
@@ -828,7 +852,7 @@ angular.module('your_app_name.controllers', [])
                             $http({
                                 method: 'POST',
                                 url: domain + 'doctrsrecords/share-by-category',
-                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
+                                params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
                                 console.log(response);
                                 if (response.data == 'Success') {
@@ -838,7 +862,6 @@ angular.module('your_app_name.controllers', [])
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
-
                         }
                     } else {
                         alert("Please select doctor to share with!");
@@ -853,14 +876,12 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.btview').css('display', 'none');
                 jQuery('#rec1').css('display', 'none');
                 jQuery('#rec3').css('display', 'block');
-
             };
             $scope.recordShare = function () {
                 jQuery('.selectrecord').css('display', 'block');
                 jQuery('.btview').css('display', 'none');
                 jQuery('#rec1').css('display', 'none');
                 jQuery('#rec2').css('display', 'block');
-
             }
             $scope.CancelAction = function () {
                 jQuery('.selectrecord').css('display', 'none');
@@ -869,7 +890,6 @@ angular.module('your_app_name.controllers', [])
                 jQuery('#rec2').css('display', 'none');
                 jQuery('#rec3').css('display', 'none');
             };
-
             $scope.selectcheckbox = function ($event) {
                 console.log($event);
                 // if($event==true){
@@ -882,7 +902,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
@@ -895,6 +914,7 @@ angular.module('your_app_name.controllers', [])
             $scope.userId = get('id');
             $scope.shared = $stateParams.shared;
             $scope.patientId = $stateParams.patientId;
+            $scope.docId = get('id');
             $scope.measurements = {value: 'no'};
             $scope.obj = {value: 'no'};
             $scope.testResult = {value: 'no'};
@@ -963,7 +983,7 @@ angular.module('your_app_name.controllers', [])
                         $http({
                             method: 'POST',
                             url: domain + 'doctrsrecords/share',
-                            params: {id: $scope.recordId, userId: $scope.userId, docId: $scope.docId, shared: $scope.shared}
+                            params: {id: $scope.recordId, userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                         }).then(function successCallback(response) {
                             console.log(response);
                             if (response.data == 'Success') {
@@ -973,7 +993,6 @@ angular.module('your_app_name.controllers', [])
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-
                     }
                 } else {
                     alert("Please select doctor to share with!");
@@ -1027,7 +1046,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
@@ -1127,7 +1145,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
@@ -1145,7 +1162,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.searchBy = function (type) {
                 console.log(type);
                 if (type == 1) {
@@ -1158,13 +1174,11 @@ angular.module('your_app_name.controllers', [])
                     jQuery("#selectlocation").addClass('hide');
                 }
             };
-
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 // alert($scope.searchkey);
                 $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
             };
-
             $scope.searchByLocation = function (locid) {
                 $scope.searchkey = locid
                 // alert($scope.searchkey);
@@ -1184,10 +1198,8 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.data);
                 $scope.getMedicine = response.data.getMedicine;
                 $scope.otherMedicine = response.data.otherMedicine;
-
                 $scope.telecentre = response.data.telecentre;
                 $scope.getLocation = response.data.getLocation;
-
                 var data = response.data.getLocation;
                 $scope.location = _.reduce(
                         data,
@@ -1205,14 +1217,12 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-
 // search from serach result ---Bhavana //
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 //  var data = new FormData(jQuery("#loginuser")[0]);
                 $state.go('app.searchinventory', {'key': $scope.searchkey}, {reload: true});
             };
-
 // search from serach result end ---Bhavana //
 
             $scope.searchByLocation = function (locId) {
@@ -1221,7 +1231,6 @@ angular.module('your_app_name.controllers', [])
                 //  var data = new FormData(jQuery("#loginuser")[0]);
                 $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
             };
-
             $scope.changeLocation = function (locationid) {
                 $scope.searchkey = locationid;
                 $state.go('app.search-location', {'key': $scope.searchkey}, {reload: true});
@@ -1283,22 +1292,41 @@ angular.module('your_app_name.controllers', [])
 
         .controller('DoctorSettingsCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
             $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.video = 0;
+            $scope.chat = 0;
+            $scope.clinic = 0;
+            $scope.home = 0;
             $http({
                 method: 'GET',
                 url: domain + 'doctors/get-doctor-setting',
-                params: {docId: window.localStorage.getItem('id')}
+                params: {docId: window.localStorage.getItem('id'), interface: $scope.interface}
             }).then(function successCallback(response) {
                 console.log(response.data);
+                $scope.services = response.data.services;
+                $scope.docServices = response.data.docServices;
+                $scope.docSettings = response.data.docSettings;
                 $scope.instant_permission = response.data.schedule;
+                $scope.getSchedule = response.data.getSchedule;
                 $scope.instant_status = response.data.status;
                 $scope.status = $scope.instant_status.presence;
                 $scope.notification = response.data.notification;
+                angular.forEach($scope.docServices, function (value, key) {
+                    if (value.service.id == '1' && value.active == '1') {
+                        $scope.video = 1;
+                    } else if (value.service.id == '2' && value.active == '1') {
+                        $scope.chat = 1;
+                    } else if (value.service.id == '3' && value.active == '1') {
+                        $scope.clinic = 1;
+                    } else if (value.service.id == '4' && value.active == '1') {
+                        $scope.home = 1;
+                    }
+                });
                 if ($scope.instant_permission.instant_permission) {
                     jQuery('#setting').removeClass('hide');
                 } else {
                     jQuery('#setting').addClass('hide');
                 }
-
                 $scope.instant_days = [{text: "Monday", value: '1'},
                     {text: "Tuesday", value: '2'},
                     {text: "Wednesday", value: '3'},
@@ -1348,7 +1376,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.pushNotification = function (notification) {
                 console.log("val " + notification);
                 if (notification == true) {
@@ -1371,7 +1398,6 @@ angular.module('your_app_name.controllers', [])
                             }, function errorCallback(e) {
                                 console.log(e);
                             });
-
                         });
                     });
                 } else {
@@ -1392,12 +1418,18 @@ angular.module('your_app_name.controllers', [])
                 }
             }
 
-            $scope.checkp = function (val) {
-                if (val) {
-                    jQuery('#setting').removeClass('hide');
-                } else {
-                    jQuery('#setting').addClass('hide');
-                }
+            $scope.checkinstantpermission = function (val) {
+                // alert(val)
+                $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-instant-permission',
+                    params: {userId: window.localStorage.getItem('id'), value: $scope.val}
+                }).then(function successCallback(response) {
+                    alert('Instant Video Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             }
             $scope.submitInstantPermission = function () {
                 var data = new FormData(jQuery("#instantpermission")[0]);
@@ -1425,6 +1457,22 @@ angular.module('your_app_name.controllers', [])
                 });
             }
 
+            $scope.checkService = function (val, userid, serviceid) {
+
+                $scope.serviceid = serviceid;
+                $scope.userid = userid;
+                $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-service-permission',
+                    params: {userId: window.localStorage.getItem('id'), serviceid: $scope.serviceid, value: $scope.val}
+                }).then(function successCallback(response) {
+                    alert('Service Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+
             $scope.doctor_presence = function (value) {
                 var id = window.localStorage.getItem('id');
                 var data = {status: value, did: id};
@@ -1439,8 +1487,522 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+            $scope.doc_services_setting = function (service) {
+                $scope.service = service;
+                console.log(service);
+                // alert('fsdfsdf');
+                $state.go('app.update-doctor-setting', {'data': service, 'uid': $scope.userId});
+//                if (service == 'Video') {
+//                    $http({
+//                        method: 'GET',
+//                        url: domain + 'doctors/update-service-setting',
+//                        params: {userId: $scope.userId, service: $scope.service}
+//                    }).then(function successCallback(response) {
+//                        console.log(response.data);
+//                        $scope.getprice = response.data.getPrice;
+//                        
+//                    }, function errorCallback(e) {
+//                        console.log(e);
+//                    });
+//                }
+            }
         })
+        .controller('DoctorSettingsNewCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.video = 0;
+            $scope.chat = 0;
+            $scope.clinic = 0;
+            $scope.home = 0;
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/get-doctor-setting-new',
+                params: {docId: window.localStorage.getItem('id'), interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.services = response.data.services;
+                $scope.docServices = response.data.docServices;
+                $scope.docSettings = response.data.docSettings;
+                $scope.instant_permission = response.data.schedule;
+                $scope.getSchedule = response.data.getSchedule;
+                $scope.instant_status = response.data.status;
+                $scope.status = $scope.instant_status.presence;
+                $scope.notification = response.data.notification;
+                $scope.serviceArray = response.data.serviceArray;
+                angular.forEach($scope.docServices, function (value, key) {
+                    if (value.service.id == '1' && value.active == '1') {
+                        $scope.video = 1;
+                    } else if (value.service.id == '2' && value.active == '1') {
+                        $scope.chat = 1;
+                    } else if (value.service.id == '3' && value.active == '1') {
+                        $scope.clinic = 1;
+                    } else if (value.service.id == '4' && value.active == '1') {
+                        $scope.home = 1;
+                    }
+                });
+                if ($scope.instant_permission.instant_permission) {
+                    jQuery('#setting').removeClass('hide');
+                } else {
+                    jQuery('#setting').addClass('hide');
+                }
+                $scope.instant_days = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_days_end = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_time = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                $scope.instant_time_end = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                // $scope.settingsList = [ { text: "Wireless", checked: true }];
 
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.pushNotification = function (notification) {
+                console.log("val " + notification);
+                if (notification == true) {
+//               alert('register user');
+                    $ionicPlatform.on("deviceready", function () {
+
+
+                        window.plugins.OneSignal.getIds(function (ids) {
+
+                            console.log('getIds: ' + JSON.stringify(ids));
+                            //  alert('UserID: ' + JSON.stringify(ids.userId));
+                            $http({
+                                method: 'GET',
+                                url: domain + 'notification/insertPlayerId',
+                                params: {userId: window.localStorage.getItem('id'), playerId: ids.userId}
+                            }).then(function successCallback(response) {
+                                if (response.data == 1) {
+                                    alert('Notification setting updated');
+                                }
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+                        });
+                    });
+                } else {
+                    $ionicPlatform.on("deviceready", function () {
+                        // window.plugins.OneSignal.enableInAppAlertNotification(true);
+                        $http({
+                            method: 'GET',
+                            url: domain + 'notification/changeStatus',
+                            params: {userId: window.localStorage.getItem('id')}
+                        }).then(function successCallback(response) {
+                            if (response.data == 1) {
+                                alert('Notification setting updated');
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    });
+                }
+            }
+
+            $scope.checkinstantpermission = function (val) {
+                alert(val)
+                $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-instant-permission',
+                    params: {userId: window.localStorage.getItem('id'), value: $scope.val}
+                }).then(function successCallback(response) {
+                    alert('Instant Video Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+            $scope.submitInstantPermission = function () {
+                var data = new FormData(jQuery("#instantpermission")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-permission",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+                        if (response == '0') {
+                            alert('End time cannot be earlier than start time');
+                        }
+                        if (response == '2') {
+                            alert('End day cannot be earlier than start day');
+                        }
+                        $state.go('app.doctor-settings-new', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
+
+            $scope.checkService = function (val, userid, serviceid) {
+
+                $scope.serviceid = serviceid;
+                $scope.userid = userid;
+                $scope.val = val;
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctors/update-service-permission',
+                    params: {userId: window.localStorage.getItem('id'), serviceid: $scope.serviceid, value: $scope.val}
+                }).then(function successCallback(response) {
+                    alert('Service Status Changed.')
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            }
+
+            $scope.doctor_presence = function (value) {
+                var id = window.localStorage.getItem('id');
+                var data = {status: value, did: id};
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-presense",
+                    data: data,
+                    cache: false,
+                    success: function (response) {
+                        alert('Your status has been changed');
+                        $state.go('app.doctor-settings-new');
+                    }
+                });
+            };
+            $scope.doc_services_setting = function (permission, service) {
+                // alert(permission);
+                // alert(service);
+                $scope.service = service;
+                $scope.permission = permission;
+                console.log(service);
+                console.log(permission);
+                $state.go('app.update-doctor-setting', {'data': service, 'permission': $scope.permission, 'uid': $scope.userId});
+//                
+            }
+        })
+        .controller('UpdateDoctorSettingsCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
+            $scope.service = $stateParams.data;
+            $scope.permission = $stateParams.permission;
+            $scope.uid = $stateParams.uid;
+            
+//            if($scope.service == 'Video'){
+//              //  alert('gfsgdf');
+//                 jQuery('#video').removeClass('hide');
+//                 jQuery('#chat').addClass('hide');
+//                  jQuery('#home').addClass('hide');
+//                   jQuery('#clinic').addClass('hide');
+//            }
+//            if($scope.service == 'Home'){
+//                jQuery('#home').removeClass('hide');
+//                 jQuery('#chat').addClass('hide');
+//                  jQuery('#video').addClass('hide');
+//                   jQuery('#clinic').addClass('hide');
+//            }
+//            if($scope.service == 'Clinic'){
+//                jQuery('#clinic').removeClass('hide');
+//                 jQuery('#chat').addClass('hide');
+//                  jQuery('#home').addClass('hide');
+//                   jQuery('#video').addClass('hide');
+//            }
+//            if($scope.service == 'Chat'){
+//                jQuery('#chat').removeClass('hide');
+//                 jQuery('#video').addClass('hide');
+//                  jQuery('#home').addClass('hide');
+//                   jQuery('#clinic').addClass('hide');
+//            }
+            // alert($scope.service);
+            $scope.dayfrom = [];
+            $scope.dayto = [];
+            $scope.dayid = [];
+
+            $http({
+                method: 'GET',
+                url: domain + 'doctors/update-service-setting',
+                params: {userId: $scope.userId, service: $scope.service, permission: $scope.permission}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+
+                $scope.price = response.data.getPrice;
+                $scope.days = response.data.days;
+                $scope.servicdayArray = response.data.servicdayArray;
+                $scope.schedule = response.data.getSchedule;
+                //               if (response.data.service != 'Clinic') {
+                //                   console.log('clinic' + $scope.schedule)
+                if (response.data.service != 'Instant Video') {
+                    angular.forEach($scope.schedule, function (value, key) {
+                        console.log(value.dayfrom + " ==  " + key);
+                        $scope.dayfrom[key] = (value.dayfrom).split(',');
+                        $scope.dayto[key] = (value.dayto).split(',');
+                        $scope.dayid[key] = (value.dayid).split(',');
+                    });
+                    console.log($scope.dayfrom);
+                }
+
+                //                   console.log($scope.dayfrom);
+//                } else {
+//                    angular.forEach($scope.schedule, function (value, key) {
+//                        console.log(value[].dayfrom + " ==  " + key);
+//                        angular.forEach(value, function (val, k) {
+//                          //   console.log(val.dayfrom + " ==  " + key);
+//                       $scope.dayfrom[k] = (val.dayfrom).split(',');
+//                        $scope.dayto[k] = (val.dayto).split(',');
+//                        $scope.dayid[k] = (val.dayid).split(',');
+//                        });
+//                    });
+//                    console.log($scope.dayfrom);
+//                }
+
+//                 $scope.scheduleid = response.data.getSchedule;
+//                  $scope.schedulefrom = response.data.getSchedule;
+//                   $scope.scheduleto = response.data.getSchedule;
+                // $scope.instant_permission = response.data.schedule;
+
+                $scope.instant_days = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_days_end = [{text: "Monday", value: '1'},
+                    {text: "Tuesday", value: '2'},
+                    {text: "Wednesday", value: '3'},
+                    {text: "Thursday", value: '4'},
+                    {text: "Friday", value: '5'},
+                    {text: "Saturday", value: '6'},
+                    {text: "Sunday", value: '7'}];
+                $scope.instant_time = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                $scope.instant_time_end = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+
+                $scope.video_days_start = [{text: "Monday", value: 'Monday'},
+                    {text: "Tuesday", value: 'Tuesday'},
+                    {text: "Wednesday", value: 'Wednesday'},
+                    {text: "Thursday", value: 'Thursday'},
+                    {text: "Friday", value: 'Friday'},
+                    {text: "Saturday", value: 'Saturday'},
+                    {text: "Sunday", value: 'Sunday'}];
+                $scope.video_days_end = [{text: "Monday", value: 'Monday'},
+                    {text: "Tuesday", value: 'Tuesday'},
+                    {text: "Wednesday", value: 'Wednesday'},
+                    {text: "Thursday", value: 'Thursday'},
+                    {text: "Friday", value: 'Friday'},
+                    {text: "Saturday", value: 'Saturday'},
+                    {text: "Sunday", value: 'Sunday'}];
+                $scope.clinic_time_start = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                $scope.clinic_time_end = [{text: "09:00", value: '09:00:00'},
+                    {text: "10:00", value: '10:00:00'},
+                    {text: "11:00", value: '11:00:00'},
+                    {text: "12:00", value: '12:00:00'},
+                    {text: "13:00", value: '13:00:00'},
+                    {text: "14:00", value: '14:00:00'},
+                    {text: "15:00", value: '15:00:00'},
+                    {text: "16:00", value: '16:00:00'},
+                    {text: "17:00", value: '17:00:00'},
+                    {text: "18:00", value: '18:00:00'},
+                    {text: "19:00", value: '19:00:00'},
+                    {text: "20:00", value: '20:00:00'},
+                    {text: "21:00", value: '21:00:00'},
+                    {text: "22:00", value: '22:00:00'},
+                    {text: "23:00", value: '23:00:00'}];
+                $scope.drservice = response.data.getService;
+                angular.forEach($scope.docServices, function (value, key) {
+                    if (value.service.id == '1' && value.active == '1') {
+                        $scope.video = 1;
+                    } else if (value.service.id == '2' && value.active == '1') {
+                        $scope.chat = 1;
+                    } else if (value.service.id == '3' && value.active == '1') {
+                        $scope.clinic = 1;
+                    } else if (value.service.id == '4' && value.active == '1') {
+                        $scope.home = 1;
+                    }
+                });
+
+                //$state.go('app.update-doctor-setting', {'data': $scope.service, 'uid': $scope.userId});
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+
+            $scope.submitInstantPermission = function () {
+                var data = new FormData(jQuery("#instantpermission")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-permission",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+                        if (response == '0') {
+                            alert('End time cannot be earlier than start time');
+                        }
+                        if (response == '2') {
+                            alert('End day cannot be earlier than start day');
+                        }
+                        alert('Instant Video Permission Updated');
+                        window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
+
+            $scope.submitVideoService = function () {
+
+                var data = new FormData(jQuery("#servicevideo")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-service",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+
+                        // alert('Video Setting Updated');
+                        //  window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
+            $scope.submitHomeService = function () {
+
+                var data = new FormData(jQuery("#servicehome")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-service",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+
+                        // alert('Video Setting Updated');
+                        //  window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            }
+
+            $scope.submitClinicService = function () {
+                var data = new FormData(jQuery("#serviceclinic")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "doctors/update-doctor-service",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        $ionicLoading.hide();
+                        console.log(response);
+
+                        // alert('Video Setting Updated');
+                        //  window.location.reload();
+                        //$state.go('app.doctor-setting', {}, {reload: true});
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+              
+            }
+
+
+
+
+        })
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.users = {};
@@ -1489,7 +2051,6 @@ angular.module('your_app_name.controllers', [])
                     alert("Patient added successfully!");
                     window.location.reload();
                 });
-
             };
         })
 
@@ -1648,7 +2209,6 @@ angular.module('your_app_name.controllers', [])
                 });
                 $ionicLoading.hide();
             });
-
             $scope.checkAvailability = function (uid, prodId) {
                 $scope.interface = window.localStorage.getItem('interface_id');
                 console.log("prodId check availability" + prodId);
@@ -1675,7 +2235,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.getNextSlots = function (nextDate, supsassId, key, serv) {
                 console.log(nextDate + '=======' + supsassId + '=====' + key + "Seveice == " + serv);
-                var from = $filter('date')(new Date(nextDate), 'yyyy-MM-dd') + '+05:30:00';  // HH:mm:ss
+                var from = $filter('date')(new Date(nextDate), 'yyyy-MM-dd') + '+05:30:00'; // HH:mm:ss
                 $ionicLoading.show({template: 'Loading...'});
                 $http({
                     method: 'GET',
@@ -1789,15 +2349,17 @@ angular.module('your_app_name.controllers', [])
                     console.log(response);
                 });
             };
-            $scope.bookSlot = function (starttime, endtime, supid) {
+            $scope.bookSlot = function (starttime, endtime, supid, servId) {
                 $scope.bookingStart = starttime;
                 $scope.bookingEnd = endtime;
                 $scope.supId = supid;
+                $scope.servId = servId;
             };
             $scope.bookAppointment = function (prodId, serv) {
                 // $scope.pleaseselectslot = response.data.pleaseselectslot;
                 console.log($scope.bookingStart);
                 if ($scope.bookingStart) {
+                    window.localStorage.setItem('servId', $scope.servId);
                     window.localStorage.setItem('supid', $scope.supId);
                     window.localStorage.setItem('startSlot', $scope.bookingStart);
                     window.localStorage.setItem('endSlot', $scope.bookingEnd);
@@ -1892,6 +2454,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.paynowcountdown();
             }, 0);
             $scope.mode = window.localStorage.getItem('mode');
+            $scope.servId = window.localStorage.getItem('servId');
             $scope.supid = window.localStorage.getItem('supid');
             $scope.startSlot = window.localStorage.getItem('startSlot');
             $scope.endSlot = window.localStorage.getItem('endSlot');
@@ -1942,7 +2505,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsweb/book-appointment',
-                    params: {prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
+                    params: {prodId: $scope.prodid, kookooID: $scope.kookooID, userId: $scope.userId, servId: $scope.servId, startSlot: $scope.startSlot, endSlot: $scope.endSlot, patientId: $scope.patientId}
                 }).then(function successCallback(response) {
                     //console.log(response.data);
                     $ionicLoading.hide();
@@ -2035,7 +2598,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.searchFilter = function (obj) {
                 var re = new RegExp($scope.searchText, 'i');
                 return !$scope.searchText || re.test(obj.name) || re.test(obj.age.toString());
@@ -2120,7 +2682,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope) {
+        .controller('HomepageCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $ionicLoading) {
             $rootScope.recCId = "";
             $rootScope.measurement = "";
             //$rootScope.famHist = ""
@@ -2143,6 +2705,7 @@ angular.module('your_app_name.controllers', [])
             window.localStorage.removeItem('appId');
             window.localStorage.removeItem('drId');
             window.localStorage.removeItem('doctorId');
+            $ionicLoading.show({template: 'Loading..'});
             $http({
                 method: 'GET',
                 url: domain + 'doctorsapp/get-chat-unread-cnt',
@@ -2153,9 +2716,19 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
-
-
+            $http({
+                method: 'GET',
+                url: domain + 'get-dr-homemenu',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data) {
+                    $scope.menuItem = response.data.menuItem;
+                    $ionicLoading.hide();
+                } else {
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
         })
 
         .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
@@ -2183,15 +2756,12 @@ angular.module('your_app_name.controllers', [])
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
-
-
         })
 
         .controller('ContentLibraryCtrl', function ($scope, $http, $stateParams, $ionicModal, $filter, $sce) {
             $scope.category_sources = [];
             $scope.Math = window.Math;
             $scope.categoryId = $stateParams.categoryId;
-
             $ionicModal.fromTemplateUrl('create-library', {
                 scope: $scope
             }).then(function (modal) {
@@ -2200,7 +2770,6 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/get-doctors-article',
@@ -2215,9 +2784,6 @@ angular.module('your_app_name.controllers', [])
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
             };
-
-
-
         })
 
         .controller('NewarticleCtrl', function ($scope, $http, $state, $stateParams, $ionicScrollDelegate, $ionicModal, $ionicLoading) {
@@ -2235,11 +2801,9 @@ angular.module('your_app_name.controllers', [])
                 $scope.target_groups = response.data.target_groups;
                 $scope.languages = response.data.languages;
                 $scope.catId = response.data.user_cat.catId;
-
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.submitNewArticle = function () {
                 $scope.from = get('from');
                 $ionicLoading.show({template: 'Adding...'});
@@ -2254,7 +2818,6 @@ angular.module('your_app_name.controllers', [])
                         $state.go('app.content-library', {reload: true});
                     }
                 });
-
             }
             $scope.tabclick = function (taburl) {
                 jQuery('.notetab').hide();
@@ -2281,12 +2844,8 @@ angular.module('your_app_name.controllers', [])
             // jQuery('.mediascreen').css('height', wh - 152);
             jQuery('.notetab').css('height', wh - 147);
             jQuery('.videoscreen').css('height', wh - 152);
-
             jQuery('.videoscreen').hide();
-
             $scope.doctorId = window.localStorage.getItem('id');
-
-
             $scope.sessionId = '';
             $scope.token = '';
             $scope.aid = '';
@@ -2297,8 +2856,6 @@ angular.module('your_app_name.controllers', [])
 //            $scope.timer = '00:00:00';
             var stoppedTimer;
             $scope.Timercounter = 0;
-
-
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $http({
@@ -2314,7 +2871,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.submitNewVideoArticle = function () {
                 $scope.from = get('from');
                 $ionicLoading.show({template: 'Adding...'});
@@ -2331,18 +2887,14 @@ angular.module('your_app_name.controllers', [])
                         $state.go('app.content-library', {reload: true});
                     }
                 });
-
             }
 
             $scope.tabclick = function (taburl) {
                 $ionicScrollDelegate.resize();
                 $ionicScrollDelegate.scrollTop();
-
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
                 console.log(taburl + 'fasdfa');
-
-
                 jQuery('.headtab span').removeClass('active');
                 jQuery('.tab-buttons .tbtn').removeClass('active');
                 jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
@@ -2392,7 +2944,6 @@ angular.module('your_app_name.controllers', [])
                                 jQuery('.start').show();
                                 publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
                                 session.publish(publisher);
-
 //                                publisher.on('streamCreated', function (event) {
 //                                    console.log('Frame rate: ' + event.stream.frameRate);
 //                                });
@@ -2421,9 +2972,6 @@ angular.module('your_app_name.controllers', [])
                     }, function errorCallback(e) {
                         console.log(e);
                     });
-
-
-
                     $scope.recordVideo = function () {
                         $scope.Timercounter = 0;
                         $scope.onTimeout = function () {
@@ -2441,7 +2989,6 @@ angular.module('your_app_name.controllers', [])
                         $timeout(function () {
                             $scope.onTimeout();
                         }, 0);
-
                         $scope.recording = 'On';
                         jQuery('.start').hide();
                         jQuery('.stop').show();
@@ -2449,8 +2996,6 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.mediascreen').show();
                         jQuery('.next').hide();
                         jQuery('.rerecording').hide();
-
-
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/get-recording-start',
@@ -2460,10 +3005,7 @@ angular.module('your_app_name.controllers', [])
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-
                     };
-
-
                     $scope.recordingStop = function () {
                         //alert('stoppedTimer ' + stoppedTimer);
                         // alert($scope.Timercounter);
@@ -2476,29 +3018,29 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.videoscreen').show();
                         jQuery('.next').show();
                         jQuery('.rerecording').show();
-
-
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/recording-stop',
                             params: {archiveStop: 1, archiveId: $scope.aid}
                         }).then(function sucessCallback(response) {
                             console.log(response.data);
+                            $scope.playVideo($scope.aid);
+//                            $http({
+//                                method: 'GET',
+//                                url: domain + 'contentlibrary/recording-response',
+//                                params: {archiveId: $scope.aid}
+//                            }).then(function sucessCallback(response) {
+//                                console.log(response.data);
+//                                $scope.url = response.data.url;
+//                                window.localStorage.setItem('viedoUrl', $scope.url);
+//                                window.localStorage.setItem('archiveId', $scope.aid);
+//
+//
+//                            }, function errorCallback(e) {
+//                                console.log(e);
+//                            });
 
-                            $http({
-                                method: 'GET',
-                                url: domain + 'contentlibrary/recording-response',
-                                params: {archiveId: $scope.aid}
-                            }).then(function sucessCallback(response) {
-                                console.log(response.data);
-                                $scope.url = response.data.url;
-                                window.localStorage.setItem('viedoUrl', $scope.url);
-                                window.localStorage.setItem('archiveId', $scope.aid);
 
-
-                            }, function errorCallback(e) {
-                                console.log(e);
-                            });
 
                         }, function errorCallback(e) {
                             console.log(e);
@@ -2514,9 +3056,6 @@ angular.module('your_app_name.controllers', [])
                         jQuery('.next').hide();
                         jQuery('.rerecording').hide();
                         jQuery('.stop').hide();
-
-
-
                         $scope.doctorId = window.localStorage.getItem('id');
                         $http({
                             method: 'GET',
@@ -2560,26 +3099,26 @@ angular.module('your_app_name.controllers', [])
 //                                    publisher.on('streamCreated', function (event) {
 //                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
 //                                    });
-                                    var mic = 1;
-                                    var mute = 1;
-                                    jQuery(".muteMic").click(function () {
-                                        if (mic == 1) {
-                                            publisher.publishAudio(false);
-                                            mic = 0;
-                                        } else {
-                                            publisher.publishAudio(true);
-                                            mic = 1;
-                                        }
-                                    });
-                                    jQuery(".muteSub").click(function () {
-                                        if (mute == 1) {
-                                            subscriber.subscribeToAudio(false);
-                                            mute = 0;
-                                        } else {
-                                            subscriber.subscribeToAudio(true);
-                                            mute = 1;
-                                        }
-                                    });
+//                                    var mic = 1;
+//                                    var mute = 1;
+//                                    jQuery(".muteMic").click(function () {
+//                                        if (mic == 1) {
+//                                            publisher.publishAudio(false);
+//                                            mic = 0;
+//                                        } else {
+//                                            publisher.publishAudio(true);
+//                                            mic = 1;
+//                                        }
+//                                    });
+//                                    jQuery(".muteSub").click(function () {
+//                                        if (mute == 1) {
+//                                            subscriber.subscribeToAudio(false);
+//                                            mute = 0;
+//                                        } else {
+//                                            subscriber.subscribeToAudio(true);
+//                                            mute = 1;
+//                                        }
+//                                    });
                                 }
                             });
                         }, function errorCallback(e) {
@@ -2598,11 +3137,8 @@ angular.module('your_app_name.controllers', [])
                     }).then(function (modal) {
                         $scope.modal = modal;
                     });
-
                     $scope.playVideo = function (archiveid) {
-
                         $ionicLoading.show({template: 'Retriving Video...'});
-                        //   $timeout(function () {
                         $http({
                             method: 'GET',
                             url: domain + 'contentlibrary/play-recent-video',
@@ -2613,14 +3149,17 @@ angular.module('your_app_name.controllers', [])
                             $scope.playurl = response.data;
                             if ($scope.playurl != '') {
                                 $ionicLoading.hide();
-                                $scope.modal.show();
+                                // $scope.modal.show();
                             } else {
                                 $scope.playVideo(archiveid);
                             }
                         }, function errorCallback(e) {
                             console.log(e);
                         });
-                        //   }, 1000);
+                    }
+
+                    $scope.playVideoPreview = function () {
+                        $scope.modal.show();
                     }
 
                 }
@@ -2709,7 +3248,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.recordVideo = function () {
                 $http({
                     method: 'GET',
@@ -2729,7 +3267,6 @@ angular.module('your_app_name.controllers', [])
                     params: {archiveStop: 1, archiveId: $scope.aid}
                 }).then(function sucessCallback(response) {
                     console.log(response.data);
-
                     $http({
                         method: 'GET',
                         url: domain + 'contentlibrary/recording-response',
@@ -2740,7 +3277,6 @@ angular.module('your_app_name.controllers', [])
                         window.localStorage.setItem('viedoUrl', $scope.url);
                         window.localStorage.setItem('archiveId', $scope.aid);
                         $scope.naresh = window.localStorage.setItem('naresh', $scope.aid);
-
                         $state.go("app.new-video-article", {reload: true});
                     }, function errorCallback(e) {
                         console.log(e);
@@ -2768,11 +3304,6 @@ angular.module('your_app_name.controllers', [])
                     $state.go("app.new-video-article", {reload: true});
                 }
             };
-
-
-
-
-
         })
 
         .controller('LibraryFeedCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -3139,7 +3670,6 @@ angular.module('your_app_name.controllers', [])
                 $rootScope.$emit("GetFamilyDetails", (pid));
                 $scope.modal.hide();
             };
-
             $scope.gotopage = function (glink) {
                 $state.go(glink);
             };
@@ -3513,7 +4043,6 @@ angular.module('your_app_name.controllers', [])
             });
             $scope.submitmodal = function () {
                 $scope.modal.hide();
-
             };
             /* new added */
             $scope.shownext = function (bd, ab) {
@@ -3522,13 +4051,11 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.headtab span').removeClass('active');
                 jQuery('.headtab span[rel="' + ab + '"]').addClass('active');
             };
-
             $scope.accordiantab = function (pq) {
                 //jQuery('#'+pq).toggleClass('active');
                 jQuery('#' + pq).slideToggle();
                 // jQuery(this).toggleClass('active');
             };
-
             $scope.tabclick = function (taburl) {
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
@@ -3582,7 +4109,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-
             $ionicModal.fromTemplateUrl('addrelation', {
                 scope: $scope
             }).then(function (modal) {
@@ -3592,11 +4118,9 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-
             $rootScope.$on("GetFamilyDetails", function (pid) {
                 $scope.getFamHistory(pid);
             });
-
             $scope.getFamHistory = function (pid) {
                 console.log($rootScope.patientId);
                 if ($rootScope.patientId) {
@@ -3751,7 +4275,6 @@ angular.module('your_app_name.controllers', [])
             $rootScope.$on("SavePatient", function (pid) {
                 $scope.savePatientHistory();
             });
-
             $scope.getPatDetails = function (pid) {
                 console.log(pid);
                 console.log($rootScope.patientId);
@@ -3902,7 +4425,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-
             $scope.saveDMeasurements = function () {
                 //$ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addMeasureForm")[0]);
@@ -4854,7 +5376,6 @@ angular.module('your_app_name.controllers', [])
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
-
         })
         //View Note
         .controller('ViewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $sce, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
@@ -4929,7 +5450,6 @@ angular.module('your_app_name.controllers', [])
                 console.log($scope.catIds);
                 $scope.modal.hide();
             };
-
             $scope.print = function () {
                 //  console.log("fsfdfsfd");
                 //  var printerAvail = $cordovaPrinter.isAvailable();
@@ -5172,7 +5692,6 @@ angular.module('your_app_name.controllers', [])
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
-
             $scope.viewMedicine = function (consultationId) {
                 //alert(noteId);
                 // store({'noteId': noteId});
@@ -5180,12 +5699,10 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
-
-            $scope.doRefresh = function() {
-           $scope.$broadcast('scroll.refreshComplete');
-          };
-
+        .controller('DoctorConsultationsActiveCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar) {
+            $scope.doRefresh = function () {
+                $scope.$broadcast('scroll.refreshComplete');
+            };
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -5203,7 +5720,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.todays_end_time = response.data.todays_end_time;
                 $scope.todays_note = response.data.todays_note;
                 $scope.todays_medicine = response.data.todays_medicine;
-
                 $scope.week_data = response.data.week_data;
                 $scope.week_app = response.data.week_appointments;
                 $scope.week_usersData = response.data.week_usersData;
@@ -5212,7 +5728,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.week_end_time = response.data.week_end_time;
                 $scope.week_note = response.data.week_note;
                 $scope.week_medicine = response.data.week_medicine;
-
                 $scope.all_data = response.data.all_data;
                 $scope.all_app = response.data.all_appointments;
                 $scope.all_usersData = response.data.all_usersData;
@@ -5221,11 +5736,38 @@ angular.module('your_app_name.controllers', [])
                 $scope.all_end_time = response.data.all_end_time;
                 $scope.all_note = response.data.all_note;
                 $scope.all_medicine = response.data.all_medicine;
-
                 $scope.timeLimit = response.data.timelimit.cancellation_time;
             }, function errorCallback(e) {
                 console.log(e);
             });
+            /* search plugin */
+            var filterBarInstance;
+            $scope.showFilterBar = function () {
+                filterBarInstance = $ionicFilterBar.show({
+                    items: $scope.items,
+                    update: function (filteredItems, filterText) {
+                        $scope.items = filteredItems;
+                        if (filterText) {
+                            //console.log(filterText);
+                            $scope.filterall = filterText
+                        } else {
+                            $scope.filterall = '';
+                        }
+                    }
+                });
+            };
+            $scope.refreshItems = function () {
+                if (filterBarInstance) {
+                    filterBarInstance();
+                    filterBarInstance = null;
+                }
+
+                $timeout(function () {
+                    //getItems();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, 1000);
+            };
+            /* end of search plugin */
 
             $scope.approveAppointment = function (appId, prodId, mode, startTime, endTime) {
                 $http({
@@ -5301,7 +5843,7 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.curTime >= start || $scope.curTime <= end) {
                     console.log('redirect');
                     //$state.go('app.patient-join', {}, {reload: true});
-                    $state.go('app.doctor-join', {'id': appId, 'mode': mode}, {reload: true});
+                    $state.go('app.doctor-join', {'id': appId, 'mode': mode});
                 } else {
                     alert("You can join video before 15 minutes.");
                 }
@@ -5322,7 +5864,6 @@ angular.module('your_app_name.controllers', [])
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
-
             $scope.viewMedicine = function (consultationId) {
                 //alert(noteId);
                 // store({'noteId': noteId});
@@ -5330,7 +5871,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state) {
+        .controller('DoctorConsultationsPastCtrl', function ($scope, $http, $stateParams, $filter, $ionicPopup, $timeout, $ionicHistory, $filter, $state, $ionicFilterBar) {
             $scope.drId = get('id');
             $scope.userId = get('id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -5340,7 +5881,6 @@ angular.module('your_app_name.controllers', [])
                 params: {id: $scope.drId}
             }).then(function successCallback(response) {
                 console.log(response.data);
-
                 //past section
                 $scope.todays_app_past = response.data.todays_appointments_past;
                 $scope.todays_usersData_past = response.data.todays_usersData_past;
@@ -5376,35 +5916,50 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
-
-                  $scope.itemsDisplayall = 2
-                $scope.addMoreItemall = function(done) {  
-                    if ($scope.all_app_past.length > $scope.itemsDisplayall){
-                        console.log('all');
+            $scope.itemsDisplayall = 2
+            $scope.addMoreItemall = function (done) {
+                if ($scope.all_app_past.length > $scope.itemsDisplayall) {
+                    console.log('all');
                     $scope.itemsDisplayall += 2; // load number of more items
-                    }
-                    $scope.$broadcast('scroll.infiniteScrollComplete')
-                } 
-
-                 $scope.Displaythisweek = 2
-                $scope.Itemthisweek = function(done) {  
-                    if ($scope.week_past_data.length > $scope.Displaythisweek){
-                        console.log('week');
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete')
+            }
+            $scope.Displaythisweek = 2
+            $scope.Itemthisweek = function (done) {
+                if ($scope.week_past_data.length > $scope.Displaythisweek) {
+                    console.log('week');
                     $scope.Displaythisweek += 2; // load number of more items
+                }
+                $scope.$broadcast('scroll.infiniteScrollComplete')
+            }
+            /* search plugin */
+            var filterBarInstance;
+            $scope.showFilterBar = function () {
+                filterBarInstance = $ionicFilterBar.show({
+                    items: $scope.items,
+                    update: function (filteredItems, filterText) {
+                        $scope.items = filteredItems;
+                        if (filterText) {
+                            //console.log(filterText);
+                            $scope.filterall = filterText
+                        } else {
+                            $scope.filterall = '';
+                        }
                     }
-                    $scope.$broadcast('scroll.infiniteScrollComplete')
-                } 
+                });
+            };
+            $scope.refreshItems = function () {
+                if (filterBarInstance) {
+                    filterBarInstance();
+                    filterBarInstance = null;
+                }
 
-
-
-
-
-
-
-
-
-
+                $timeout(function () {
+                    //getItems();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, 1000);
+            };
+            /* end of search plugin */
             $scope.joinVideo = function (mode, start, end, appId) {
                 console.log(mode + "===" + start + '===' + end + "===" + $scope.curTime + "==" + appId);
                 if ($scope.curTime >= start || $scope.curTime <= end) {
@@ -5431,7 +5986,6 @@ angular.module('your_app_name.controllers', [])
                 store({'noteId': noteId});
                 $state.go("app.view-note", {'id': noteId}, {reload: true});
             };
-
             $scope.viewMedicine = function (consultationId) {
                 //alert(noteId);
                 // store({'noteId': noteId});
@@ -5450,7 +6004,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.medicine = response.data.medicine;
-
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -5651,7 +6204,6 @@ angular.module('your_app_name.controllers', [])
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.chatParticipants = response.data;
-
                 angular.forEach($scope.chatParticipants, function (value, key) {
                     $ionicLoading.show({template: 'Loading...'});
                     $http({
@@ -5676,9 +6228,6 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter, $state) {
-
-
-
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
             if (session) {
                 session.disconnect();
@@ -5710,7 +6259,6 @@ angular.module('your_app_name.controllers', [])
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
                         $scope.unreadCnt[key] = responseData.data.unreadCnt;
-
                         // 
 
                         $rootScope.$digest;
@@ -5721,7 +6269,14 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
+            $scope.goChat = function (chatId, chatStart, chatDate) {
+                //var chatDate = $filter('date')(chatStart, 'MMM dd, yyyy - HH:mm a');
+                if (chatStart <= $scope.curDate)
+                    $state.go('app.chat', {'id': chatId}, {reload: true});
+                else {
+                    alert('You can start chat at ' + chatDate);
+                }
+            };
             $scope.chatIncludes = [];
             $scope.includeChat = function (state) {
                 var i = $.inArray(state, $scope.chatIncludes);
@@ -5784,7 +6339,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.returnjs = function () {
                 jQuery(function () {
                     var wh = jQuery('window').height();
@@ -5803,7 +6357,6 @@ angular.module('your_app_name.controllers', [])
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
-
                         if (value.sender_id == $scope.partId) {
                             $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
@@ -5814,7 +6367,6 @@ angular.module('your_app_name.controllers', [])
                     });
                 })
             };
-
             $scope.movebottom = function () {
                 jQuery(function () {
                     var dh = $('.ot-bubbles').height();
@@ -5823,7 +6375,6 @@ angular.module('your_app_name.controllers', [])
 
                 })
             };
-
             $timeout(function () {
 
                 $scope.appendprevious();
@@ -5850,8 +6401,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.sessionId = response.data.chatSession;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
-
-
                 //  console.log("error source 1" + chatWidget);
 
             }, function errorCallback(e) {
@@ -5861,7 +6410,6 @@ angular.module('your_app_name.controllers', [])
                 jQuery(function () {
                     var wh = jQuery('window').height();
                     jQuery('#pchat').css('height', wh);
-
                     //	console.log(wh);
                 })
             };
@@ -5881,7 +6429,6 @@ angular.module('your_app_name.controllers', [])
                         //console.log(value);
                         // console.log('connectioning.....123');
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
-
                         if (value.sender_id == $scope.partId) {
                             // console.log('connectioning.....1234');
                             $ionicLoading.hide();
@@ -5893,7 +6440,6 @@ angular.module('your_app_name.controllers', [])
                     });
                 })
             };
-
             $scope.movebottom = function () {
                 jQuery(function () {
                     var dh = $('.ot-bubbles').height();
@@ -5902,7 +6448,6 @@ angular.module('your_app_name.controllers', [])
 
                 })
             };
-
             $timeout(function () {
 
                 $scope.appendprevious();
@@ -5978,11 +6523,9 @@ angular.module('your_app_name.controllers', [])
                         console.error(err);
                     }
                 });
-
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.returnjs = function () {
                 jQuery(function () {
                     var wh = jQuery('window').height();
@@ -6015,7 +6558,6 @@ angular.module('your_app_name.controllers', [])
 
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
-
             console.log("@@@@@@@----" + $scope.searchkey);
             $http({
                 method: 'GET',
@@ -6044,7 +6586,6 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 alert($scope.searchkey);
@@ -6090,11 +6631,9 @@ angular.module('your_app_name.controllers', [])
                         },
                         {}
                 );
-
             }, function errorCallback(response) {
                 console.log(response);
             });
-
             $scope.changeLocation = function (locationid) {
                 $scope.searchkey = locationid;
                 // alert($scope.searchkey);
@@ -6106,10 +6645,8 @@ angular.module('your_app_name.controllers', [])
                     console.log(response.data);
                     $scope.getMedicine = response.data.getMedicine;
                     $scope.otherMedicine = response.data.otherMedicine;
-
                     $scope.telecentre = response.data.telecentre;
                     $scope.getLocation = response.data.getLocation;
-
                     var data = response.data.getLocation;
                     $scope.location = _.reduce(
                             data,
@@ -6133,6 +6670,16 @@ angular.module('your_app_name.controllers', [])
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
 
             $ionicLoading.show({template: 'Loading...'});
+//            if (!get('loadedOnce')) {
+//                store({'loadedOnce': 'true'});
+//                $window.location.reload(true);
+//                // don't reload page, but clear localStorage value so it'll get reloaded next time
+//
+//            } else {
+//                // set the flag and reload the page
+//                window.localStorage.removeItem('loadedOnce');
+//            }
+
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
@@ -6146,7 +6693,8 @@ angular.module('your_app_name.controllers', [])
             $scope.medicinename = '';
             $scope.prescription = 'Yes';
             var stoppedTimer;
-            $scope.Timercounter = 0;
+            $scope.Timercounter;
+            var statstimer;
             $scope.$on('$destroy', function () {
 
                 try {
@@ -6164,7 +6712,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-
+                    window.clearInterval(statstimer);
+                    statstimer = '';
                 } catch (err) {
                     //alert('err while exitvideo ' + err);
                     session.off();
@@ -6174,7 +6723,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-
+                    window.clearInterval(statstimer);
+                    statstimer = '';
                 }
             });
             $scope.pushEvent = 'video_join';
@@ -6183,10 +6733,9 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'appointment/join-patient',
                 params: {id: $scope.appId, userId: $scope.userId}
             }).then(function sucessCallback(response) {
-                //console.log(response.data);
+                console.log(response.data);
                 $scope.user = response.data.user;
-                $scope.app = response.data.app;
-
+                $scope.appDetails = response.data.app;
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = '45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
@@ -6201,11 +6750,13 @@ angular.module('your_app_name.controllers', [])
                 session.on({
                     streamDestroyed: function (event) {
                         event.preventDefault();
+                        window.clearInterval(statstimer);
+                        statstimer = '';
                         var subscribers = session.getSubscribersForStream(event.stream);
                         console.log('stream distroy: ' + subscribers);
-                        alert('stream distroy length: ' + subscribers.length);
+                        //alert('stream distroy length: ' + subscribers.length);
                         console.log('on stream Destroy reason: ' + event.reason);
-                        alert('on stream Destroy reason: ' + event.reason);
+                        //alert('on stream Destroy reason: ' + event.reason);
                         jQuery("#subscribersDiv").html("Patient Left the Consultation");
                         session.unsubscribe();
                     },
@@ -6218,10 +6769,11 @@ angular.module('your_app_name.controllers', [])
                                         console.log('Subscriber added.');
                                         var subscribers2 = session.getSubscribersForStream(event.stream);
                                         console.log('Subscriber length.' + subscribers2.length);
-                                        alert('APK Subscriber length.' + subscribers2.length)
+                                        //alert('APK Subscriber length.' + subscribers2.length)
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
-                                        window.setInterval(function () {
+                                        statstimer = window.setInterval(function () {
+                                            $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
@@ -6238,7 +6790,6 @@ angular.module('your_app_name.controllers', [])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
-
                                                     $http({
                                                         method: 'GET',
                                                         url: domain + 'log/stats-log',
@@ -6250,17 +6801,16 @@ angular.module('your_app_name.controllers', [])
                                                             audioBitRate: audioBitRate
                                                         }
                                                     }).then(function successCallback(response) {
-
+                                                        $ionicLoading.hide();
                                                     }, function errorCallback(e) {
 
                                                     });
                                                 }
                                                 prevStats = stats;
                                             });
-                                        }, 1000);
+                                        }, 5000);
                                     }
                                 });
-
                     },
                     sessionDisconnected: function (event) {
                         var subscribers3 = session.getSubscribersForStream(event.stream);
@@ -6271,12 +6821,9 @@ angular.module('your_app_name.controllers', [])
                                     + 'Please check your connection and try connecting again.');
                             var subscribers4 = session.getSubscribersForStream(event.stream);
                             console.log('sessionDisconnected----1 : ' + subscribers4.length);
-
-
                         }
                     }
                 });
-
                 session.connect(token, function (error) {
                     if (error) {
                         $ionicLoading.hide();
@@ -6287,15 +6834,12 @@ angular.module('your_app_name.controllers', [])
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
-                                // alert("publisher Error code/msg: ", error.code, error.message);
-
-//                                alert($scope.app[0].appointments.scheduled_start_time);
-//                                alert($scope.curDate);
                             } else {
-                                alert($scope.app[0].appointments.scheduled_start_time);
-                                if ($scope.app[0].appointments.scheduled_start_time == $scope.curDate) {
-
-                                    $scope.Timercounter = 0;
+                                //alert($scope.appDetails[0].appointments.scheduled_start_time);
+                                if ($scope.curDate >= $scope.appDetails[0].appointments.scheduled_start_time && $scope.curDate <= $scope.appDetails[0].appointments.scheduled_end_time) {
+                                    console.log('inside appt, between tym');
+                                    $scope.Timercounter = getTimeDiffSec($scope.appDetails[0].appointments.scheduled_start_time, $scope.curDate);
+                                    console.log('getTimeDiffSec' + getTimeDiffSec($scope.appDetails[0].appointments.scheduled_start_time, $scope.curDate));
                                     $scope.onTimeout = function () {
                                         stoppedTimer = $timeout(function () {
                                             $scope.Timercounter++;
@@ -6311,6 +6855,8 @@ angular.module('your_app_name.controllers', [])
                                     $timeout(function () {
                                         $scope.onTimeout();
                                     }, 0);
+                                } else {
+                                    $scope.Timercounter = '00:00';
                                 }
                                 $http({
                                     method: 'GET',
@@ -6322,32 +6868,29 @@ angular.module('your_app_name.controllers', [])
                                 }, function errorCallback(e) {
                                 });
                                 publisher.on('streamCreated', function (event) {
-                                    // var subscribers5 = session.getSubscribersForStream(event.stream);
+                                    var subscribers5 = session.getSubscribersForStream(event.stream);
                                     //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                    alert('APK on publish lenghth.');
+                                    //  alert('APK on publish lenghth.');
                                     //  console.log('stream created: ' + subscribers5);
                                 });
-
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                    alert('on Destroy: ' + subscribers6)
+                                    // alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
-                                    alert('on Destroy reason: ' + event.reason);
+                                    //alert('on Destroy reason: ' + event.reason);
                                     //  session.unsubscribe();
                                     subscriber.destroy();
-                                    alert("publisher.destroy");
+                                    // alert("publisher.destroy");
                                     // console.log("subscriber.destroy" + subscriber.destroy);
                                     // session.disconnect()
                                 });
-
-
                                 var mic = 1;
                                 var mute = 1;
                                 var mutevideo = 1;
                                 jQuery(".muteVideo").click(function () {
-
+                                    console.log("Vcvxcvxc");
                                     if (mutevideo == 1) {
                                         publisher.publishVideo(false);
                                         mutevideo = 0;
@@ -6376,29 +6919,21 @@ angular.module('your_app_name.controllers', [])
                                 });
                             }
                         });
-
                     }
                 });
             }, function errorCallback(e) {
                 console.log(e);
             });
-
             $scope.adjquery = function () {
                 jQuery(function () {
                     console.log('call function');
                     var b = jQuery('iframe').contents().find('body .iframeclose');
-
                     $(b).on("click", function () {
                         jQuery('.ciframecontainer').removeClass('active');
                     })
 
-
-
-
-
                 })
             };
-
             $scope.golink = function (fsrc) {
                 console.log(" dfgshjdgf " + fsrc);
                 jQuery('iframe').attr('src', fsrc);
@@ -6407,25 +6942,12 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.custpopup-container').removeClass('active');
                 $scope.adjquery();
             };
-
             $scope.closeiframe = function () {
                 jQuery('.ciframecontainer').removeClass('active');
             };
-
             $timeout(function () {
                 $scope.adjquery();
             }, 4000);
-
-            if (!get('loadedOnce')) {
-                store({'loadedOnce': 'true'});
-                $window.location.reload(true);
-                // don't reload page, but clear localStorage value so it'll get reloaded next time
-
-            } else {
-                // set the flag and reload the page
-                window.localStorage.removeItem('loadedOnce');
-            }
-
             //ADD Consultation note
             $http({
                 method: "GET",
@@ -6740,7 +7262,6 @@ angular.module('your_app_name.controllers', [])
                     }
                 }
             };
-
             //End Consultaion code
             $scope.exitVideo = function () {
                 try {
@@ -6756,6 +7277,8 @@ angular.module('your_app_name.controllers', [])
                     //alert('EXIT : session off');
                     session.disconnect();
                     // alert('session disconnected try');
+                    window.clearInterval(statstimer);
+                    statstimer = '';
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
@@ -6770,7 +7293,8 @@ angular.module('your_app_name.controllers', [])
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
                     })
-
+                    window.clearInterval(statstimer);
+                    statstimer = '';
                 }
                 $http({
                     method: 'GET',
@@ -6778,26 +7302,78 @@ angular.module('your_app_name.controllers', [])
                     params: {id: $scope.appId, userId: $scope.userId}
                 }).then(function successCallback(response) {
                     $state.go('app.doctor-consultations', {}, {reload: true});
-
                 }, function errorCallback(e) {
 
                     $state.go('app.consultations-current', {}, {reload: true});
                 });
             };
-
             $scope.addnote = function () {
+
+                //Consusltation note details fetch
+                $http({
+                    method: "GET",
+                    url: domain + "doctrsrecords/get-app-details",
+                    params: {appId: $scope.appId}
+                }).then(function successCallback(response) {
+                    console.log(response.data.patient.id);
+                    $scope.patientId = response.data.patient.id;
+                    $scope.doctorId = response.data.doctr.id
+                    $scope.app = response.data.app;
+                    $scope.record = response.data.record;
+                    $scope.recordDetails = response.data.recordDetails;
+                    if ($scope.recordDetails.length > 0) {
+                        angular.forEach($scope.recordDetails, function (val, key) {
+                            if (val.fields.field == 'Case Id') {
+                                $scope.caseId = val.value;
+                                $scope.casetype = 0;
+                                jQuery('.fields #precase').removeClass('hide');
+                            }
+                        });
+                        $scope.recId = response.data.record.id;
+                    }
+                    if (response.data.app.mode == 1) {
+                        $scope.mode = 'Video';
+                    } else if (response.data.app.mode == 2) {
+                        $scope.mode = 'Chat';
+                    } else if (response.data.app.mode = 3) {
+                        $scope.mode = 'Clinic'
+                    } else if (response.data.app.mode == 4) {
+                        $scope.mode = 'Home';
+                    }
+                    console.log($scope.mode);
+                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
+                    window.localStorage.setItem('patientId', $scope.patientId);
+                    window.localStorage.setItem('doctorId', $scope.doctorId);
+                    console.log($scope.conDate);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-fields',
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.record = response.data.record;
+                        $scope.fields = response.data.fields;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.doctrs;
+                        $scope.patients = response.data.patients;
+                        $scope.cases = response.data.cases;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
                 jQuery('.mediascreen').toggleClass('minscreen');
                 jQuery('#consultnote-slide').toggleClass('active');
                 jQuery('#inventory-slide').removeClass('active');
             };
-
             $scope.removenoteslide = function () {
                 jQuery('.mediascreen').removeClass('minscreen');
                 jQuery('#consultnote-slide').removeClass('active');
                 jQuery('#inventory-slide').removeClass('active');
                 jQuery('.ciframecontainer').removeClass('active');
             };
-
             $scope.inventory = function () {
                 jQuery('.mediascreen').toggleClass('minscreen');
                 jQuery('#inventory-slide').toggleClass('active');
@@ -6809,7 +7385,6 @@ angular.module('your_app_name.controllers', [])
                 //$scope.invsearcha=false;
                 $scope.searchbox = true;
             };
-
             /* $http({
              method: 'GET',
              url: domain + 'inventory/get-all-phc-location',
@@ -6833,21 +7408,16 @@ angular.module('your_app_name.controllers', [])
                     jQuery("#selectlocation").addClass('hide');
                 }
             };
-
             $scope.searchByMedicine = function (searchkey) {
                 $scope.searchkey = searchkey
                 alert($scope.searchkey);
                 $scope.golink('#/app/inventory/search/' + $scope.searchkey);
-
             };
-
             $scope.searchByLocation = function (locid) {
                 $scope.searchkey = locid
                 alert($scope.searchkey);
                 $scope.golink('#/app/inventory/search-location/' + $scope.searchkey);
             };
-
-
             /* rightsidetab */
             $scope.intext = 'more';
             $scope.infomore = function (r) {
@@ -6862,11 +7432,9 @@ angular.module('your_app_name.controllers', [])
 
             sidetab('#cstab1');
             sidetab('#cstab2');
-
             $scope.pulltab = function (d) {
                 var ww = (jQuery(window).width()) - 40;
                 jQuery('#' + d).toggleClass('active');
-
                 if (jQuery('#' + d).hasClass('active')) {
                     jQuery('#' + d).css('transform', 'translate3d(0px, 0px, 0px)')
                 } else {
@@ -6915,7 +7483,6 @@ angular.module('your_app_name.controllers', [])
                         }
                     ]
                 });
-
                 myPopup.then(function (res) {
                     console.log('Tapped!', res);
                 });

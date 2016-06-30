@@ -363,10 +363,10 @@
                                         </div>
                                     </div>
                                     <div ng-if="field.field == 'End Date'">
-                                        <div  >
+                                         <div id="enddate" class="hide" >
                                             <div class="item item-divider mt15">{{field.field}} *</div>
                                             <label class="item item-input">
-                                                <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
+                                                <input type="date" id="diet-start" ng-model="endDate" placeholder="{{field.field}} "  value="{{endDate}}" name="{{field.name}}"  />  
                                             </label>											
                                         </div>
                                     </div>
@@ -452,9 +452,18 @@
                                         </label>										
                                     </div>
                                     <div class="" ng-if="field.is_mandatory != 1">
-                                        <div class="item item-divider mt15">{{field.field}}</div>
-                                        <label class="item item-input"> <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />
-                                        </label>
+                                        
+                                        <div ng-if="category == 30" id="endtime" class="hide">
+                                            <div class="item item-divider mt15">{{field.field}}</div>
+                                            <label class="item item-input"> <input type="time" placeholder="{{field.field}}" ng-model="endTime" value="{{endTime}}" name="{{field.name}}" />
+                                            </label>
+                                        </div>
+                                        <div ng-if="category != 30">
+                                            <div class="item item-divider mt15">{{field.field}}</div>
+                                            <label class="item item-input"> <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />
+                                            </label>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div ng-if="field.multi_value == 1">
@@ -631,7 +640,7 @@
                                         </label>
                                     </div>
                                     <div ng-if="field.field != 'No of Frequency'">
-                                        <div class="item item-divider mt15">{{field.field}} </div>
+                                        <div class="item item-divider mt15">{{field.field}} * </div>
                                         <label class="item item-input">
                                             <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}"  ng-model="formSelect">
                                                 <option value="" ng-selected="1"> Select {{field.field}}</option>

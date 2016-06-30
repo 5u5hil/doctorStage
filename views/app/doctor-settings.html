@@ -1,101 +1,179 @@
 <ion-view class="settings-view">
-<!--   <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons> -->
-  <ion-nav-title>
-    <span>Settings</span>
-  </ion-nav-title>
-  <ion-content>
-    <ul class="list">
+    <!--   <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+      </ion-nav-buttons> -->
+    <ion-nav-title>
+        <span>Settings</span>
+    </ion-nav-title>
+    <ion-content>
+        <div ng-if='docSettings.length == 0'></div>
+        <div ng-if='docSettings.length > 0'>
+            <ul class="list" ng-repeat="ds in docSettings">
 
-	 <div class="item item-divider">Account Settings</div>
-	 	<a class="item" ui-sref="app.supervise">Account Settings</a>
-	 
-	 
-	
-      <div class="item item-divider">Status</div>
 
-    <!--   <ion-toggle ng-model="iamonline" toggle-class="toggle-dark">Offline</ion-toggle>
-	  <ion-toggle ng-model="busy" toggle-class="toggle-assertive">Busy</ion-toggle>
-	  <ion-toggle ng-model="online" toggle-class="toggle-balanced">Online</ion-toggle> -->
-      <!--<ion-checkbox ng-model="fsd">Offline</ion-checkbox>
-     <ion-checkbox ng-model="fdsa">Busy</ion-checkbox>
-     <ion-checkbox ng-model="rw">Online</ion-checkbox> -->
-	 
-		<ion-list>
-                    <ion-radio ng-model="status" ng-checked="instant_status.presence == status" class="radioptions" ng-click="doctor_presence(status)" ng-value="'0'">Offline</ion-radio>
-		  <ion-radio ng-model="status" ng-checked="instant_status.presence == status"  class="radioptions" ng-click="doctor_presence(status)" ng-value="'2'">Busy</ion-radio>
-		  <ion-radio ng-model="status" ng-checked="instant_status.presence == status"  class="radioptions" ng-click="doctor_presence(status)"ng-value="'1'">Online</ion-radio>
-		</ion-list> 
-	 
-	  <ion-toggle ng-model="notification" ng-checked="notification.user_id == userId" ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
+                <div ng-if="ds.setting_control.control == 'Status'">
 
-      <div class="item item-divider">Instant Video</div>
-	<div class="sinfo">Note : These settings are only for instant video and will not affect your scheduled time slots.</div>
-        <form  name="instantpermission" id="instantpermission">
+                    <div class="item item-divider mt15">Status</div>
+                    <ion-list>
+                        <ion-radio ng-model="status" ng-checked="instant_status.presence == status" ng-disabled="ds.edit == '0'" class="radioptions" ng-click="doctor_presence(status)" ng-value="'0'">Offline</ion-radio>
+                        <ion-radio ng-model="status" ng-checked="instant_status.presence == status"  ng-disabled="ds.edit == '0'" class="radioptions" ng-click="doctor_presence(status)" ng-value="'2'">Busy</ion-radio>
+                        <ion-radio ng-model="status" ng-checked="instant_status.presence == status" ng-disabled="ds.edit == '0'"  class="radioptions" ng-click="doctor_presence(status)"ng-value="'1'">Online</ion-radio>
+                    </ion-list>
+
+                </div>
+                <div ng-if="ds.setting_control.control == 'Video'">
+                    <div class="item item-divider mt15">Video</div>
+                    <div ng-if="ds.edit == '1'">
+                        <div  ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" ng-click="doc_services_setting('Video')" >
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
+
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+
+                            Click Here to Update Video Service Setting 
+                        </div>
+                        <ion-toggle ng-model="video" ng-checked="video == 1" ng-click="checkService(video, userId, '1')" name="{{serv.service.service}}"  toggle-class="toggle-positive"> Allow Video Service </ion-toggle>
+
+
+                    </div>
+                    <div ng-if="ds.edit == '0'">
+                        <div ng-repeat="dServ in docServices" ng-disabled="ds.edit == '0'" ng-if="dServ.service.service == ds.setting_control.control" >
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            <ion-toggle ng-model="video" ng-checked="video == 1" name="{{serv.service.service}}" ng-disabled="ds.edit == '0'"  toggle-class="toggle-positive"> Allow Video Service </ion-toggle>
+
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="ds.setting_control.control == 'Chat'">
+                    <div class="item item-divider mt15">Chat</div>
+                    <div ng-if="ds.edit == '1'">
+                        <div ng-if="dServ.service.service != ds.setting_control.control" >
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
+
+                            </ul>
+                        </div>
+                        <div ng-if="dServ.service.service == ds.setting_control.control" >
+                            <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" ng-click="doc_services_setting('Chat')" >
+                                <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                                <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '2'">
+                                    <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                                </div>
+                                Click Here to Update Chats Service Setting {{dServ.active}}
+                            </div>
+                            <ion-toggle ng-model="chat" ng-checked="chat == 1"  name="{{serv.service.service}}" ng-click="checkService(chat, userId, '2')" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
+                        </div>
+
+                    </div>
+                    <div ng-if="ds.edit == '0'">
+                        <div ng-repeat="dServ in docServices" ng-disabled="ds.edit == '0'" ng-if="dServ.service.service == ds.setting_control.control" >
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '2'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            <ion-toggle ng-model="chat" ng-checked="chat == 1"  name="{{serv.service.service}}" ng-disabled="ds.edit == '0'" toggle-class="toggle-positive"> Allow Chats </ion-toggle>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div ng-if="ds.setting_control.control == 'Clinic'">
+                    <div class="item item-divider mt15">Clinic</div>
+                    <div ng-if="ds.edit == '1'">
+                        <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" ng-click="doc_services_setting('Clinic')" >
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '3'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+                            Click Here to Update Clinic Service Setting  
+                        </div>
+                        <ion-toggle ng-model="clinic" ng-checked="clinic == 1"  name="{{serv.service.service}}" ng-click="checkService(clinic, userId, '3')" toggle-class="toggle-positive"> Allow Clinic Appointment </ion-toggle>
+
+
+                    </div>
+                    <div ng-if="ds.edit == '0'">
+                        <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control" >
+                            <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                            <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '3'">
+                                <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                            </div>
+
+                            <ion-toggle ng-model="clinic" ng-checked="clinic == 1"  name="{{serv.service.service}}"  toggle-class="toggle-positive"> Allow Clinic Appointment </ion-toggle>
+
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="ds.setting_control.control == 'Home'">
+                    <div class="item item-divider mt15"> Home </div>
+                    <div ng-if="ds.edit == '1'">
+                        <div ng-if="dServ.service.service != ds.setting_control.control" >
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
+
+                            </ul>
+                        </div>
+                        <div ng-if="dServ.service.service == ds.setting_control.control" >
+                            <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
+                                <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                                <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '4'">
+                                    <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                                </div>
+                                Click Here to Update Home Service Setting
+                            </div>
+                            <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"   ng-click="checkService(home, userId, '4')"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
+                        </div>
+
+                    </div>
+                    <div ng-if="ds.edit == '0'">
+                        <div ng-if="dServ.service.service != ds.setting_control.control" >
+                            <ul class="list">
+                                <li><a>Service unavailable for you</a></li>                                
+
+                            </ul>
+                        </div>
+                        <div ng-if="dServ.service.service == ds.setting_control.control" >
+                            <div ng-repeat="dServ in docServices"  ng-if="dServ.service.service == ds.setting_control.control"  ng-click="doc_services_setting('Home')" >
+                                <p><strong>Price: </strong>{{dServ.product.price}}</p>
+                                <div ng-repeat="getSc in getSchedule" ng-if="getSc.service_id == '1'">
+                                    <p><strong>{{getSc.day_of_week}}: </strong>{{getSc.fromtime}} To {{getSc.totime}}</p> 
+                                </div>
+                                <ion-toggle ng-model="home" ng-checked="home == 1"  name="{{serv.service.service}}"  toggle-class="toggle-positive">  Allow Home Visit  </ion-toggle>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div ng-if="ds.setting_control.control == 'Notifications'">
+                    <div class="item item-divider mt15">Notifications</div>
+                    <ion-toggle ng-model="notification" ng-disabled="ds.edit == '0'" ng-checked="notification.user_id == userId"  ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
+                </div>
+                <div ng-if="ds.setting_control.control == 'Languages'">
+                    <div class="item item-divider mt15">Languages</div>
+                    <ion-toggle ng-model="languages" ng-disabled="ds.edit == '0'" ng-checked="notification.user_id == userId" ng-click="pushNotification(notification)" name="notification"  toggle-class="toggle-positive"> Allow Notification </ion-toggle>
+                </div>
+            </ul>
+        </div>
+        <div class="item item-divider mt15" >Instant Video </div>
+        <div ng-click="doc_services_setting('Instant Video')" >
+            <div class="sinfo" >Note : These settings are only for instant video and will not affect your scheduled time slots.</div>
+
             <input type="hidden" name="did" id="did" value="{{instant_permission.doctor_id}}">
-            <ion-toggle ng-model="instantvideo" ng-checked="instant_permission.instant_permission" ng-click="checkp(instantvideo)" name="permission"  toggle-class="toggle-positive"> Allow Instant Video </ion-toggle>
-	<!-- <div class="sinfo">Enabling this will send you instant video calls only when you are marked "Online"</div>
-	 
-	<ion-toggle ng-model="airplaneMode" toggle-class="toggle-positive"> When Online Only </ion-toggle>-->
-	 
-	  <!--<div class="sinfo">Enabling this will send you instant video calls only when you are marked "Online"</div>-->
-		  
-		  
-		 
-                <span class="" id="setting">  
-		<div class="item">
-	  <div  class="row">
-	 <div class="col-20">Days </div>
-      
-	  <div class="col-80">
-	  <div  class="row" style="padding: 0;">
-		<div class="col-50">
-		<select class="timeoption" name="availfrom" >
-                    <option ng-repeat="days in instant_days" ng-selected="days.value == instant_permission.instant_days" value="{{ days.value }}" > {{ days.text }}</option>
-                  
-		</select>
-	  </div>
-              <span class="optiondivider">To </span>
-	  <div class="col-50">
-		<select class="timeoption" name="availto">
-                    <option ng-repeat="days_end in instant_days_end" ng-selected="days_end.value == instant_permission.instant_day_end" value="{{ days_end.value }}" > {{ days_end.text }}</option>
-		</select>
-	 </div>
-	  
-	  </div>
-	  </div>
-	 </div>
-	 </div>  
-		  
-	 <div class="item">
-	  <div  class="row">
-	 <div class="col-20">Time </div>
-      
-	  <div class="col-80">
-              <div  class="row" style="padding: 0;">
-		<div class="col-50">
-                    <select class="timeoption" name="timestart">
-                  <option  ng-repeat="time in instant_time" ng-selected="time.value == instant_permission.instant_start_time" value="{{ time.value }}" > {{ time.text }}</option>
-		 
-		</select>
-	  </div>
-              <span class="optiondivider">To </span>
-	  <div class="col-50">
-		 <select class="timeoption"  name="timeend">
-		   <option  ng-repeat="time_end in instant_time_end" ng-selected="time_end.value == instant_permission.instant_end_time" value="{{ time_end.value }}" > {{ time_end.text }}</option>
-		</select>
-	 </div>
-	  
-	  </div>
-	  </div>
-	 </div>
-	 </div>
-                </span>
-	<button class="button button-block button-positive" ng-click="submitInstantPermission()">
-        Save
-      </button>
-        </form>
-    </ul>
-  </ion-content>
+
+        </div>
+        <ion-toggle ng-model="instant_permission.instant_permission" ng-checked="instant_permission.instant_permission == '1'" ng-click="checkinstantpermission(instant_permission.instant_permission)" name="permission" ng-value="{{instant_permission.instant_permission}}"  toggle-class="toggle-positive"> Allow Instant Video </ion-toggle>
+
+
+    </ion-content>
 </ion-view>

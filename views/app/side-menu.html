@@ -32,11 +32,11 @@
                     <i class="icon ion-home"></i>
                     <h2 class="menu-text">Home</h2>
                 </ion-item>
-                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.doctor-consultations">
-                    <i class="icon ion-medkit"></i>
-                    <h2 class="menu-text">Consultations</h2>
+                <ion-item class="item-icon-left" nav-clear menu-close ng-repeat="menu in menuItem"  ui-sref="{{menu.url}}">
+                    <i class="icon {{menu.intereface_menu.menu=='settings'? 'ion-gear-a':menu.intereface_menu.menu=='patients'? 'ion-person-stalker':menu.intereface_menu.menu=='consultations'? 'ion-medkit':menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit':menu.intereface_menu.menu=='inventory'? 'ion-person-stalker': 'ion-cube'}}"></i>
+                    <h2 class="menu-text">{{menu.intereface_menu.menu|capitalize}}</h2>
                 </ion-item> 
-               <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.chatlist">
+<!--               <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.chatlist">
                     <i class="icon ion-chatboxes"></i>
                     <h2 class="menu-text">Chats</h2>
                 </ion-item>
@@ -48,14 +48,14 @@
                     <i class="icon ion-ios-book"></i>
                     <h2 class="menu-text">Library</h2>
                 </ion-item>
-                <!--<ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.dietplan">
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.dietplan">
                     <i class="icon ion-medkit"></i>
                     <h2 class="menu-text">Diet Plan</h2>
-                </ion-item> -->
+                </ion-item> 
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.doctor-settings">
                     <i class="icon ion-gear-a"></i>
                     <h2 class="menu-text">Settings</h2>
-                </ion-item>
+                </ion-item>-->
                 
                  
                 

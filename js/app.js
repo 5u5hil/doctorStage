@@ -24,6 +24,7 @@ angular.module('your_app_name', [
     'ngCordova',
     'slugifier',
     'ionic.contrib.ui.tinderCards',
+    'jett.ionic.filter.bar',
     'youtube-embed'
 ])
         .run(function ($ionicPlatform, $state, $http, $rootScope, $ionicConfig, $timeout, $ionicLoading) {
@@ -58,72 +59,92 @@ angular.module('your_app_name', [
 //                };
 
                 var notificationOpenedCallback = function (jsonData) {
-                    alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+                    // alert('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
                     console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
 
                     // $state.go("app.content-library-setting");
                     try
                     {
                         if (jsonData.additionalData) {
-                            alert("Inside additionalData");
-                            alert("id " + jsonData.additionalData.actionSelected);
+                            // alert("Inside additionalData");
+                            //  alert("id " + jsonData.additionalData.actionSelected);
 
-                            if (jsonData.additionalData.actionSelected == "id1")
-                            {
-
-                                alert("Button id1 pressed!");
-                                $http({
-                                    method: 'GET',
-                                    url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 1}
-                                }).then(function successCallback(response) {
-
-                                    if (jsonData.additionalData.yourUrlKey) {
-                                        location.href = jsonData.additionalData.yourUrlKey;
+                            $http({
+                                method: 'GET',
+                                url: domain + 'trigger/action-trigger',
+                                params: {action: jsonData.additionalData, status: 1}
+                            }).then(function successCallback(response) {
+                                console.log(response.data);
+                                try {
+                                    if (response.data) {
+                                        location.href = response.data;
+                                    } else if (jsonData.additionalData.defaultUrl) {
+                                        location.href = jsonData.additionalData.defaultUrl;
                                     }
+                                } catch (err) {
+                                    location.href = jsonData.additionalData.defaultUrl;
+                                }
 
-                                }, function errorCallback(e) {
-                                    console.log(e);
-                                });
-                            }
-                            if (jsonData.additionalData.actionSelected == "id2")
-                            {
-                                alert("Button id2 pressed!");
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
 
-                                $http({
-                                    method: 'GET',
-                                    url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[1].icon, status: 2}
-                                }).then(function successCallback(response) {
-
-                                    if (jsonData.additionalData.yourUrlKey) {
-                                        location.href = jsonData.additionalData.yourUrlKey;
-                                    }
-                                }, function errorCallback(e) {
-                                    console.log(e);
-                                });
-                            }
-                            if (jsonData.additionalData.actionSelected == "id3")
-                            {
-                                alert("Button id3 pressed!");
-
-                                $http({
-                                    method: 'GET',
-                                    url: domain + 'tracker/captured',
-                                    params: {actionid: jsonData.additionalData.actionButtons[2].icon, status: 3}
-                                }).then(function successCallback(response) {
-                                    if (jsonData.additionalData.yourUrlKey) {
-                                        location.href = jsonData.additionalData.yourUrlKey;
-                                    }
-                                }, function errorCallback(e) {
-                                    console.log(e);
-                                });
-                            }
+//                            if (jsonData.additionalData.actionSelected == "id1")
+//                            {
+//
+//                               // alert("Button id1 pressed!");
+//                                $http({
+//                                    method: 'GET',
+//                                    url: domain + 'tracker/captured',
+//                                    params: {actionid: jsonData.additionalData.actionButtons[0].icon, status: 1}
+//                                }).then(function successCallback(response) {
+//
+//                                    if (jsonData.additionalData.yourUrlKey) {
+//                                        location.href = jsonData.additionalData.yourUrlKey;
+//                                    }
+//
+//                                }, function errorCallback(e) {
+//                                    console.log(e);
+//                                });
+//                            }
+//                            if (jsonData.additionalData.actionSelected == "id2")
+//                            {
+//                               /// alert("Button id2 pressed!");
+//
+//                                $http({
+//                                    method: 'GET',
+//                                    url: domain + 'tracker/captured',
+//                                    params: {actionid: jsonData.additionalData.actionButtons[1].icon, status: 2}
+//                                }).then(function successCallback(response) {
+//
+//                                    if (jsonData.additionalData.yourUrlKey) {
+//                                        location.href = jsonData.additionalData.yourUrlKey;
+//                                    }
+//                                }, function errorCallback(e) {
+//                                    console.log(e);
+//                                });
+//                            }
+//                            if (jsonData.additionalData.actionSelected == "id3")
+//                            {
+//                               // alert("Button id3 pressed!");
+//
+//                                $http({
+//                                    method: 'GET',
+//                                    url: domain + 'tracker/captured',
+//                                    params: {actionid: jsonData.additionalData.actionButtons[2].icon, status: 3}
+//                                }).then(function successCallback(response) {
+//                                    if (jsonData.additionalData.yourUrlKey) {
+//                                        location.href = jsonData.additionalData.yourUrlKey;
+//                                    }
+//                                }, function errorCallback(e) {
+//                                    console.log(e);
+//                                });
+//                            }
                         }
 
                     } catch (err)
                     {
-                        alert('No redirection ' + err);
+                        // alert('No redirection ' + err);
                     }
 
 
@@ -188,6 +209,18 @@ angular.module('your_app_name', [
                         $ionicConfig.views.swipeBackEnabled(false);
                         console.log("setting transition to android and disabling swipe back");
                     }, 0);
+                }
+                try {
+                    if (toState.name == "app.doctor-join")
+                    {
+                        console.log("false state");
+                        window.plugins.OneSignal.enableInAppAlertNotification(false);
+                    } else {
+                        console.log("true state");
+                        window.plugins.OneSignal.enableInAppAlertNotification(true);
+                    }
+                } catch (err) {
+
                 }
             });
             $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
@@ -269,6 +302,28 @@ angular.module('your_app_name', [
                             'menuContent': {
                                 templateUrl: "views/app/doctor-settings.html",
                                 controller: 'DoctorSettingsCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.doctor-settings-new', {
+                        cache: false,
+                        url: "/doctor-settings-new",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/doctor-settings-new.html",
+                                controller: 'DoctorSettingsNewCtrl'
+                            }
+                        }
+                    })
+                    
+                    .state('app.update-doctor-setting', {
+                        cache: false,
+                        url: "/update-doctor-setting/{data:string}/{permission:string}/{uid:string}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/update-doctor-setting.html",
+                                controller: 'UpdateDoctorSettingsCtrl'
                             }
                         }
                     })
@@ -783,7 +838,7 @@ angular.module('your_app_name', [
 
                     .state('app.record-details', {
                         cache: false,
-                        url: "/record-details/{id:int}/{patientId:int}/{catId:int}",
+                        url: "/record-details/{id:string}/{patientId:string}/{catId:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/records/record-details.html",
@@ -1061,15 +1116,15 @@ angular.module('your_app_name', [
                         }
                     })
 
-                    .state('app.supervise', {
-                        url: "/supervise",
-                        views: {
-                            'menuContent': {
-                                templateUrl: "views/app/supervise.html",
-                                controller: 'SuperviseCtrl'
-                            }
-                        }
-                    })
+//                    .state('app.supervise', {
+//                        url: "/supervise",
+//                        views: {
+//                            'menuContent': {
+//                                templateUrl: "views/app/supervise.html",
+//                                controller: 'SuperviseCtrl'
+//                            }
+//                        }
+//                    })
 
                     /* new consultation note */
                     .state('app.cnote', {

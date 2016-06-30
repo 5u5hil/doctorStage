@@ -2,10 +2,15 @@
     <ion-nav-title>
         <span>Consultations</span>
     </ion-nav-title>
-    <!--   <ion-nav-buttons side="right">
-          <button class="button button-icon button-clear ion-person"></button>
-      </ion-nav-buttons> -->
+    <ion-nav-buttons side="secondary">
+        <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
+        </button>
+    </ion-nav-buttons>
     <ion-content>
+
+        <ion-refresher pulling-text="Pull to refresh..."  on-refresh="refreshItems()">
+        </ion-refresher>
+
         <div class="row tabnav">
             <div class="col"><a nav-clear menu-close ui-sref="app.doctor-consultations" >Active</a></div>
             <div class="col"><a nav-clear menu-close ui-sref="app.consultation-past" class="active">Past</a></div>
@@ -16,7 +21,7 @@
                 <ion-tab title="Today({{todays_past_data.length}})" >
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{todays_app_past.length==0? 'No appointments': ''}}</h4>
-                        <div class="posts-list" ng-repeat="app in todays_past_data" ><!---->
+                        <div class="posts-list" ng-repeat="app in todays_past_data| filter:filterall" ><!---->
                             <div  class="list card post-item" ng-repeat="prod_past in app.todays_product_past">
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
@@ -69,7 +74,7 @@
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{week_past_data.length==0? 'No appointments': ''}}</h4> 
                         <div class="posts-list"  > <!---->
-                            <div  class="list card post-item" ng-repeat="app in week_past_data| limitTo:Displaythisweek">
+                            <div  class="list card post-item" ng-repeat="app in week_past_data| filter:filterall | limitTo:Displaythisweek">
                                 <div class="post-content item item-text-wrap p0"> 
                                     <div class="card-content p0">
                                         <div class="item item-divider">
@@ -113,8 +118,8 @@
                                 </div>
                             </div>
 
-                              <ion-infinite-scroll on-infinite="Itemthisweek()" ng-if="week_past_data.length" distance="1%">
-                                </ion-infinite-scroll>     
+                            <ion-infinite-scroll on-infinite="Itemthisweek()" ng-if="week_past_data.length" distance="1%">
+                            </ion-infinite-scroll>     
 
 
                         </div>
@@ -125,7 +130,7 @@
                     <div class="tabcontainer p0">
                         <h4 class="txt-center"> {{all_past_data.length==0? 'No appointments': ''}}</h4>
                         <div class="posts-list"  ><!---->
-                            <div  class="list card post-item" ng-repeat="app in all_past_data | limitTo:itemsDisplayall" >
+                            <div  class="list card post-item" ng-repeat="app in all_past_data| filter:filterall | limitTo:itemsDisplayall" >
                                 <div class="post-content item item-text-wrap p0">
                                     <div class="card-content p0">
                                         <div class="item item-divider">
@@ -168,8 +173,8 @@
                                 </div>
                             </div>
 
-   <ion-infinite-scroll on-infinite="addMoreItemall()" ng-if="all_past_data.length" distance="1%">
-  </ion-infinite-scroll>
+                            <ion-infinite-scroll on-infinite="addMoreItemall()" ng-if="all_past_data.length" distance="1%">
+                            </ion-infinite-scroll>
 
 
 
