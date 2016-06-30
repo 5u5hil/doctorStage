@@ -180,85 +180,119 @@
         </div>
         <div ng-if="service == 'Clinic'" id="clinic">
             <div>{{service}}</div>
-             <form  name="serviceclinic" id="serviceclinic">
-                <input type="hidden" name="doctor_services_id" id="doctor_services_id" value="{{schedule[0].doctor_services_id}}">
-                <input type="hidden" name="did" id="did" value="{{uid}}">
-                <input type="hidden" name="sid" id="sid" value="1">
+           <form  name="serviceclinic" id="serviclinic">
+                <div ng-repeat="scheduleval in schedule" ng-init="docserId = scheduleval[$index].deserId">
+                    <input type="hidden" name="doctor_services_id" id="doctor_services_id" value="{{scheduleval[$index].doctor_services_id}}">
+                    <input type="hidden" name="did" id="did" value="{{uid}}">
+                    <input type="hidden" name="sid" id="sid" value="3">
 
-                <div class="item item-divider mt15" > Price</div>
-                <div class="item item-input">
-                    <input type="number" placeholder="Price" name="price" value="{{price[0].price}}" />                         
+                    <div class="item item-divider mt15" > Price</div>
+                    <div class="item item-input">
+                        <input type="number" placeholder="Price" name="price" value="{{price[0].price}}" />                         
 
-                </div>
-                <div class="item item-divider mt15" > Schedules</div>
-                <div class="row" ng-repeat="day in days">
-                    <div class="col-20">{{day}} </div>
-                    <div class="col-80" >
-                        <input class="form-control" type="hidden" readonly value="{{day}}"  name="day[]">
-                        <div ng-repeat="scheduleval in schedule" >
-
-                            <div  class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) >= 0 && scheduleval.day_of_week == day" >
-                                <input class="form-control" type="hidden" value="{{dayid[$index][0]}}" name="drservId-0[]">
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="dayfrom[$index][0]" type="text" name="fromtime1[]" class="form-control" value="{{dayfrom[$index][0]}}" >
-                                    </lable>
-                                </div>
-                                <span class="optiondivider">To </span>
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="dayto[$index][0]" type="text" name="totime1[]" class="form-control" value="{{dayto[$index][0]}}" >
-                                    </lable>
-                                </div>
-                                <input class="form-control" type="hidden" value="{{dayid[$index][1]}}" name="drservId-1[]">
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="dayfrom[$index][1]" type="text" name="fromtime2[]"  class="form-control" value="{{dayfrom[$index][1]}}" >
-                                    </lable>
-                                </div>
-                                <span class="optiondivider">To </span>
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="dayto[$index][1]" type="text" name="totime2[]" class="form-control" value="{{dayto[$index][1]}}" >
-                                    </lable>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1">
-                                <input class="form-control" type="hidden" value="" name="drservId-0[]">
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="fromtime1[$index]" type="text" name="fromtime1[]" class="form-control" value="" >
-                                    </lable>
-                                </div>
-                                <span class="optiondivider">To </span>
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="totime1[$index]" type="text" name="totime1[]" class="form-control" value="" >
-                                    </lable>
-                                </div>
-                                <input class="form-control" type="hidden" value="" name="drservId-1[]">
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="fromtime2[$index]" type="text" name="fromtime2[]"  class="form-control" value="" >
-                                    </lable>
-                                </div>
-                                <span class="optiondivider">To </span>
-                                <div class="col-20">
-                                    <lable class="item item-input">
-                                        <input ng-model="totime2[$index]" type="text" name="totime2[]" class="form-control" value="" >
-                                    </lable>
-                                </div>
-
-                            </div>
                     </div>
+                    <div class="item item-divider mt15" > Enable {{docserId}}</div>
+                     <ion-toggle  ng-model="scheduleval[$index]" ng-if="scheduleval[$index].active == '1'" ng-checked="scheduleval[$index].active == '1'" ng-click="checkclinicpermission('false',docserId,3)" name="permission" ng-value=""  toggle-class="toggle-positive"> Allow clinic </ion-toggle>
+                     <ion-toggle  ng-model="scheduleval[$index]" ng-if="scheduleval[$index].active != '1'" ng-checked="scheduleval[$index].active == '1'" ng-click="checkclinicpermission('true',docserId,3)" name="permission" ng-value=""  toggle-class="toggle-positive"> Allow clinic </ion-toggle>
+                     <div class="item item-divider mt15" > Clinic </div>
+
+                    <div  class="item item-input">
+                        Clinic-
+                    </div>
+
+
+                    <span class="" id="setting"> 
+                        <div class="item item-divider mt15" > Schedules for Clinic</div>
+
+                        <div class="item">
+
+                            <div class="row" ng-repeat="day in days">
+                                <div class="col-20">{{day}} </div>
+                                <div class="col-80" >
+                                    <input class="form-control" type="hidden" readonly value="{{day}}"  name="day[]">
+                                    <div ng-repeat="scheVal in scheduleval" >
+                                    
+                                        <div  class="row" style="padding: 0;" ng-if="servicdayArray[$index].indexOf(day) >= 0 && scheVal.day_of_week == day" >
+                                         
+                                            <input class="form-control" type="hidden" value="{{dayid[$index][0]}}" name="drservId-0[]">
+                                            <div class="col-20">
+                                                <lable class="item item-input">
+                                                    <input ng-model="dayfrom[$index][0]" type="text" name="fromtime1[]" class="form-control" value="{{dayfrom[$index][0]}}" >
+                                                </lable>
+                                            </div>
+                                            <span class="optiondivider">To </span>
+                                            <div class="col-20">
+                                                <lable class="item item-input">
+                                                    <input ng-model="dayto[$index][0]" type="text" name="totime1[]" class="form-control" value="{{dayto[$index][0]}}" >
+                                                </lable>
+                                            </div>
+                                            <input class="form-control" type="hidden" value="{{dayid[$index][1]}}" name="drservId-1[]">
+                                            <div class="col-20">
+                                                <lable class="item item-input">
+                                                    <input ng-model="dayfrom[$index][1]" type="text" name="fromtime2[]"  class="form-control" value="{{dayfrom[$index][1]}}" >
+                                                </lable>
+                                            </div>
+                                            <span class="optiondivider">To </span>
+                                            <div class="col-20">
+                                                <lable class="item item-input">
+                                                    <input ng-model="dayto[$index][1]" type="text" name="totime2[]" class="form-control" value="{{dayto[$index][1]}}" >
+                                                </lable>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="padding: 0;" ng-if="servicdayArray.indexOf(day) == -1">
+                                        <input class="form-control" type="hidden" value="" name="drservId-0[]">
+                                        <div class="col-20">
+                                            <lable class="item item-input">
+                                                <input ng-model="time" type="text" name="fromtime1[]" class="form-control" value="" >
+                                            </lable>
+                                        </div>
+                                        <span class="optiondivider">To </span>
+                                        <div class="col-20">
+                                            <lable class="item item-input">
+                                                <input ng-model="time" type="text" name="totime1[]" class="form-control" value="" >
+                                            </lable>
+                                        </div>
+                                        <input class="form-control" type="hidden" value="" name="drservId-1[]">
+                                        <div class="col-20">
+                                            <lable class="item item-input">
+                                                <input ng-model="time" type="text" name="fromtime2[]"  class="form-control" value="" >
+                                            </lable>
+                                        </div>
+                                        <span class="optiondivider">To </span>
+                                        <div class="col-20">
+                                            <lable class="item item-input">
+                                                <input ng-model="time" type="text" name="totime2[]" class="form-control" value="" >
+                                            </lable>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+
+
+
+                    <div class="item item-divider" > Clinic Approval </div>
+                    <div class="item item-input">
+                        <select class="autoapprove timeoption" name="autoapprove" >
+                            <option ng-selected="serv.need_approval == 1" value="1" > Yes</option>
+                            <option ng-selected="serv.need_approval == 0"  value="0" > No</option>
+                        </select>
+                    </div>
+
+
+
                 </div>
 
                 <button class="button button-block button-positive" ng-if="permission == 1" ng-click="submitClinicService()">
                     Save
                 </button>
+
             </form>
         </div>
         <div ng-if="service == 'Home'" id="home">
