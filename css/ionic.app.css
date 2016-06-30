@@ -9560,26 +9560,62 @@ transform: translate3d(600px, 0px, 0px);
 .fieldtab input{width: 100%; border: 1px #eee solid;}
 
 .infomore-div{display:none;}
-.infomore-div.active{display: block;}
+.infomore-div.active{display: block;     display: block;
+    background: #f8f8f8;}
 .theroot{position: absolute; height: 90%; width:100%;}
 .sldebxcontent{}
 .csradio .item-radio .item-content{    padding: 11px 49px 11px 16px;}
+.csradio  .item.item-radio{   border-color: #efefef;}
 .csradio .item-radio .radio-icon{       padding: 3px 10px;}
 .crighttab .cselectn{/* background:transparent; */}
 
-  .maintab .cselectn{ padding: 8px !important;
+  .maintab .cselectn{    padding: 8px !important;
     font-size: 15px;
     border: 1px #eee solid;
     font-weight: bold;
+    background: #387ef5;
+    color: #fff;
 	} 
+	.maintab .cselectn option{color:#fff;}
 
 .crighttab .item-divider{ background-color:#efefef; margin-top:10px;}
 .maintab{    margin: 0 auto 20px; width:70%; }
 .ctabs .card-heding{padding:0px !important;}
 .ctabs .tabs-striped .tabs{    border-bottom: 0px solid #ddd;}
 .ctabs  .item{margin:0;}
+.fspacing{margin-bottom:20px;}
+.mtabcon{margin-top:20px;}
+.fdropdown{position:relative;}
+.dnav{    position: absolute; display:none;
+    width: 100%;
+    background: #eee;
+    padding: 0px;
+    z-index: 99;
+    border: 1px #eeeeee solid;
+    top: 40px;
+    padding: 0px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+.dnav.active{display:block;}
+.navlist{        display: block;
+    background: #ffffff;
+    padding: 10px 10px;
+    color: #040404;     border: 1px #28a54c solid;}
+	.brdgreen{    border: 1px #28a54c solid;}
 
-
+.formcontainer{
+	padding: 15px 10px;
+    margin: 15px 0;
+    border-top: 2px #ccc solid;
+    border-bottom: 2px #ccc solid;
+    background: #fff;
+	}
+	
+	.heading2{    font-weight: bold;
+    font-size: 15px;
+    margin: 15px;
+    text-align: center;
+	}    
 
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{

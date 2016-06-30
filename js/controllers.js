@@ -6680,6 +6680,78 @@ angular.module('your_app_name.controllers', [])
 //                window.localStorage.removeItem('loadedOnce');
 //            }
 
+		$scope.togglemenu=function(){
+			jQuery('.dnav').toggleClass('active');
+		}
+
+		$scope.mntab='ntcase';
+		$scope.nadd='null';
+		$scope.notetcase=true;
+		
+		$scope.changecate=function(ab){
+			
+			//$scope.obervation=false;
+			if(ab=='testresults'){
+				$scope.ttestresults=true;
+				$scope.tmeasurements=false;
+				$scope.tobervation=false;
+			}
+			else if(ab=='measurement'){
+				$scope.tmeasurements=true;
+				$scope.ttestresults=false;
+				$scope.tobervation=false;
+				
+			}
+			else if(ab=='obervation'){
+				$scope.tobervation=true;
+				$scope.ttestresults=false;
+				$scope.tmeasurements=false;
+				
+			}
+		}
+		
+		
+		$scope.changemaincate=function(cvalue){
+			
+			if(cvalue=='ntcase'){
+				$scope.notetcase=true
+				$scope.notebackground=false
+				$scope.notetnote=false
+				$scope.notetreatment=false
+			}
+			else if(cvalue=='ntbackground'){
+				$scope.notetcase=false
+				$scope.notebackground=true
+				$scope.notetnote=false
+				$scope.notetreatment=false
+			}
+			else if(cvalue=='ntnote'){
+				$scope.notetcase=false
+				$scope.notebackground=false
+				$scope.notetnote=true
+				$scope.notetreatment=false
+			}	
+			
+			if(cvalue=='nttreatment'){
+				$scope.notetcase=false
+				$scope.notebackground=false
+				$scope.notetnote=false
+				$scope.notetreatment=true
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];

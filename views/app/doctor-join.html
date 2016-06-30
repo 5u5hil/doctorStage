@@ -32,11 +32,11 @@
                    
                    
 					<div class="maintab">
-					 <select class="cselectn">
-					  <option selected>Case</option>
-					  <option >Background</option>
-					  <option>Notes</option>
-					  <option>Treatment</option>
+					 <select class="cselectn" ng-model="mntab"  ng-change="changemaincate(mntab)">
+					  <option value="ntcase" selected>Case</option>
+					  <option value="ntbackground" >Background</option>
+					  <option value="ntnote" >Notes</option>
+					  <option value="nttreatment" >Treatment</option>
 					</select>
 					</div>
 					
@@ -67,10 +67,10 @@
                    
 				
 
-				<div class="sldebxcontent" ng-show="notebackground=true">
-				
+			<div class="sldebxcontent" ng-show="notebackground">
 				<my-tabs class="ctabs">
 				<my-tab title="Patient">
+				<div class="mtabcon">
 				<div class="item item-divider">Mobile Number </div>
 					  <label class="item item-input">
 						<input type="text" placeholder="Mobile Number">
@@ -101,35 +101,284 @@
 					 <div class="item item-divider">Known Conditions</div> 
 					 
 					  <ion-list>
-
-					  <ion-checkbox ng-model="filter.red">Red</ion-checkbox>
-					  <ion-checkbox ng-model="filter.yellow">Yellow</ion-checkbox>
-					  <ion-checkbox ng-model="filter.pink">Pink</ion-checkbox>
-
-					</ion-list>
-				</my-tab>
-				<my-tab title="Family">
-				<p>fad My tab1 334234</p>
-				<p>fad My tab1 41341324</p>
-				</my-tab>
-				</my-tabs>
-				
-					
-					  
-				
+						
+					  <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
+					  <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pink">Heart Condition</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pink">Hypertension</ion-checkbox>
+				</ion-list>
+				<div class="row">
+				<div class="col">
+				<button class="button button-block button-positive mtop20"> Save</button>
+				<div class="foterspacing"></div>
+				</div>
+				</div>
 				</div>
 				
 				
+				</my-tab>
+				<my-tab title="Family">
+				<div class="mtabcon">
+					<div class="item item-divider">Relation</div>
+					  <select class="cselectn">
+					  <option selected>Case</option>
+					  <option >Background</option>
+					  <option>Notes</option>
+					  <option>Treatment</option>
+					</select>
+					
+					<div class="item item-divider">Age</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Enter Age">
+					 </label>
+				 <div class="item item-divider">Known Conditions</div> 
+					 <ion-list>
+						
+					  <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
+					  <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pink">Heart Condition</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pink">Hypertension</ion-checkbox>
+					</ion-list>
+				 <div class="item item-divider">Other Information</div> 	
+				<label class="item item-input"><textarea rows="4" placeholder="Other Information"></textarea>	</label>
+					
+				<div class="row">
+				<div class="col">
+				<button class="button button-block button-positive mtop20"> Save</button>
+				<div class="foterspacing"></div>
+				</div>
+				</div>
+				</div>
+				
+				</my-tab>
+				</my-tabs>
+			</div>
 				
 				
 				
 				
 				
+			<div class="sldebxcontent" ng-show="notetnote">
+				<div class="mtabcon">
+				<div class="row">
+				<div class="col">
+				<div class="fdropdown">
+				<div class="navlist" ng-click="togglemenu()"> <i class="ion-android-bar"></i> &nbsp; Notes</div>
+				<div class="dnav">
+				<ion-list>
+					 <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
+					  <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pi">Heart Condition</ion-checkbox>
+					  <ion-checkbox ng-model="filter.pin">Hypertension</ion-checkbox>
+				</ion-list>
+				<div class="row">
+				<div class="col"><button class="button button-balanced" ng-click="togglemenu()">Apply</button></div>
+				<div class="col"><button class="button button-assertive" ng-click="togglemenu()">Reset</button></div>
+				</div>
+				
+				</div>
+				</div>
+				
+				</div>
+				<div class="col">
+				 <select class="cselectn brdgreen" ng-model="nadd" name="nadd" ng-change="changecate(nadd)" value="+ Add">
+					  <option value="null"> + Add</option>
+					  <option value="measurement" >Measurements</option>
+					  <option value="testresults" >Test Results</option>
+					  <option value="obervation" >Observations</option>
+					</select>
+				</div>
+				</div>
+				
+			
+			<div class="formcontainer" ng-show="tobervation">
+			<div class="item item-divider">Observations</div> 	
+				<label class="item item-input">
+				<textarea rows="4" placeholder="Enter"></textarea>	
+				</label>
+				<ion-list>
+					 <ion-checkbox ng-model="filter.red">Summary</ion-checkbox>
+				</ion-list>
+				<div class="row">
+				<div class="col">
+				<button class="button button-block button-positive">Save</button>
+				</div>
+				<div class="col">
+				<button class="button button-block button-assertive">Cancel</button>
+				</div>
+				</div>
+				
+			</div>
+
+
+			
+			<div class="formcontainer" ng-show="tmeasurements">
+			<div class="heading2">Blood Pressure</div> 	
+			
+				<div class="item item-divider">Systolic</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Enter">
+				 </label>
+				 <div class="item item-divider">Diastolic</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Enter">
+				 </label>
+				  <div class="item item-divider">Pulse</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Pulse">
+				 </label>
+				 
+				<div class="heading2">Glucose</div>  
+				
+				<div class="item item-divider">Glucose Reading</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Enter">
+				 </label>
+				 
+				 	<div class="item item-divider">Type</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Enter">
+				 </label>
+				<div class="heading2">Temperature</div>	
+				<div class="item item-divider">Temperature</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Enter">
+				 </label>
+				 
+				
+				<div class="item item-divider">Method</div>	
+					<label class="item item-input">
+						<input type="text" placeholder="Enter">
+				 </label>
 				
 				
 				
 				
 				
+			</div>
+
+			
+			
+			
+			
+			<div class="formcontainer" ng-show="ttestresults">
+			<div class="item item-divider">Test Results</div> 	
+				<label class="item item-input">
+				<textarea rows="4" placeholder="Enter"></textarea>	
+				</label>
+				<ion-list>
+					 <ion-checkbox ng-model="filter.red">Summary</ion-checkbox>
+				</ion-list>
+				<div class="row">
+				<div class="col">
+				<button class="button button-block button-positive">Save</button>
+				</div>
+				<div class="col">
+				<button class="button button-block button-assertive">Cancel</button>
+				</div>
+				</div>
+				
+			</div>
+
+
+
+
+
+
+
+
+
+			
+			  <div  class="list card post-item greenbox" >
+                        <div class="card-content p0">
+                            <div class="row post-heading item item-text-wrap ">
+                                <div class="col col-75">
+                                    <h2 class="post-title">Blood Pressure</h2>
+                                </div>
+                                <div class="col col-25 txt-right">
+                                    <div class="infomore" ng-click="infomore('abc')">
+                                        <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+								</div>
+                                </div>
+                            </div>
+						<div class="post-content item item-text-wrap p0">
+                              <div class="row">
+							  <div class="col">Systolic</div>
+							  <div class="col">: 80</div>
+							  </div>
+							  <div class="row">
+							  <div class="col">Diastolic</div>
+							  <div class="col">: 120</div>
+							  </div>
+							<div class="row">
+							  <div class="col">Pulse</div>
+							  <div class="col">: 100</div>
+							  </div>	
+								<div class="infomore-div " id="abc">
+									  <div class="row">
+									  <div class="col">Pulse</div>
+									  <div class="col">: 100</div>
+									  </div>
+								</div>
+							</div>
+                        </div>
+                    </div>
+				
+			
+				<div  class="list card post-item greenbox" >
+                        <div class="card-content p0">
+                            <div class="row post-heading item item-text-wrap ">
+                                <div class="col col-75">
+                                    <h2 class="post-title">Glucose</h2>
+                                </div>
+                                <div class="col col-25 txt-right">
+                                    <div class="infomore">
+                                        <span class="infb"> More</span> <i class="ion-android-arrow-forward"></i>
+								</div>
+                                </div>
+                            </div>
+						<div class="post-content item item-text-wrap p0">
+                              <div class="row">
+							  <div class="col">Systolic</div>
+							  <div class="col">: 80</div>
+							  </div>
+							  <div class="row">
+							  <div class="col">Diastolic</div>
+							  <div class="col">: 120</div>
+							  </div>
+							<div class="row">
+							  <div class="col">Pulse</div>
+							  <div class="col">: 100</div>
+							  </div>	
+								<div class="infomore-div " id="pqr">
+									  <div class="row">
+									  <div class="col">Pulse</div>
+									  <div class="col">: 100</div>
+									  </div>
+								</div>
+							</div>
+                        </div>
+                    </div>
+				
+				
+					
+				</div>	
+				</div>	
+				
+				
+				
+				
+			<div class="sldebxcontent" ng-show="notetreatment">
+				<h4 class="txt-center">Coming Soon</h4>
+			</div>
+			
+
+
+
+			
 				
                 </ion-scroll>
 
@@ -137,9 +386,9 @@
         </div>
 
         <div class="crighttab greentab" id="cstab2" >
-            <div class="ctabbtn" ng-click="pulltab('cstab2')" style="top:45px;">
+         <!--    <div class="ctabbtn" ng-click="pulltab('cstab2')" style="top:45px;">
                 <span class="ion-chevron-left"></span>
-            </div>
+            </div> -->
 
             <ion-scroll direction="y" class="theroot">
                 <div class="p10">
@@ -152,9 +401,7 @@
                                 <div class="col col-25 txt-right">
                                     <div class="infomore" ng-click="infomore('minfo1')">
                                         <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
-
-
-                                    </div>
+								</div>
                                 </div>
                             </div>
 
