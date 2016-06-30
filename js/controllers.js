@@ -12,7 +12,6 @@ angular.module('your_app_name.controllers', [])
 
             }
         })
-
         // APP
         .controller('AppCtrl', function ($scope, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $timeout, $ionicHistory) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
@@ -56,7 +55,6 @@ angular.module('your_app_name.controllers', [])
                 });
             };
         })
-
         //LOGIN
         .controller('LoginCtrl', function ($scope, $http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -286,6 +284,7 @@ angular.module('your_app_name.controllers', [])
                 animation: 'slide-in-up'
             });
         })
+        
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
 
@@ -722,6 +721,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
             };
         })
+        
         .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
@@ -6012,8 +6012,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.appendprevious();
             }, 1000);
         })
-
-
 
         .controller('InveSearchCtrl', function ($scope, $http, $stateParams, $rootScope, $ionicModal) {
             $scope.searchkey = $stateParams.key;
