@@ -9561,7 +9561,7 @@ transform: translate3d(600px, 0px, 0px);
 
 .infomore-div{display:none;}
 .infomore-div.active{display: block;}
-.theroot{position: absolute; height: 100%; width:100%;}
+.theroot{position: absolute; height: 90%; width:100%;}
 .sldebxcontent{}
 .csradio .item-radio .item-content{    padding: 11px 49px 11px 16px;}
 .csradio .item-radio .radio-icon{       padding: 3px 10px;}
@@ -9575,6 +9575,10 @@ transform: translate3d(600px, 0px, 0px);
 
 .crighttab .item-divider{ background-color:#efefef; margin-top:10px;}
 .maintab{    margin: 0 auto 20px; width:70%; }
+.ctabs .card-heding{padding:0px !important;}
+.ctabs .tabs-striped .tabs{    border-bottom: 0px solid #ddd;}
+.ctabs  .item{margin:0;}
+
 
 
 /* endcss */
