@@ -28,31 +28,44 @@
                 <span class="ion-chevron-left"></span>
             </div>
             <div class="sidetabcontent">
-                <ion-scroll direction="y" class="theroot">
-                    <h3>Title </h3>
-                    <br/>
-                    <div class="item item-divider">Question </div>
-
-                    <label class="item item-input">
-                        <input type="text" placeholder="Enter text">
-                    </label>
-                    <label class="item item-input">
-                        <input type="text" placeholder="Enter text">
-                    </label>
-
-                    <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-
-
-                    <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-
-
-                    <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-
-
-                    <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-
-                    <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-
+                <ion-scroll direction="y" class="theroot"> 
+                   
+                   
+					<div class="maintab">
+					 <select class="cselectn">
+					  <option selected>Case</option>
+					  <option >Background</option>
+					  <option>Notes</option>
+					  <option>Treatment</option>
+					</select>
+					</div>
+					<div class="sldebxcontent">
+                    <div class="item item-divider">Case Type </div>
+					<ion-list class="csradio">
+					<div class="row">
+					<div class="col"> <ion-radio ng-model="choice" ng-value="'A'">Choose A</ion-radio></div>
+					<div class="col"> <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio></div>
+					 </div>
+					</ion-list>
+					<div class="item item-divider">Case Id</div>
+					 <select class="cselectn">
+					  <option selected>Case</option>
+					  <option >Background</option>
+					  <option>Notes</option>
+					  <option>Treatment</option>
+					</select>
+					
+					 <div class="item item-divider">Attachments
+							<div class="filelabel">
+                                    <input type="file" placeholder="Attachments" onchange="" name=""   ">
+                                    <label for="file">Upload Files</label>
+                                </div>
+					 </div>
+					
+					
+					</div>
+                   
+				<button class="button button-block button-positive mtop20"> Save</button>
 
                 </ion-scroll>
 
