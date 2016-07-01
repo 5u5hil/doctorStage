@@ -1975,7 +1975,7 @@ angular.module('your_app_name.controllers', [])
                 });
             }
 
-            $scope.submitClinicService = function () {
+            $scope.submitClinicService = function () { 
                 var data = new FormData(jQuery("#serviceclinic")[0]);
                 $.ajax({
                     type: 'POST',

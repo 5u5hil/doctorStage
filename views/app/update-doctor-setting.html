@@ -211,7 +211,7 @@
                                 <div class="col-80" >
                                     <input class="form-control" type="hidden" readonly value="{{day}}"  name="day[]">
                                     <div ng-repeat="scheVal in scheduleval" >
-                                     {{servicdayArray[$index].indexOf(day)}} {{servicdayArray[$index]}}
+                                     {{servicdayArray[$parent.$parent.$index].indexOf(day)}} 
                                      --- {{scheVal.day_of_week}}
                                         <div  class="row" style="padding: 0;" ng-if="servicdayArray[$index].indexOf(day) >= 0 && scheVal.day_of_week == day" >
                                          
