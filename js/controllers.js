@@ -1720,79 +1720,34 @@ angular.module('your_app_name.controllers', [])
             $scope.service = $stateParams.data;
             $scope.permission = $stateParams.permission;
             $scope.uid = $stateParams.uid;
-            
-//            if($scope.service == 'Video'){
-//              //  alert('gfsgdf');
-//                 jQuery('#video').removeClass('hide');
-//                 jQuery('#chat').addClass('hide');
-//                  jQuery('#home').addClass('hide');
-//                   jQuery('#clinic').addClass('hide');
-//            }
-//            if($scope.service == 'Home'){
-//                jQuery('#home').removeClass('hide');
-//                 jQuery('#chat').addClass('hide');
-//                  jQuery('#video').addClass('hide');
-//                   jQuery('#clinic').addClass('hide');
-//            }
-//            if($scope.service == 'Clinic'){
-//                jQuery('#clinic').removeClass('hide');
-//                 jQuery('#chat').addClass('hide');
-//                  jQuery('#home').addClass('hide');
-//                   jQuery('#video').addClass('hide');
-//            }
-//            if($scope.service == 'Chat'){
-//                jQuery('#chat').removeClass('hide');
-//                 jQuery('#video').addClass('hide');
-//                  jQuery('#home').addClass('hide');
-//                   jQuery('#clinic').addClass('hide');
-//            }
-            // alert($scope.service);
             $scope.dayfrom = [];
             $scope.dayto = [];
             $scope.dayid = [];
-
+            $scope.servicDays = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctors/update-service-setting',
                 params: {userId: $scope.userId, service: $scope.service, permission: $scope.permission}
             }).then(function successCallback(response) {
-                console.log(response.data);
-
+                //console.log(response.data);
                 $scope.price = response.data.getPrice;
                 $scope.days = response.data.days;
                 $scope.servicdayArray = response.data.servicdayArray;
                 $scope.schedule = response.data.getSchedule;
-                //               if (response.data.service != 'Clinic') {
-                //                   console.log('clinic' + $scope.schedule)
                 if (response.data.service != 'Instant Video') {
-                    angular.forEach($scope.schedule, function (value, key) {
-                        console.log(value.dayfrom + " ==  " + key);
-                        $scope.dayfrom[key] = (value.dayfrom).split(',');
-                        $scope.dayto[key] = (value.dayto).split(',');
-                        $scope.dayid[key] = (value.dayid).split(',');
+                    angular.forEach($scope.schedule, function (val, k) {
+                        $scope.dayfrom[k] = [];
+                        $scope.dayto[k] = [];
+                        $scope.dayid[k] = [];
+                        angular.forEach(val, function (value, key) {
+                            //console.log(k + " == " + value.dayfrom + " ==  " + key);
+                            $scope.dayfrom[k][key] = (value.dayfrom).split(',');
+                            $scope.dayto[k][key] = (value.dayto).split(',');
+                            $scope.dayid[k][key] = (value.dayid).split(',');
+                        });
                     });
-                    console.log($scope.dayfrom);
+                    //console.log($scope.dayfrom);
                 }
-
-                //                   console.log($scope.dayfrom);
-//                } else {
-//                    angular.forEach($scope.schedule, function (value, key) {
-//                        console.log(value[].dayfrom + " ==  " + key);
-//                        angular.forEach(value, function (val, k) {
-//                          //   console.log(val.dayfrom + " ==  " + key);
-//                       $scope.dayfrom[k] = (val.dayfrom).split(',');
-//                        $scope.dayto[k] = (val.dayto).split(',');
-//                        $scope.dayid[k] = (val.dayid).split(',');
-//                        });
-//                    });
-//                    console.log($scope.dayfrom);
-//                }
-
-//                 $scope.scheduleid = response.data.getSchedule;
-//                  $scope.schedulefrom = response.data.getSchedule;
-//                   $scope.scheduleto = response.data.getSchedule;
-                // $scope.instant_permission = response.data.schedule;
-
                 $scope.instant_days = [{text: "Monday", value: '1'},
                     {text: "Tuesday", value: '2'},
                     {text: "Wednesday", value: '3'},
@@ -1837,51 +1792,6 @@ angular.module('your_app_name.controllers', [])
                     {text: "21:00", value: '21:00:00'},
                     {text: "22:00", value: '22:00:00'},
                     {text: "23:00", value: '23:00:00'}];
-
-                $scope.video_days_start = [{text: "Monday", value: 'Monday'},
-                    {text: "Tuesday", value: 'Tuesday'},
-                    {text: "Wednesday", value: 'Wednesday'},
-                    {text: "Thursday", value: 'Thursday'},
-                    {text: "Friday", value: 'Friday'},
-                    {text: "Saturday", value: 'Saturday'},
-                    {text: "Sunday", value: 'Sunday'}];
-                $scope.video_days_end = [{text: "Monday", value: 'Monday'},
-                    {text: "Tuesday", value: 'Tuesday'},
-                    {text: "Wednesday", value: 'Wednesday'},
-                    {text: "Thursday", value: 'Thursday'},
-                    {text: "Friday", value: 'Friday'},
-                    {text: "Saturday", value: 'Saturday'},
-                    {text: "Sunday", value: 'Sunday'}];
-                $scope.clinic_time_start = [{text: "09:00", value: '09:00:00'},
-                    {text: "10:00", value: '10:00:00'},
-                    {text: "11:00", value: '11:00:00'},
-                    {text: "12:00", value: '12:00:00'},
-                    {text: "13:00", value: '13:00:00'},
-                    {text: "14:00", value: '14:00:00'},
-                    {text: "15:00", value: '15:00:00'},
-                    {text: "16:00", value: '16:00:00'},
-                    {text: "17:00", value: '17:00:00'},
-                    {text: "18:00", value: '18:00:00'},
-                    {text: "19:00", value: '19:00:00'},
-                    {text: "20:00", value: '20:00:00'},
-                    {text: "21:00", value: '21:00:00'},
-                    {text: "22:00", value: '22:00:00'},
-                    {text: "23:00", value: '23:00:00'}];
-                $scope.clinic_time_end = [{text: "09:00", value: '09:00:00'},
-                    {text: "10:00", value: '10:00:00'},
-                    {text: "11:00", value: '11:00:00'},
-                    {text: "12:00", value: '12:00:00'},
-                    {text: "13:00", value: '13:00:00'},
-                    {text: "14:00", value: '14:00:00'},
-                    {text: "15:00", value: '15:00:00'},
-                    {text: "16:00", value: '16:00:00'},
-                    {text: "17:00", value: '17:00:00'},
-                    {text: "18:00", value: '18:00:00'},
-                    {text: "19:00", value: '19:00:00'},
-                    {text: "20:00", value: '20:00:00'},
-                    {text: "21:00", value: '21:00:00'},
-                    {text: "22:00", value: '22:00:00'},
-                    {text: "23:00", value: '23:00:00'}];
                 $scope.drservice = response.data.getService;
                 angular.forEach($scope.docServices, function (value, key) {
                     if (value.service.id == '1' && value.active == '1') {
@@ -1894,8 +1804,6 @@ angular.module('your_app_name.controllers', [])
                         $scope.home = 1;
                     }
                 });
-
-                //$state.go('app.update-doctor-setting', {'data': $scope.service, 'uid': $scope.userId});
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1927,9 +1835,8 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             }
-
             $scope.submitVideoService = function () {
-
+                $ionicLoading.show({template: "Saving"});
                 var data = new FormData(jQuery("#servicevideo")[0]);
                 $.ajax({
                     type: 'POST',
@@ -1940,19 +1847,16 @@ angular.module('your_app_name.controllers', [])
                     processData: false,
                     success: function (response) {
                         $ionicLoading.hide();
-                        console.log(response);
-
-                        // alert('Video Setting Updated');
-                        //  window.location.reload();
-                        //$state.go('app.doctor-setting', {}, {reload: true});
+                        alert("Video service updated successfully!");
+                        window.location.reload();
                     },
                     error: function (e) {
-                        //  console.log(e.responseText);
+                        console.log(e.responseText);
                     }
                 });
             }
             $scope.submitHomeService = function () {
-
+                $ionicLoading.show({template: "Saving"});
                 var data = new FormData(jQuery("#servicehome")[0]);
                 $.ajax({
                     type: 'POST',
@@ -1963,40 +1867,36 @@ angular.module('your_app_name.controllers', [])
                     processData: false,
                     success: function (response) {
                         $ionicLoading.hide();
-                        console.log(response);
-
-                        // alert('Video Setting Updated');
-                        //  window.location.reload();
-                        //$state.go('app.doctor-setting', {}, {reload: true});
+                        alert("Home service updated successfully!");
+                        window.location.reload();
                     },
                     error: function (e) {
-                        //  console.log(e.responseText);
+                        console.log(e.responseText);
                     }
                 });
             }
+            $scope.submitClinicService = function () {
+                angular.forEach($scope.schedule, function (value, key) {
+                    $ionicLoading.show({template: "Saving"});
+                    var data = new FormData(jQuery("#serviceClinic" + key)[0]);
+                    $.ajax({
+                        type: 'POST',
+                        url: domain + "doctors/update-doctor-service",
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (response) {
+                            $ionicLoading.hide();
+                            alert("Clinic service updated successfully!");
+                            window.location.reload();
 
-            $scope.submitClinicService = function () { 
-                var data = new FormData(jQuery("#serviceclinic")[0]);
-                $.ajax({
-                    type: 'POST',
-                    url: domain + "doctors/update-doctor-service",
-                    data: data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        $ionicLoading.hide();
-                        console.log(response);
-
-                        // alert('Video Setting Updated');
-                        //  window.location.reload();
-                        //$state.go('app.doctor-setting', {}, {reload: true});
-                    },
-                    error: function (e) {
-                        //  console.log(e.responseText);
-                    }
+                        },
+                        error: function (e) {
+                            console.log(e.responseText);
+                        }
+                    });
                 });
-              
             }
 
 
@@ -6680,77 +6580,73 @@ angular.module('your_app_name.controllers', [])
 //                window.localStorage.removeItem('loadedOnce');
 //            }
 
-		$scope.togglemenu=function(){
-			jQuery('.dnav').toggleClass('active');
-		}
+            $scope.togglemenu = function () {
+                jQuery('.dnav').toggleClass('active');
+            }
 
-		$scope.mntab='ntcase';
-		$scope.nadd='null';
-		$scope.notetcase=true;
-		
-		$scope.changecate=function(ab){
-			
-			//$scope.obervation=false;
-			if(ab=='testresults'){
-				$scope.ttestresults=true;
-				$scope.tmeasurements=false;
-				$scope.tobervation=false;
-			}
-			else if(ab=='measurement'){
-				$scope.tmeasurements=true;
-				$scope.ttestresults=false;
-				$scope.tobervation=false;
-				
-			}
-			else if(ab=='obervation'){
-				$scope.tobervation=true;
-				$scope.ttestresults=false;
-				$scope.tmeasurements=false;
-				
-			}
-		}
-		
-		
-		$scope.changemaincate=function(cvalue){
-			
-			if(cvalue=='ntcase'){
-				$scope.notetcase=true
-				$scope.notebackground=false
-				$scope.notetnote=false
-				$scope.notetreatment=false
-			}
-			else if(cvalue=='ntbackground'){
-				$scope.notetcase=false
-				$scope.notebackground=true
-				$scope.notetnote=false
-				$scope.notetreatment=false
-			}
-			else if(cvalue=='ntnote'){
-				$scope.notetcase=false
-				$scope.notebackground=false
-				$scope.notetnote=true
-				$scope.notetreatment=false
-			}	
-			
-			if(cvalue=='nttreatment'){
-				$scope.notetcase=false
-				$scope.notebackground=false
-				$scope.notetnote=false
-				$scope.notetreatment=true
-			}
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+            $scope.mntab = 'ntcase';
+            $scope.nadd = 'null';
+            $scope.notetcase = true;
+
+            $scope.changecate = function (ab) {
+
+                //$scope.obervation=false;
+                if (ab == 'testresults') {
+                    $scope.ttestresults = true;
+                    $scope.tmeasurements = false;
+                    $scope.tobervation = false;
+                } else if (ab == 'measurement') {
+                    $scope.tmeasurements = true;
+                    $scope.ttestresults = false;
+                    $scope.tobervation = false;
+
+                } else if (ab == 'obervation') {
+                    $scope.tobervation = true;
+                    $scope.ttestresults = false;
+                    $scope.tmeasurements = false;
+
+                }
+            }
+
+
+            $scope.changemaincate = function (cvalue) {
+
+                if (cvalue == 'ntcase') {
+                    $scope.notetcase = true
+                    $scope.notebackground = false
+                    $scope.notetnote = false
+                    $scope.notetreatment = false
+                } else if (cvalue == 'ntbackground') {
+                    $scope.notetcase = false
+                    $scope.notebackground = true
+                    $scope.notetnote = false
+                    $scope.notetreatment = false
+                } else if (cvalue == 'ntnote') {
+                    $scope.notetcase = false
+                    $scope.notebackground = false
+                    $scope.notetnote = true
+                    $scope.notetreatment = false
+                }
+
+                if (cvalue == 'nttreatment') {
+                    $scope.notetcase = false
+                    $scope.notebackground = false
+                    $scope.notetnote = false
+                    $scope.notetreatment = true
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
 
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
