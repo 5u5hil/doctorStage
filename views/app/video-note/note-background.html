@@ -187,7 +187,9 @@
                             <div class="item item-divider">Known conditions</div>
                             <label class="item item-input">
                                 <div class="row" ng-repeat="con in conditions track by $index">
-                                    <ion-checkbox  ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                                    <div class="col">
+                                        <ion-checkbox ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                                    </div>
                                 </div>
                             </label>
                         </div>

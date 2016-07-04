@@ -3983,6 +3983,7 @@ angular.module('your_app_name.controllers', [])
             $scope.conId = [];
             $scope.conIds = [];
             $scope.famHist = [];
+            $rootScope.famHist = [];
             $scope.selConditions = [];
             $http({
                 method: 'GET',
@@ -4111,6 +4112,27 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.hidefamilyknown = function () {
                 jQuery('.toggleslidediv').hide();
+            };
+            $scope.saveFamilyHist = function () {
+                jQuery('#patientId').val($scope.patientId);
+                var data = new FormData(jQuery("#addFamilyForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-family-history", data, function (response) {
+                    $scope.loading = false;
+                    if (response.err == '') {
+                        $rootScope.famHist.unshift(response.records.id);
+                        $rootScope.$emit("GetFamilyDetails", {});
+                        jQuery('#tfamilyhistory').slideToggle("slow", function () { })
+                        jQuery("#addFamilyForm")[0].reset();
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+                $timeout(function () {
+                    $scope.familyknwcontion = false;
+                }, 2000);
+//        } else {
+//            alert('Please fill mandatory fields');
+//        }
             };
         })
 
