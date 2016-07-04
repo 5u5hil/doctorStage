@@ -1,0 +1,167 @@
+<div>
+    <div class="mtabcon">
+        <div class="row">
+            <div class="col">
+                <div class="fdropdown">
+                    <div class="navlist" ng-click="togglemenu()"> <i class="ion-android-bar"></i> &nbsp; Notes</div>
+                    <div class="dnav">
+                        <ion-list>
+                            <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
+                            <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pi">Heart Condition</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pin">Hypertension</ion-checkbox>
+                        </ion-list>
+                        <div class="row">
+                            <div class="col"><button class="button button-balanced" ng-click="togglemenu()">Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="togglemenu()">Reset</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <select class="cselectn brdgreen" ng-model="nadd" name="nadd" ng-change="changecate(nadd)" value="+ Add">
+                    <option value="null"> + Add</option>
+                    <option value="measurement" >Measurements</option>
+                    <option value="testresults" >Test Results</option>
+                    <option value="obervation" >Observations</option>
+                </select>
+            </div>
+        </div>
+        <div class="formcontainer" ng-show="tobervation">
+            <div class="item item-divider">Observations</div> 	
+            <label class="item item-input">
+                <textarea rows="4" placeholder="Enter"></textarea>	
+            </label>
+            <ion-list>
+                <ion-checkbox ng-model="filter.red">Summary</ion-checkbox>
+            </ion-list>
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <div class="formcontainer" ng-show="tmeasurements">
+            <div class="heading2">Blood Pressure</div>
+            <div class="item item-divider">Systolic</div>	
+            <label class="item item-input">
+                <input type="text" placeholder="Enter">
+            </label>
+            <div class="item item-divider">Diastolic</div>	
+            <label class="item item-input">
+                <input type="text" placeholder="Enter">
+            </label>
+            <div class="item item-divider">Pulse</div>	
+            <label class="item item-input">
+                <input type="text" placeholder="Pulse">
+            </label>
+            <div class="heading2">Glucose</div>
+            <div class="item item-divider">Glucose Reading</div>	
+            <label class="item item-input">
+                <input type="text" placeholder="Enter">
+            </label>
+            <div class="item item-divider">Type</div>	
+            <label class="item item-input">
+                <input type="text" placeholder="Enter">
+            </label>
+            <div class="heading2">Temperature</div>	
+            <div class="item item-divider">Temperature</div>	
+            <label class="item item-input">
+                <input type="text" placeholder="Enter">
+            </label>
+            <div class="item item-divider">Method</div>	
+            <label class="item item-input">
+                <input type="text" placeholder="Enter">
+            </label>
+        </div>
+        <div class="formcontainer" ng-show="ttestresults">
+            <div class="item item-divider">Test Results</div> 	
+            <label class="item item-input">
+                <textarea rows="4" placeholder="Enter"></textarea>	
+            </label>
+            <ion-list>
+                <ion-checkbox ng-model="filter.red">Summary</ion-checkbox>
+            </ion-list>
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive">Cancel</button>
+                </div>
+            </div>
+        </div>
+        <div  class="list card post-item greenbox" >
+            <div class="card-content p0">
+                <div class="row post-heading item item-text-wrap ">
+                    <div class="col col-75">
+                        <h2 class="post-title">Blood Pressure</h2>
+                    </div>
+                    <div class="col col-25 txt-right">
+                        <div class="infomore" ng-click="infomore('abc')">
+                            <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-content item item-text-wrap p0">
+                    <div class="row">
+                        <div class="col">Systolic</div>
+                        <div class="col">: 80</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Diastolic</div>
+                        <div class="col">: 120</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Pulse</div>
+                        <div class="col">: 100</div>
+                    </div>	
+                    <div class="infomore-div " id="abc">
+                        <div class="row">
+                            <div class="col">Pulse</div>
+                            <div class="col">: 100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class="list card post-item greenbox" >
+            <div class="card-content p0">
+                <div class="row post-heading item item-text-wrap ">
+                    <div class="col col-75">
+                        <h2 class="post-title">Glucose</h2>
+                    </div>
+                    <div class="col col-25 txt-right">
+                        <div class="infomore">
+                            <span class="infb"> More</span> <i class="ion-android-arrow-forward"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-content item item-text-wrap p0">
+                    <div class="row">
+                        <div class="col">Systolic</div>
+                        <div class="col">: 80</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Diastolic</div>
+                        <div class="col">: 120</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Pulse</div>
+                        <div class="col">: 100</div>
+                    </div>	
+                    <div class="infomore-div " id="pqr">
+                        <div class="row">
+                            <div class="col">Pulse</div>
+                            <div class="col">: 100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

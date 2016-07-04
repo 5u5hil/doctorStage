@@ -1,0 +1,104 @@
+<div>
+    <form class="form-horizontal" name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate>
+        <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+        <input type="hidden" value="{{patientId}}" name="patientId" />
+        <input type="hidden" value="{{doctorId}}" name="doctorId" />
+        <input type="hidden" value="{{appId}}" name="appId" />
+        <input type="hidden" value="{{mid}}" name="measurement" />
+        <input type="hidden" value="{{objId}}" name="objId" />
+        <input type="hidden" value="{{diaId}}" name="diaId" />
+        <input type="hidden" value="{{testId}}" name="testId" />
+        <input type="hidden" value="{{allInv}}" name="invId" />
+        <input type="hidden" value="{{allMedi}}" name="mediId" />
+        <input type="hidden" value="{{allLife}}" name="lifeId" />
+        <input type="hidden" value="{{allProc}}" name="procId" />
+        <input type="hidden" value="{{allRef}}" name="refId" />
+        <input type="hidden" value="{{allDiet}}" name="dietId" />
+        <input type="hidden" value="{{measurement}},{{objId}},{{diaId}},{{testId}}" name="noteRecs" />
+        <input type="hidden" value="{{recId}}" name="recId" />
+        <input type="hidden" value="Consultation" name="rectype" />
+        <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+        <div class="fields" ng-repeat="field in fields">                    
+            <div ng-if="field.field == 'Case Id'">
+                <div ng-if="caseId != ''">
+                    <ion-list>
+                        <div class="row">
+                            <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
+                            <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-checked="true" required>Ongoing Case</ion-radio></div>
+                        </div>
+                    </ion-list>
+                    <label class="item item-input item-select" id="precase">
+                        <div class="input-label">{{field.field}}</div>
+                        <select name="pre-{{field.name}}" ng-model="cases">
+                            <option value="" >Select </option>
+                            <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                        </select>
+                    </label>
+                    <label class="item item-input hide" id="newcase">
+                        <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                    </label>
+                </div>
+                <div ng-if="caseId == ''">
+                    <ion-list>
+                        <div class="row">
+                            <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
+                            <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
+                        </div>
+                    </ion-list>
+                    <label class="item item-input item-select hide" id="precase">
+                        <div class="input-label">{{field.field}}</div>
+                        <select name="pre-{{field.name}}">
+                            <option value="" >Select </option>
+                            <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                        </select>
+                    </label>
+                    <label class="item item-input hide" id="newcase">
+                        <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                    </label>
+                </div>
+            </div>
+            <div ng-if="field.field != 'Case Id'">
+                <div ng-if="field.field == 'Valid till'">
+                    <label class="item item-input listreq hide notdateicon" id="convalid">
+                        <span class='input-label'>{{field.field}} </span>
+                        <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />                            
+                    </label> 
+                </div>
+                <label class="item item-input item-select hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
+                    <div class="input-label" > {{field.field}}</div>
+                    <select class="cselect" ng-model="prescription" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" ng-change="getPrescription(prescription)">
+                        <option value="0"> Select {{field.field}}</option>
+                        <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
+                    </select>
+                </label>
+            </div>
+            <div ng-if="field.field_types.value == 'file'">
+                <div class="item item-divider">Attachments
+                    <div class="filelabel">
+                        <div ng-if="field.multi_value == 1">
+                            <input type="file" placeholder="{{field.field}}" name="{{field.name}}[]" onchange="angular.element(this).scope().setFile(this)" multiple id="presciption" ng-model="prescription"  class="ng-pristine ng-untouched ng-valid img">
+                            <label for="file">Upload Files</label>
+                        </div>
+                        <div ng-if="field.multi_value == 0">
+                            <input type="file" placeholder="{{field.field}}" name="{{field.name}}" onchange="angular.element(this).scope().setFile(this)" id="presciption" ng-model="prescription"  class="ng-pristine ng-untouched ng-valid img">
+                            <label for="file">Upload Files</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="image-holder"></div>
+                <div class="row">
+                    <div class="btncamera" ng-repeat="prev in prevRecordDetails" ng-if="prev.field_id == 'attachments-3'">Previous Files
+                        <div ng-if="isAttachment != ''">
+                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                <a class="filelink" ng-click="showAttach(attachpath, attach.attachment_path, attach.orginial_name)" >
+                                    <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </form>
+    <button class="button button-block button-positive mtop20"> Save</button>
+</div>

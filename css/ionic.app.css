@@ -8692,7 +8692,7 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
     border-right: 1px #ccc solid; 
 
 }
-.sche-date input[type="date"]:before{
+.sche-date input[type="date"]:before,.notdateicon input[type="date"]:before{
 	content:''; display:none; padding:0;
 }
 .leftarrow,.rightarrow{position:absolute; top:10px; font-size:13px; cursor: pointer; font-weight:bold;}

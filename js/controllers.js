@@ -298,8 +298,6 @@ angular.module('your_app_name.controllers', [])
             });
         })
 
-
-
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
@@ -1507,6 +1505,7 @@ angular.module('your_app_name.controllers', [])
 //                }
             }
         })
+
         .controller('DoctorSettingsNewCtrl', function ($scope, $http, $ionicPlatform, $stateParams, $ionicModal, $ionicLoading, $state) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -1716,6 +1715,7 @@ angular.module('your_app_name.controllers', [])
 //                
             }
         })
+
         .controller('UpdateDoctorSettingsCtrl', function ($scope, $state, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.service = $stateParams.data;
             $scope.permission = $stateParams.permission;
@@ -1903,6 +1903,7 @@ angular.module('your_app_name.controllers', [])
 
 
         })
+
         .controller('PatientListCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.users = {};
@@ -6276,9 +6277,10 @@ angular.module('your_app_name.controllers', [])
                 })
             };
             $timeout(function () {
-
-                $scope.appendprevious();
-                $scope.movebottom();
+                if ($scope.chatMsgs.length > 0) {
+                    $scope.appendprevious();
+                    $scope.movebottom();
+                }
             }, 1000);
         })
 
@@ -6583,11 +6585,9 @@ angular.module('your_app_name.controllers', [])
             $scope.togglemenu = function () {
                 jQuery('.dnav').toggleClass('active');
             }
-
             $scope.mntab = 'ntcase';
             $scope.nadd = 'null';
             $scope.notetcase = true;
-
             $scope.changecate = function (ab) {
 
                 //$scope.obervation=false;
@@ -6607,7 +6607,6 @@ angular.module('your_app_name.controllers', [])
 
                 }
             }
-
 
             $scope.changemaincate = function (cvalue) {
 
@@ -6636,18 +6635,6 @@ angular.module('your_app_name.controllers', [])
                 }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
@@ -6656,10 +6643,16 @@ angular.module('your_app_name.controllers', [])
             //$ionicHistory.clearCache();
             $scope.appId = $stateParams.id;
             $scope.userId = get('id');
+            $scope.doctorId = get('id');
+            $scope.drName = get('fname');
             $scope.caseId = '';
             $scope.recId = '';
+            $scope.precId = '';
+            //$scope.proceed = false;
+            $scope.isAttachment = '';
+            $scope.cnAttachments = '';
             $scope.medicinename = '';
-            $scope.prescription = 'Yes';
+            $scope.prescription = 'No';
             var stoppedTimer;
             $scope.Timercounter;
             var statstimer;
@@ -6889,6 +6882,7 @@ angular.module('your_app_name.controllers', [])
                         });
                     }
                 });
+                $scope.getCnDetails();
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -6917,60 +6911,65 @@ angular.module('your_app_name.controllers', [])
                 $scope.adjquery();
             }, 4000);
             //ADD Consultation note
-            $http({
-                method: "GET",
-                url: domain + "doctrsrecords/get-app-details",
-                params: {appId: $scope.appId}
-            }).then(function successCallback(response) {
-                console.log(response.data.patient.id);
-                $scope.patientId = response.data.patient.id;
-                $scope.doctorId = response.data.doctr.id
-                $scope.app = response.data.app;
-                $scope.record = response.data.record;
-                $scope.recordDetails = response.data.recordDetails;
-                if ($scope.recordDetails.length > 0) {
-                    angular.forEach($scope.recordDetails, function (val, key) {
-                        if (val.fields.field == 'Case Id') {
-                            $scope.caseId = val.value;
-                            $scope.casetype = 0;
-                            jQuery('.fields #precase').removeClass('hide');
-                        }
-                    });
-                    $scope.recId = response.data.record.id;
-                }
-                if (response.data.app.mode == 1) {
-                    $scope.mode = 'Video';
-                } else if (response.data.app.mode == 2) {
-                    $scope.mode = 'Chat';
-                } else if (response.data.app.mode = 3) {
-                    $scope.mode = 'Clinic'
-                } else if (response.data.app.mode == 4) {
-                    $scope.mode = 'Home';
-                }
-                console.log($scope.mode);
-                $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
-                $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
-                window.localStorage.setItem('patientId', $scope.patientId);
-                window.localStorage.setItem('doctorId', $scope.doctorId);
-                console.log($scope.conDate);
+            $scope.getCnDetails = function () {
                 $http({
-                    method: 'GET',
-                    url: domain + 'doctrsrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                    method: "GET",
+                    url: domain + "doctrsrecords/get-app-details",
+                    params: {appId: $scope.appId}
                 }).then(function successCallback(response) {
-                    console.log(response.data);
-                    $scope.record = response.data.record;
-                    $scope.fields = response.data.fields;
-                    $scope.problems = response.data.problems;
-                    $scope.doctrs = response.data.doctrs;
-                    $scope.patients = response.data.patients;
-                    $scope.cases = response.data.cases;
-                }, function errorCallback(response) {
-                    console.log(response);
+                    console.log(response.data.patient.id);
+                    $scope.patientId = response.data.patient.id;
+                    $scope.doctorId = response.data.doctr.id
+                    $scope.app = response.data.app;
+                    $scope.prevRecord = response.data.record;
+                    $scope.prevRecordDetails = response.data.recordDetails;
+                    if ($scope.prevRecordDetails.length > 0) {
+                        angular.forEach($scope.prevRecordDetails, function (val, key) {
+                            if (val.fields.field == 'Case Id') {
+                                $scope.caseId = val.value;
+                                $scope.casetype = 0;
+                                jQuery('.fields #precase').removeClass('hide');
+                            }
+                            if (val.fields.field == 'Attachments') {
+                                $scope.isAttachment = val.attachments.length;
+                            }
+                        });
+                        $scope.recId = response.data.record.id;
+                    }
+                    if (response.data.app.mode == 1) {
+                        $scope.mode = 'Video';
+                    } else if (response.data.app.mode == 2) {
+                        $scope.mode = 'Chat';
+                    } else if (response.data.app.mode = 3) {
+                        $scope.mode = 'Clinic'
+                    } else if (response.data.app.mode == 4) {
+                        $scope.mode = 'Home';
+                    }
+                    console.log($scope.mode);
+                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
+                    window.localStorage.setItem('patientId', $scope.patientId);
+                    window.localStorage.setItem('doctorId', $scope.doctorId);
+                    console.log($scope.conDate);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-fields',
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.record = response.data.record;
+                        $scope.fields = response.data.fields;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.doctrs;
+                        $scope.patients = response.data.patients;
+                        $scope.cases = response.data.cases;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                    });
+                }, function errorCallback(e) {
+                    console.log(e);
                 });
-            }, function errorCallback(e) {
-                console.log(e);
-            });
+            };
             $scope.submit = function () {
                 $ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
@@ -7061,158 +7060,18 @@ angular.module('your_app_name.controllers', [])
                     jQuery('#convalid').removeClass('hide');
                 }
             };
-            //Take images with camera
-            $scope.takePict = function (name) {
-                //console.log(name);
-                var camimg_holder = $("#camera-status");
-                //camimg_holder.empty();
-                // 2
-                var options = {
-                    destinationType: Camera.DestinationType.FILE_URI,
-                    sourceType: Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
-                    allowEdit: false,
-                    encodingType: Camera.EncodingType.JPEG,
-                };
-                // 3
-                $cordovaCamera.getPicture(options).then(function (imageData) {
-                    //alert(imageData);
-                    onImageSuccess(imageData);
-                    function onImageSuccess(fileURI) {
-                        createFileEntry(fileURI);
-                    }
-                    function createFileEntry(fileURI) {
-                        window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-                    }
-                    // 5
-                    function copyFile(fileEntry) {
-                        var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-                        var newName = makeid() + name;
-                        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (fileSystem2) {
-                            fileEntry.copyTo(
-                                    fileSystem2,
-                                    newName,
-                                    onCopySuccess,
-                                    fail
-                                    );
-                        },
-                                fail);
-                    }
-                    // 6
-                    function onCopySuccess(entry) {
-                        var imageName = entry.nativeURL;
-                        $scope.$apply(function () {
-                            $scope.tempImgs.push(imageName);
-                        });
-                        console.log($scope.tempImgs.length);
-                        if ($scope.tempImgs.length == 0) {
-                            console.log($("#image-holder").html());
-                            if (($("#image-holder").html()) == '') {
-                                //jQuery('#convalid').addClass('hide');
-                                jQuery('#coninprec').addClass('hide');
-                            } else {
-                                //jQuery('#convalid').removeClass('hide');
-                                jQuery('#coninprec').removeClass('hide');
-                            }
-                        } else {
-                            //jQuery('#convalid').removeClass('hide');
-                            jQuery('#coninprec').removeClass('hide');
-                        }
-                        $scope.picData = getImgUrl(imageName);
-                        //alert($scope.picData);
-                        $scope.ftLoad = true;
-                        imgCnt++;
-                        var btnhtml = $compile('<div class="remcam-' + imgCnt + '"><button class="button button-positive remove" ng-click="removeCamFile(\'' + imgCnt + '\')">X</button></div>')($scope);
-                        camimg_holder.append(btnhtml);
-                        $('<div class="remcam-' + imgCnt + '"><span class="upattach"><i class="ion-paperclip"></i></span></div>').appendTo(camimg_holder);
-                    }
-                    function fail(error) {
-                        console.log("fail: " + error.code);
-                    }
-                    function makeid() {
-                        var text = "";
-                        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                        for (var i = 0; i < 5; i++) {
-                            text += possible.charAt(Math.floor(Math.random() * possible.length));
-                        }
-                        return text;
-                    }
-                    function getImgUrl(imageName) {
-                        var name = imageName.substr(imageName.lastIndexOf('/') + 1);
-                        var trueOrigin = cordova.file.dataDirectory + name;
-                        return trueOrigin;
-                    }
-                }, function (err) {
-                    console.log(err);
-                });
-            };
-            $scope.removeCamFile = function (img) {
-                var arrInd = (img - 1);
-                var index = $scope.tempImgs.indexOf(arrInd);
-                $scope.tempImgs.splice(index, 1);
-                console.log('camera file removed');
-                console.log($scope.tempImgs);
-                jQuery('.remcam-' + img).remove();
-                if ($scope.tempImgs.length == 0) {
-                    if (($("#image-holder").html()) == '') {
-                        //jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    } else {
-                        //jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    }
-                } else {
-                    //jQuery('#convalid').removeClass('hide');
-                    jQuery('#coninprec').removeClass('hide');
-                }
-            };
-            $scope.uploadPicture = function () {
-                //$ionicLoading.show({template: 'Uploading..'});
-                var fileURL = $scope.picData;
-                var name = fileURL.substr(fileURL.lastIndexOf('/') + 1);
-                var options = new FileUploadOptions();
-                options.fileKey = "file";
-                options.fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
-                options.mimeType = "image/jpeg";
-                options.chunkedMode = true;
-                var params = {};
-//                params.value1 = "someparams";
-//                params.value2 = "otherparams";
-//                options.params = params;
-                var uploadSuccess = function (response) {
-                    alert('Upload Success  ');
-                    console.log("Code = " + r.responseCode);
-                    console.log("Response = " + r.response);
-                    console.log("Sent = " + r.bytesSent);
-                    //$scope.image.push(name);
-                    //$ionicLoading.hide();
-                }
-                var ft = new FileTransfer();
-                ft.upload(fileURL, encodeURI(domain + 'doctrsrecords/upload-attachment'), uploadSuccess, function (error) {
-                    console.log("Error in uploading!!!");
-                    //$ionicLoading.show({template: 'Error in connecting...'});
-                    //$ionicLoading.hide();
-                }, options);
-            };
             $scope.setFile = function (element) {
+                alert("file select");
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
-                var image_holder = $("#image-holder");
-                image_holder.empty();
+                //var image_holder = $("#image-holder");
+                //image_holder.empty();
                 if (element.files.length > 0) {
-                    console.log($("#camera-status").html());
-                    //jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
-                    //jQuery('#valid-till').attr('required', true);
-                    image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
+                    //$("#image-holder").html('<div class="remcam"><button class="button button-positive button-small remove" onclick="removeFile()">X</button></div>');
+                    //image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    if (($("#camera-status").html()) != '') {
-                        //jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    } else {
-                        //jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    }
-                    //jQuery('#valid-till').attr('required', false);
+                    jQuery('#coninprec').addClass('hide');
                 }
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
@@ -7222,10 +7081,11 @@ angular.module('your_app_name.controllers', [])
 //                            $("<img />", {
 //                                "src": e.target.result,
 //                                "class": "thumb-image"
-//                            }).appendTo(image_holder);
-                            $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(image_holder);
+//                            }).appendTo(image_holder);.appendTo(image_holder)
+                            alert('daskdnhisa');
+                            $("#image-holder").html('<div class="remcam"><button class="button button-positive button-small remove" onclick="removeFile()">X</button></div><span class="upattach"><i class="ion-paperclip"></i></span>');
                         }
-                        image_holder.show();
+                        $("#image-holder").show();
                         reader.readAsDataURL(element.files[0]);
                     }
                 }
@@ -7396,8 +7256,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.intext = 'more';
                 }
 
-            }
-
+            };
             sidetab('#cstab1');
             sidetab('#cstab2');
             $scope.pulltab = function (d) {
@@ -7410,10 +7269,8 @@ angular.module('your_app_name.controllers', [])
                 }
 
 
-            }
-
+            };
             /* end of rightsidetab */
-
         })
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
