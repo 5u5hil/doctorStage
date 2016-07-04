@@ -1,79 +1,238 @@
 <div>
     <my-tabs class="ctabs">
         <my-tab title="Patient">
-            <div class="mtabcon">
-                <div class="item item-divider">Mobile Number </div>
-                <label class="item item-input">
-                    <input type="text" placeholder="Mobile Number">
-                </label>
-                <div class="item item-divider">Email</div>
-                <label class="item item-input">
-                    <input type="text" placeholder="Email">
-                </label>
-
-                <div class="item item-divider">Date of Birth</div>
-                <label class="item item-input">
-                    <input type="date" placeholder="Date of Birth">
-                </label>
-                <div class="item item-divider">Gender</div>
-                <ion-list class="csradio">
+            <div class="mtabcon" ng-controller="PatientHistoryCtrl">
+                <form name="addPatientForm" id="addPatientForm" enctype="multipart/form-data" novalidate >
+                    <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                    <input type="hidden" value="Patient History" name="rectype" />
+                    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                    <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                    <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+                    <input type="hidden" class="form-control" id="selcon" value="" name="conditions" />
+                    <div ng-if="abt.length != 0">
+                        <input type="hidden" value="{{abt[0].record_id}}" name="patRecId" />
+                    </div>
+                    <div ng-repeat="field in fields">
+                        <div class="hide" ng-if="field.field == 'Doctor'">
+                            <input type="hidden" class="form-control" ng-model="doctorId" name="{{field.name}}"  value="{{doctorId}}" />
+                        </div>
+                        <div class="hide" ng-if="field.field == 'Patient'">
+                            <input type="hidden" class="form-control" ng-model="patientId" value="{{patientId}}" name="{{field.name}}" />
+                        </div>
+                        <div ng-if="field.field == 'Mobile Number'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Mobile Number'">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <label class="item item-input" ng-if="ab.value != ''">
+                                            <input type="number" placeholder="Mobile No." class="form-control" name="{{field.name}}"  value="{{ab.value}}" />
+                                        </label>
+                                        <label class="item item-input" ng-if="ab.value == ''">
+                                            <input type="number" class="form-control" placeholder="Mobile No." name="{{field.name}}" value="" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <div class="form-group">
+                                    <div class="item item-divider">{{field.field}}</div>
+                                    <label class="item item-input" >
+                                        <input type="number" placeholder="Mobile No." class="form-control" name="{{field.name}}"  value="" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="field.field == 'Email'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Email'">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <label class="item item-input" ng-if="ab.value != ''">
+                                            <input type="email" placeholder="Email Id" class="form-control" name="{{field.name}}"  value="{{ab.value}}" />
+                                        </label>
+                                        <label class="item item-input" ng-if="ab.value == ''">
+                                            <input type="email" class="form-control" placeholder="Email Id" name="{{field.name}}" value="" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <div class="item item-divider">{{field.field}}</div>
+                                <label class="item item-input" ng-if="patients[0].email != ''">
+                                    <input type="email" placeholder="Email Id" class="form-control" name="{{field.name}}"  value="" />
+                                </label>
+                                <label class="item item-input" ng-if="patients[0].phone == ''">
+                                    <input type="email" class="form-control" placeholder="Email Id" name="{{field.name}}" />
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'date'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt" ng-if="ab.fields.field == 'Date of Birth'">
+                                    <div class="item item-divider">{{field.field}}</div>
+                                    <label class="item item-input">
+                                        <input type="date" class="form-control" name="{{field.name}}" ng-model="dob" placeholder="{{field.field}}" value="{{dob|dateFormat4}}" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <div class="item item-divider">{{field.field}}</div>
+                                <label class="item item-input">
+                                    <input type="date" name="{{field.name}}" ng-model="curTime" placeholder="{{field.field}}" value="" />
+                                </label>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'radio'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Gender'">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <ion-list class="csradio" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">
+                                            <div class="row">                                         
+                                                <div class="col" ng-repeat="rad in radioData" ng-init="gen = gender"> 
+                                                    <ion-radio ng-model="gen" name="{{field.name}}" value="{{rad}}">{{rad}}</ion-radio>
+                                                </div>
+                                            </div>
+                                        </ion-list>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <div class="item item-divider">{{field.field}}</div>
+                                <ion-list class="csradio" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">
+                                    <div class="row">                                         
+                                        <div class="col" ng-repeat="rad in radioData" ng-init="gen = gender"> 
+                                            <ion-radio ng-model="gen" name="{{field.name}}" value="{{rad}}">{{rad}}</ion-radio>
+                                        </div>
+                                    </div>
+                                </ion-list> 
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'select'">
+                            <div ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Blood Group'">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <div ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">
+                                            <select class="cselectn" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required>
+                                                <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="sel == ab.value"> {{sel}} </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="abt.length == 0">
+                                <div ng-if="ab.fields.field == 'Blood Group'">
+                                    <div class="item item-divider">{{field.field}}</div>
+                                    <div ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">
+                                        <select class="form-control cselectn" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                            <option value="0" ng-selected="1"> Select {{field.field}}</option>
+                                            <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="conditions.length > '0'">
+                        <div class="item item-divider">Known Conditions</div>
+                        <ion-list>
+                            <div class="row" ng-repeat="con in conditions track by $index">
+                                <ion-checkbox ng-model="filter.red" ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                            </div>
+                        </ion-list>
+                    </div>
                     <div class="row">
-                        <div class="col"> <ion-radio ng-model="gender" ng-value="'D'">Male</ion-radio></div>
-                        <div class="col"> <ion-radio ng-model="gender" ng-value="'E'">Female</ion-radio></div>
+                        <div class="col">
+                            <button class="button button-block button-positive mtop20" ng-click="savePatientHistory()"> Save</button>
+                            <div class="foterspacing"></div>
+                        </div>
                     </div>
-                </ion-list>
-                <div class="item item-divider">Blood Group</div> 
-                <select class="cselectn">
-                    <option selected>Select</option>
-                    <option >Abc</option>
-                    <option>XyZ</option>
-                    <option>Test</option>
-                </select>
-                <div class="item item-divider">Known Conditions</div>
-                <ion-list>
-                    <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
-                    <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
-                    <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
-                    <ion-checkbox ng-model="filter.pink">Heart Condition</ion-checkbox>
-                    <ion-checkbox ng-model="filter.pink">Hypertension</ion-checkbox>
-                </ion-list>
-                <div class="row">
-                    <div class="col">
-                        <button class="button button-block button-positive mtop20"> Save</button>
-                        <div class="foterspacing"></div>
-                    </div>
-                </div>
+                </form>
             </div>
         </my-tab>
         <my-tab title="Family">
-            <div class="mtabcon">
-                <div class="item item-divider">Relation</div>
-                <select class="cselectn">
-                    <option selected>Case</option>
-                    <option >Background</option>
-                    <option>Notes</option>
-                    <option>Treatment</option>
-                </select>
-                <div class="item item-divider">Age</div>	
-                <label class="item item-input">
-                    <input type="text" placeholder="Enter Age">
-                </label>
-                <div class="item item-divider">Known Conditions</div> 
-                <ion-list>
-                    <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
-                    <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
-                    <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
-                    <ion-checkbox ng-model="filter.pink">Heart Condition</ion-checkbox>
-                    <ion-checkbox ng-model="filter.pink">Hypertension</ion-checkbox>
-                </ion-list>
-                <div class="item item-divider">Other Information</div> 	
-                <label class="item item-input">
-                    <textarea rows="4" placeholder="Other Information"></textarea>
-                </label>
-                <div class="row">
-                    <div class="col">
-                        <button class="button button-block button-positive mtop20"> Save</button>
-                        <div class="foterspacing"></div>
+            <div class="mtabcon" ng-controller="FamilyHistoryCtrl">
+                <div class="newhbar text-center fbold"> Family History 
+                    <div class="btn btn-default btn-sm pull-right hbarbtn" ng-click="navtoggle('#tfamilyhistory')">+ Add</div>
+                </div> 
+                <div class="addFamilyHistory" id="tfamilyhistory">
+                    <form name="addFamilyForm" id="addFamilyForm" enctype="multipart/form-data" novalidate >
+                        <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                        <input type="hidden" value="Patient History" name="rectype" />
+                        <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                        <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                        <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+                        <input type="hidden" ng-model="conIds" id="selconFam" value="" name="conditions" />
+                        <div ng-repeat="field in fields">
+                            <div ng-if="field.field_types.value == 'select'">
+                                <div class="item item-divider">{{field.field}}</div>
+                                <label class="item item-input" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">
+                                    <select class="form-control cselect" ng-required="true" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                        <option value="0" ng-selected="1"> Select {{field.field}}</option>
+                                        <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div ng-if="field.field_types.value == 'number'">
+                                <div class="form-group">
+                                    <div class="item item-divider">Age</div>
+                                    <label class="item item-input">
+                                        <input class="form-control" type="number" placeholder="Enter Age" ng-required="true" name="{{field.name}}"  />
+                                    </label>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group" ng-if="conditions.length > '0'">
+                            <div class="item item-divider">Known conditions</div>
+                            <label class="item item-input">
+                                <div class="row" ng-repeat="con in conditions track by $index">
+                                    <ion-checkbox  ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                                </div>
+                            </label>
+                        </div>
+                        <div ng-repeat="field in fields">
+                            <div class="form-group" ng-if="field.field_types.value == 'textarea'">
+                                <div class="item item-divider">Other Information</div>
+                                <label class="item item-input">
+                                    <textarea class="form-control" row="3" name="{{field.name}}"></textarea>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <button class="button button-block button-positive mtop20" ng-click="saveFamilyHist()"> Save</button>
+                                <div class="foterspacing"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="list card post-item greenbox" ng-repeat="rdata in recorddata">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-75">
+                                <h2 class="post-title">Relation: {{rdata.record_metadata[1].value}}</h2>
+                            </div>
+                            <div class="col col-25 txt-right">
+                                <div class="infomore" ng-click="infomore('abc')">
+                                    <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Age</div>
+                                <div class="col">: {{rdata.record_metadata[2].value}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Known Conditions</div>
+                                <div class="col">: <span ng-repeat="sel in knConditions[$index]"> {{sel.condition}} <br/></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Other Information</div>
+                                <div class="col">: {{rdata.record_metadata[4].value!=''? rdata.record_metadata[4].value:'NA'}}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

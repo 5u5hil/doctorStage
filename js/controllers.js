@@ -4105,6 +4105,13 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+            $scope.showfamilyknown = function () {
+                jQuery('#tfamilyhistory').slideToggle("slow", function () { })
+                jQuery("#addFamilyForm")[0].reset();
+            };
+            $scope.hidefamilyknown = function () {
+                jQuery('.toggleslidediv').hide();
+            };
         })
 
         .controller('PatientHistoryCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $ionicModal, $timeout, $filter, $cordovaCamera, $ionicLoading) {
@@ -6280,6 +6287,8 @@ angular.module('your_app_name.controllers', [])
                 if ($scope.chatMsgs.length > 0) {
                     $scope.appendprevious();
                     $scope.movebottom();
+                } else {
+                    //$('#chat').html('<p> No </p>');
                 }
             }, 1000);
         })
@@ -6569,7 +6578,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $http, $compile, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
+        .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $rootScope, $http, $compile, $ionicModal, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
 
             $ionicLoading.show({template: 'Loading...'});
 //            if (!get('loadedOnce')) {
@@ -6951,6 +6960,7 @@ angular.module('your_app_name.controllers', [])
                     window.localStorage.setItem('patientId', $scope.patientId);
                     window.localStorage.setItem('doctorId', $scope.doctorId);
                     console.log($scope.conDate);
+                    $scope.getEvaluationDetails();
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-fields',
@@ -6970,6 +6980,54 @@ angular.module('your_app_name.controllers', [])
                     console.log(e);
                 });
             };
+            $scope.saveConsult = function () {
+                $ionicLoading.show({template: 'Saving...'});
+                var data = new FormData(jQuery("#addRecordForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-first-consultation", data, function (response) {
+                    //console.log(response);
+                    $ionicLoading.hide();
+                    $scope.recId = response.records.id;
+                    if (angular.isObject(response.records)) {
+                        $scope.getCnDetails();
+                        //alert("Consultation Note added successfully!");
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+            };
+
+            // Load the modal from the given template URL
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showAttach = function () {
+                    //console.log(path + "=====" + name);
+                    angular.forEach($scope.prevRecordDetails, function (val, key) {
+                        if (val.fields.field == 'Attachments') {
+                            console.log(val.attachments);
+                            $scope.cnAttachments = val.attachments;
+                            $scope.modal.show();
+                        }
+                    });
+                };
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+//            $ionicModal.fromTemplateUrl('file.html', function ($ionicModal) {
+//                $scope.modal = $ionicModal;
+//                $scope.showm = function (path, name) {
+//                    console.log(path + '=afd =' + name);
+//                    $scope.value = $rootScope.attachpath + path + name;
+//                    $scope.modal.show();
+//                };
+//            }, {
+//                // Use our scope for the scope of the modal to keep it simple
+//                scope: $scope,
+//                // The animation we want to use for the modal entrance
+//                animation: 'slide-in-up'
+//            });
             $scope.submit = function () {
                 $ionicLoading.show({template: 'Adding...'});
                 //alert($scope.tempImgs.length);
@@ -7061,11 +7119,8 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             $scope.setFile = function (element) {
-                alert("file select");
                 $scope.currentFile = element.files[0];
                 console.log('length = ' + element.files.length);
-                //var image_holder = $("#image-holder");
-                //image_holder.empty();
                 if (element.files.length > 0) {
                     jQuery('#coninprec').removeClass('hide');
                     //$("#image-holder").html('<div class="remcam"><button class="button button-positive button-small remove" onclick="removeFile()">X</button></div>');
@@ -7082,7 +7137,7 @@ angular.module('your_app_name.controllers', [])
 //                                "src": e.target.result,
 //                                "class": "thumb-image"
 //                            }).appendTo(image_holder);.appendTo(image_holder)
-                            alert('daskdnhisa');
+                            //alert('daskdnhisa');
                             $("#image-holder").html('<div class="remcam"><button class="button button-positive button-small remove" onclick="removeFile()">X</button></div><span class="upattach"><i class="ion-paperclip"></i></span>');
                         }
                         $("#image-holder").show();
@@ -7271,6 +7326,49 @@ angular.module('your_app_name.controllers', [])
 
             };
             /* end of rightsidetab */
+            $scope.getEvaluationDetails = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-testresult-lang',
+                    params: {userId: $scope.userId, objId: $scope.testId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    if (response.data.recdata != '') {
+                        $scope.testId = response.data.recdata.record_id;
+                        $scope.testresult = response.data.recdata;
+                        $scope.testResult = response.data.recdata.metadata_values;
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-diagnosis-lang',
+                    params: {userId: $scope.userId, diaId: $scope.diaId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    if (response.data.recdata != '') {
+                        $scope.diaId = response.data.recdata.record_id;
+                        $scope.diaText.value = response.data.recdata.value;
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-observations-lang',
+                    params: {userId: $scope.userId, interface: $scope.interface, objId: $scope.objId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    //console.log(response.data + "Observation kkkkkk");
+                    if (response.data.recdata != '') {
+                        $scope.objId = response.data.recdata.record_id;
+                        $scope.observation = response.data.recdata;
+                        $scope.objText = response.data.recdata.metadata_values;
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+
+
+            };
         })
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {

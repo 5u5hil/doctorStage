@@ -334,3 +334,35 @@
         </div>
     </div>
 </div>
+<script id="filesview.html" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <div class="viewattachfile" ng-repeat="attach in cnAttachments">
+    <img src="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" style="border-bottom: 1px #eee solid; margin-bottom: 5px; padding: 5px 5px;"/>
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div></div>
+</script>
+<script id="file.html" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <!-- <iframe  type="text/html" style="width:100%; position:absolute; height:80%; top:100px;" scrolling="yes" ng-src="{{trustSrc(value)}}" allowfullscreen frameborder="0">       
+    </iframe> -->
+    <div class="viewattachfile">
+    <img src="{{value}}">
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div></div>
+</script>

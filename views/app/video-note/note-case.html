@@ -89,16 +89,14 @@
                 <div class="row">
                     <div class="btncamera" ng-repeat="prev in prevRecordDetails" ng-if="prev.field_id == 'attachments-3'">Previous Files
                         <div ng-if="isAttachment != ''">
-                            <div ng-init="selData = (attach.orginial_name).split('.')">
-                                <a class="filelink" ng-click="showAttach(attachpath, attach.attachment_path, attach.orginial_name)" >
-                                    <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                </a>
-                            </div>
+                            <a class="filelink" ng-click="showAttach()" >
+                                <span class="ico"><i class="ion-paperclip"></i></span> ({{prev.attachments.length}})
+                            </a>
                         </div>
                     </div>
                 </div>                
             </div>
         </div>
     </form>
-    <button class="button button-block button-positive mtop20"> Save</button>
+    <button class="button button-block button-positive mtop20" ng-click="saveConsult()"> Save</button>
 </div>
