@@ -7438,7 +7438,109 @@ angular.module('your_app_name.controllers', [])
                 }, function errorCallback(e) {
                     console.log(e);
                 });
+            };
+            $scope.saveMeasurements = function () {
+                jQuery('#patientId').val($scope.patientId);
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addMeasureForm")[0]);
+                if (jQuery("#addMeasureForm")[0].length > 9) {
+                    callAjax("POST", domain + "doctrsrecords/save-web-measurements", data, function (response) {
+                        $scope.loading = false;
+                        if (response.err == '') {
+                            $scope.measure = 'yes';
+                            $scope.mid = response.records;
+                            $scope.emeasure = false;
+                            $('input[name=eval]').attr('checked', false);
+                            $rootScope.$emit("GetMeasurements", {});
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                }
+            };
+            $scope.saveTestresult = function (test, testSum) {
+                console.log(test + "===" + testSum);
+                $scope.testResult.push({value: test, summary: testSum});
+                $scope.jnplaintext = false;
+                $scope.etestresult = false;
+                //$('input[name=eval]').attr('checked', false);
+                console.log($scope.testResult);
+                console.log($scope.testTextValue);
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
+                $scope.catId = '';
+                $scope.cnId = $scope.recId;
+                if (test != '') {
+                    console.log("not blank");
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/save-testresults',
+                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.testResult), objId: $scope.testId}
+                    }).then(function successCallback(response) {
+                        if (angular.isObject(response.data.records)) {
+                            $scope.testId = response.data.records.id;
+                            $scope.testTextValue = "";
+                            $scope.testSum = false;
+                        }
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+            };
 
+            $scope.saveDiagnosis = function (diagnosis) {
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
+                $scope.catId = '';
+                $scope.cnId = $scope.recId;
+                $scope.diaTextValue = diagnosis;
+                $scope.diaText.value = diagnosis
+                if ($scope.diaTextValue != '') {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/save-diagnosis',
+                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, diaType: 'Text', recId: $scope.recId, doctor: $scope.doctorId, catId: $scope.catId, diaText: diagnosis, diaId: $scope.diaId}
+                    }).then(function successCallback(response) {
+                        if (angular.isObject(response.data.records)) {
+                            //console.log(response.data.records.id);
+                            $scope.diaId = response.data.records.id;
+                            $scope.diaTextValue = '';
+                            $scope.ediagnosis = false;
+                            //$('input[name=eval]').attr('checked', false);
+                        }
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+            };
+            $scope.saveObservation = function (observation, objSum) {
+                console.log(observation + "===" + objSum);
+                $scope.objText.push({value: observation, summary: objSum});
+                $scope.jnplaintext = false;
+                $scope.eobserv = false;
+                //$('input[name=eval]').attr('checked', false);
+                console.log($scope.objText);
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
+                $scope.cnId = $scope.recId;
+                $scope.catId = '';
+                //console.log($scope.objText);
+                if (observation != '') {
+                    console.log("not blank");
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/save-web-observations',
+                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, objType: 'Text', recId: $scope.recId, doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText), objId: $scope.objId}
+                    }).then(function successCallback(response) {
+                        if (angular.isObject(response.data.records)) {
+                            $scope.objId = response.data.records.id;
+                            $scope.objTextValue = '';
+                            $scope.objSum = false;
+                        }
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
 
             };
         })
