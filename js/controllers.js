@@ -4344,14 +4344,18 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-measure-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
             }).then(function successCallback(response) {
                 console.log(response);
-                $scope.records = response.data.record;
-                $scope.fields = response.data.fields;
+                $scope.mrecords = response.data.record;
+                $scope.mfields = response.data.fields;
                 $scope.editRec = response.data.editRec;
                 $scope.abt = response.data.abt;
                 $scope.measurement = response.data.measurement;
+                $scope.mid = response.data.mid;
+                if (response.data.mid.length > 0) {
+                    $scope.measure = 'yes';
+                }
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -4371,6 +4375,30 @@ angular.module('your_app_name.controllers', [])
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
                     }
+                });
+            };
+            $rootScope.$on("GetMeasurements", function () {
+                $scope.getMeasurements();
+            });
+            $scope.getMeasurements = function () {
+                console.log('Get note measures');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-measure-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: '', recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    //console.log(response);
+                    $scope.mrecords = response.data.record;
+                    $scope.mfields = response.data.fields;
+                    $scope.editRec = response.data.editRec;
+                    $scope.abt = response.data.abt;
+                    $scope.measurement = response.data.measurement;
+                    $scope.mid = response.data.mid;
+                    if (response.data.mid.length > 0) {
+                        $scope.measure = 'yes';
+                    }
+                }, function errorCallback(response) {
+                    console.log(response);
                 });
             };
         })
@@ -6663,23 +6691,32 @@ angular.module('your_app_name.controllers', [])
             $scope.mntab = 'ntcase';
             $scope.nadd = 'null';
             $scope.notetcase = true;
+            $scope.MeasurementCards = true;
+            $scope.TestResultsCards = true;
+            $scope.ObservationCards = true;
+            $scope.DiagnosisCard = true;
             $scope.changecate = function (ab) {
-
                 //$scope.obervation=false;
                 if (ab == 'testresults') {
                     $scope.ttestresults = true;
                     $scope.tmeasurements = false;
                     $scope.tobervation = false;
+                    $scope.tdiagnosis = false;
                 } else if (ab == 'measurement') {
                     $scope.tmeasurements = true;
                     $scope.ttestresults = false;
                     $scope.tobervation = false;
-
+                    $scope.tdiagnosis = false;
                 } else if (ab == 'obervation') {
                     $scope.tobervation = true;
                     $scope.ttestresults = false;
                     $scope.tmeasurements = false;
-
+                    $scope.tdiagnosis = false;
+                } else if (ab == 'diagnosis') {
+                    $scope.tdiagnosis = true;
+                    $scope.tobervation = false;
+                    $scope.ttestresults = false;
+                    $scope.tmeasurements = false;
                 }
             }
 
@@ -6743,7 +6780,6 @@ angular.module('your_app_name.controllers', [])
 
 
             $scope.changemaincate = function (cvalue) {
-
                 if (cvalue == 'ntcase') {
                     $scope.notetcase = true
                     $scope.notebackground = false
@@ -6760,14 +6796,13 @@ angular.module('your_app_name.controllers', [])
                     $scope.notetnote = true
                     $scope.notetreatment = false
                 }
-
                 if (cvalue == 'nttreatment') {
                     $scope.notetcase = false
                     $scope.notebackground = false
                     $scope.notetnote = false
                     $scope.notetreatment = true
                 }
-            }
+            };
 
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
@@ -6787,6 +6822,20 @@ angular.module('your_app_name.controllers', [])
             $scope.cnAttachments = '';
             $scope.medicinename = '';
             $scope.prescription = 'No';
+            $scope.measure = '';
+            $scope.measurement = {};
+            $scope.diaId = '';
+            $scope.diaText = {value: ''};
+            $scope.diaTextValue = '';
+            $scope.testId = '';
+            $scope.testResult = [];
+            $scope.testTextValue = '';
+            $scope.testSum = '';
+            $scope.objId = '';
+            $scope.objText = [];
+            $scope.objTextValue = '';
+            $scope.observation = {};
+            $scope.objSum = '';
             var stoppedTimer;
             $scope.Timercounter;
             var statstimer;
@@ -7056,6 +7105,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctorId = response.data.doctr.id
                     $scope.app = response.data.app;
                     $scope.prevRecord = response.data.record;
+                    $scope.recId = response.data.record.id;
                     $scope.prevRecordDetails = response.data.recordDetails;
                     if ($scope.prevRecordDetails.length > 0) {
                         angular.forEach($scope.prevRecordDetails, function (val, key) {
@@ -7068,7 +7118,6 @@ angular.module('your_app_name.controllers', [])
                                 $scope.isAttachment = val.attachments.length;
                             }
                         });
-                        $scope.recId = response.data.record.id;
                     }
                     if (response.data.app.mode == 1) {
                         $scope.mode = 'Video';
@@ -7086,6 +7135,7 @@ angular.module('your_app_name.controllers', [])
                     window.localStorage.setItem('doctorId', $scope.doctorId);
                     console.log($scope.conDate);
                     $scope.getEvaluationDetails();
+                    $rootScope.$emit("GetMeasurements", {});
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-fields',
@@ -7467,18 +7517,6 @@ angular.module('your_app_name.controllers', [])
                 });
                 $http({
                     method: 'GET',
-                    url: domain + 'doctrsrecords/get-diagnosis-lang',
-                    params: {userId: $scope.userId, diaId: $scope.diaId, recId: $scope.recId}
-                }).then(function successCallback(response) {
-                    if (response.data.recdata != '') {
-                        $scope.diaId = response.data.recdata.record_id;
-                        $scope.diaText.value = response.data.recdata.value;
-                    }
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
-                $http({
-                    method: 'GET',
                     url: domain + 'doctrsrecords/get-observations-lang',
                     params: {userId: $scope.userId, interface: $scope.interface, objId: $scope.objId, recId: $scope.recId}
                 }).then(function successCallback(response) {
@@ -7491,7 +7529,121 @@ angular.module('your_app_name.controllers', [])
                 }, function errorCallback(e) {
                     console.log(e);
                 });
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-diagnosis-lang',
+                    params: {userId: $scope.userId, diaId: $scope.diaId, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    if (response.data.recdata != '') {
+                        $scope.diaId = response.data.recdata.record_id;
+                        $scope.diaText.value = response.data.recdata.value;
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+            $scope.saveMeasurements = function () {
+                jQuery('#patientId').val($scope.patientId);
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addMeasureForm")[0]);
+                if (jQuery("#addMeasureForm")[0].length > 9) {
+                    callAjax("POST", domain + "doctrsrecords/save-web-measurements", data, function (response) {
+                        $scope.loading = false;
+                        if (response.err == '') {
+                            $scope.measure = 'yes';
+                            $scope.mid = response.records;
+                            $scope.emeasure = false;
+                            $('input[name=eval]').attr('checked', false);
+                            $rootScope.$emit("GetMeasurements", {});
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                }
+            };
+            $scope.saveTestresult = function (test, testSum) {
+                console.log(test + "===" + testSum);
+                $scope.testResult.push({value: test, summary: testSum});
+                $scope.jnplaintext = false;
+                $scope.etestresult = false;
+                //$('input[name=eval]').attr('checked', false);
+                console.log($scope.testResult);
+                console.log($scope.testTextValue);
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
+                $scope.catId = '';
+                $scope.cnId = $scope.recId;
+                if (test != '') {
+                    console.log("not blank");
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/save-testresults',
+                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, objType: 'Text', doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.testResult), objId: $scope.testId}
+                    }).then(function successCallback(response) {
+                        if (angular.isObject(response.data.records)) {
+                            $scope.testId = response.data.records.id;
+                            $scope.testTextValue = "";
+                            $scope.testSum = false;
+                        }
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+            };
 
+            $scope.saveDiagnosis = function (diagnosis) {
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
+                $scope.catId = '';
+                $scope.cnId = $scope.recId;
+                $scope.diaTextValue = diagnosis;
+                $scope.diaText.value = diagnosis
+                if ($scope.diaTextValue != '') {
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/save-diagnosis',
+                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, diaType: 'Text', recId: $scope.recId, doctor: $scope.doctorId, catId: $scope.catId, diaText: diagnosis, diaId: $scope.diaId}
+                    }).then(function successCallback(response) {
+                        if (angular.isObject(response.data.records)) {
+                            //console.log(response.data.records.id);
+                            $scope.diaId = response.data.records.id;
+                            $scope.diaTextValue = '';
+                            $scope.ediagnosis = false;
+                            //$('input[name=eval]').attr('checked', false);
+                        }
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+            };
+            $scope.saveObservation = function (observation, objSum) {
+                console.log(observation + "===" + objSum);
+                $scope.objText.push({value: observation, summary: objSum});
+                $scope.jnplaintext = false;
+                $scope.eobserv = false;
+                //$('input[name=eval]').attr('checked', false);
+                console.log($scope.objText);
+                $scope.patientId = get('patientId');
+                $scope.doctorId = get('doctorId');
+                $scope.cnId = $scope.recId;
+                $scope.catId = '';
+                //console.log($scope.objText);
+                if (observation != '') {
+                    console.log("not blank");
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/save-web-observations',
+                        params: {patient: $scope.patientId, cnId: $scope.cnId, appId: $scope.appId, userId: $scope.userId, objType: 'Text', recId: $scope.recId, doctor: $scope.doctorId, catId: $scope.catId, objText: JSON.stringify($scope.objText), objId: $scope.objId}
+                    }).then(function successCallback(response) {
+                        if (angular.isObject(response.data.records)) {
+                            $scope.objId = response.data.records.id;
+                            $scope.objTextValue = '';
+                            $scope.objSum = false;
+                        }
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
 
             };
         })

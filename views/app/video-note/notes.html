@@ -6,11 +6,10 @@
                     <div class="navlist" ng-click="togglemenu('Ndnav')"> <i class="ion-android-bar"></i> &nbsp; Notes</div>
                     <div class="dnav" id="Ndnav">
                         <ion-list>
-                            <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
-                            <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pi">Heart Condition</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pin">Hypertension</ion-checkbox>
+                            <ion-checkbox ng-model="filter.red">Measurements</ion-checkbox>
+                            <ion-checkbox ng-model="filter.yellow">Observations</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pink">Test Results</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pi">Diagnosis</ion-checkbox>
                         </ion-list>
                         <div class="row">
                             <div class="col"><button class="button button-balanced" ng-click="togglemenu('Ndnav')">Apply</button></div>
@@ -22,150 +21,259 @@
             <div class="col">
                 <select class="cselectn brdgreen" ng-model="nadd" name="nadd" ng-change="changecate(nadd)" value="+ Add">
                     <option value="null"> + Add</option>
-                    <option value="measurement" >Measurements</option>
-                    <option value="testresults" >Test Results</option>
+                    <option value="measurement" >Measurements</option>                    
                     <option value="obervation" >Observations</option>
+                    <option value="testresults">Test Results</option>
+                    <option value="diagnosis" >Diagnosis</option>
                 </select>
             </div>
         </div>
-        <div class="formcontainer" ng-show="tobervation">
-            <div class="item item-divider">Observations</div> 	
-            <label class="item item-input">
-                <textarea rows="4" placeholder="Enter"></textarea>	
-            </label>
-            <ion-list>
-                <ion-checkbox ng-model="filter.red">Summary</ion-checkbox>
-            </ion-list>
-            <div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
-                </div>
+
+        <div class="formcontainer" ng-show="tmeasurements">
+            <div ng-controller="MeasurementCtrl">
+                <form name="addMeasureForm" id="addMeasureForm" enctype="multipart/form-data" novalidate >
+                    <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                    <input type="hidden" value="{{catId}}" name="rectype" />
+                    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                    <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                    <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+                    <input type="hidden" value="{{recId}}" name="cnId" />
+                    <input type="hidden" value="{{appId}}" name="appId" />
+                    <input type="hidden" ng-model="record.mid" value="{{mid}}" name="mid" />
+                    <input type="hidden" value="{{measure}}" name="measure" />
+                    <div  ng-repeat="record in mrecords">
+                        <div class="heading2">{{record.category}}</div>
+                        <div class="mt20" ng-repeat="field in mfields[$index]">
+                            <div ng-if="field.field_types.value == 'number'">
+                                <div ng-if="abt.length != 0">
+                                    <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <label class="item item-input">
+                                            <input class="form-control" type="number" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-if="abt.length == 0">
+                                    <div class="item item-divider">{{field.field}}</div>
+                                    <label class="item item-input">
+                                        <input class="form-control" type="number" placeholder="{{field.field}}" name="{{field.name}}" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="field.field_types.value == 'select'">
+                                <div ng-if="abt.length != 0">
+                                    <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <select class="form-control cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="sel == ab.value"> {{sel}} </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div ng-if="abt.length == 0">
+                                    <div class="item item-divider">{{field.field}}</div>
+                                    <select class="form-control cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                        <option value="" ng-selected="1"> Select {{field.field}}</option>
+                                        <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div ng-if="field.field_types.value == 'text'">
+                                <div ng-if="abt.length != 0">
+                                    <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <label class="item item-input">
+                                            <input class="form-control" type="text" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-if="abt.length == 0">
+                                    <div class="item item-divider">{{field.field}}</div>
+                                    <label class="item item-input">
+                                        <input class="form-control" type="text" placeholder="{{field.field}}" name="{{field.name}}" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="field.field_types.value == 'date'">
+                                <div ng-if="abt.length != 0">
+                                    <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                        <div class="item item-divider">{{field.field}}</div>
+                                        <label class="item item-input">
+                                            <input class="form-control" type="date" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div ng-if="abt.length == 0">
+                                    <div class="item item-divider">{{field.field}}</div>
+                                    <label class="item item-input">
+                                        <input class="form-control" type="date" placeholder="{{field.field}}" name="{{field.name}}" />
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="button button-block button-positive mtop20" ng-click="saveMeasurements()"> Save</button>
+                            <div class="foterspacing"></div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="formcontainer" ng-show="tmeasurements" >
-            <div class="heading2">Blood Pressure</div>
-            <div class="item item-divider">Systolic</div>	
-            <label class="item item-input">
-                <input type="text" placeholder="Enter">
-            </label>
-            <div class="item item-divider">Diastolic</div>	
-            <label class="item item-input">
-                <input type="text" placeholder="Enter">
-            </label>
-            <div class="item item-divider">Pulse</div>	
-            <label class="item item-input">
-                <input type="text" placeholder="Pulse">
-            </label>
-            <div class="heading2">Glucose</div>
-            <div class="item item-divider">Glucose Reading</div>	
-            <label class="item item-input">
-                <input type="text" placeholder="Enter">
-            </label>
-            <div class="item item-divider">Type</div>	
-            <label class="item item-input">
-                <input type="text" placeholder="Enter">
-            </label>
-            <div class="heading2">Temperature</div>	
-            <div class="item item-divider">Temperature</div>	
-            <label class="item item-input">
-                <input type="text" placeholder="Enter">
-            </label>
-            <div class="item item-divider">Method</div>	
-            <label class="item item-input">
-                <input type="text" placeholder="Enter">
-            </label>
-              <div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
-                </div>
-            </div>
-        </div>
+
         <div class="formcontainer" ng-show="ttestresults">
             <div class="item item-divider">Test Results</div> 	
             <label class="item item-input">
-                <textarea rows="4" placeholder="Enter"></textarea>	
+                <textarea ng-model="testTextValue" type="text" col="" rows="5" placeholder="Enter"></textarea>	
             </label>
             <ion-list>
-                <ion-checkbox ng-model="filter.red">Summary</ion-checkbox>
+                <ion-checkbox value="1" name="isSummery" ng-model="testSum">Summary</ion-checkbox>
             </ion-list>
             <div class="row">
                 <div class="col">
-                    <button class="button button-block button-positive">Save</button>
+                    <button class="button button-block button-positive" ng-click="saveTestresult(testTextValue, testSum)">Save</button>
                 </div>
                 <div class="col">
                     <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
                 </div>
             </div>
         </div>
-        <div  class="list card post-item greenbox" >
-            <div class="card-content p0">
-                <div class="row post-heading item item-text-wrap ">
-                    <div class="col col-75">
-                        <h2 class="post-title">Blood Pressure</h2>
-                    </div>
-                    <div class="col col-25 txt-right">
-                        <div class="infomore" ng-click="infomore('abc')">
-                            <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
-                        </div>
-                    </div>
+
+
+        <div class="formcontainer" ng-show="tobervation">
+            <div class="item item-divider">Observations</div> 	
+
+            <label class="item item-input">
+                <textarea ng-model="objTextValue" type="text" col="" rows="5" placeholder="Enter"></textarea>	
+            </label>
+            <ion-list>
+                <ion-checkbox value="1" name="isSummery" ng-model="objSum">Summary</ion-checkbox>
+            </ion-list>
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive" ng-click="saveObservation(objTextValue, objSum)">Save</button>
                 </div>
-                <div class="post-content item item-text-wrap p0">
-                    <div class="row">
-                        <div class="col">Systolic</div>
-                        <div class="col">: 80</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Diastolic</div>
-                        <div class="col">: 120</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Pulse</div>
-                        <div class="col">: 100</div>
-                    </div>	
-                    <div class="infomore-div " id="abc">
-                        <div class="row">
-                            <div class="col">Pulse</div>
-                            <div class="col">: 100</div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="formcontainer" ng-show="tdiagnosis">
+            <div class="item item-divider">Diagnosis</div> 	
+            <label class="item item-input">
+                <textarea rows="4" placeholder="Enter" ng-model="diaTextValue">{{diaTextValue}}</textarea>	
+            </label>            
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive" ng-click="saveDiagnosis(diaTextValue)">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div ng-show="MeasurementCards">
+            <div ng-controller="MeasurementCtrl">
+                <div ng-repeat="record in mrecords" ng-if="abt.length != 0">
+                    <div class="list card post-item greenbox" >
+                        <div class="card-content p0">
+                            <div class="row post-heading item item-text-wrap ">
+                                <div class="col col-75">
+                                    <h2 class="post-title">{{record.category}}</h2>
+                                </div>
+                                <div class="col col-25 txt-right">
+                                    <div class="infomore" ng-click="infomore(record.id + 'm')">
+                                        <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-content item item-text-wrap p0" >
+                                <div ng-repeat="field in mfields[$index]">
+                                    <div ng-if="field.field_types.value == 'number'">
+                                        <div class="row" ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                            <div class="col">{{field.field}}</div>
+                                            <div class="col">: {{ab.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="field.field_types.value == 'select'">
+                                        <div class="row" ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                            <div class="col">{{field.field}}</div>
+                                            <div class="col">: {{ab.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="field.field_types.value == 'text'">
+                                        <div class="row"  ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                            <div class="col">{{field.field}}</div>
+                                            <div class="col">: {{ab.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="field.field_types.value == 'date'">
+                                        <div class="row" ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                            <div class="col">{{field.field}}</div>
+                                            <div class="col">: {{ab.value}}</div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                                <div class="infomore-div " id="{{record.id}}m">
+                                    <div class="row">
+                                        <div class="col">Pulse</div>
+                                        <div class="col">: 100</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div  class="list card post-item greenbox" >
-            <div class="card-content p0">
-                <div class="row post-heading item item-text-wrap ">
-                    <div class="col col-75">
-                        <h2 class="post-title">Glucose</h2>
-                    </div>
-                    <div class="col col-25 txt-right">
-                        <div class="infomore">
-                            <span class="infb"> More</span> <i class="ion-android-arrow-forward"></i>
+        <div ng-show="TestResultsCards" ng-repeat="test in testResult">
+            <div class="list card post-item greenbox" >
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Test Results {{$index + 1}}</h2>
                         </div>
                     </div>
-                </div>
-                <div class="post-content item item-text-wrap p0">
-                    <div class="row">
-                        <div class="col">Systolic</div>
-                        <div class="col">: 80</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Diastolic</div>
-                        <div class="col">: 120</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Pulse</div>
-                        <div class="col">: 100</div>
-                    </div>	
-                    <div class="infomore-div " id="pqr">
+                    <div class="post-content item item-text-wrap p0">
                         <div class="row">
-                            <div class="col">Pulse</div>
-                            <div class="col">: 100</div>
+                            <div class="col">{{test.value}}</div>                            
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="ObservationCards" ng-repeat="obj in objText">
+            <div class="list card post-item greenbox" >
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Observation {{$index + 1}}</h2>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row">
+                            <div class="col">{{obj.value}}</div>                            
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="diaText.value != ''">
+            <div ng-show="DiagnosisCard">
+                <div class="list card post-item greenbox" >
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-75">
+                                <h2 class="post-title">Diagnosis</h2>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">{{diaText.value}}</div>                            
+                            </div>                        
                         </div>
                     </div>
                 </div>
