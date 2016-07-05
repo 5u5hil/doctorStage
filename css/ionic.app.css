@@ -9667,8 +9667,15 @@ transform: translate3d(600px, 0px, 0px);
 .recvideo{top:0; height:100% !important;}
 
 .brd0{border:0 !important;}
-	
-
+.crow{}
+	.col-half{    width: 50%;
+    float: left;
+    padding: 5px;
+}
+.noteforms{display: none;}
+.noteforms.active{display: block;}
+.m10{margin: 10px;}
+.brdbx{border: 1px #ccc solid !important;}
 
 
 /* endcss */

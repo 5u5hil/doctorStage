@@ -136,11 +136,24 @@
                     </div>
                     <div ng-if="conditions.length > '0'">
                         <div class="item item-divider">Known Conditions</div>
-                        <ion-list>
-                            <div class="row" ng-repeat="con in conditions track by $index">
-                                <ion-checkbox ng-model="filter.red" ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                       
+
+
+                            <ion-list>
+                            <div class="crow">
+                            <div class="col-half" ng-repeat="con in conditions track by $index">
+                                 <ion-checkbox ng-model="filter.red" ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
                             </div>
-                        </ion-list>
+                            </div>
+                            </ion-list>
+                            <div class="clr"></div>
+
+
+
+
+
+
+
                     </div>
                     <div class="row">
                         <div class="col">
@@ -153,10 +166,11 @@
         </my-tab>
         <my-tab title="Family">
             <div class="mtabcon" ng-controller="FamilyHistoryCtrl">
-                <div class="newhbar text-center fbold"> Family History 
-                    <div class="btn btn-default btn-sm pull-right hbarbtn" ng-click="navtoggle('#tfamilyhistory')">+ Add</div>
-                </div> 
-                <div class="addFamilyHistory" id="tfamilyhistory">
+               
+                    <div class="button button-positive flt-right m10" ng-click="navtoggle('#tfamilyhistory')">{{addless}}</div>
+               
+                <div class="clr"></div>
+                <div class="addFamilyHistory noteforms" id="tfamilyhistory">
                     <form name="addFamilyForm" id="addFamilyForm" enctype="multipart/form-data" novalidate >
                         <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
                         <input type="hidden" value="Patient History" name="rectype" />
@@ -185,13 +199,16 @@
                         </div> 
                         <div class="form-group" ng-if="conditions.length > '0'">
                             <div class="item item-divider">Known conditions</div>
-                            <label class="item item-input">
-                                <div class="row" ng-repeat="con in conditions track by $index">
-                                    <div class="col">
-                                        <ion-checkbox ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
-                                    </div>
-                                </div>
-                            </label>
+                             <ion-list>
+                            <div class="crow">
+                            <div class="col-half" ng-repeat="con in conditions track by $index">
+                                 <ion-checkbox ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                            </div>
+                            </div>
+							</ion-list>
+							<div class="clr"></div>
+							
+							
                         </div>
                         <div ng-repeat="field in fields">
                             <div class="form-group" ng-if="field.field_types.value == 'textarea'">
@@ -201,11 +218,14 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mtop20">
                             <div class="col">
-                                <button class="button button-block button-positive mtop20" ng-click="saveFamilyHist()"> Save</button>
+                                <button class="button button-block button-positive" ng-click="saveFamilyHist()"> Save</button>
                                 <div class="foterspacing"></div>
                             </div>
+                              <div class="col">
+                                <button class="button button-block button-assertive" ng-click="navtoggle('#tfamilyhistory')">Cancel</button>
+                              </div>
                         </div>
                     </form>
                 </div>

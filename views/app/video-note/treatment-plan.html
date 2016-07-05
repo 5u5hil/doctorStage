@@ -1,3 +1,237 @@
 <div>
-    <h4 class="txt-center">Coming Soon</h4>
+    <div class="mtabcon" delegate-handle="mainScroll">
+        <div class="row">
+            <div class="col">
+                <div class="fdropdown">
+                    <div class="navlist" ng-click="togglemenu('Tdnav')"> <i class="ion-filter"></i> &nbsp; Type</div>
+                    <div class="dnav" id="Tdnav">
+                        <ion-list>
+                            <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
+                            <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pi">Heart Condition</ion-checkbox>
+                            <ion-checkbox ng-model="filter.pin">Hypertension</ion-checkbox>
+                        </ion-list>
+                        <div class="row">
+                            <div class="col"><button class="button button-balanced" ng-click="togglemenu('Tdnav')">Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="togglemenu('Tdnav')">Reset</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <select class="cselectn brdbx" ng-model="nadd" name="nadd" ng-change="changeTrtment(nadd)" value="+ Add">
+                    <option value="null"> + Add</option>
+                    <option value="investigation" >Investigation</option>
+                    <option value="medication" >Medication</option>
+                    <option value="task" >Task</option>
+                    <option value="procedure" >Procedure</option>
+                    <option value="referral" >Referral</option>
+                    <option value="dietplan" >Diet Plan</option>
+                </select>
+            </div>
+        </div>
+        <div class="formcontainer" ng-show="tinvestigation">
+            <div class="item item-divider">Investigations</div> 	
+              <label class="item item-input">
+                <input type="text"  placeholder="Investigations" value="" />
+            </label>
+              <div class="item item-divider">Conducted</div> 
+            	<ion-list>
+            	<div class="row">
+            	<div class="col">
+				  <ion-radio ng-model="choice" ng-value="'A'">Conducted</ion-radio>
+				  </div>
+				<div class="col">
+				  <ion-radio ng-model="choice" ng-value="'B'">To be Conducted</ion-radio>
+				  </div>
+				  </div>
+				</ion-list>
+		<div class="item item-divider">To be conducted before</div> 		
+			<label class="item item-input">
+                <input type="date"  placeholder="" value="" />
+            </label>
+        <div class="item item-divider">Related Problem</div> 		
+			<select class="cselectn">
+				<option>Select New</option>
+				<option>Select New</option>
+			</select>
+	 <div class="item item-divider">Prescribed By</div> 
+	 	<label class="item item-input">
+                <input type="text"  placeholder="" value="" />
+            </label>
+      <div class="item item-divider">Conducted By</div> 
+	 	<label class="item item-input">
+                <input type="text"  placeholder="Conducted By" value="" />
+        </label>
+        <div class="item item-divider">Attachments
+         <div class="filelabel">
+          <input type="file" placeholder="" name="">
+         <label for="file">Upload Files</label>
+           </div>    
+			</div>
+
+			<div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="formcontainer" ng-show="tmedication" >
+   <div class="item item-divider">Medication</div> 
+            
+			<div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="formcontainer" ng-show="Ttask">
+            <div class="item item-divider">Task</div> 	
+           
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+     
+
+
+         	<div class="formcontainer" ng-show="Tprocedure">
+            <div class="item item-divider">Procedure</div> 	
+          
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+				</div>
+			</div>
+
+
+		<div class="formcontainer" ng-show="Treferral">
+            <div class="item item-divider">Referral</div> 	
+       
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+				</div>
+				</div>
+
+
+		<div class="formcontainer" ng-show="Tdietplan">
+            <div class="item item-divider">No. of days</div> 	
+          <label class="item item-input">
+                <input type="text"  placeholder="No. of days" value="" />
+         </label>
+      
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+				</div>
+		</div>
+
+
+
+
+
+
+
+
+
+
+        <div  class="list card post-item greenbox" >
+            <div class="card-content p0">
+                <div class="row post-heading item item-text-wrap ">
+                    <div class="col col-75">
+                        <h2 class="post-title">Blood Pressure</h2>
+                    </div>
+                    <div class="col col-25 txt-right">
+                        <div class="infomore" ng-click="infomore('abcpqr')">
+                            <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-content item item-text-wrap p0">
+                    <div class="row">
+                        <div class="col">Systolic</div>
+                        <div class="col">: 80</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Diastolic</div>
+                        <div class="col">: 120</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Pulse</div>
+                        <div class="col">: 100</div>
+                    </div>	
+                    <div class="infomore-div" id="abcpqr">
+                        <div class="row">
+                            <div class="col">Pulse</div>
+                            <div class="col">: 100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  class="list card post-item greenbox" >
+            <div class="card-content p0">
+                <div class="row post-heading item item-text-wrap ">
+                    <div class="col col-75">
+                        <h2 class="post-title">Glucose</h2>
+                    </div>
+                    <div class="col col-25 txt-right">
+                        <div class="infomore">
+                            <span class="infb"> More</span> <i class="ion-android-arrow-forward"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="post-content item item-text-wrap p0">
+                    <div class="row">
+                        <div class="col">Systolic</div>
+                        <div class="col">: 80</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Diastolic</div>
+                        <div class="col">: 120</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">Pulse</div>
+                        <div class="col">: 100</div>
+                    </div>	
+                    <div class="infomore-div " id="pqr">
+                        <div class="row">
+                            <div class="col">Pulse</div>
+                            <div class="col">: 100</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

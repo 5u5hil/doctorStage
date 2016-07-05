@@ -6600,7 +6600,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $rootScope, $http, $compile, $ionicModal, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter) {
+        .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $rootScope, $http, $compile, $ionicModal, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter,$ionicScrollDelegate) {
 
             $ionicLoading.show({template: 'Loading...'});
 //            if (!get('loadedOnce')) {
@@ -6613,9 +6613,53 @@ angular.module('your_app_name.controllers', [])
 //                window.localStorage.removeItem('loadedOnce');
 //            }
 
-            $scope.togglemenu = function () {
-                jQuery('.dnav').toggleClass('active');
+
+
+
+      
+
+
+
+            $scope.hideformD=function(){
+              $scope.tmeasurements=false;
+              $scope.tobervation=false;
+              $scope.ttestresults=false;
+
+              /*treatment */
+
+                 $scope.Tprocedure=false;
+                $scope.Treferral=false;
+                $scope.Ttask=false;
+                $scope.tmedication=false;
+                $scope.tinvestigation=false;
+                $scope.Tdietplan=false;
+
+              $ionicScrollDelegate.scrollTop();
+
             }
+
+
+
+
+
+            $scope.togglemenu = function (ab) {
+                jQuery('#'+ab).toggleClass('active');
+            }
+
+
+            $scope.addless='+ Add';
+
+            $scope.navtoggle=function(ab){
+                jQuery(ab).toggleClass('active');
+                if(jQuery(ab).hasClass('active')){
+                     $scope.addless='- Less'
+                } else{$scope.addless='+ Add'}
+            }
+
+            $scope.closefrm=function(ab){
+                   jQuery(ab).slideToggle('slow');
+            }
+
             $scope.mntab = 'ntcase';
             $scope.nadd = 'null';
             $scope.notetcase = true;
@@ -6638,6 +6682,65 @@ angular.module('your_app_name.controllers', [])
 
                 }
             }
+
+              
+
+            $scope.changeTrtment=function(tvalue){
+                if(tvalue=='investigation'){
+                    $scope.Tprocedure=false;
+                    $scope.Treferral=false;
+                    $scope.Ttask=false
+                    $scope.tmedication=false
+                    $scope.tinvestigation=true
+                    $scope.Tdietplan=false
+
+                }else if(tvalue=='medication'){
+                    $scope.Tprocedure=false;
+                    $scope.Treferral=false;
+                    $scope.Ttask=false
+                    $scope.tmedication=true
+                    $scope.tinvestigation=false
+                    $scope.Tdietplan=false
+
+                }
+                else if(tvalue=='task'){
+                    $scope.Tprocedure=false;
+                    $scope.Treferral=false;
+                    $scope.Ttask=true;
+                    $scope.tmedication=false;
+                    $scope.tinvestigation=false;
+                    $scope.Tdietplan=false;
+                }
+                   else if(tvalue=='referral'){
+                    $scope.Tprocedure=false;
+                    $scope.Treferral=true;
+                    $scope.Ttask=false;
+                    $scope.tmedication=false;
+                    $scope.tinvestigation=false;
+                    $scope.Tdietplan=false;
+                }
+                 else if(tvalue=='procedure'){
+                    $scope.Tprocedure=true;
+                    $scope.Treferral=false;
+                    $scope.Ttask=false;
+                    $scope.tmedication=false;
+                    $scope.tinvestigation=false;
+                    $scope.Tdietplan=false;
+                }
+                 else if(tvalue=='dietplan'){
+                    $scope.Tprocedure=false;
+                    $scope.Treferral=false;
+                    $scope.Ttask=false;
+                    $scope.tmedication=false;
+                    $scope.tinvestigation=false;
+                    $scope.Tdietplan=true;
+                }
+
+
+
+
+            }
+
 
             $scope.changemaincate = function (cvalue) {
 

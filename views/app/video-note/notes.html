@@ -1,10 +1,10 @@
 <div>
-    <div class="mtabcon">
+    <div class="mtabcon" delegate-handle="mainScroll">
         <div class="row">
             <div class="col">
                 <div class="fdropdown">
-                    <div class="navlist" ng-click="togglemenu()"> <i class="ion-android-bar"></i> &nbsp; Notes</div>
-                    <div class="dnav">
+                    <div class="navlist" ng-click="togglemenu('Ndnav')"> <i class="ion-android-bar"></i> &nbsp; Notes</div>
+                    <div class="dnav" id="Ndnav">
                         <ion-list>
                             <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
                             <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
@@ -13,8 +13,8 @@
                             <ion-checkbox ng-model="filter.pin">Hypertension</ion-checkbox>
                         </ion-list>
                         <div class="row">
-                            <div class="col"><button class="button button-balanced" ng-click="togglemenu()">Apply</button></div>
-                            <div class="col"><button class="button button-assertive" ng-click="togglemenu()">Reset</button></div>
+                            <div class="col"><button class="button button-balanced" ng-click="togglemenu('Ndnav')">Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="togglemenu('Ndnav')">Reset</button></div>
                         </div>
                     </div>
                 </div>
@@ -41,11 +41,11 @@
                     <button class="button button-block button-positive">Save</button>
                 </div>
                 <div class="col">
-                    <button class="button button-block button-assertive">Cancel</button>
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
                 </div>
             </div>
         </div>
-        <div class="formcontainer" ng-show="tmeasurements">
+        <div class="formcontainer" ng-show="tmeasurements" >
             <div class="heading2">Blood Pressure</div>
             <div class="item item-divider">Systolic</div>	
             <label class="item item-input">
@@ -77,6 +77,14 @@
             <label class="item item-input">
                 <input type="text" placeholder="Enter">
             </label>
+              <div class="row">
+                <div class="col">
+                    <button class="button button-block button-positive">Save</button>
+                </div>
+                <div class="col">
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                </div>
+            </div>
         </div>
         <div class="formcontainer" ng-show="ttestresults">
             <div class="item item-divider">Test Results</div> 	
@@ -91,7 +99,7 @@
                     <button class="button button-block button-positive">Save</button>
                 </div>
                 <div class="col">
-                    <button class="button button-block button-assertive">Cancel</button>
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
                 </div>
             </div>
         </div>
