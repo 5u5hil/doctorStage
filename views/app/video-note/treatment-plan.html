@@ -6,15 +6,16 @@
                     <div class="navlist" ng-click="togglemenu('Tdnav')"> <i class="ion-filter"></i> &nbsp; Type</div>
                     <div class="dnav" id="Tdnav">
                         <ion-list>
-                            <ion-checkbox ng-model="filter.red">Cancer</ion-checkbox>
-                            <ion-checkbox ng-model="filter.yellow">Cholesterol</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pink">Diabetes Type 1</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pi">Heart Condition</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pin">Hypertension</ion-checkbox>
+                            <ion-checkbox id="fteval" ng-model="finv" ng-checked="{{finv}}" ng-click="showTreatment('invest', finv)">Investigation</ion-checkbox>
+                            <ion-checkbox ng-model="fmedi" ng-checked="{{fmedi}}" ng-click="showTreatment('medi', fmedi)" > Medication</ion-checkbox>
+                            <ion-checkbox ng-model="flife" ng-checked="{{flife}}" ng-click="showTreatment('life', flife)" > Task</ion-checkbox>
+                            <ion-checkbox ng-model="fproc" ng-checked="{{fproc}}" ng-click="showTreatment('proc', fproc)" > Procedures</ion-checkbox>
+                            <ion-checkbox ng-model="fref" ng-checked="{{fref}}" ng-click="showTreatment('ref', fref)" > Referral</ion-checkbox>
+                            <ion-checkbox ng-model="fdiet" ng-checked="{{fdiet}}" ng-click="showTreatment('diet', fdiet)" > Diet Plan</ion-checkbox>
                         </ion-list>
                         <div class="row">
-                            <div class="col"><button class="button button-balanced" ng-click="togglemenu('Tdnav')">Apply</button></div>
-                            <div class="col"><button class="button button-assertive" ng-click="togglemenu('Tdnav')">Reset</button></div>
+                            <div class="col"><button class="button button-balanced" ng-click="FilterResults()">Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="ResetFilter()">Reset</button></div>
                         </div>
                     </div>
                 </div>
@@ -32,206 +33,286 @@
             </div>
         </div>
         <div class="formcontainer" ng-show="tinvestigation">
-            <div class="item item-divider">Investigations</div> 	
-              <label class="item item-input">
-                <input type="text"  placeholder="Investigations" value="" />
-            </label>
-              <div class="item item-divider">Conducted</div> 
-            	<ion-list>
-            	<div class="row">
-            	<div class="col">
-				  <ion-radio ng-model="choice" ng-value="'A'">Conducted</ion-radio>
-				  </div>
-				<div class="col">
-				  <ion-radio ng-model="choice" ng-value="'B'">To be Conducted</ion-radio>
-				  </div>
-				  </div>
-				</ion-list>
-		<div class="item item-divider">To be conducted before</div> 		
-			<label class="item item-input">
-                <input type="date"  placeholder="" value="" />
-            </label>
-        <div class="item item-divider">Related Problem</div> 		
-			<select class="cselectn">
-				<option>Select New</option>
-				<option>Select New</option>
-			</select>
-	 <div class="item item-divider">Prescribed By</div> 
-	 	<label class="item item-input">
-                <input type="text"  placeholder="" value="" />
-            </label>
-      <div class="item item-divider">Conducted By</div> 
-	 	<label class="item item-input">
-                <input type="text"  placeholder="Conducted By" value="" />
-        </label>
-        <div class="item item-divider">Attachments
-         <div class="filelabel">
-          <input type="file" placeholder="" name="">
-         <label for="file">Upload Files</label>
-           </div>    
-			</div>
-
-			<div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+            <div ng-controller="InvestigationsJoinCtrl">
+                <form name="addInvForm" id="addInvForm" enctype="multipart/form-data" novalidate >
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                            <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                            <input type="hidden" value="{{appId}}" name="appId" />
+                            <input type="hidden" value="{{category}}" name="recordCat" />
+                            <input type="hidden" value="{{recId}}" name="recId" />
+                            <div ng-include src="'views/app/video-note/fields.html'"></div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col">
+                        <button class="button button-block button-positive" ng-click="saveInvest()">Save</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-
-        <div class="formcontainer" ng-show="tmedication" >
-   <div class="item item-divider">Medication</div> 
-            
-			<div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+        <div class="formcontainer" ng-show="tmedication" > 
+            <div ng-controller="MedicationsJoinCtrl"> 
+                <form name="addMedicationForm" id="addMedicationForm" enctype="multipart/form-data" novalidate >
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                            <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                            <input type="hidden" value="{{appId}}" name="appId" />
+                            <input type="hidden" value="{{category}}" name="recordCat" />
+                            <input type="hidden" value="{{recId}}" name="recId" />
+                            <div ng-include src="'views/app/video-note/fields.html'"></div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col">
+                        <button class="button button-block button-positive" ng-click="saveMedi()">Save</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
-
 
         <div class="formcontainer" ng-show="Ttask">
-            <div class="item item-divider">Task</div> 	
-           
-            <div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+            <div ng-controller="LifeStyleJoinCtrl">
+                <form name="addLifeStyleForm" id="addLifeStyleForm" enctype="multipart/form-data" novalidate >
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                            <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                            <input type="hidden" value="{{appId}}" name="appId" />
+                            <input type="hidden" value="{{category}}" name="recordCat" />
+                            <input type="hidden" value="{{recId}}" name="recId" />
+                            <div ng-include src="'views/app/video-note/fields.html'"></div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col">
+                        <button class="button button-block button-positive" ng-click="saveLife()">Save</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-     
-
-
-         	<div class="formcontainer" ng-show="Tprocedure">
-            <div class="item item-divider">Procedure</div> 	
-          
-            <div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
-                </div>
-				</div>
-			</div>
-
-
-		<div class="formcontainer" ng-show="Treferral">
-            <div class="item item-divider">Referral</div> 	
-       
-            <div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
-                </div>
-				</div>
-				</div>
-
-
-		<div class="formcontainer" ng-show="Tdietplan">
-            <div class="item item-divider">No. of days</div> 	
-          <label class="item item-input">
-                <input type="text"  placeholder="No. of days" value="" />
-         </label>
-      
-            <div class="row">
-                <div class="col">
-                    <button class="button button-block button-positive">Save</button>
-                </div>
-                <div class="col">
-                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
-                </div>
-				</div>
-		</div>
-
-
-
-
-
-
-
-
-
-
-        <div  class="list card post-item greenbox" >
-            <div class="card-content p0">
-                <div class="row post-heading item item-text-wrap ">
-                    <div class="col col-75">
-                        <h2 class="post-title">Blood Pressure</h2>
-                    </div>
-                    <div class="col col-25 txt-right">
-                        <div class="infomore" ng-click="infomore('abcpqr')">
-                            <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+        <div class="formcontainer" ng-show="Tprocedure">
+            <div ng-controller="ProceduresJoinCtrl">
+                <form name="addProcedureForm" id="addProcedureForm" enctype="multipart/form-data" novalidate >
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                            <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                            <input type="hidden" value="{{appId}}" name="appId" />
+                            <input type="hidden" value="{{category}}" name="recordCat" />
+                            <input type="hidden" value="{{recId}}" name="recId" />
+                            <div ng-include src="'views/app/video-note/fields.html'"></div>
                         </div>
                     </div>
+                </form>
+                <div class="row">
+                    <div class="col">
+                        <button class="button button-block button-positive" ng-click="saveProc()">Save</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                    </div>
                 </div>
-                <div class="post-content item item-text-wrap p0">
-                    <div class="row">
-                        <div class="col">Systolic</div>
-                        <div class="col">: 80</div>
+            </div>
+        </div>
+
+        <div class="formcontainer" ng-show="Treferral">
+            <div class="item item-divider">Referral</div>
+            <div ng-controller="ReferralJoinCtrl">
+                <form name="addReferralForm" id="addReferralForm" enctype="multipart/form-data" novalidate >
+                    <div class="box-body">
+                        <div class="form-horizontal">
+                            <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                            <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                            <input type="hidden" value="{{appId}}" name="appId" />
+                            <input type="hidden" value="{{category}}" name="recordCat" />
+                            <input type="hidden" value="{{recId}}" name="recId" />
+                            <div ng-include src="'views/app/video-note/fields.html'"></div>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col">Diastolic</div>
-                        <div class="col">: 120</div>
+                </form>
+                <div class="row">
+                    <div class="col">
+                        <button class="button button-block button-positive" ng-click="saveRef()">Save</button>
                     </div>
-                    <div class="row">
-                        <div class="col">Pulse</div>
-                        <div class="col">: 100</div>
-                    </div>	
-                    <div class="infomore-div" id="abcpqr">
-                        <div class="row">
-                            <div class="col">Pulse</div>
-                            <div class="col">: 100</div>
+                    <div class="col">
+                        <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="formcontainer" ng-show="Tdietplan">
+            <div ng-controller="DietJoinCtrl">
+                <form name="addDietForm" class="form-horizontal" id="addDietForm" enctype="multipart/form-data" novalidate >
+                    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+                    <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+                    <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+                    <input type="hidden" value="{{appId}}" name="appId" />
+                    <input type="hidden" value="{{category}}" name="recordCat" />
+                    <input type="hidden" value="{{recId}}" name="recId" />
+                    <input type="hidden" value="{{dietId}}" name="dietId" />
+                    <div ng-include src="'views/app/video-note/fields.html'"></div>
+                </form>
+                <div class="row">
+                    <div class="col">
+                        <button class="button button-block button-positive" ng-click="saveDietplan()">Save</button>
+                    </div>
+                    <div class="col">
+                        <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Investigation -->
+        <div ng-controller="InvestigationsJoinCtrl" ng-show="investCards">
+            bsdfbvsdf{{investigation}}
+            <div  class="list card post-item greenbox" ng-repeat="inv in investigation">
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Investigations {{$index + 1}}</h2>
+                        </div>
+                        <div class="col col-25 txt-right">
+                            <div class="infomore" ng-click="infomore(inv.id + 'iv')">
+                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row" ng-repeat="idata in invData[$index]| limitTo: 4">
+                            <div ng-if="idata.value != ''">
+                                <div class="col"><strong>{{idata.fields.field}} </strong></div>
+                                <div class="col">: 
+                                    <div ng-if="idata.fields.field == 'Related Problem'">
+                                        <div ng-repeat="problem in problems">
+                                            <div ng-if="problem.record_id == idata.value"><div class="col-md-4">: {{problem.value}}</div></div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="idata.fields.field_type == '8'">: {{idata.value|dateFormat3}}</div>
+                                    <div ng-if="idata.fields.field_type == '12'">: {{idata.value|time1}}</div>
+                                    <div ng-if="idata.fields.field != 'Related Problem' && idata.fields.field != 'Attachments' && idata.fields.field_type != '12' && idata.fields.field_type != '8'">
+                                        <div > {{idata.value}}</div>
+                                    </div>
+                                    <div ng-if="idata.fields.field == 'Attachments'">
+                                        <div > <div ng-repeat="attach in idata.attachments" >
+                                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>				  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infomore-div" id="{{inv.id}}iv">
+                            <div class="row" ng-repeat="idata in invData[$index]" ng-if="$index >= 5">
+                                <div ng-if="idata.value != ''">
+                                    <div class="col"><strong>{{idata.fields.field}} </strong></div>
+                                    <div class="col">: 
+                                        <div ng-if="idata.fields.field == 'Related Problem'">
+                                            <div ng-repeat="problem in problems">
+                                                <div ng-if="problem.record_id == idata.value"><div class="col-md-4">: {{problem.value}}</div></div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="idata.fields.field_type == '8'">: {{idata.value|dateFormat3}}</div>
+                                        <div ng-if="idata.fields.field_type == '12'">: {{idata.value|time1}}</div>
+                                        <div ng-if="idata.fields.field != 'Related Problem' && idata.fields.field != 'Attachments' && idata.fields.field_type != '12' && idata.fields.field_type != '8'">
+                                            <div > {{idata.value}}</div>
+                                        </div>
+                                        <div ng-if="idata.fields.field == 'Attachments'">
+                                            <div > <div ng-repeat="attach in idata.attachments" >
+                                                    <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                        <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>				  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div  class="list card post-item greenbox" >
-            <div class="card-content p0">
-                <div class="row post-heading item item-text-wrap ">
-                    <div class="col col-75">
-                        <h2 class="post-title">Glucose</h2>
-                    </div>
-                    <div class="col col-25 txt-right">
-                        <div class="infomore">
-                            <span class="infb"> More</span> <i class="ion-android-arrow-forward"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="post-content item item-text-wrap p0">
-                    <div class="row">
-                        <div class="col">Systolic</div>
-                        <div class="col">: 80</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Diastolic</div>
-                        <div class="col">: 120</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">Pulse</div>
-                        <div class="col">: 100</div>
-                    </div>	
-                    <div class="infomore-div " id="pqr">
-                        <div class="row">
-                            <div class="col">Pulse</div>
-                            <div class="col">: 100</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- End Investigation -->
+
+        <!-- medication -->
+        <div ng-controller="MedicationsJoinCtrl" ng-show="mediCards">
+
+        </div>
+        <!-- end of medication -->
+
+        <!-- lIFE STYLE -->
+        <div ng-controller="LifeStyleJoinCtrl" ng-show="lifeCards">
+
+        </div>
+        <!-- END OF lIFE STYLE -->
+        <!-- Procedures -->
+        <div ng-controller="ProceduresJoinCtrl" ng-show="procCards">
+
+        </div>
+        <!-- end Procedures -->
+        <!-- REFERRAL -->
+        <div ng-controller="ReferralJoinCtrl" ng-show="refCards">
+
+        </div>
+        <!-- End of REFERRAL -->
+        <!-- DIET PLAN -->
+        <div ng-controller="DietJoinCtrl" ng-show="dietCards">
+
         </div>
     </div>
-</div>
+    <script id="mealdetails" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="modalhead txt-center">Meal Details</h1>
+        <button class="button button-clear pull-left" ng-click="submitmodal()">Cancel</button>
+        <div class="buttons buttons-right pull-right"><span class="right-buttons">
+        <button type="submit" ng-click="saveMeal(day)" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid" disabled="disabled"> 
+        <strong>Save</strong> </button>
+        </span></div>
+        </ion-header-bar>
+        <ion-content>
+        <div ng-repeat="meal in mealDetails[day]">
+        <div class="item item-divider mt15">Meal {{$index+1}}</div>
+        <label class="item item-input">
+        <input type="time" placeholder="Time" ng-model="mealDetails[day][$index].time"  required="">
+        </label>
+        <label class="item item-input">
+        <textarea placeholder="Notes" name="" ng-model="mealDetails[day][$index].details" maxlength="" rows="2" cols="50"></textarea>
+        </label>
+        </div>  
+        </ion-content>
+        </ion-modal-view>
+    </script>

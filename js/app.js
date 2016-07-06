@@ -305,7 +305,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.doctor-settings-new', {
                         cache: false,
                         url: "/doctor-settings-new",
@@ -316,7 +316,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.update-doctor-setting', {
                         cache: false,
                         url: "/update-doctor-setting/{data:string}/{permission:string}/{uid:string}",

@@ -6,14 +6,14 @@
                     <div class="navlist" ng-click="togglemenu('Ndnav')"> <i class="ion-android-bar"></i> &nbsp; Notes</div>
                     <div class="dnav" id="Ndnav">
                         <ion-list>
-                            <ion-checkbox ng-model="filter.red">Measurements</ion-checkbox>
-                            <ion-checkbox ng-model="filter.yellow">Observations</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pink">Test Results</ion-checkbox>
-                            <ion-checkbox ng-model="filter.pi">Diagnosis</ion-checkbox>
+                            <ion-checkbox ng-model="feval" ng-checked="{{feval}}" ng-click="showEvalFilter('measure', feval)">Measurements</ion-checkbox>
+                            <ion-checkbox ng-model="ftresult" ng-checked="{{ftresult}}" ng-click="showEvalFilter('tresult', ftresult)">Observations</ion-checkbox>
+                            <ion-checkbox ng-model="fobservation" ng-checked="{{fobservation}}" ng-click="showEvalFilter('fobj', fobservation)">Test Results</ion-checkbox>
+                            <ion-checkbox ng-model="fdiagnosis" ng-checked="{{fdiagnosis}}" ng-click="showEvalFilter('fdia', fdiagnosis)">Diagnosis</ion-checkbox>
                         </ion-list>
-                        <div class="row">
-                            <div class="col"><button class="button button-balanced" ng-click="togglemenu('Ndnav')">Apply</button></div>
-                            <div class="col"><button class="button button-assertive" ng-click="togglemenu('Ndnav')">Reset</button></div>
+                        <div class="row"><!---ng-click="togglemenu('Ndnav')" -->
+                            <div class="col"><button class="button button-balanced" ng-click="FilterResults()" >Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="ResetFilter()">Reset</button></div>
                         </div>
                     </div>
                 </div>
@@ -116,6 +116,9 @@
                             <button class="button button-block button-positive mtop20" ng-click="saveMeasurements()"> Save</button>
                             <div class="foterspacing"></div>
                         </div>
+                        <div class="col">
+                            <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -169,7 +172,7 @@
                     <button class="button button-block button-positive" ng-click="saveDiagnosis(diaTextValue)">Save</button>
                 </div>
                 <div class="col">
-                    <button class="button button-block button-assertive">Cancel</button>
+                    <button class="button button-block button-assertive" ng-click="hideformD()">Cancel</button>
                 </div>
             </div>
         </div>

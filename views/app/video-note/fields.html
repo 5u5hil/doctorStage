@@ -1,0 +1,770 @@
+<div ng-repeat="field in fields" >  
+    <div ng-if="field.field == 'Prescribed By' || field.field == 'Measured By' || field.field == 'Referred By' || field.field == 'Performed By' || field.field == 'Created By'">
+        <div class="" ng-if="field.is_dependent == 1">
+            <div class="listreq" ng-if="field.is_mandatory == 1" ><div class="item item-divider mt15" >{{field.field}} *</div> </div>
+            <div class="item item-divider mt15" ng-if="field.is_mandatory != 1" >{{field.field}} </div>
+            <label class="item item-input"><select class="cselect" name="{{field.name}}" ng-init="- 1" id="{{field.name}}" ng-model="fields.field.name" ng-change="addOther(field.name, field.field, fields.field.name)">
+                    <option value="">Select {{field.field}}</option>
+                    <option value="0">Add New</option>
+                    <option ng-repeat="doc in doctrs" value="{{doc.id}}">{{doc.fname}}</option>
+                </select>
+            </label>
+        </div>
+        <div class="proc" ng-if="field.is_dependent == 0">
+            <div class="listreq" ng-if="field.is_mandatory == 1" ><div class="item item-divider mt15" >{{field.field}} *</div> </div>
+            <div class="item item-divider mt15" ng-if="field.is_mandatory != 1" >{{field.field}} </div>
+            <label class="item item-input">
+                <input type="hidden" placeholder="{{field.field}}" value="0"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                <input type="text" placeholder="{{field.field}}" id="prescribe" ng-model="prescribe" ng-change="shCheck(prescribe)" name="new-{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+            </label>
+        </div>
+    </div>
+    <div ng-if="field.is_dependent == 1 && field.field == 'Related Problem'">
+        <div class="">
+            <div class="item item-divider mt15" >{{field.field}}</div>
+            <label class="item item-input">
+                <select class="cselect" name="{{field.name}}" id="{{field.name}}" ng-model="prob.record_id" ng-change="addOther(field.name, field.field, prob.record_id)" ng-init="- 1">
+                    <option value="" ng-selected="1">Select </option>
+                    <option ng-repeat="prob in problems"  value="{{prob.record_id}}">{{prob.value}}</option>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div ng-if="field.field != 'Prescribed By' && field.field != 'Measured By' && field.field != 'Referred By' && field.field != 'Performed By' && field.field != 'Created By' && field.field != 'Related Problem'" >
+        <div ng-if="field.field_types.value == 'text'"> 
+            <div class="listreq" ng-if="field.field == 'Consultant'">
+                <div class="item item-divider mt15" > {{field.field}} *</div>
+                <label class="item item-input">
+                    <input type="hidden" placeholder="{{field.field}}" value="0"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                    <input type="text" placeholder="{{field.field}}" name="new-{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                </label>
+            </div>
+            <div ng-if="field.field == 'Result'">                        
+                <div class="inv" id="invres" >
+                    <div class="item item-divider mt15" > {{field.field}}</div>
+                    <div class="item item-input">
+                        <input type="text" placeholder="Value" name="{{field.name}}-1" required />                         
+                        <input type="text" placeholder="Unit" name="{{field.name}}-2" required />
+                    </div>
+                </div>
+            </div>
+            <div ng-if="field.field == 'Adverse Effects'">                        
+                <div class="hide imd" >
+                    <div class="item item-divider mt15" > {{field.field}}</div>
+                    <label class="item item-input">
+                        <input type="text" placeholder="{{field.field}}" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                    </label>
+                </div>
+            </div>
+            <div ng-if="field.field == 'Conducted By'">                        
+                <div class="inv" >
+                    <div class="item item-divider mt15" > {{field.field}}</div>
+                    <label class="item item-input">
+                        <input type="text" placeholder="{{field.field}}" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                    </label>
+                </div>
+            </div>
+            <div ng-if="field.field == 'Height'">                        
+                <div class="listreq" >
+                    <div class="item item-divider mt15" > {{field.field}} *</div>
+                    <label class="item item-input">
+                        <input type="text" required placeholder="{{field.field}} in cm" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                    </label>
+                </div>
+            </div>
+            <div ng-if="field.field == 'Dose'">                        
+                <div class="listreq" >
+                    <div class="item item-divider mt15" > {{field.field}} *</div>
+                    <label class="item item-input">
+                        <input type="text" required placeholder="1 Tablet, 20ml etc" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                    </label>
+                </div>
+            </div>
+            <div class="hide" id="probend" ng-if="field.name == 'how-it-ended'">
+                <div class="item item-divider mt15" > {{field.field}} *</div>
+                <label class="item item-input">
+                    <input type="text" required placeholder="" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                </label>
+            </div>
+            <div class="proc" ng-if="field.name == 'performed-at'">
+                <div class="item item-divider mt15" > {{field.field}}</div>
+                <label class="item item-input">
+                    <input type="text" required placeholder="" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                </label>
+            </div>
+            <div ng-if="field.name == 'quick-history'">
+                <div class="item item-divider mt15" > {{field.field}} 
+                    <button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-controller="knowConditionCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>
+                </div>
+                <label class="item item-input"><br/>
+                    <input type="hidden" ng-model="conIds" id="selcon" value="" name="{{field.name}}" />
+                    <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
+                </label>
+            </div>
+            <div ng-if="field.multi_value == 0 && field.name != 'quick-history' && field.field != 'Consultant' && field.name != 'performed-at' && field.name != 'how-it-ended' && field.field != 'Conducted By' && field.field != 'Dose' && field.field != 'Result' && field.field != 'Adverse Effects' && field.field != 'Height'">
+                <div class="listreq"  ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}} {{field.is_mandatory==1? '*':''}}</div>
+                    <label class="item item-input">
+                        <input type="text" placeholder="{{field.field}} *" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" required ng-model="formText"/>
+                    </label>
+                </div>
+                <div class=""  ng-if="field.is_mandatory != 1 && field.name != 'quick-history' && field.field != 'Result' && field.field != 'Adverse Effects'"">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <input type="text" placeholder="{{field.field}}" id="{{field.name}}"  name="{{field.name}}" maxlength="{{field.max_length!=0? field.max_length:''}}" />
+                    </label>
+                </div>
+            </div>
+            <div  ng-if="field.multi_value == 1 && field.name != 'quick-history' && field.field != 'Consultant' && field.name != 'performed-at' && field.name != 'how-it-ended' && field.field != 'Conducted By' && field.field != 'Dose' && field.field != 'Result' && field.field != 'Adverse Effects' && field.field != 'Height'">
+                <div class="listreq" ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <input type="text" placeholder="{{field.field}}" id="{{field.name}}" class="toClone"  name="{{field.name}}[]" required/>
+                    </label>
+                </div>
+                <div class="" ng-if="field.is_mandatory != 1">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input"> <input type="text" placeholder="{{field.field}}" id="{{field.name}}" class="toClone"  name="{{field.name}}[]" /> 
+                    </label>										
+                </div>
+                <button type="button" class="button button-small addbtn" ng-click="addNewElement(field.name)">Add New</button>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'range'">  
+            <div class="inv" ng-if="field.multi_value == 0">
+                <div class="item item-divider mt15">{{field.field}}</div>
+                <div class="item item-input">
+                    <input type="number" placeholder="Min" name="{{field.name}}-1" required/>
+                    <input type="number" placeholder="Max" name="{{field.name}}-2" required />
+                </div>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'file'">  
+            <div ng-if="category == 8">
+                <div ng-if="field.multi_value == 0" style="position: relative;">
+                    <div class="item item-divider mt15">{{field.field}} </div>
+                    <div class="filelabel">
+                        <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}"/>
+                        <label for="attachfile">Upload Files</label>
+                    </div>                                     
+                    <div class="holderattach" id="image-holder"></div>                           
+                </div>
+                <div ng-if="field.multi_value == 1" style="position: relative;">
+                    <div class="item item-divider mt15">{{field.field}} </div>
+                    <div class="filelabel">
+                        <input type="file" placeholder="{{field.field}}" multiple="" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" />
+                        <label for="attachfile">Upload Files</label>
+                    </div>                                     
+                    <div class="holderattach" id="image-holder"></div>                           
+                </div>
+            </div>
+            <div ng-if="category != 8">
+                <div ng-if="field.multi_value == 0" >
+                    <div class="listreq" ng-if="field.is_mandatory == 1" style="position: relative;">
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <div class="filelabel">
+                            <input type="file" ng-model="formFile" valid-file placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" required/>
+                            <label for="attachfile">Upload Files</label>
+                        </div>                                     
+                        <div class="holderattach" id="image-holder"></div>                           
+                    </div> 
+                    <div ng-if="field.is_mandatory != 1"style="position: relative;">
+                        <div class="item item-divider mt15">{{field.field}} </div>
+                        <div class="filelabel">
+                            <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" />
+                            <label for="attachfile">Upload Files</label>
+                        </div>                                     
+                        <div class="holderattach" id="image-holder"></div>
+                    </div>
+                </div>
+                <div ng-if="field.multi_value == 1" > 
+                    <div class="listreq" ng-if="field.is_mandatory == 1" style="position: relative;">
+                        <div class="item item-divider mt15">{{field.field}} </div>
+                        <div class="filelabel">
+                            <input type="file" placeholder="{{field.field}}" multiple="" ng-model="formFile" valid-file reuired onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" />
+                            <label for="attachfile">Upload Files</label>
+                        </div>                                     
+                        <div class="holderattach" id="image-holder"></div>                           
+                    </div> 
+                    <div ng-if="field.is_mandatory != 1"style="position: relative;">
+                        <div class="item item-divider mt15">{{field.field}} </div>
+                        <div class="filelabel">
+                            <input type="file" placeholder="{{field.field}}" multiple="" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" />
+                            <label for="attachfile">Upload Files</label>
+                        </div>                                     
+                        <div class="holderattach" id="image-holder"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'number'">
+            <div class="listreq" ng-if="field.field == 'Frequency'">
+                <div class="item item-divider mt15"> Select {{field.field}} (In days) *</div>
+                <label class="item item-input">
+                    <input type="number" ng-model="formText" placeholder="Exp - Once in every 2 days" id="{{field.name}}"  name="{{field.name}}" minlength="1" />
+                </label>
+            </div>
+            <div ng-if="field.name == 'no-of-days'">
+                <div class="listreq">
+                    <div class="item item-divider mt15"> {{field.field}} *</div>
+                    <label class="item item-input">
+                        <input type="number" placeholder="" ng-model="nodays" ng-change="dietdetails(nodays)" id="dietdays" min="1" max="15" name="{{field.name}}" minlength="1" required=""/>
+                    </label>
+                </div>
+                <div><div class="item item-divider mt15"> Meal Plan</div>
+                    <div class="item item-input mh44 inbtnlabel">
+                        <div class="dietdays" >
+                            <div ng-repeat="dm in dayMeal track by $index" class="inbtn">
+                                <input type="hidden" id="day{{$index}}" name="day-{{$index + 1}}" value="{{dm}}"/>
+                                <button class="button filled-data button-small" id="fill{{$index}}" ng-click="daymodal({{dm}})" >
+                                    <!--                                                        <span class="icon ion-plus-circled"></span> -->Day {{$index + 1}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="taskn hide" ng-if="field.field == 'No of Times'">
+                <div class="item item-divider mt15"> Select {{field.field}} </div>
+                <label class="item item-input">
+                    <input type="number" ng-model="formText" id="{{field.name}}"  name="{{field.name}}" minlength="1" />
+                </label>
+            </div>
+
+            <div ng-if="field.field != 'Frequency' && field.name != 'no-of-days' && field.field != 'No of Times'">
+                <div ng-if="field.multi_value == 0">
+                    <div class="listreq" ng-if="field.is_mandatory == 1" >
+                        <div class="item item-divider mt15"> {{field.field}} *</div>
+                        <label class="item item-input">
+                            <input type="number" placeholder="{{field.field}} *" ng-model="formText" name="{{field.name}}" required />
+                        </label>                          
+                    </div>
+                    <div class="" ng-if="field.is_mandatory != 1">
+                        <div class="item item-divider mt15"> {{field.field}}</div>
+                        <label class="item item-input">
+                            <input type="number" placeholder="{{field.field}}" name="{{field.name}}" />
+                        </label>                            
+                    </div>
+                </div>
+                <div ng-if="field.multi_value == 1">
+                    <div class="listreq" ng-if="field.is_mandatory == 1">
+                        <div class="item item-divider mt15"> {{field.field}} *</div>
+                        <label class="item item-input">
+                            <input type="number" placeholder="{{field.field}} *" id="{{field.name}}" class="toClone"  name="{{field.name}}[]" required/>
+                            <button type="button" class="button button-small addbtn" ng-click="addNewElement(field.name)">Add New</button>
+                        </label>
+                    </div>
+                    <div class="" ng-if="field.is_mandatory != 1">
+                        <div class="item item-divider mt15"> {{field.field}}</div>
+                        <label class="item item-input">
+                            <input type="number" placeholder="{{field.field}}" id="{{field.name}}" class="toClone"  name="{{field.name}}[]" />
+                            <button type="button" class="button button-small addbtn" ng-click="addNewElement(field.name)">Add New</button>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'date'">
+            <div ng-if="category == 2">
+                <div ng-if="field.field == 'Date received'">
+                    <div class="hide imd" id="imdtrcv">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
+                        </label>
+                    </div>
+                </div>
+                <div ng-if="field.field == 'Repeat On'">
+                    <div class="hide" id="imrpton">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input type="date" ng-model="curTime" placeholder="{{field.field}}" id="{{field.name}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" /> 
+                        </label>											
+                    </div>
+                </div>
+            </div>
+            <div ng-if="category == 4">
+                <div ng-if="field.field == 'Conducted On'">
+                    <div class="hide" id="proconon">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
+                        </label>
+                    </div>
+                </div>
+                <div ng-if="field.field == 'To be conducted before'">
+                    <div class="" id="proconbef">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input type="date" ng-model="curTime" placeholder="{{field.field}}" id="{{field.name}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />  
+                        </label>											 
+                    </div>
+                </div>
+            </div>
+            <div ng-if="category == 5">
+                <div ng-if="field.field == 'Conducted On'">
+                    <div class="" id="invconon">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input">   <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" /></label>                            
+                    </div>
+                </div>
+                <div ng-if="field.field == 'To be conducted before'">
+                    <div class="hide" id="invconbef">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input">  <input type="date" ng-model="curTime" placeholder="{{field.field}}" id="{{field.name}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" /></label>                            
+                    </div>
+                </div>
+            </div>
+            <div ng-if="category == 8">
+                <div ng-if="field.field == 'Consultation Date'">
+                    <div class="listreq">
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <label class="item item-input"><input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" required />    </label>                        
+                    </div>
+                </div>
+                <div ng-if="field.field == 'Valid till'">
+                    <div class=" hide" id="convalid">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input"> <input type="date" ng-model="curTime" placeholder="{{field.field}}" id="valid-till" value="{{curTime|dateFormat1}}" name="{{field.name}}" /></label>                            
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-if="category == 30">
+                <div ng-if="field.field == 'Start Date'">
+                    <div class="listreq" ng-if="field.is_mandatory == 1">
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <label class="item item-input">
+                            <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
+                        </label>											
+                    </div>
+                </div>
+                <div ng-if="field.field == 'End Date'">
+                    <div id="enddate" class="hide" >
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <label class="item item-input">
+                            <input type="date" id="diet-start" ng-model="endDate" placeholder="{{field.field}} "  value="{{endDate}}" name="{{field.name}}"  />  
+                        </label>											
+                    </div>
+                </div>
+            </div>
+            <div ng-if="category != 2 && category != 4 && category != 5 && category != 8 && category != 30">
+                <div ng-if="field.field == 'Start Date'">
+                    <div ng-if="category == 21">
+                        <div class="listreq" ng-if="field.is_mandatory == 1">
+                            <div class="item item-divider mt15">{{field.field}} *</div>
+                            <label class="item item-input">
+                                <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
+                            </label>											
+                        </div>
+                        <div class="" ng-if="field.is_mandatory != 1">
+                            <div class="item item-divider mt15">{{field.field}}</div>
+                            <label class="item item-input">
+                                <input type="date" id="diet-start" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
+                            </label>                            
+                        </div>
+                    </div>
+                    <div ng-if="category != 21">
+                        <div class="listreq" ng-if="field.is_mandatory == 1">
+                            <div class="item item-divider mt15">{{field.field}} *</div>
+                            <label class="item item-input">
+                                <input type="date" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}"  />  
+                            </label>											
+                        </div>
+                        <div class="" ng-if="field.is_mandatory != 1">
+                            <div class="item item-divider mt15">{{field.field}}</div>
+                            <label class="item item-input">
+                                <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" />
+                            </label>                            
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div ng-if="field.field == 'End Date'">
+                    <div ng-if="category == 21">
+                        <input type="hidden" id="diet-end" class="form-control" placeholder="{{field.field}}" name="{{field.name}}" />
+                    </div>
+                    <div ng-if="category != 21">
+                        <div class="listreq" ng-if="field.is_mandatory == 1">
+                            <div class="item item-divider mt15">{{field.field}} *</div>
+                            <label class="item item-input"> <input type="date" placeholder="{{field.field}}" name="{{field.name}}" ng-model="endDate" ng-blur="chkDt(endDate)" id="enddt"/></label>                        
+                        </div>
+                        <div class="" ng-if="field.is_mandatory != 1">
+                            <div class="item item-divider mt15">{{field.field}}</div>
+                            <label class="item item-input">  <input type="date" placeholder="{{field.field}}" name="{{field.name}}" ng-model="endDate" ng-blur="chkDt(endDate)" id="enddt" /></label>                            
+                        </div>
+                    </div>
+
+
+                </div>
+                <div ng-if="field.field != 'Start Date' && field.field != 'End Date'">
+                    <div class="hide" id="prescribeDt" ng-if="field.field == 'Prescribed On'">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input type="date" ng-model="curTime" placeholder="{{field.field}}" id="{{field.name}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" /> 
+                        </label>
+                    </div>	
+                    <div ng-if="field.field != 'Prescribed On'">
+                        <div class="listreq" ng-if="field.is_mandatory == 1">
+                            <div class="item item-divider mt15">{{field.field}} *</div>
+                            <label class="item item-input"> <input type="date" ng-model="curTime" placeholder="{{field.field}} *" required value="{{curTime|dateFormat1}}" name="{{field.name}}" />   
+                            </label>											
+                        </div>
+                        <div class="" ng-if="field.is_mandatory != 1">
+                            <div class="item item-divider mt15">{{field.field}}</div>
+                            <label class="item item-input"> <input type="date" ng-model="curTime" placeholder="{{field.field}}" id="{{field.name}}" value="{{curTime|dateFormat1}}"  name="{{field.name}}" /> 
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'time'">     
+            <div ng-if="field.multi_value == 0">
+                <div class="listreq" ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}} *</div>
+                    <label class="item item-input"><input type="time" placeholder="{{field.field}} *" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />   
+                    </label>										
+                </div>
+                <div class="" ng-if="field.is_mandatory != 1">
+
+                    <div ng-if="category == 30" id="endtime" class="hide">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input"> <input type="time" placeholder="{{field.field}}" ng-model="endTime" value="{{endTime}}" name="{{field.name}}" />
+                        </label>
+                    </div>
+                    <div ng-if="category != 30">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input"> <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div ng-if="field.multi_value == 1">
+                <div class="listreq" ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}} *</div>
+                    <label class="item item-input">   <input type="time" placeholder="{{field.field}} *" ng-model="curTimeo" value="{{curTimeo}}" class="toClone" name="{{field.name}}[]" />
+                        <button type="button" class="button button-small addbtn" ng-click="addNewElement(field.name)">Add New</button>
+                    </label>
+                </div>
+                <div class="" ng-if="field.is_mandatory != 1">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input"> <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" class="toClone" name="{{field.name}}[]" />
+                        <button type="button" class="button button-small addbtn" ng-click="addNewElement(field.name)">Add New</button>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'textarea'">
+            <div ng-if="field.multi_value == 0">
+                <div class="listreq" ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}} *</div>
+                    <label class="item item-input"> 
+                        <textarea placeholder="{{field.field}} *" name="{{field.name}}" maxlength="{{max_length}}" rows="2" cols="50" required></textarea>
+                    </label>
+                </div>
+                <div class="" ng-if="field.is_mandatory != 1">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <textarea placeholder="{{field.field}}" name="{{field.name}}" maxlength="{{max_length}}" rows="2" cols="50"></textarea>
+                    </label>
+                </div>
+            </div>
+            <div  ng-if="field.multi_value == 1">
+                <div class="listreq" ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}} *</div>
+                    <label class="item item-input">
+                        <textarea placeholder="{{field.field}} *" name="{{field.name}}" maxlength="{{max_length}}" rows="2" cols="50" required></textarea>
+                    </label>
+                </div>
+                <div class="" ng-if="field.is_mandatory != 1">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <textarea placeholder="{{field.field}}" name="{{field.name}}" maxlength="{{max_length}}" rows="2" cols="50"></textarea>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'select'"> 
+            <div ng-if="field.multi_value == 0 && category == 5">
+                <div class="inv" ng-if="field.field == 'Inference'" id="invinf">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                            <option value=""> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+                <div ng-if="field.field != 'Inference'">
+                    <div class="listreq" ng-if="field.is_mandatory == 1">
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <label class="item item-input"> <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required="" ng-model="formSelect">
+                                <option value="" ng-selected="1"> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="item item-input item-select item-stacked-label" ng-if="field.is_mandatory != 1">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input"> 
+                            <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                <option value="0"> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="field.multi_value == 0 && category == 7">
+                <div class="hide" ng-if="field.field == 'Payment Mode'" id="billmode">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input"> <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                            <option value=""> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+
+                <div ng-if="field.field != 'Payment Mode'">
+                    <div class="  listreq" ng-if="field.is_mandatory == 1">
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <label class="item item-input">  <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required="" ng-model="formSelect">
+                                <option value="" ng-selected="1"> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="" ng-if="field.is_mandatory != 1">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input"> <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                <option value=""> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="field.multi_value == 0 && category == 8">
+                <div class="hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <select class="cselect Ditemselect" ng-model="prescription" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" ng-change="getPrescription(prescription)" >
+                            <option value=""> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+                <div ng-if="field.field != 'Includes Prescription'">
+                    <div class="listreq" ng-if="field.is_mandatory == 1">
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <label class="item item-input"> <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required="" ng-model="formSelect">
+                                <option value="" ng-selected="1"> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="" ng-if="field.is_mandatory != 1">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input"> <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                <option value=""> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="field.multi_value == 0 && category == 3">
+                <div ng-if="field.field == 'Intake Method'" id="coninprec">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <select class="cselect Ditemselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" >
+                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+                <div ng-if="field.field != 'Intake Method'">
+                    <div class="listreq" ng-if="field.is_mandatory == 1">
+                        <div class="item item-divider mt15">{{field.field}} *</div>
+                        <label class="item item-input"> <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required="" ng-model="formSelect">
+                                <option value="" ng-selected="1"> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="" ng-if="field.is_mandatory != 1">
+                        <div class="item item-divider mt15">{{field.field}}</div>
+                        <label class="item item-input"> <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                <option value=""> Select {{field.field}}</option>
+                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="category == 30">
+                <div ng-if="field.field == 'No of Frequency'" class="hide taskn">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <select class="cselect Ditemselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" >
+                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+                <div ng-if="field.field != 'No of Frequency'">
+                    <div class="item item-divider mt15">{{field.field}} * </div>
+                    <label class="item item-input">
+                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}"  ng-model="formSelect">
+                            <option value="" ng-selected="1"> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+            </div>                                
+            <div ng-if="field.multi_value == 0 && category != 30 && category != 3 && category != 5 && category != 7 && category != 8">
+                <div class=" listreq" ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}} *</div>
+                    <label class="item item-input">
+                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" required="" ng-model="formSelect">
+                            <option value="" ng-selected="1"> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+                <div ng-if="field.is_mandatory != 1">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                            <option value="" ng-selected="1"> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div ng-if="field.multi_value == 1 && category != 30 && category != 3 && category != 5 && category != 7 && category != 8">
+                <div class="listreq" ng-if="field.is_mandatory == 1">
+                    <div class="item item-divider mt15">{{field.field}} *</div>
+                    <label class="item item-input">
+                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}[]" multiple="">
+                            <option ng-repeat="sel in selData"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+                <div class="" ng-if="field.is_mandatory != 1">
+                    <div class="item item-divider mt15">{{field.field}}</div>
+                    <label class="item item-input">
+                        <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}[]" multiple="">
+                            <option ng-repeat="sel in selData"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>                    
+        <div ng-if="field.field_types.value == 'radio'">
+            <div class="listreq" ng-if="field.is_mandatory == 1"><div class="item item-divider mt15">{{field.field}} *</div></div>
+            <div class="item item-divider mt15" ng-if="field.is_mandatory != 1">{{field.field}}</div>
+            <div ng-if="category == 7" >
+                <ion-toggle ng-model="billStatus" ng-checked="0"  ng-click="check(billStatus)" ng-change="check(billStatus)" toggle-class="toggle-positive"> Paid </ion-toggle>
+                <input type="hidden" value="Unpaid" id="billStatus" name="{{field.name}}" />
+            </div>
+            <div ng-if="category == 2">
+                <div ng-if="field.field == 'Status'">
+                    <ion-toggle ng-model="recv" ng-checked="0" ng-click="check(recv)" ng-change="check(recv)" toggle-class="toggle-positive"> Received </ion-toggle>
+                    <input type="hidden" value="To be received" id="immrcvdate" name="{{field.name}}" />
+                </div>
+                <div ng-if="field.field == 'Repeat'">
+                    <ion-toggle ng-model="recv" ng-checked="0" ng-click="rcheck(recv)" ng-change="rcheck(recv)" toggle-class="toggle-positive"> Repeat </ion-toggle>
+                    <input type="hidden" value="No" id="immrepeat" name="{{field.name}}" />
+                </div>
+            </div>
+            <div ng-if="category == 4" >
+                <ion-toggle ng-model="proStatus" ng-checked="1" ng-click="check(proStatus)" ng-change="check(proStatus)" toggle-class="toggle-positive"> Conducted </ion-toggle>
+                <input type="hidden" value="Conducted" id="proconduct" name="{{field.name}}" />
+            </div>
+            <div ng-if="category == 3" >
+                <ion-toggle ng-model="mediStatus" ng-checked="0"  ng-click="check(mediStatus)" ng-change="check(mediStatus)" toggle-class="toggle-positive"> Active </ion-toggle>
+                <input type="hidden" value="Active" id="mediStatus" name="{{field.name}}" />
+            </div>
+            <div ng-if="category == 5" >
+                <ion-toggle ng-model="invStatus" ng-checked="1" ng-click="check(invStatus)" ng-change="check(invStatus)" toggle-class="toggle-positive"> Conducted </ion-toggle>
+                <input type="hidden" value="Conducted" id="invconduct" name="{{field.name}}" />
+            </div>
+            <ion-list ng-if="category == 6">
+                <div ng-if="field.field == 'Type'">
+                    <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">                   
+                        <div class="col cradio"  ng-repeat="rad in radioData">
+                            <ion-radio name="{{field.name}}" value="{{rad}}" >{{rad}}</ion-radio>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="field.field == 'Coverage'">
+                    <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">                   
+                        <div class="col cradio"  ng-repeat="rad in radioData">
+                            <ion-radio ng-model="coverage" ng-value="{{rad}}" name="{{field.name}}" value="{{rad}}" >{{rad}}</ion-radio>
+                        </div>
+                    </div>
+                </div>
+            </ion-list>
+            <ion-list ng-if="category == 14">
+                <div ng-if="field.field == 'Status'">
+                    <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">               
+                        <div class="col cradio" ng-repeat="rad in radioData">
+                            <ion-radio ng-model="probstatus" value="{{rad}}" ng-change="radChange(rad)" name="{{field.name}}"  >{{rad}}  {{rad == 'Intermittent' ? '(comes & goes)' : ''}}</ion-radio>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="field.field != 'Status'">
+                    <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">                   
+                        <div class="col cradio"  ng-repeat="rad in radioData">
+                            <ion-radio name="{{field.name}}" value="{{rad}}" >{{rad}}</ion-radio>
+                        </div>
+                    </div>
+                </div>
+            </ion-list>
+            <ion-list ng-if="category == 30">
+                <div ng-if="field.field == 'Frequency'">
+                    <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">               
+                        <div class="col cradio" ng-repeat="rad in radioData">
+                            <ion-radio ng-model="taskstatus" value="{{rad}}" ng-click="radChange(rad)" name="{{field.name}}"  >{{rad}}  {{rad == 'Intermittent' ? '(comes & goes)' : ''}}</ion-radio>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </ion-list>
+            <ion-list ng-if="category == 30">
+                <div ng-if="field.field == 'Assigned For'">
+                    <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">               
+                        <div class="col aradio" ng-repeat="rad in radioData">
+                            <ion-radio ng-model="assignfor" value="{{rad}}" ng-click="radChange(rad)" name="{{field.name}}"  >{{rad}}  {{rad == 'Intermittent' ? '(comes & goes)' : ''}}</ion-radio>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </ion-list>
+
+
+            <ion-list ng-if="category != 30 && category != 14 && category != 7 && category != 2 && category != 3 && category != 5 && category != 4 && category != 6">
+                <div class="row" ng-init="radioData = (field.field_values).split(',')" ng-model="radioData">                   
+                    <div class="col cradio" ng-repeat="rad in radioData">
+                        <ion-radio name="{{field.name}}" value="{{rad}}" >{{rad}}</ion-radio>
+                    </div>
+                </div>
+            </ion-list>
+        </div>
+        <div ng-if="field.field_types.value == 'checkbox'">
+            <ion-list ng-init="checkData = (field.field_values).split(',')" ng-model="checkData">
+                <ion-checkbox ng-repeat="chk in checkData" name="{{field.name}}" value="{{chk}}">{{chk}}</ion-checkbox>
+            </ion-list>
+        </div>
+    </div>
+</div>
