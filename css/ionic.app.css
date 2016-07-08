@@ -9615,7 +9615,13 @@ transform: translate3d(600px, 0px, 0px);
     font-size: 15px;
     margin: 15px;
     text-align: center;
-	}    
+	} 
+
+.noinputlabel label{    padding: 10px 15px;}
+.post-heading h2.post-title{margin-top: 5px;}
+.crdRbtn{background: #eee; text-align: center;}
+
+
 
 /* endcss */
 .ion-close, .crdview .ion-closev.iocon{

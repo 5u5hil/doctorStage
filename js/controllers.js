@@ -7816,6 +7816,41 @@ angular.module('your_app_name.controllers', [])
                 }
             };
 
+            $scope.ovtab='oabout';
+            $scope.ovabout = true;
+            // overview 
+            $scope.changeoveview = function (ovalue) {
+                if (ovalue == 'oabout') {
+                    $scope.ovabout = true
+                    $scope.ovrecord = false
+                    $scope.ovconsult = false
+                    $scope.ovchats = false
+                } else if (ovalue == 'orecord') {
+                    $scope.ovabout = false
+                    $scope.ovrecord = true
+                    $scope.ovconsult = false
+                    $scope.ovchats = false
+                } else if (ovalue == 'oconsult') {
+                    $scope.ovabout = false
+                    $scope.ovrecord = false
+                    $scope.ovconsult = true
+                    $scope.ovchats = false
+                }
+                if (ovalue == 'ochats') {
+                    $scope.ovabout = false
+                    $scope.ovrecord = false
+                    $scope.ovconsult = false
+                    $scope.ovchats = true
+                }
+            };
+
+
+
+            
+
+
+
+
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
             $scope.images = [];
@@ -8697,7 +8732,46 @@ angular.module('your_app_name.controllers', [])
                 }
 
             };
+
+            $scope.changemodalselect=function(fvalue){
+                if(fvalue=='modelcase'){
+                    $scope.mdcase=true;
+                    $scope.mdbackground=false;
+                    $scope.mdlnote=false;
+                       $scope.mdltreatment=false;
+                }
+                else if(fvalue=='modelbackground'){
+                    $scope.mdcase=false;
+                    $scope.mdbackground=true;
+                     $scope.mdlnote=false;
+                        $scope.mdltreatment=false;
+                }
+                 else if(fvalue=='modelnote'){
+                         $scope.mdcase=false;
+                       $scope.mdbackground=false;
+                         $scope.mdlnote=true;
+                         $scope.mdltreatment=false;
+                         
+                }
+                 else if(fvalue=='modeltreatment'){
+                    $scope.mdltreatment=true;
+                    $scope.mdcase=false;
+                       $scope.mdbackground=false;
+                         $scope.mdlnote=false;
+                }
+            }
+
+
         })
+
+    .controller('vnotemodalCtrl',function($scope, $http, $stateParams, $ionicModal){
+         $ionicModal.fromTemplateUrl('my-modal.html', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+    })
+
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
 

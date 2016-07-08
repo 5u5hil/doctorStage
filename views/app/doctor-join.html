@@ -50,35 +50,34 @@
         </div>
 		
         <div class="crighttab greentab" id="cstab2" >
-            <!--    <div class="ctabbtn" ng-click="pulltab('cstab2')" style="top:45px;">
+              <div class="ctabbtn" ng-click="pulltab('cstab2')" style="top:45px;">
                    <span class="ion-chevron-left"></span>
-               </div> -->
-            <ion-scroll direction="y" class="theroot">
-                <div class="p10">
-                    <div  class="list card post-item greenbox" >
-                        <div class="card-content p0">
-                            <div class="row post-heading item item-text-wrap ">
-                                <div class="col col-75">
-                                    <h2 class="post-title">Patient name</h2>
-                                </div>
-                                <div class="col col-25 txt-right">
-                                    <div class="infomore" ng-click="infomore('minfo1')">
-                                        <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-content item item-text-wrap" post-content>
-                                <p class="post-excerpt pb10">
-                                    Lorem Ipsum is simply dummy text of the printing
-                                </p>
-                                <div class="infomore-div" id="minfo1">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry
-                                </div>
-                            </div>
-                        </div>
+               </div> 
+           <div class="sidetabcontent">
+                <ion-scroll direction="y" class="theroot"> 
+                    <div class="maintab">
+                        <select class="cselectn" ng-model="ovtab"  ng-change="changeoveview(ovtab)">
+                            <option value="oabout" selected>About </option>
+                            <option value="orecord" >Records</option>
+                            <option value="oconsult" >Consults</option>
+                            <option value="ochats">Chats</option>
+                        </select>
                     </div>
-                </div>
-            </ion-scroll>
+                    <div class="sldebxcontent" ng-show="ovabout">
+                      <div ng-include src="'views/app/video-note/overview-about.html'" ></div> 
+                       
+                    </div>
+                    <div class="sldebxcontent" ng-show="ovrecord">
+                      <div ng-include src="'views/app/video-note/overview-records.html'" ></div>
+                       </div>
+                    <div class="sldebxcontent" ng-show="ovconsult">
+                        <div ng-include src="'views/app/video-note/notes.html'" ></div>                         
+                    </div>  
+                    <div class="sldebxcontent" ng-show="ovchats">
+                        <div ng-include src="'views/app/video-note/treatment-plan.html'" ></div>                        
+                    </div>
+                </ion-scroll>
+            </div>
             <div class="clr"></div>
         </div>
     </ion-content>

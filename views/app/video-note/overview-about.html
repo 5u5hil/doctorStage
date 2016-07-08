@@ -1,0 +1,57 @@
+<div>
+    <my-tabs class="ctabs">
+        <my-tab title="Patient">
+            <div class="mtabcon noinputlabel">
+                <div class="item item-divider">Mobile Number</div>
+                <label  class="item item-input">91 1234356789</label>
+                <div class="item item-divider">Email</div>
+                 <label  class="item item-input">alpha2@doctrs.in</label>
+                 <div class="item item-divider">Date of Birth</div>
+                  <label  class="item item-input"><i class="ion-calendar"></i> &nbsp;  02/03/1989</label>
+
+                  <div class="item item-divider">Gender</div>
+                  <label  class="item item-input">Male</label>
+
+                  <div class="item item-divider">Blood Group</div>
+                  <label  class="item item-input">B+</label>
+
+                   <div class="item item-divider">Known Conditions</div>
+                  <label  class="item item-input">N/A</label>
+
+            </div>
+        </my-tab>
+        <my-tab title="Family">
+            <div class="mtabcon" ng-controller="FamilyHistoryCtrl">
+                <div class="clr"></div>
+                <div class="list card post-item greenbox" ng-repeat="rdata in recorddata">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-75">
+                                <h2 class="post-title">Relation: {{rdata.record_metadata[1].value}}</h2>
+                            </div>
+                            <div class="col col-25 txt-right">
+                                <div class="infomore" ng-click="infomore('abc')">
+                                    <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Age</div>
+                                <div class="col">: {{rdata.record_metadata[2].value}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Known Conditions</div>
+                                <div class="col">: <span ng-repeat="sel in knConditions[$index]"> {{sel.condition}} <br/></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Other Information</div>
+                                <div class="col">: {{rdata.record_metadata[4].value!=''? rdata.record_metadata[4].value:'NA'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </my-tab>
+    </my-tabs>
+</div>

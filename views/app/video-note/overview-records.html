@@ -1,0 +1,375 @@
+<div>
+    <my-tabs class="ctabs">
+        <my-tab title="Created by you (15)">
+        <div class="row mt15">
+        <div class="col">
+             <div class="fdropdown">
+                    <div class="navlist" ng-click="togglemenu('ordnav')"> <i class="ion-android-bar"></i> &nbsp; Record Notes</div>
+                    <div class="dnav" id="ordnav">
+                        <ion-list>
+                            <ion-checkbox ng-model="feval" ng-checked="{{feval}}" ng-click="showEvalFilter('measure', feval)">Measurements</ion-checkbox>
+                            <ion-checkbox ng-model="ftresult" ng-checked="{{ftresult}}" ng-click="showEvalFilter('tresult', ftresult)">Observations</ion-checkbox>
+                            <ion-checkbox ng-model="fobservation" ng-checked="{{fobservation}}" ng-click="showEvalFilter('fobj', fobservation)">Test Results</ion-checkbox>
+                            <ion-checkbox ng-model="fdiagnosis" ng-checked="{{fdiagnosis}}" ng-click="showEvalFilter('fdia', fdiagnosis)">Diagnosis</ion-checkbox>
+                        </ion-list>
+                        <div class="row"><!---ng-click="togglemenu('Ndnav')" -->
+                            <div class="col"><button class="button button-balanced" ng-click="FilterResults()" >Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="togglemenu('ordnav')">Reset</button></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </div>
+
+        <div class="minh350">
+          <div class="list card post-item greenbox">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-75">
+                                <h2 class="post-title">Consultations & Prescriptions</h2>
+                            </div>
+                            <div class="col col-25" ng-controller="vnotemodalCtrl">
+                                <div class="button-small crdRbtn" ng-click="modal.show()" >
+                                    View note
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Age</div>
+                                <div class="col">: {{rdata.record_metadata[2].value}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Known Conditions</div>
+                                <div class="col">: <span ng-repeat="sel in knConditions[$index]"> {{sel.condition}} <br/></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Other Information</div>
+                                <div class="col">: {{rdata.record_metadata[4].value!=''? rdata.record_metadata[4].value:'NA'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+         
+        </my-tab>
+        <my-tab title="Shared with you (6)">
+            <div class="mtabcon" ng-controller="FamilyHistoryCtrl">
+                <div class="clr"></div>
+                <div class="list card post-item greenbox" ng-repeat="rdata in recorddata">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-75">
+                                <h2 class="post-title">Relation: {{rdata.record_metadata[1].value}}</h2>
+                            </div>
+                            <div class="col col-25 txt-right">
+                                <div class="infomore" ng-click="infomore('abc')">
+                                    <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Age</div>
+                                <div class="col">: {{rdata.record_metadata[2].value}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Known Conditions</div>
+                                <div class="col">: <span ng-repeat="sel in knConditions[$index]"> {{sel.condition}} <br/></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Other Information</div>
+                                <div class="col">: {{rdata.record_metadata[4].value!=''? rdata.record_metadata[4].value:'NA'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </my-tab>
+    </my-tabs>
+</div>
+
+<script id="my-modal.html" type="text/ng-template">
+<ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-positive">
+          <h1 class="title">New Contact</h1>
+          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+                <div class="maintab">
+                    <select class="cselectn" ng-model="mdltab"  ng-change="changemodalselect(mdltab)">
+                        <option value="modelcase" selected>Case</option>
+                        <option value="modelbackground" >Background</option>
+                        <option value="modelnote" >Notes</option>
+                        <option value="modeltreatment">Treatment</option>
+                    </select>
+                </div>
+
+    <div class="" ng-show="mdcase">
+     <div class="list card post-item greenbox">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-50">
+                                <h2 class="post-title">Test1</h2>
+                            </div>
+                            <!-- <div class="col col-25" >
+                                <div class="button-small crdRbtn" >
+                                    View note
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Case Id </div>
+                                <div class="col">: Test Case 1</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Attachment</div>
+                                <div class="col">: -</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+    </div>
+
+
+    <div class="" ng-show="mdbackground">
+
+        <mytabs>
+            <my-tab title="Patient History">
+                       <div class="mtabcon noinputlabel">
+                        <div class="item item-divider">Mobile Number</div>
+                        <label  class="item item-input">91 1234356789</label>
+                        <div class="item item-divider">Email</div>
+                         <label  class="item item-input">alpha2@doctrs.in</label>
+                         <div class="item item-divider">Date of Birth</div>
+                          <label  class="item item-input"><i class="ion-calendar"></i> &nbsp;  02/03/1989</label>
+
+                          <div class="item item-divider">Gender</div>
+                          <label  class="item item-input">Male</label>
+
+                          <div class="item item-divider">Blood Group</div>
+                          <label  class="item item-input">B+</label>
+
+                           <div class="item item-divider">Known Conditions</div>
+                          <label  class="item item-input">N/A</label>
+
+                    </div>
+
+            </my-tab>
+             <my-tab title="Family History">
+                  <div class="mtabcon" ng-controller="FamilyHistoryCtrl">
+                        <div class="clr"></div>
+                        <div class="list card post-item greenbox" ng-repeat="rdata in recorddata">
+                            <div class="card-content p0">
+                                <div class="row post-heading item item-text-wrap ">
+                                    <div class="col col-75">
+                                        <h2 class="post-title">Relation: {{rdata.record_metadata[1].value}}</h2>
+                                    </div>
+                                    <div class="col col-25 txt-right">
+                                        <div class="infomore" ng-click="infomore('abc')">
+                                            <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-content item item-text-wrap p0">
+                                    <div class="row">
+                                        <div class="col">Age</div>
+                                        <div class="col">: {{rdata.record_metadata[2].value}}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">Known Conditions</div>
+                                        <div class="col">: <span ng-repeat="sel in knConditions[$index]"> {{sel.condition}} <br/></span></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">Other Information</div>
+                                        <div class="col">: {{rdata.record_metadata[4].value!=''? rdata.record_metadata[4].value:'NA'}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+             </my-tab>
+        </mytabs>
+
+    </div>
+
+    <div class="" ng-show="mdlnote">
+                <div class="row">
+                <div class="col col-50">
+                 <div class="fdropdown">
+                    <div class="navlist" ng-click="togglemenu('mdlfilter')"> <i class="ion-android-bar"></i> &nbsp; Record Notes</div>
+                    <div class="dnav" id="mdlfilter">
+                        <ion-list>
+                            <ion-checkbox ng-model="feval" ng-checked="" >Measurements</ion-checkbox>
+                            <ion-checkbox ng-model="ftresult" ng-checked="">Observations</ion-checkbox>
+                            <ion-checkbox ng-model="fobservation" ng-checked="">Test Results</ion-checkbox>
+                            <ion-checkbox ng-model="fdiagnosis" ng-checked="">Diagnosis</ion-checkbox>
+                        </ion-list>
+                        <div class="row"><!---ng-click="togglemenu('Ndnav')" -->
+                            <div class="col"><button class="button button-balanced" ng-click="" >Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="togglemenu('mdlfilter')">Reset</button></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+
+                <div class="list card post-item greenbox">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-50">
+                                <h2 class="post-title">Blood Pressure</h2>
+                            </div>
+                           <div class="col col-25" >
+                                <div class="button-small crdRbtn" >
+                                    More
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Systolic</div>
+                                <div class="col">: 120</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Diastolic</div>
+                                <div class="col">: 90</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Pulse</div>
+                                <div class="col">: 90</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list card post-item greenbox">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-50">
+                                <h2 class="post-title">Blood Pressure</h2>
+                            </div>
+                           <div class="col col-25" >
+                                <div class="button-small crdRbtn" >
+                                    More
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Systolic</div>
+                                <div class="col">: 120</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Diastolic</div>
+                                <div class="col">: 90</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Pulse</div>
+                                <div class="col">: 90</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    </div>
+
+
+     <div class="" ng-show="mdltreatment">
+                <div class="row">
+                <div class="col col-50">
+                 <div class="fdropdown">
+                    <div class="navlist" ng-click="togglemenu('mdlfilter')"> <i class="ion-android-bar"></i> &nbsp; Record Notes</div>
+                    <div class="dnav" id="mdlfilter">
+                        <ion-list>
+                            <ion-checkbox ng-model="feval" ng-checked="" >Measurements</ion-checkbox>
+                            <ion-checkbox ng-model="ftresult" ng-checked="">Observations</ion-checkbox>
+                            <ion-checkbox ng-model="fobservation" ng-checked="">Test Results</ion-checkbox>
+                            <ion-checkbox ng-model="fdiagnosis" ng-checked="">Diagnosis</ion-checkbox>
+                        </ion-list>
+                        <div class="row"><!---ng-click="togglemenu('Ndnav')" -->
+                            <div class="col"><button class="button button-balanced" ng-click="" >Apply</button></div>
+                            <div class="col"><button class="button button-assertive" ng-click="togglemenu('mdlfilter')">Reset</button></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+
+                <div class="list card post-item greenbox">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-50">
+                                <h2 class="post-title">Blood Pressure</h2>
+                            </div>
+                           <div class="col col-25" >
+                                <div class="button-small crdRbtn" >
+                                    More
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Systolic</div>
+                                <div class="col">: 120</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Diastolic</div>
+                                <div class="col">: 90</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Pulse</div>
+                                <div class="col">: 90</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list card post-item greenbox">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-50">
+                                <h2 class="post-title">Blood Pressure</h2>
+                            </div>
+                           <div class="col col-25" >
+                                <div class="button-small crdRbtn" >
+                                    More
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col">Systolic</div>
+                                <div class="col">: 120</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Diastolic</div>
+                                <div class="col">: 90</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">Pulse</div>
+                                <div class="col">: 90</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    </div>
+
+
+
+
+
+
+
+        </ion-content>
+      </ion-modal-view>
+</script>
