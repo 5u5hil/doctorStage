@@ -8218,7 +8218,7 @@ angular.module('your_app_name.controllers', [])
                     $rootScope.$emit("GetPatientDetails", {});
                     if (response.data.recordDetails.length > 0) {
                         $scope.getEvaluationDetails();
-//                        $rootScope.$emit("GetMeasurements", {});
+                        $rootScope.$emit("GetMeasurements", {});
 //                        $rootScope.$emit("GetInvDetails", {});
 //                        $rootScope.$emit("GetMediDetails", {});
 //                        $rootScope.$emit("GetLifeDetails", {});
