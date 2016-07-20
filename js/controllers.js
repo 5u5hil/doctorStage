@@ -3975,7 +3975,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal, $ionicLoading, $rootScope) {
+        .controller('FamilyHistoryCtrl', function ($scope, $http, $state, $ionicModal, $ionicLoading, $rootScope, $timeout) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
@@ -7618,9 +7618,11 @@ angular.module('your_app_name.controllers', [])
             $scope.navtoggle = function (ab) {
                 jQuery(ab).toggleClass('active');
                 if (jQuery(ab).hasClass('active')) {
-                    $scope.addless = '- Less'
+                    $scope.addless = '- Less';
+                    $scope.tfamilyhistory = true;
                 } else {
-                    $scope.addless = '+ Add'
+                    $scope.addless = '+ Add';
+                    $scope.tfamilyhistory = false;
                 }
             };
 
