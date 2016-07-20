@@ -8383,7 +8383,8 @@ angular.module('your_app_name.controllers', [])
                     statstimer = '';
                     $ionicHistory.nextViewOptions({
                         historyRoot: true
-                    })
+                    });
+                    window.localStorage.removeItem('recId');
 
                 } catch (err) {
                     $timeout.cancel(stoppedTimer);
@@ -8397,6 +8398,7 @@ angular.module('your_app_name.controllers', [])
                     })
                     window.clearInterval(statstimer);
                     statstimer = '';
+                    window.localStorage.removeItem('recId');
                 }
                 $http({
                     method: 'GET',
@@ -8597,6 +8599,8 @@ angular.module('your_app_name.controllers', [])
                             $scope.mid = response.records;
                             $scope.emeasure = false;
                             $('input[name=eval]').attr('checked', false);
+                            $scope.hideformD();
+                            $scope.nadd = 'null';
                             $rootScope.$emit("GetMeasurements", {});
                         } else if (response.err != '') {
                             alert('Please fill mandatory fields');
@@ -8628,6 +8632,8 @@ angular.module('your_app_name.controllers', [])
                             $scope.testTextValue = "";
                             $scope.testSum = false;
                         }
+                        $scope.hideformD();
+                        $scope.nadd = 'null';
                     }, function errorCallback(e) {
                         console.log(e);
                     });
@@ -8653,6 +8659,8 @@ angular.module('your_app_name.controllers', [])
                             $scope.ediagnosis = false;
                             //$('input[name=eval]').attr('checked', false);
                         }
+                        $scope.hideformD();
+                        $scope.nadd = 'null';
                     }, function errorCallback(e) {
                         console.log(e);
                     });
@@ -8682,11 +8690,129 @@ angular.module('your_app_name.controllers', [])
                             $scope.objTextValue = '';
                             $scope.objSum = false;
                         }
+                        $scope.nadd = 'null';
+                        $scope.hideformD();
                     }, function errorCallback(e) {
                         console.log(e);
                     });
                 }
 
+            };
+
+            $scope.saveInvest = function () {
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addInvForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    $scope.loading = false;
+                    if (response.records != '') {
+                        //console.log("Investigation saved successfully!");
+                        $rootScope.investigation.unshift(response.records);
+                        $rootScope.invData.unshift(response.recordsData);
+                        $rootScope.inv.unshift(response.records.id);
+                        $rootScope.allInv.unshift(response.records.id);
+                        $scope.hideformD();
+                        $scope.nadd = 'null';
+                        jQuery("#addInvForm")[0].reset();
+                        $('input[name=inv]').attr('checked', false);
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+                $timeout(function () {
+                    $scope.addinvestigation = false;
+                }, 2000);
+            };
+            $scope.saveProc = function () {
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addProcedureForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    $scope.loading = false;
+                    if (response.records != '') {
+                        $rootScope.procedure.unshift(response.records);
+                        $rootScope.proData.unshift(response.recordsData);
+                        $rootScope.proc.unshift(response.records.id);
+                        $rootScope.allProc.unshift(response.records.id);
+                        jQuery("#addProcedureForm")[0].reset();
+                        $scope.hideformD();
+                        $scope.nadd = 'null';
+                        $('input[name=inv]').attr('checked', false);
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+                $timeout(function () {
+                    $scope.addprocedure = false;
+                }, 2000);
+            };
+            $scope.saveRef = function () {
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addReferralForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    $scope.loading = false;
+                    if (response.records != '') {
+                        $rootScope.referral.unshift(response.records);
+                        $rootScope.refData.unshift(response.recordsData);
+                        $rootScope.refer.unshift(response.records.id);
+                        $rootScope.allRef.unshift(response.records.id);
+                        $scope.hideformD();
+                        $scope.nadd = 'null';
+                        jQuery("#addReferralForm")[0].reset();
+                        $('input[name=inv]').attr('checked', false);
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+                $timeout(function () {
+                    $scope.addreferal = false;
+                }, 2000);
+            };
+            $scope.saveMedi = function () {
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addMedicationForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    $scope.loading = false;
+                    if (response.records != '') {
+                        $rootScope.medication.unshift(response.records);
+                        $rootScope.mediData.unshift(response.recordsData);
+                        $rootScope.medi.unshift(response.records.id);
+                        $rootScope.medi = $rootScope.medi;
+                        $rootScope.allMedi.unshift(response.records.id);
+                        $scope.hideformD();
+                        $scope.nadd = 'null';
+                        jQuery("#addMedicationForm")[0].reset();
+                        $('input[name=inv]').attr('checked', false);
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+                $timeout(function () {
+                    $scope.addmedication = false;
+                }, 2000);
+            };
+            $scope.saveLife = function () {
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addLifeStyleForm")[0]);
+                //console.log(data);
+                callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                    //console.log(response);
+                    $scope.loading = false;
+                    if (response.records != '') {
+                        //alert("Investigation saved successfully!");
+                        $rootScope.lifestyle.unshift(response.records);
+                        $rootScope.lifeData.unshift(response.recordsData);
+                        $rootScope.life.unshift(response.records.id);
+                        $rootScope.allLife.unshift(response.records.id);
+                        $scope.hideformD();
+                        $scope.nadd = 'null';
+                        jQuery("#addLifeStyleForm")[0].reset();
+                        $('input[name=inv]').attr('checked', false);
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
+                $timeout(function () {
+                    $scope.addlifestyle = false;
+                }, 2000);
             };
             $scope.changemodalselect = function (fvalue) {
                 if (fvalue == 'modelcase') {
