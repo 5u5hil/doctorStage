@@ -210,16 +210,14 @@
                     <label class="item item-input">
                         <input type="number" placeholder="" ng-model="nodays" ng-change="dietdetails(nodays)" id="dietdays" min="1" max="15" name="{{field.name}}" minlength="1" required=""/>
                     </label>
-                </div>
-                <div><div class="item item-divider mt15"> Meal Plan</div>
-                    <div class="item item-input mh44 inbtnlabel">
-                        <div class="dietdays" >
-                            <div ng-repeat="dm in dayMeal track by $index" class="inbtn">
-                                <input type="hidden" id="day{{$index}}" name="day-{{$index + 1}}" value="{{dm}}"/>
-                                <button class="button filled-data button-small" id="fill{{$index}}" ng-click="daymodal({{dm}})" >
-                                    <!--                                                        <span class="icon ion-plus-circled"></span> -->Day {{$index + 1}}
-                                </button>
-                            </div>
+                </div><div class="item item-divider mt15"> Meal Plan</div>
+                <div class="item item-input mh44 inbtnlabel">
+                    <div class="dietdays" >
+                        <div ng-repeat="dm in dayMeal track by $index" class="inbtn">
+                            <input type="hidden" id="day{{$index}}" name="day-{{$index + 1}}" value="{{dm}}"/>
+                            <button class="button filled-data button-small" id="fill{{$index}}" ng-click="daymodal({{dm}})" >
+                                <!--                                                        <span class="icon ion-plus-circled"></span> -->Day {{$index + 1}}
+                            </button>
                         </div>
                     </div>
                 </div>

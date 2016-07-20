@@ -4011,12 +4011,12 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response);
             });
-            $ionicModal.fromTemplateUrl('addrelation', {
-                scope: $scope
-            }).then(function (modal) {
-                $scope.conIds = [];
-                $scope.modal = modal;
-            });
+//            $ionicModal.fromTemplateUrl('addrelation', {
+//                scope: $scope
+//            }).then(function (modal) {
+//                $scope.conIds = [];
+//                $scope.modal = modal;
+//            });
             $scope.submitmodal = function () {
                 $scope.modal.hide();
             };
@@ -6681,7 +6681,7 @@ angular.module('your_app_name.controllers', [])
                         $rootScope.inv.unshift(val.id);
                         $rootScope.allInv.unshift(val.id);
                     });
-                    console.log("incvese "+$rootScope.investigation);
+                    console.log("incvese " + $rootScope.investigation);
                 }, function errorCallback(response) {
                     //console.log(response);
                 });
@@ -7460,20 +7460,29 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal = modal;
                 $scope.daymodal = function (day) {
                     console.log('Index = ' + day + ' day' + (day - 1));
+                    $scope.Mealday = day;
                     $scope.day = 'day' + (day - 1);
                     $scope.modal.show();
                 };
             });
-            $scope.daymodalDisp = function (pDay, day) {
-                $scope.editdiet = true;
-                $scope.dietPlanDetails = [];
-                $scope.diet = $scope.dietRec[pDay][day];
-                $scope.Mealday = (day + 1);
-                var i, j, temparray, chunk = 4;
-                for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
-                    $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
-                }
-            };
+
+            $ionicModal.fromTemplateUrl('mealdispdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.daymodalDisp = function (pDay, day) {
+                    console.log("Display modal-----" + pDay + " --------- " + day);
+                    $scope.dietPlanDetails = [];
+                    $scope.diet = $scope.dietRec[pDay][day];
+                    $scope.Mealday = (day + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    $scope.modal.show();
+                };
+            });
+
             $scope.dietdetails = function (days) {
                 $scope.dayMeal = [];
                 for (var i = 1, j = 1; i <= days; i++, j++) {
@@ -7575,7 +7584,6 @@ angular.module('your_app_name.controllers', [])
 
         })
         .controller('DoctorJoinCtrl', function ($ionicLoading, $scope, $rootScope, $http, $compile, $ionicModal, $timeout, $stateParams, $cordovaCamera, $ionicHistory, $ionicPopup, $state, $window, $filter, $ionicScrollDelegate) {
-
             $ionicLoading.show({template: 'Loading...'});
 //            if (!get('loadedOnce')) {
 //                store({'loadedOnce': 'true'});
@@ -7598,10 +7606,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.tmedication = false;
                 $scope.tinvestigation = false;
                 $scope.Tdietplan = false;
-
-
                 $ionicScrollDelegate.scrollTop();
-
             };
 
             $scope.togglemenu = function (ab) {
@@ -7813,10 +7818,16 @@ angular.module('your_app_name.controllers', [])
                     $scope.notebackground = false
                     $scope.notetnote = false
                     $scope.notetreatment = true
+//                    $rootScope.$emit("GetInvDetails", {});
+//                    $rootScope.$emit("GetLifeDetails", {});
+//                    $rootScope.$emit("GetMediDetails", {});
+//                    $rootScope.$emit("GetRefDetails", {});
+//                    $rootScope.$emit("GetDietPlan", {});
+//                    $rootScope.$emit("GetProcDetails", {});
                 }
             };
 
-            $scope.ovtab='oabout';
+            $scope.ovtab = 'oabout';
             $scope.ovabout = true;
             // overview 
             $scope.changeoveview = function (ovalue) {
@@ -7843,13 +7854,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.ovchats = true
                 }
             };
-
-
-
-            
-
-
-
 
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             var imgCnt = 0;
@@ -8214,13 +8218,13 @@ angular.module('your_app_name.controllers', [])
                     $rootScope.$emit("GetPatientDetails", {});
                     if (response.data.recordDetails.length > 0) {
                         $scope.getEvaluationDetails();
-                        $rootScope.$emit("GetMeasurements", {});
-                        $rootScope.$emit("GetInvDetails", {});
-                        $rootScope.$emit("GetMediDetails", {});
-                        $rootScope.$emit("GetLifeDetails", {});
-                        $rootScope.$emit("GetProcDetails", {});
-                        $rootScope.$emit("GetRefDetails", {});
-                        $rootScope.$emit("GetDietPlan", {});
+//                        $rootScope.$emit("GetMeasurements", {});
+//                        $rootScope.$emit("GetInvDetails", {});
+//                        $rootScope.$emit("GetMediDetails", {});
+//                        $rootScope.$emit("GetLifeDetails", {});
+//                        $rootScope.$emit("GetProcDetails", {});
+//                        $rootScope.$emit("GetRefDetails", {});
+//                        $rootScope.$emit("GetDietPlan", {});
                     }
                     $http({
                         method: 'GET',
@@ -8291,73 +8295,27 @@ angular.module('your_app_name.controllers', [])
 //            });
             $scope.submit = function () {
                 $ionicLoading.show({template: 'Adding...'});
-                //alert($scope.tempImgs.length);
-                if ($scope.tempImgs.length > 0) {
-                    angular.forEach($scope.tempImgs, function (value, key) {
-                        $scope.picData = getImgUrl(value);
-                        var imgName = value.substr(value.lastIndexOf('/') + 1);
-                        $scope.ftLoad = true;
-                        $scope.uploadPicture();
-                        $scope.image.push(imgName);
-                        console.log($scope.image);
-                    });
-                    jQuery('#camfilee').val($scope.image);
-                    console.log($scope.images);
-                    var data = new FormData(jQuery("#addRecordForm")[0]);
-                    callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
-                        console.log(response);
-                        $ionicLoading.hide();
-                        if (angular.isObject(response.records)) {
-                            $scope.image = [];
-                            $scope.records = response.records;
-                            $scope.recordDetails = response.recordDetails;
-                            if ($scope.recordDetails.length > 0) {
-                                angular.forEach($scope.recordDetails, function (val, key) {
-                                    if (val.fields.field == 'Case Id') {
-                                        $scope.caseId = val.value;
-                                        $scope.casetype = 0;
-                                        jQuery('.fields #precase').removeClass('hide');
-                                    }
-                                });
-                                $scope.recId = response.records.id;
-                            }
-                            alert("Consultation Note added successfully!");
-                            $scope.removenoteslide();
-                        } else if (response.err != '') {
-                            alert('Please fill mandatory fields');
-                        }
-                    });
-                } else {
-                    var data = new FormData(jQuery("#addRecordForm")[0]);
-                    callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
-                        console.log(response);
-                        $ionicLoading.hide();
-                        if (angular.isObject(response.records)) {
-                            $scope.records = response.records;
-                            $scope.recordDetails = response.recordDetails;
-                            if ($scope.recordDetails.length > 0) {
-                                angular.forEach($scope.recordDetails, function (val, key) {
-                                    if (val.fields.field == 'Case Id') {
-                                        $scope.caseId = val.value;
-                                        $scope.casetype = 0;
-                                        jQuery('.fields #precase').removeClass('hide');
-                                    }
-                                });
-                                $scope.recId = response.records.id;
-                            }
-                            alert("Consultation Note added successfully!");
-                            $scope.removenoteslide();
-                        } else if (response.err != '') {
-                            alert('Please fill mandatory fields');
-                        }
-                    });
-                }
-
-                function getImgUrl(imageName) {
-                    var name = imageName.substr(imageName.lastIndexOf('/') + 1);
-                    var trueOrigin = cordova.file.dataDirectory + name;
-                    return trueOrigin;
-                }
+                var data = new FormData(jQuery("#addRecordForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-consultation", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (angular.isObject(response.records)) {
+                        $scope.recId = response.records.id;
+                        $rootScope.recCId = $scope.recId;
+                        jQuery('.cnoteid').val(response.records.id);
+                        $scope.saveMeasurements();
+                        $scope.savePatientHistory();
+//                $scope.saveTestresult();
+//                $scope.saveDiagnosis();
+//                $scope.saveObj();
+                        //$scope.saveInvestigation
+                        //$rootScope.$emit("saveDiet", {});
+                        $scope.getCnDetails();
+                        alert("Consultation Note added successfully!");
+                    } else if (response.err != '') {
+                        alert('Please fill mandatory fields');
+                    }
+                });
             };
             $scope.getCase = function (type) {
                 console.log(type);
@@ -8539,7 +8497,6 @@ angular.module('your_app_name.controllers', [])
              }, function errorCallback(e) {
              console.log(e);
              });*/
-
             $scope.searchBy = function (type) {
                 console.log(type);
                 if (type == 1) {
@@ -8676,7 +8633,6 @@ angular.module('your_app_name.controllers', [])
                     });
                 }
             };
-
             $scope.saveDiagnosis = function (diagnosis) {
                 $scope.patientId = get('patientId');
                 $scope.doctorId = get('doctorId');
@@ -8732,45 +8688,38 @@ angular.module('your_app_name.controllers', [])
                 }
 
             };
-
-            $scope.changemodalselect=function(fvalue){
-                if(fvalue=='modelcase'){
-                    $scope.mdcase=true;
-                    $scope.mdbackground=false;
-                    $scope.mdlnote=false;
-                       $scope.mdltreatment=false;
-                }
-                else if(fvalue=='modelbackground'){
-                    $scope.mdcase=false;
-                    $scope.mdbackground=true;
-                     $scope.mdlnote=false;
-                        $scope.mdltreatment=false;
-                }
-                 else if(fvalue=='modelnote'){
-                         $scope.mdcase=false;
-                       $scope.mdbackground=false;
-                         $scope.mdlnote=true;
-                         $scope.mdltreatment=false;
-                         
-                }
-                 else if(fvalue=='modeltreatment'){
-                    $scope.mdltreatment=true;
-                    $scope.mdcase=false;
-                       $scope.mdbackground=false;
-                         $scope.mdlnote=false;
+            $scope.changemodalselect = function (fvalue) {
+                if (fvalue == 'modelcase') {
+                    $scope.mdcase = true;
+                    $scope.mdbackground = false;
+                    $scope.mdlnote = false;
+                    $scope.mdltreatment = false;
+                } else if (fvalue == 'modelbackground') {
+                    $scope.mdcase = false;
+                    $scope.mdbackground = true;
+                    $scope.mdlnote = false;
+                    $scope.mdltreatment = false;
+                } else if (fvalue == 'modelnote') {
+                    $scope.mdcase = false;
+                    $scope.mdbackground = false;
+                    $scope.mdlnote = true;
+                    $scope.mdltreatment = false;
+                } else if (fvalue == 'modeltreatment') {
+                    $scope.mdltreatment = true;
+                    $scope.mdcase = false;
+                    $scope.mdbackground = false;
+                    $scope.mdlnote = false;
                 }
             }
-
-
         })
 
-    .controller('vnotemodalCtrl',function($scope, $http, $stateParams, $ionicModal){
-         $ionicModal.fromTemplateUrl('my-modal.html', {
+        .controller('vnotemodalCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+            $ionicModal.fromTemplateUrl('my-modal.html', {
                 scope: $scope
             }).then(function (modal) {
                 $scope.modal = modal;
             });
-    })
+        })
 
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {

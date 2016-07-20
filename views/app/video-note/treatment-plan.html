@@ -187,7 +187,6 @@
         </div>
         <!-- Investigation -->
         <div ng-controller="InvestigationsJoinCtrl" ng-show="investCards">
-            bsdfbvsdf{{investigation}}
             <div  class="list card post-item greenbox" ng-repeat="inv in investigation">
                 <div class="card-content p0">
                     <div class="row post-heading item item-text-wrap ">
@@ -204,16 +203,16 @@
                         <div class="row" ng-repeat="idata in invData[$index]| limitTo: 4">
                             <div ng-if="idata.value != ''">
                                 <div class="col"><strong>{{idata.fields.field}} </strong></div>
-                                <div class="col">: 
+                                <div class="col"> 
                                     <div ng-if="idata.fields.field == 'Related Problem'">
                                         <div ng-repeat="problem in problems">
-                                            <div ng-if="problem.record_id == idata.value"><div class="col-md-4">: {{problem.value}}</div></div>
+                                            <div ng-if="problem.record_id == idata.value">{{problem.value}}</div>
                                         </div>
                                     </div>
-                                    <div ng-if="idata.fields.field_type == '8'">: {{idata.value|dateFormat3}}</div>
-                                    <div ng-if="idata.fields.field_type == '12'">: {{idata.value|time1}}</div>
+                                    <div ng-if="idata.fields.field_type == '8'"> {{idata.value|dateFormat3}}</div>
+                                    <div ng-if="idata.fields.field_type == '12'"> {{idata.value|time1}}</div>
                                     <div ng-if="idata.fields.field != 'Related Problem' && idata.fields.field != 'Attachments' && idata.fields.field_type != '12' && idata.fields.field_type != '8'">
-                                        <div > {{idata.value}}</div>
+                                        <div> {{idata.value}}</div>
                                     </div>
                                     <div ng-if="idata.fields.field == 'Attachments'">
                                         <div > <div ng-repeat="attach in idata.attachments" >
@@ -234,16 +233,16 @@
                             <div class="row" ng-repeat="idata in invData[$index]" ng-if="$index >= 5">
                                 <div ng-if="idata.value != ''">
                                     <div class="col"><strong>{{idata.fields.field}} </strong></div>
-                                    <div class="col">: 
+                                    <div class="col"> 
                                         <div ng-if="idata.fields.field == 'Related Problem'">
                                             <div ng-repeat="problem in problems">
-                                                <div ng-if="problem.record_id == idata.value"><div class="col-md-4">: {{problem.value}}</div></div>
+                                                <div ng-if="problem.record_id == idata.value">{{problem.value}}</div>
                                             </div>
                                         </div>
-                                        <div ng-if="idata.fields.field_type == '8'">: {{idata.value|dateFormat3}}</div>
-                                        <div ng-if="idata.fields.field_type == '12'">: {{idata.value|time1}}</div>
+                                        <div ng-if="idata.fields.field_type == '8'"> {{idata.value|dateFormat3}}</div>
+                                        <div ng-if="idata.fields.field_type == '12'"> {{idata.value|time1}}</div>
                                         <div ng-if="idata.fields.field != 'Related Problem' && idata.fields.field != 'Attachments' && idata.fields.field_type != '12' && idata.fields.field_type != '8'">
-                                            <div > {{idata.value}}</div>
+                                            <div> {{idata.value}}</div>
                                         </div>
                                         <div ng-if="idata.fields.field == 'Attachments'">
                                             <div > <div ng-repeat="attach in idata.attachments" >
@@ -266,37 +265,424 @@
             </div>
         </div>
         <!-- End Investigation -->
-
         <!-- medication -->
         <div ng-controller="MedicationsJoinCtrl" ng-show="mediCards">
-
+            <div class="list card post-item greenbox" ng-repeat="med in medication">
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Medication {{$index + 1}}</h2>
+                        </div>
+                        <div class="col col-25 txt-right">
+                            <div class="infomore" ng-click="infomore(med.id + 'med')">
+                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row" ng-repeat="mdata in mediData[$index]| limitTo: 4">
+                            <div ng-if="mdata.value != ''">
+                                <div class="col"><strong>{{mdata.fields.field}} </strong></div>
+                                <div class="col">
+                                    <div ng-if="mdata.fields.field == 'Related Problem'">
+                                        <div ng-repeat="problem in problems">
+                                            <div ng-if="problem.record_id == mdata.value"> {{problem.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="mdata.fields.name == 'frequency'"> {{mdata.value}} {{repeatFreq[$index]}}</div>
+                                    <div ng-if="mdata.fields.field_type == '8'"> {{mdata.value|dateFormat3}}</div>
+                                    <div ng-if="mdata.fields.field_type == '12'"> {{mdata.value|time1}}</div>
+                                    <div ng-if="mdata.fields.field != 'Related Problem' && mdata.fields.name != 'frequency' && mdata.fields.field != 'Attachments' && mdata.fields.field_type != '12' && mdata.fields.field_type != '8'">
+                                        <div> {{mdata.value}}</div>
+                                    </div>
+                                    <div ng-if="mdata.fields.field == 'Attachments'">
+                                        <div > <div ng-repeat="attach in mdata.attachments" >
+                                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>				  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infomore-div" id="{{med.id}}med">
+                            <div class="row" ng-repeat="mdata in mediData[$index]" ng-if="$index >= 5">
+                                <div ng-if="mdata.value != ''">
+                                    <div class="col"><strong>{{mdata.fields.field}} </strong></div>
+                                    <div class="col"> 
+                                        <div ng-if="mdata.fields.field == 'Related Problem'">
+                                            <div ng-repeat="problem in problems">
+                                                <div ng-if="problem.record_id == mdata.value"> {{problem.value}}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="mdata.fields.name == 'frequency'"> {{mdata.value}} {{repeatFreq[$index]}}</div>
+                                        <div ng-if="mdata.fields.field_type == '8'"> {{mdata.value|dateFormat3}}</div>
+                                        <div ng-if="mdata.fields.field_type == '12'"> {{mdata.value|time1}}</div>
+                                        <div ng-if="mdata.fields.field != 'Related Problem' && mdata.fields.name != 'frequency' && mdata.fields.field != 'Attachments' && mdata.fields.field_type != '12' && mdata.fields.field_type != '8'">
+                                            <div> {{mdata.value}}</div>
+                                        </div>
+                                        <div ng-if="mdata.fields.field == 'Attachments'">
+                                            <div > <div ng-repeat="attach in mdata.attachments" >
+                                                    <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                        <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>				  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- end of medication -->
-
         <!-- lIFE STYLE -->
         <div ng-controller="LifeStyleJoinCtrl" ng-show="lifeCards">
-
+            <div  class="list card post-item greenbox" ng-repeat="life in lifestyle">
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Life Style {{$index + 1}}</h2>
+                        </div>
+                        <div class="col col-25 txt-right">
+                            <div class="infomore" ng-click="infomore(life.id + 'life')">
+                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row" ng-repeat="ldata in lifeData[$index]| limitTo: 4">
+                            <div ng-if="ldata.value != ''">
+                                <div class="col"><strong>{{ldata.fields.field}} </strong></div>
+                                <div class="col"> 
+                                    <div ng-if="ldata.fields.field == 'Related Problem'">
+                                        <div ng-repeat="problem in problems">
+                                            <div ng-if="problem.record_id == ldata.value"> {{problem.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="ldata.fields.field_type == '8'"> {{ldata.value|dateFormat3}}</div>
+                                    <div ng-if="ldata.fields.field_type == '12'"> {{ldata.value|time1}}</div>
+                                    <div ng-if="ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
+                                        <div> {{ldata.value}}</div>
+                                    </div>
+                                    <div ng-if="ldata.fields.field == 'Attachments'">
+                                        <div > <div ng-repeat="attach in ldata.attachments" >
+                                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>				  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infomore-div" id="{{life.id}}life">
+                            <div class="row" ng-repeat="ldata in lifeData[$index]" ng-if="$index >= 5">
+                                <div ng-if="ldata.value != ''">
+                                    <div class="col"><strong>{{ldata.fields.field}} </strong></div>
+                                    <div class="col"> 
+                                        <div ng-if="ldata.fields.field == 'Related Problem'">
+                                            <div ng-repeat="problem in problems">
+                                                <div ng-if="problem.record_id == ldata.value">{{problem.value}}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="ldata.fields.field_type == '8'"> {{ldata.value|dateFormat3}}</div>
+                                        <div ng-if="ldata.fields.field_type == '12'"> {{ldata.value|time1}}</div>
+                                        <div ng-if="ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
+                                            <div> {{ldata.value}}</div>
+                                        </div>
+                                        <div ng-if="ldata.fields.field == 'Attachments'">
+                                            <div > <div ng-repeat="attach in ldata.attachments" >
+                                                    <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                        <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>				  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- END OF lIFE STYLE -->
         <!-- Procedures -->
         <div ng-controller="ProceduresJoinCtrl" ng-show="procCards">
-
+            <div  class="list card post-item greenbox" ng-repeat="proc in procedure">
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Life Style {{$index + 1}}</h2>
+                        </div>
+                        <div class="col col-25 txt-right">
+                            <div class="infomore" ng-click="infomore(proc.id + 'proc')">
+                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row" ng-repeat="pdata in procData[$index]| limitTo: 4">
+                            <div ng-if="pdata.value != ''">
+                                <div class="col"><strong>{{pdata.fields.field}} </strong></div>
+                                <div class="col">
+                                    <div ng-if="pdata.fields.field == 'Related Problem'">
+                                        <div ng-repeat="problem in problems">
+                                            <div ng-if="problem.record_id == pdata.value">{{problem.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="pdata.fields.field_type == '8'"> {{pdata.value|dateFormat3}}</div>
+                                    <div ng-if="pdata.fields.field_type == '12'"> {{pdata.value|time1}}</div>
+                                    <div ng-if="pdata.fields.field != 'Related Problem' && pdata.fields.field != 'Attachments' && pdata.fields.field_type != '12' && pdata.fields.field_type != '8'">
+                                        <div> {{pdata.value}}</div>
+                                    </div>
+                                    <div ng-if="pdata.fields.field == 'Attachments'">
+                                        <div > <div ng-repeat="attach in pdata.attachments" >
+                                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>				  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infomore-div" id="{{proc.id}}proc">
+                            <div class="row" ng-repeat="pdata in procData[$index]" ng-if="$index >= 5">
+                                <div ng-if="pdata.value != ''">
+                                    <div class="col"><strong>{{pdata.fields.field}} </strong></div>
+                                    <div class="col">
+                                        <div ng-if="pdata.fields.field == 'Related Problem'">
+                                            <div ng-repeat="problem in problems">
+                                                <div ng-if="problem.record_id == pdata.value">{{problem.value}}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="pdata.fields.field_type == '8'"> {{pdata.value|dateFormat3}}</div>
+                                        <div ng-if="pdata.fields.field_type == '12'"> {{pdata.value|time1}}</div>
+                                        <div ng-if="pdata.fields.field != 'Related Problem' && pdata.fields.field != 'Attachments' && pdata.fields.field_type != '12' && pdata.fields.field_type != '8'">
+                                            <div> {{pdata.value}}</div>
+                                        </div>
+                                        <div ng-if="pdata.fields.field == 'Attachments'">
+                                            <div > <div ng-repeat="attach in pdata.attachments" >
+                                                    <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                        <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>				  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- end Procedures -->
         <!-- REFERRAL -->
         <div ng-controller="ReferralJoinCtrl" ng-show="refCards">
-
+            <div  class="list card post-item greenbox" ng-repeat="ref in referral" >
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Referral {{$index + 1}}</h2>
+                        </div>
+                        <div class="col col-25 txt-right">
+                            <div class="infomore" ng-click="infomore(ref.id + 'ref')">
+                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row" ng-repeat="rdata in refData[$index]| limitTo: 4">
+                            <div ng-if="rdata.value != ''">
+                                <div class="col"><strong>{{rdata.fields.field}} </strong></div>
+                                <div class="col"> 
+                                    <div ng-if="rdata.fields.field == 'Related Problem'">
+                                        <div ng-repeat="problem in problems">
+                                            <div ng-if="problem.record_id == rdata.value">{{problem.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="rdata.fields.field_type == '8'"> {{rdata.value|dateFormat3}}</div>
+                                    <div ng-if="rdata.fields.field_type == '12'"> {{rdata.value|time1}}</div>
+                                    <div ng-if="rdata.fields.field != 'Related Problem' && rdata.fields.field != 'Attachments' && rdata.fields.field_type != '12' && rdata.fields.field_type != '8'">
+                                        <div > {{rdata.value}}</div>
+                                    </div>
+                                    <div ng-if="rdata.fields.field == 'Attachments'">
+                                        <div > <div ng-repeat="attach in rdata.attachments" >
+                                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>				  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infomore-div" id="{{ref.id}}ref">
+                            <div class="row" ng-repeat="rdata in refData[$index]" ng-if="$index >= 5">
+                                <div ng-if="rdata.value != ''">
+                                    <div class="col"><strong>{{rdata.fields.field}} </strong></div>
+                                    <div class="col"> 
+                                        <div ng-if="rdata.fields.field == 'Related Problem'">
+                                            <div ng-repeat="problem in problems">
+                                                <div ng-if="problem.record_id == rdata.value">{{problem.value}}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="rdata.fields.field_type == '8'"> {{rdata.value|dateFormat3}}</div>
+                                        <div ng-if="rdata.fields.field_type == '12'"> {{rdata.value|time1}}</div>
+                                        <div ng-if="rdata.fields.field != 'Related Problem' && rdata.fields.field != 'Attachments' && rdata.fields.field_type != '12' && rdata.fields.field_type != '8'">
+                                            <div > {{rdata.value}}</div>
+                                        </div>
+                                        <div ng-if="rdata.fields.field == 'Attachments'">
+                                            <div > <div ng-repeat="attach in rdata.attachments" >
+                                                    <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                        <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>				  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- End of REFERRAL -->
         <!-- DIET PLAN -->
         <div ng-controller="DietJoinCtrl" ng-show="dietCards">
-
+            <div class="list card post-item greenbox" ng-repeat="dt in prevDietRec">
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Diet Plan {{$index + 1}}</h2>
+                        </div>
+                        <div class="col col-25 txt-right">
+                            <div class="infomore" ng-click="infomore(dt.id + 'diet')">
+                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row" ng-repeat="mdata in prevDietData[$index]| limitTo: 4">
+                            <div ng-if="mdata.value != ''">
+                                <div class="col" ng-if="mdata.fields.name != 'patient-4'"><strong>{{mdata.fields.field}} </strong></div>
+                                <div class="col"> 
+                                    <div ng-if="mdata.fields.field == 'Related Problem'">
+                                        <div ng-repeat="problem in problems">
+                                            <div ng-if="problem.record_id == mdata.value">{{problem.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="mdata.fields.field_type == '8'"> {{mdata.value|dateFormat3}}</div>
+                                    <div ng-if="mdata.fields.field_type == '12'"> {{mdata.value|time1}}</div>
+                                    <div ng-if="mdata.fields.field == 'No of days'"> 
+                                        <div class="dietdays">
+                                            <button class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in dietRec[$parent.$parent.$parent.$index]" ng-click="daymodalDisp($parent.$parent.$parent.$parent.$index, $index)">
+                                                <!--<span class="icon ion-plus-circled"></span>--> Day {{$index + 1}}</button>
+                                        </div>
+                                    </div>
+                                    <div ng-if="mdata.fields.name != 'patient-4' && mdata.fields.field != 'Related Problem' && mdata.fields.field != 'No of days' && mdata.fields.field != 'Attachments' && mdata.fields.field_type != '12' && mdata.fields.field_type != '8'">
+                                        <div> {{mdata.value}}</div>
+                                    </div>
+                                    <div ng-if="mdata.fields.field == 'Attachments'">
+                                        <div > <div ng-repeat="attach in mdata.attachments" >
+                                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>				  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infomore-div" id="{{dt.id}}diet">
+                            <div class="row" ng-repeat="mdata in prevDietData[$index]" ng-if="$index >= 5">
+                                <div ng-if="mdata.value != ''">
+                                    <div class="col" ng-if="mdata.fields.name != 'patient-4'"><strong>{{mdata.fields.field}} </strong></div>
+                                    <div class="col">
+                                        <div ng-if="mdata.fields.field == 'Related Problem'">
+                                            <div ng-repeat="problem in problems">
+                                                <div ng-if="problem.record_id == mdata.value">{{problem.value}}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="mdata.fields.field_type == '8'"> {{mdata.value|dateFormat3}}</div>
+                                        <div ng-if="mdata.fields.field_type == '12'"> {{mdata.value|time1}}</div>
+                                        <div ng-if="mdata.fields.field == 'No of days'"> 
+                                            <div class="dietdays">
+                                                <button class="button button-small inbtn {{dd.isEmptyObj? 'filled-data':'filldata'}}" ng-repeat="dd in dietRec[$parent.$parent.$parent.$index]" ng-click="daymodalDisp($parent.$parent.$parent.$parent.$index, $index)">
+                                                    <!--<span class="icon ion-plus-circled"></span>--> Day {{$index + 1}}</button>
+                                            </div>
+                                        </div>
+                                        <div ng-if="mdata.fields.name != 'patient-4' && mdata.fields.field != 'Related Problem' && mdata.fields.field != 'No of days' && mdata.fields.field != 'Attachments' && mdata.fields.field_type != '12' && mdata.fields.field_type != '8'">
+                                            <div> {{mdata.value}}</div>
+                                        </div>
+                                        <div ng-if="mdata.fields.field == 'Attachments'">
+                                            <div > <div ng-repeat="attach in mdata.attachments" >
+                                                    <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                        <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>				  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script id="mealdetails" type="text/ng-template">
         <ion-modal-view>
         <ion-header-bar class="bar app-top-bar">
-        <h1 class="modalhead txt-center">Meal Details</h1>
+        <h1 class="modalhead txt-center">Meal Details - {{Mealday}}</h1>
         <button class="button button-clear pull-left" ng-click="submitmodal()">Cancel</button>
         <div class="buttons buttons-right pull-right"><span class="right-buttons">
         <button type="submit" ng-click="saveMeal(day)" class="button button-positive w100p brdradious0" ng-disabled="addRecordForm.$invalid" disabled="disabled"> 
@@ -312,6 +698,27 @@
         <label class="item item-input">
         <textarea placeholder="Notes" name="" ng-model="mealDetails[day][$index].details" maxlength="" rows="2" cols="50"></textarea>
         </label>
+        </div>  
+        </ion-content>
+        </ion-modal-view>
+    </script>
+
+    <script id="mealdispdetails" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="modalhead txt-center">Meal Details - {{Mealday}}</h1>
+        <button class="button button-clear pull-right" ng-click="submitmodal()">Cancel</button>       
+        </ion-header-bar>
+        <ion-content>
+        <div ng-if="dietPlanDetails.length == 0"><p class="text-center">No data added</p></div>
+        <div ng-repeat="diet in dietPlanDetails">
+        <div class="item item-divider mt15">Meal {{$index+1}}</div>
+        <div ng-repeat="meal in diet" ng-if="meal.fields.name == 'meal-1' || meal.fields.name == 'value'">
+        <div class="row" >
+        <div class="col" ng-if="meal.fields.field == 'Time' && meal.value != '' && meal.value != '00:00:00'">{{meal.value|timeN}}</div>
+        <div class="col" ng-if="meal.fields.field != 'Time'">{{meal.value}}</div>
+        </div>
+        </div>
         </div>  
         </ion-content>
         </ion-modal-view>
