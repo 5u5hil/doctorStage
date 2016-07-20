@@ -8271,19 +8271,7 @@ angular.module('your_app_name.controllers', [])
                 // The animation we want to use for the modal entrance
                 animation: 'slide-in-up'
             });
-//            $ionicModal.fromTemplateUrl('file.html', function ($ionicModal) {
-//                $scope.modal = $ionicModal;
-//                $scope.showm = function (path, name) {
-//                    console.log(path + '=afd =' + name);
-//                    $scope.value = $rootScope.attachpath + path + name;
-//                    $scope.modal.show();
-//                };
-//            }, {
-//                // Use our scope for the scope of the modal to keep it simple
-//                scope: $scope,
-//                // The animation we want to use for the modal entrance
-//                animation: 'slide-in-up'
-//            });
+            
             $scope.submit = function () {
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addRecordForm")[0]);
@@ -8837,6 +8825,24 @@ angular.module('your_app_name.controllers', [])
                 }
             }
         })
+         .controller('viewModalCtrl', function ($scope, $http, $stateParams, $ionicModal) {           
+            $ionicModal.fromTemplateUrl('file.html', function ($ionicModal) {
+                $scope.filemodal = $ionicModal;
+                console.log(path + '=afd =' + name);
+                $scope.value = $rootScope.attachpath + path + name;
+                $scope.showRecAttach = function (apath, aname) {
+                    //console.log(apath+"======"+aname);
+                    $scope.attachValue = domain + 'public' + apath + aname;
+                    //$('#recattach').modal('show');
+                    $scope.filemodal.show();
+                };
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+        })
 
         .controller('vnotemodalCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $ionicModal.fromTemplateUrl('my-modal.html', {
@@ -8845,7 +8851,6 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal = modal;
             });
         })
-
 
         .controller('docjnPatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
 

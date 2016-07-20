@@ -26,7 +26,7 @@
             <div class="sidetabcontent">
                 <ion-scroll direction="y" class="theroot"> 
                     <div class="row">
-                        <div class="maintab">
+                        <div class="col maintab">
                             <select class="cselectn" ng-model="mntab"  ng-change="changemaincate(mntab)">
                                 <option value="ntcase" selected>Case</option>
                                 <option value="ntbackground" >Background</option>
@@ -112,6 +112,108 @@
         </div>
     </div>
 </ion-view>
+
+<form name="addRecordForm" id="addRecordForm" enctype="multipart/form-data" novalidate >
+    <div class="slideupdiv" id="consultnote-slide">
+        <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
+        <button class="button iframesubmit" ng-click="submit()" ng-disabled="addRecordForm.$invalid"> <i class="ion-checkmark"></i>  Save </button>
+        <div class="ctitlebar">Consultation Note</div>
+        <div class="slideupcontent">
+            <!--            <ion-list>  ng-click="removenoteslide()"
+                            <div class="row">
+                                <div class="col cradio">
+                                    <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio>
+                                </div>
+                                <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
+                            </div>
+                        </ion-list>
+                        <label class="item item-input" id="newcase">
+                            <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        </label>-->
+            <!--- add note field starts  --->
+            <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+            <input type="hidden" value="{{patientId}}" name="patientId" />
+            <input type="hidden" value="{{doctorId}}" name="doctorId" />
+            <input type="hidden" value="{{appId}}" name="appId" />
+            <input type="hidden" value="{{measurement}}" name="measurement" />
+            <input type="hidden" value="{{objId}}" name="objId" />
+            <input type="hidden" value="{{diaId}}" name="diaId" />
+            <input type="hidden" value="{{testId}}" name="testId" />
+            <input type="hidden" value="{{measurement}},{{objId}},{{diaId}},{{testId}}" name="noteRecs" />
+            <input type="hidden" value="{{recId}}" name="recId" />
+            <input type="hidden" value="Consultation" name="rectype" />
+            <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+            <div class="fields" ng-repeat="field in fields">                    
+                <div ng-if="field.field == 'Case Id'">
+                    <div ng-if="caseId != ''">
+                        <ion-list>
+                            <div class="row">
+                                <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
+                                <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-checked="true" required>Ongoing Case</ion-radio></div>
+                            </div>
+                        </ion-list>
+                        <label class="item item-input item-select" id="precase">
+                            <div class="input-label">{{field.field}}</div>
+                            <select name="pre-{{field.name}}" ng-model="cases">
+                                <option value="" >Select </option>
+                                <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                            </select>
+                        </label>
+                        <label class="item item-input hide" id="newcase">
+                            <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        </label>
+                    </div>
+                    <div ng-if="caseId == ''">
+                        <ion-list>
+                            <div class="row">
+                                <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
+                                <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
+                            </div>
+                        </ion-list>
+                        <label class="item item-input item-select hide" id="precase">
+                            <div class="input-label">{{field.field}}</div>
+                            <select name="pre-{{field.name}}">
+                                <option value="" >Select </option>
+                                <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                            </select>
+                        </label>
+                        <label class="item item-input hide" id="newcase">
+                            <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        </label>
+                    </div>
+                </div>
+                <div ng-if="field.field != 'Case Id'">
+                    <div ng-if="field.field == 'Valid till'">
+                        <label class="item item-input listreq hide" id="convalid"><span class='input-label'>{{field.field}} </span>
+                            <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />                            
+                        </label> 
+                    </div>
+                    <label class="item item-input item-select hide" ng-if="field.field == 'Includes Prescription'" id="coninprec">
+                        <div class="input-label" > {{field.field}}</div>
+                        <select class="cselect" ng-model="prescription" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}" ng-change="getPrescription(prescription)">
+                            <option value="0"> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="{{sel == prescription}}"> {{sel}} </option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <!--- Add note field ends  ----->
+            <div class="mt15">
+                <div class="row tabnav bgwhite">
+                    <div class="col brdrht"><a class="nbtn ion-image" onclick="showpopup('selectfile')" > Images</a></div>
+                    <div class="col brdrht"><a class="nbtn ion-medkit" onclick="showpopup('selectnote')"> Notes</a></div>
+                    <div class="col brdrht"><a class="nbtn ion-thermometer" onclick="showpopup('selectappointment')"> Treatment Plan</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ciframecontainer">
+        <div class="closeifrme" ng-click="closeiframe();">X</div>
+        <iframe src=""></iframe>
+    </div>
+</form>
 
 <div class="slideupdiv" id="inventory-slide">
     <div class="button iframeclose" ng-click="removenoteslide()"> X </div>
@@ -247,6 +349,23 @@
     <div class="mcontent">
     <div class="viewattachfile" ng-repeat="attach in cnAttachments">
     <img src="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" style="border-bottom: 1px #eee solid; margin-bottom: 5px; padding: 5px 5px;"/>
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div></div>
+</script>
+<script id="file.html" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <!-- <iframe  type="text/html" style="width:100%; position:absolute; height:80%; top:100px;" scrolling="yes" ng-src="{{trustSrc(value)}}" allowfullscreen frameborder="0">       
+    </iframe> -->
+    <div class="viewattachfile">
+    <img src="{{value}}">
     </div>
     </div>
     </content>

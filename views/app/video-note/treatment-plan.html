@@ -217,8 +217,8 @@
                                         <div > <div ng-repeat="attach in idata.attachments" >
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
                                                 </div>
@@ -247,8 +247,8 @@
                                             <div > <div ng-repeat="attach in idata.attachments" >
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
                                                     </div>
@@ -298,8 +298,8 @@
                                         <div > <div ng-repeat="attach in mdata.attachments" >
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
                                                 </div>
@@ -329,8 +329,8 @@
                                             <div > <div ng-repeat="attach in mdata.attachments" >
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
                                                     </div>
@@ -379,8 +379,8 @@
                                         <div > <div ng-repeat="attach in ldata.attachments" >
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
                                                 </div>
@@ -409,8 +409,8 @@
                                             <div > <div ng-repeat="attach in ldata.attachments" >
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
                                                     </div>
@@ -459,8 +459,8 @@
                                         <div > <div ng-repeat="attach in pdata.attachments" >
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
                                                 </div>
@@ -489,8 +489,8 @@
                                             <div > <div ng-repeat="attach in pdata.attachments" >
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
                                                     </div>
@@ -539,8 +539,8 @@
                                         <div > <div ng-repeat="attach in rdata.attachments" >
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
                                                 </div>
@@ -569,8 +569,8 @@
                                             <div > <div ng-repeat="attach in rdata.attachments" >
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
                                                     </div>
@@ -625,8 +625,8 @@
                                         <div > <div ng-repeat="attach in mdata.attachments" >
                                                 <div ng-init="selData = (attach.orginial_name).split('.')">
                                                     <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                        <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                            <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                        <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                         </a>
                                                     </div>
                                                 </div>
@@ -661,8 +661,8 @@
                                             <div > <div ng-repeat="attach in mdata.attachments" >
                                                     <div ng-init="selData = (attach.orginial_name).split('.')">
                                                         <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                                            <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                                                <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                            <a ng-controller="viewModalCtrl" class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
                                                             </a>
                                                         </div>
                                                     </div>
@@ -721,4 +721,21 @@
         </div>  
         </ion-content>
         </ion-modal-view>
+    </script>
+    <script id="file.html" type="text/ng-template">
+        <div class="modal">
+        <header class="bar bar-header bar-positive">
+        <h1 class="title">Attached Files</h1>
+        <button class="button" ng-click="print()">Print</button>
+        </header>
+        <content has-header="true" padding="true" class="fullwh">
+        <div class="mcontent">
+        <!-- <iframe  type="text/html" style="width:100%; position:absolute; height:80%; top:100px;" scrolling="yes" ng-src="{{trustSrc(value)}}" allowfullscreen frameborder="0">       
+        </iframe> -->
+        <div class="viewattachfile">
+        <img src="{{attachValue}}">
+        </div>
+        </div>
+        </content>
+        <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="filemodal.hide()">Cancel</div></div>
     </script>
