@@ -7,8 +7,8 @@
                     <div class="dnav" id="Ndnav">
                         <ion-list>
                             <ion-checkbox ng-model="feval" ng-checked="{{feval}}" ng-click="showEvalFilter('measure', feval)">Measurements</ion-checkbox>
-                            <ion-checkbox ng-model="fobservation" ng-checked="{{fobservation}}" ng-click="showEvalFilter('tresult', ftresult)">Observations</ion-checkbox>
-                            <ion-checkbox ng-model="ftresult" ng-checked="{{ftresult}}" ng-click="showEvalFilter('fobj', fobservation)">Test Results</ion-checkbox>
+                            <ion-checkbox ng-model="fobservation" ng-checked="{{fobservation}}" ng-click="showEvalFilter('fobj', fobservation)">Observations</ion-checkbox>
+                            <ion-checkbox ng-model="ftresult" ng-checked="{{ftresult}}" ng-click="showEvalFilter('tresult', ftresult)">Test Results</ion-checkbox>
                             <ion-checkbox ng-model="fdiagnosis" ng-checked="{{fdiagnosis}}" ng-click="showEvalFilter('fdia', fdiagnosis)">Diagnosis</ion-checkbox>
                         </ion-list>
                         <div class="row"><!---ng-click="togglemenu('Ndnav')" -->

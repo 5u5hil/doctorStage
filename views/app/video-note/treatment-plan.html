@@ -137,7 +137,6 @@
         </div>
 
         <div class="formcontainer" ng-show="Treferral">
-            <div class="item item-divider">Referral</div>
             <div ng-controller="ReferralJoinCtrl">
                 <form name="addReferralForm" id="addReferralForm" enctype="multipart/form-data" novalidate >
                     <div class="box-body">
@@ -433,7 +432,7 @@
                 <div class="card-content p0">
                     <div class="row post-heading item item-text-wrap ">
                         <div class="col col-75">
-                            <h2 class="post-title">Life Style {{$index + 1}}</h2>
+                            <h2 class="post-title">Procedures {{$index + 1}}</h2>
                         </div>
                         <div class="col col-25 txt-right">
                             <div class="infomore" ng-click="infomore(proc.id + 'proc')">
@@ -442,7 +441,7 @@
                         </div>
                     </div>
                     <div class="post-content item item-text-wrap p0">
-                        <div class="row" ng-repeat="pdata in procData[$index]| limitTo: 4">
+                        <div class="row" ng-repeat="pdata in proData[$index]| limitTo: 4">
                             <div ng-if="pdata.value != ''">
                                 <div class="col"><strong>{{pdata.fields.field}} </strong></div>
                                 <div class="col">
@@ -472,7 +471,7 @@
                             </div>
                         </div>
                         <div class="infomore-div" id="{{proc.id}}proc">
-                            <div class="row" ng-repeat="pdata in procData[$index]" ng-if="$index >= 5">
+                            <div class="row" ng-repeat="pdata in proData[$index]" ng-if="$index >= 5">
                                 <div ng-if="pdata.value != ''">
                                     <div class="col"><strong>{{pdata.fields.field}} </strong></div>
                                     <div class="col">

@@ -7457,12 +7457,12 @@ angular.module('your_app_name.controllers', [])
             $ionicModal.fromTemplateUrl('mealdetails', {
                 scope: $scope
             }).then(function (modal) {
-                $scope.modal = modal;
+                $scope.dietmodal = modal;
                 $scope.daymodal = function (day) {
                     console.log('Index = ' + day + ' day' + (day - 1));
                     $scope.Mealday = day;
                     $scope.day = 'day' + (day - 1);
-                    $scope.modal.show();
+                    $scope.dietmodal.show();
                 };
             });
 
@@ -7514,11 +7514,12 @@ angular.module('your_app_name.controllers', [])
 //        } else {
 //            console.log('Empty');
 //        }
-                $scope.modal.hide();
+                $scope.dietmodal.hide();
             };
 
             $scope.submitmodal = function () {
                 $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+                $scope.dietmodal.hide();
                 $scope.modal.hide();
             };
             $rootScope.$on("GetDietPlan", function () {
@@ -7820,12 +7821,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.notebackground = false
                     $scope.notetnote = false
                     $scope.notetreatment = true
-//                    $rootScope.$emit("GetInvDetails", {});
-//                    $rootScope.$emit("GetLifeDetails", {});
-//                    $rootScope.$emit("GetMediDetails", {});
-//                    $rootScope.$emit("GetRefDetails", {});
-//                    $rootScope.$emit("GetDietPlan", {});
-//                    $rootScope.$emit("GetProcDetails", {});
                 }
             };
 
@@ -8221,12 +8216,6 @@ angular.module('your_app_name.controllers', [])
                     if (response.data.recordDetails.length > 0) {
                         $scope.getEvaluationDetails();
                         $rootScope.$emit("GetMeasurements", {});
-//                        $rootScope.$emit("GetInvDetails", {});
-//                        $rootScope.$emit("GetMediDetails", {});
-//                        $rootScope.$emit("GetLifeDetails", {});
-//                        $rootScope.$emit("GetProcDetails", {});
-//                        $rootScope.$emit("GetRefDetails", {});
-//                        $rootScope.$emit("GetDietPlan", {});
                     }
                     $http({
                         method: 'GET',
