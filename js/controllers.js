@@ -8610,6 +8610,14 @@ angular.module('your_app_name.controllers', [])
                     });
                 }
             };
+            $scope.savePatientHistory = function () {
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addPatientForm")[0]);
+                callAjax("POST", domain + "doctrsrecords/save-patient-history", data, function (response) {
+                    $scope.loading = false;
+                    $rootScope.$emit('GetPatientDetails', {});
+                });
+            };
             $scope.saveTestresult = function (test, testSum) {
                 console.log(test + "===" + testSum);
                 $scope.testResult.push({value: test, summary: testSum});
