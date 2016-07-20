@@ -101,7 +101,10 @@
                     <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
                 </label>
             </div>
-            <div ng-if="field.multi_value == 0 && field.name != 'quick-history' && field.field != 'Consultant' && field.name != 'performed-at' && field.name != 'how-it-ended' && field.field != 'Conducted By' && field.field != 'Dose' && field.field != 'Result' && field.field != 'Adverse Effects' && field.field != 'Height'">
+            <div ng-if="field.field == 'Patient'"> 
+                <input type="hidden" class="form-control"  name="{{field.name}}" value="{{patientId}}"/>
+            </div>
+            <div ng-if="field.multi_value == 0 && field.name != 'patient-4' && field.name != 'quick-history' && field.field != 'Consultant' && field.name != 'performed-at' && field.name != 'how-it-ended' && field.field != 'Conducted By' && field.field != 'Dose' && field.field != 'Result' && field.field != 'Adverse Effects' && field.field != 'Height'">
                 <div class="listreq"  ng-if="field.is_mandatory == 1">
                     <div class="item item-divider mt15">{{field.field}} {{field.is_mandatory==1? '*':''}}</div>
                     <label class="item item-input">
@@ -115,7 +118,7 @@
                     </label>
                 </div>
             </div>
-            <div  ng-if="field.multi_value == 1 && field.name != 'quick-history' && field.field != 'Consultant' && field.name != 'performed-at' && field.name != 'how-it-ended' && field.field != 'Conducted By' && field.field != 'Dose' && field.field != 'Result' && field.field != 'Adverse Effects' && field.field != 'Height'">
+            <div  ng-if="field.multi_value == 1 && field.name != 'patient-4' && field.name != 'quick-history' && field.field != 'Consultant' && field.name != 'performed-at' && field.name != 'how-it-ended' && field.field != 'Conducted By' && field.field != 'Dose' && field.field != 'Result' && field.field != 'Adverse Effects' && field.field != 'Height'">
                 <div class="listreq" ng-if="field.is_mandatory == 1">
                     <div class="item item-divider mt15">{{field.field}}</div>
                     <label class="item item-input">
