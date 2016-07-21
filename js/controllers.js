@@ -8284,7 +8284,17 @@ angular.module('your_app_name.controllers', [])
                 // The animation we want to use for the modal entrance
                 animation: 'slide-in-up'
             });
-
+            $ionicModal.fromTemplateUrl('singlefileview', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.filemodal = modal;
+                $scope.showRecAttach = function (apath, aname) {
+                    alert(apath + "======" + aname);
+                    $scope.attachValue = domain + 'public' + apath + aname;
+                    //$('#recattach').modal('show');
+                    $scope.filemodal.show();
+                };
+            });
             $scope.submit = function () {
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addRecordForm")[0]);
@@ -8841,21 +8851,16 @@ angular.module('your_app_name.controllers', [])
             }
         })
         .controller('viewModalCtrl', function ($scope, $http, $stateParams, $ionicModal) {
-            $ionicModal.fromTemplateUrl('file.html', function ($ionicModal) {
-                $scope.filemodal = $ionicModal;
-                console.log(path + '=afd =' + name);
-                $scope.value = $rootScope.attachpath + path + name;
+            $ionicModal.fromTemplateUrl('singlefileview', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.filemodal = modal;
                 $scope.showRecAttach = function (apath, aname) {
-                    //console.log(apath+"======"+aname);
+                    alert(apath + "======" + aname);
                     $scope.attachValue = domain + 'public' + apath + aname;
                     //$('#recattach').modal('show');
                     $scope.filemodal.show();
                 };
-            }, {
-                // Use our scope for the scope of the modal to keep it simple
-                scope: $scope,
-                // The animation we want to use for the modal entrance
-                animation: 'slide-in-up'
             });
         })
 
