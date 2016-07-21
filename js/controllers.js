@@ -6873,7 +6873,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, invIds: $scope.medi, recId: $scope.precId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, invIds: $scope.medi, recId: $scope.recId}
                 }).then(function successCallback(response) {
                     //console.log(response);
                     $scope.records = response.data.record;
@@ -6930,6 +6930,8 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.endtime = '';
             $scope.frequency = 'Onetime';
+            $scope.repeatFreq = [];
+            $scope.repeatNo = [];
             $scope.assignfor = 'Self';
             $scope.status = 'Active';
             $scope.catId = 'Task'; // Bhavana
@@ -6955,10 +6957,15 @@ angular.module('your_app_name.controllers', [])
                 angular.forEach(response.data.prevData, function (val, key) {
                     angular.forEach(val, function (medi, k) {
                         if (medi.field_id == 'no-of-frequency') {
-                            $scope.repeatFreq[(k - 1)] = medi.value;
+                            $scope.repeatFreq[(k - 2)] = medi.value;
+                        }
+                        if (medi.field_id == 'no-of-times') {
+                            $scope.repeatNo[(k - 1)] = medi.value;
                         }
                     });
                 });
+                console.log($scope.repeatFreq);
+                console.log($scope.repeatNo);
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -7053,10 +7060,11 @@ angular.module('your_app_name.controllers', [])
             $scope.getLifeDetails = function () {
                 $scope.recId = window.localStorage.getItem('recId');
                 $scope.repeatFreq = [];
+                $scope.repeatNo = [];
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-investigation-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, invIds: $scope.life, recId: $scope.precId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, invIds: $scope.life, recId: $scope.recId}
                 }).then(function successCallback(response) {
                     //console.log(response);
                     $scope.records = response.data.record;
@@ -7073,7 +7081,10 @@ angular.module('your_app_name.controllers', [])
                     angular.forEach(response.data.prevData, function (val, key) {
                         angular.forEach(val, function (medi, k) {
                             if (medi.field_id == 'no-of-frequency') {
-                                $scope.repeatFreq[(k - 1)] = medi.value;
+                                $scope.repeatFreq[(k - 2)] = medi.value;
+                            }
+                            if (medi.field_id == 'no-of-times') {
+                                $scope.repeatNo[(k - 1)] = medi.value;
                             }
                         });
                     });
@@ -8271,7 +8282,7 @@ angular.module('your_app_name.controllers', [])
                 // The animation we want to use for the modal entrance
                 animation: 'slide-in-up'
             });
-            
+
             $scope.submit = function () {
                 $ionicLoading.show({template: 'Adding...'});
                 var data = new FormData(jQuery("#addRecordForm")[0]);
@@ -8767,6 +8778,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.hideformD();
                         $scope.nadd = 'null';
                         jQuery("#addMedicationForm")[0].reset();
+                        $rootScope.$emit('GetMediDetails', {});
                         $('input[name=inv]').attr('checked', false);
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -8792,6 +8804,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.hideformD();
                         $scope.nadd = 'null';
                         jQuery("#addLifeStyleForm")[0].reset();
+                        $rootScope.$emit('GetLifeDetails', {});
                         $('input[name=inv]').attr('checked', false);
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -8825,7 +8838,7 @@ angular.module('your_app_name.controllers', [])
                 }
             }
         })
-         .controller('viewModalCtrl', function ($scope, $http, $stateParams, $ionicModal) {           
+        .controller('viewModalCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $ionicModal.fromTemplateUrl('file.html', function ($ionicModal) {
                 $scope.filemodal = $ionicModal;
                 console.log(path + '=afd =' + name);

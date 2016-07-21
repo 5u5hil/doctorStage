@@ -280,7 +280,7 @@
                     </div>
                     <div class="post-content item item-text-wrap p0">
                         <div class="row" ng-repeat="mdata in mediData[$index]| limitTo: 4">
-                            <div ng-if="mdata.value != ''">
+                            <div ng-if="mdata.value != '' && mdata.fields.name != 'no-of-frequency-1'">
                                 <div class="col"><strong>{{mdata.fields.field}} </strong></div>
                                 <div class="col">
                                     <div ng-if="mdata.fields.field == 'Related Problem'">
@@ -311,7 +311,7 @@
                         </div>
                         <div class="infomore-div" id="{{med.id}}med">
                             <div class="row" ng-repeat="mdata in mediData[$index]" ng-if="$index >= 5">
-                                <div ng-if="mdata.value != ''">
+                                <div ng-if="mdata.value != '' && mdata.fields.name != 'no-of-frequency-1'">
                                     <div class="col"><strong>{{mdata.fields.field}} </strong></div>
                                     <div class="col"> 
                                         <div ng-if="mdata.fields.field == 'Related Problem'">
@@ -362,7 +362,7 @@
                     </div>
                     <div class="post-content item item-text-wrap p0">
                         <div class="row" ng-repeat="ldata in lifeData[$index]| limitTo: 4">
-                            <div ng-if="ldata.value != ''">
+                            <div ng-if="ldata.value != '' && ldata.fields.name != 'no-of-frequency' && ldata.fields.name != 'no-of-times'">
                                 <div class="col"><strong>{{ldata.fields.field}} </strong></div>
                                 <div class="col"> 
                                     <div ng-if="ldata.fields.field == 'Related Problem'">
@@ -370,9 +370,13 @@
                                             <div ng-if="problem.record_id == ldata.value"> {{problem.value}}</div>
                                         </div>
                                     </div>
+                                    <div ng-if="ldata.fields.field == 'Frequency'"> 
+                                        <div ng-if="ldata.value == 'Repeat'">{{ldata.value}} in {{repeatNo[$index]}} {{repeatFreq[$index]}}</div>
+                                        <div ng-if="ldata.value != 'Repeat'">{{ldata.value}}</div>
+                                    </div>
                                     <div ng-if="ldata.fields.field_type == '8'"> {{ldata.value|dateFormat3}}</div>
                                     <div ng-if="ldata.fields.field_type == '12'"> {{ldata.value|time1}}</div>
-                                    <div ng-if="ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
+                                    <div ng-if="ldata.fields.name != 'no-of-times' && ldata.fields.field != 'Frequency' && ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
                                         <div> {{ldata.value}}</div>
                                     </div>
                                     <div ng-if="ldata.fields.field == 'Attachments'">
@@ -392,7 +396,7 @@
                         </div>
                         <div class="infomore-div" id="{{life.id}}life">
                             <div class="row" ng-repeat="ldata in lifeData[$index]" ng-if="$index >= 5">
-                                <div ng-if="ldata.value != ''">
+                                <div ng-if="ldata.value != '' && ldata.fields.name != 'no-of-frequency' && ldata.fields.name != 'no-of-times'">
                                     <div class="col"><strong>{{ldata.fields.field}} </strong></div>
                                     <div class="col"> 
                                         <div ng-if="ldata.fields.field == 'Related Problem'">
@@ -400,9 +404,13 @@
                                                 <div ng-if="problem.record_id == ldata.value">{{problem.value}}</div>
                                             </div>
                                         </div>
+                                        <div ng-if="ldata.fields.field == 'Frequency'"> 
+                                            <div ng-if="ldata.value == 'Repeat'">{{ldata.value}} in {{repeatNo[$index]}} {{repeatFreq[$index]}}</div>
+                                            <div ng-if="ldata.value != 'Repeat'">{{ldata.value}}</div>
+                                        </div>
                                         <div ng-if="ldata.fields.field_type == '8'"> {{ldata.value|dateFormat3}}</div>
                                         <div ng-if="ldata.fields.field_type == '12'"> {{ldata.value|time1}}</div>
-                                        <div ng-if="ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
+                                        <div ng-if="ldata.fields.name != 'no-of-times' && ldata.fields.field != 'Frequency' && ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
                                             <div> {{ldata.value}}</div>
                                         </div>
                                         <div ng-if="ldata.fields.field == 'Attachments'">
