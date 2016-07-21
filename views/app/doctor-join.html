@@ -133,15 +133,11 @@
                 </label>
                 <div class="txt-center">
                     <!--  <button  ng-click="searchByMedicine(medicinename)"  class="button button-positive mt15">Search</button> -->
-
-                    <button  ng-click="golink('#/inventory-search/' + medicinename)"  class="button button-positive mt15">Search</button> 
-
-
+                    <button  ng-click="golink('#/inventory-search/' + medicinename)"  class="button button-positive mt15">Search</button>
                 </div>
             </div>
             <div class="hide" id="selectlocation">
-                <label class="item item-input item-select " >
-
+                <label class="item item-input item-select" >
                     <select class="cselect Ditemselect" name="location" ng-model="healthcenterloc">
                         <option value="">Select Health Centre</option>
                         <option ng-repeat="hc in healthCenter"  value="{{hc.id}}" >{{hc.district}}</option>
@@ -149,18 +145,12 @@
 
                     </select>
                 </label>
-
                 <div class="txt-center">
-
                     <button  ng-click="golink('#/inventory-location/' + healthcenterloc)"  class="button button-positive mt15">Search</button> 
                     <!--ui-sref="app.search-location"-->
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
 </div>
 

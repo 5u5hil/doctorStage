@@ -1,0 +1,101 @@
+<div>
+    <my-tabs class="ctabs">
+        <my-tab title="Created by you ({{records.length}})">
+            <div>
+                <p ng-if="records.length == 0">No record(s) found.</p>
+                <div class="list card post-item greenbox" ng-repeat="rec in records track by $index" ng-if="records.length > 0">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-75">
+                                <h2 class="post-title">{{rec.categories.category}}</h2>
+                            </div>
+                            <div class="col col-25 txt-right" ng-if="rec.record_metadata.length > 3">
+                                <div class="infomore" ng-click="infomore(rec.id + 'created')">
+                                    <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0" >
+                            <div class="row" ng-repeat="detail in rec.record_metadata| limitTo: 3">
+                                <div class="col"><strong>{{detail.fields.field}}</strong></div>
+                                <div class="col">: <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
+                                        {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
+                                    </span>
+                                    <span ng-if="detail.fields.field == 'Related Problem'" >
+                                        {{problems[$parent.$parent.$index].value}}
+                                    </span>
+                                    <span ng-if="detail.fields.field == 'Patient'" >
+                                        {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}}
+                                    </span>
+                                    <span ng-if="detail.fields.field == 'Case Id'" >
+                                        {{cases[$parent.$parent.$index].value}}
+                                    </span>
+                                    <span ng-if="detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                        <span ng-if="detail.fields.field_type == 8 && detail.value != ''">{{detail.value|dateFormat4}}</span>
+                                        <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
+                                        <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>
+                                    </span>
+                                    <span ng-if="detail.fields.field == 'Attachments'">
+                                        <span ng-repeat="attach in detail.attachments" >
+                                            <span ng-init="selData = (attach.orginial_name).split('.')">
+                                                <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                    <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                </a>
+                                            </span>
+                                        </span>
+                                    </span></div>
+                            </div>                            
+                            <div class="infomore-div" id="{{rec.id}}created">
+                                <div class="row" ng-repeat="detail in rec.record_metadata" ng-if="$index >= 4">
+                                    <div class="col"><strong>{{detail.fields.field}}</strong></div>
+                                    <div class="col">: <span ng-if="detail.fields.field == 'Prescribed By' || detail.fields.field == 'Measured By' || detail.fields.field == 'Doctor' || detail.fields.field == 'Referred By' || detail.fields.field == 'Performed By' || detail.fields.field == 'Consultant'">
+                                            {{doctors[$parent.$parent.$index].fname}} {{doctors[$parent.$parent.$index].lname}}
+                                        </span>
+                                        <span ng-if="detail.fields.field == 'Related Problem'" >
+                                            {{problems[$parent.$parent.$index].value}}
+                                        </span>
+                                        <span ng-if="detail.fields.field == 'Patient'" >
+                                            {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}}
+                                        </span>
+                                        <span ng-if="detail.fields.field == 'Case Id'" >
+                                            {{cases[$parent.$parent.$index].value}}
+                                        </span>
+                                        <span ng-if="detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
+                                            <span ng-if="detail.fields.field_type == 8 && detail.value != ''">{{detail.value|dateFormat4}}</span>
+                                            <span ng-if="detail.fields.field_type == 12 && detail.value != ''">{{detail.value|time1}}</span>
+                                            <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12 && detail.value != ''">{{detail.value}}</span>
+                                        </span>
+                                        <span ng-if="detail.fields.field == 'Attachments'">
+                                            <span ng-repeat="attach in detail.attachments" >
+                                                <span ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <a class="filelink" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                        <span class="ico"><i class="fa fa-paperclip"></i></span> ({{$index + 1}})
+                                                    </a>
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-footer p0">
+                                <div class="row">
+                                    <div class="col-md-12 ">Created {{rec.created_at| datetime3 }} by {{userId==createdby[$index].id? 'You': createdby[$index].fname}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-vnote" ng-show="cardvnote">
+                    <div class="clearfix text-center mt20">
+                        <div  class="btn btn-danger" ng-click="closecardviewnote()"> &nbsp; Close  &nbsp; </div></div>
+                    <div ng-include src="'../resources/views/Frontend/pages/doctrs/overview/viewnote.html'" ></div>
+                </div>
+            </div>
+        </my-tab>
+        <my-tab title="Shared with you ({{sharedRecords.length}})">
+            <div >
+                Shared with you
+            </div>
+        </my-tab>
+    </my-tabs>
+</div>

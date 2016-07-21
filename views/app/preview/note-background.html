@@ -1,0 +1,130 @@
+<div>
+    <my-tabs class="ctabs">
+        <my-tab title="Patient">
+            <div class="mtabcon" ng-controller="PatientHistoryCtrl">
+                <div ng-repeat="field in fields track by $index" >
+                    <div ng-if="field.field != 'Patient' && field.field != 'Doctor'">
+                        <div class="row" ng-if="field.field == 'Date of Birth'">
+                            <div class="col">
+                                <strong>{{field.field}} {{field.is_mandatory==1? '':''}} </strong>
+                            </div>
+                            <div class="col" ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Date of Birth'">
+                                        <div ng-if="ab.value != ''">: {{ab.value|dateFormat4}}</div>
+                                        <div ng-if="ab.value == ''">: NA</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" ng-if="abt.length == 0">
+                                <div>: NA</div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="field.field == 'Gender'">
+                            <div class="col">
+                                <strong>{{field.field}} {{field.is_mandatory==1? '':''}} </strong>
+                            </div>
+                            <div class="col" ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Gender'">
+                                        <div>: {{gender}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" ng-if="abt.length == 0">
+                                <div>: {{gender}}</div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="field.field == 'Email'">
+                            <div class="col">
+                                <strong>{{field.field}} {{field.is_mandatory==1? '':''}} </strong>
+                            </div>
+                            <div class="col" ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Email'">
+                                        <div ng-if="ab.value != ''">: {{ab.value}}</div>
+                                        <div ng-if="ab.value == ''">: NA</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" ng-if="abt.length == 0">
+                                <div>: NA</div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="field.field == 'Mobile Number'">
+                            <div class="col">
+                                <strong>{{field.field}} {{field.is_mandatory==1? '':''}} </strong>
+                            </div>
+                            <div class="col" ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Mobile Number'">
+                                        <div ng-if="ab.value != ''">: {{ab.value}}</div>
+                                        <div ng-if="ab.value == ''">: {{patients[0].phone}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" ng-if="abt.length == 0">
+                                <div>: NA</div>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="field.field == 'Blood Group'">
+                            <div class="col">
+                                <strong>{{field.field}} {{field.is_mandatory==1? '':''}} </strong>
+                            </div>
+                            <div class="col" ng-if="abt.length != 0">
+                                <div ng-repeat="ab in abt">
+                                    <div ng-if="ab.fields.field == 'Blood Group'">
+                                        <div>: {{ab.value}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col" ng-if="abt.length == 0">
+                                <div >: NA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="selCondition.length > '0'">
+                    <div class="row">
+                        <div class="col"><strong>Known Conditions </strong></div>
+                        <div class="col">: <span ng-repeat="sel in selCondition"> {{sel.condition}} <br/></span></div>
+                    </div>
+                    <div class="clr"></div>
+                </div>
+            </div>
+        </my-tab>
+        <my-tab title="Family">
+            <div class="mtabcon" ng-controller="FamilyHistoryCtrl">
+                <div class="clr"></div>
+                <div class="list card post-item greenbox" ng-repeat="rdata in recorddata">
+                    <div class="card-content p0">
+                        <div class="row post-heading item item-text-wrap ">
+                            <div class="col col-75">
+                                <h2 class="post-title">Relation: {{rdata.record_metadata[1].value}}</h2>
+                            </div>
+                            <div class="col col-25 txt-right">
+                                <!--                                <div class="infomore" ng-click="infomore('abc')">
+                                                                    <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                                                                </div>-->
+                            </div>
+                        </div>
+                        <div class="post-content item item-text-wrap p0">
+                            <div class="row">
+                                <div class="col"><strong>Age</strong></div>
+                                <div class="col">: {{rdata.record_metadata[2].value}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><strong>Known Conditions</strong></div>
+                                <div class="col">: <span ng-repeat="sel in knConditions[$index]"> {{sel.condition}} <br/></span></div>
+                            </div>
+                            <div class="row">
+                                <div class="col"><strong>Other Information</strong></div>
+                                <div class="col">: {{rdata.record_metadata[4].value!=''? rdata.record_metadata[4].value:'NA'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </my-tab>
+    </my-tabs>
+</div>

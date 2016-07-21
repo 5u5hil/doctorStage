@@ -15,20 +15,39 @@
                                 <!--                                <button style="float:right;"><i class="icon ion-android-create"></i></button>-->
                             </div>
                             <div class="row">
-                                <div class="col txt-left">{{patientDetails.gender == 1? 'Male':patientDetails.gender == 2? 'Female':'Na'}}</div>	
+                                <div class="col txt-left">{{patientDetails.email===null ? 'Na': patientDetails.email}}</div>		
                                 <div class="col txt-right">+91 {{patientDetails.phone}}</div>	
-                            </div>
-
-                            <div class="row">
-                                <div class="col txt-left">{{dob}}</div>	
-                                <div class="col txt-right">{{patientDetails.email===null ? 'Na': patientDetails.email}}</div>	
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>	
-        <div class="item item-divider"><i class="icon ion-person"></i> Background</div>
+        </div>
+
+        <div class="maintab row">
+            <select class="cselectn" ng-model="ptab" ng-change="changemaincate(ptab)">
+                <option value="pbackground" selected>Background</option>
+                <option value="precords" >Records</option>
+                <option value="pconsults" >Consults</option>
+                <option value="pchats" >Chats</option>
+            </select>
+        </div>
+        <div class="clr"></div><div class="clr"></div>
+        <div class="sldebxcontent" ng-show="notebackground">
+            <div ng-include src="'views/app/preview/note-background.html'" ></div>                        
+        </div>
+        <div class="sldebxcontent" ng-show="precordsView">
+            <div ng-include src="'views/app/preview/records-view.html'" ></div>                        
+        </div>
+        <div class="sldebxcontent" ng-show="pconsultsView">
+            <div ng-include src="'views/app/preview/consults-view.html'" ></div>                        
+        </div>
+        <div class="sldebxcontent" ng-show="pchatsView">
+            <div ng-include src="'views/app/preview/chats-view.html'" ></div>                        
+        </div>
+
+
+<!--        <div class="item item-divider"><i class="icon ion-person"></i> Background</div>
         <div class="list twocolumn">
             <a class="item" ui-sref="app.view-patient-history({id: patientDetails.id})"><h2 class="ctitle">Patient</h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Family</h2></a>
@@ -48,7 +67,7 @@
         <div class="list twocolumn">
             <a class="item" ui-sref="#"><h2 class="ctitle">Active   <span class="count2">15</span></h2></a>
             <a class="item" ui-sref="#"><h2 class="ctitle">Past <span class="count2">10</span></h2></a>
-        </div>
+        </div>-->
         <!-- 			
                 <div class="row categories-list">
                 <div class="col col-50">

@@ -45,4 +45,36 @@
             </div>
         </div>
     </ion-content>
+        <script id="canceldctr" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Doctor Consultations</h1>  
+        <button class="button button-clear" ng-click="closeCdctr()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list">
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="7" value="7">Your No Show</ion-radio>
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="6" value="6">Patient No Show</ion-radio>
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="1" value="1">Cancelled by you</ion-radio>
+        </div>
+        <button class="button button-full button-positive" ng-click="submitmodal(canoption)">Submit</button>
+        </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="canceldr" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Doctor Consultations</h1>  
+        <button class="button button-clear" ng-click="closeCdr()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list">
+        <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+        <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="1" value="1">Cancelled by you</ion-radio>
+        </div>
+        <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
+        </ion-content>
+        </ion-modal-view>
+    </script>
 </ion-view>

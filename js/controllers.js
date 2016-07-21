@@ -1958,6 +1958,8 @@ angular.module('your_app_name.controllers', [])
         .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
+            $scope.ptab = 'pbackground';
+            $scope.notebackground = true;
             console.log($scope.patientId);
             window.localStorage.setItem('patientId', $scope.patientId)
             $http({
@@ -1977,6 +1979,105 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(e) {
                 console.log(e);
             });
+            $scope.changemaincate = function (cvalue) {
+                console.log(cvalue);
+                if (cvalue == 'pbackground') {
+                    $scope.notebackground = true;
+                    $scope.precords = false;
+                    $scope.pconsults = false;
+                    $scope.pchats = false;
+                } else if (cvalue == 'precords') {
+                    $scope.subpage('createdbyu');
+                    $scope.notebackground = false;
+                    $scope.precordsView = true;
+                    $scope.pconsultsView = false;
+                    $scope.pchatsView = false;
+                } else if (cvalue == 'pconsults') {
+                    $scope.notebackground = false;
+                    $scope.precordsView = false;
+                    $scope.pconsultsView = true;
+                    $scope.pchatsView = false;
+                } else if (cvalue == 'pchats') {
+                    $scope.notebackground = false;
+                    $scope.precordsView = false;
+                    $scope.pconsultsView = false;
+                    $scope.pchatsView = true;
+                }
+            };
+            $scope.subpage = function (ab) {
+                if (ab == 'createdbyu') {
+                    $scope.crtedbyu = true;
+                    $scope.sharddbyu = false;
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-all-records-details',
+                        params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.records = response.data.records;
+                        if ($scope.records.length != 0) {
+                            if ($scope.records[0].record_metadata.length == 6) {
+                                $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                            }
+                        }
+                        $scope.createdby = response.data.createdby;
+                        $scope.doctors = response.data.doctors;
+                        $scope.patient = response.data.patient;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.shareDoctrs;
+                        $http({
+                            method: 'GET',
+                            url: domain + 'doctrsrecords/get-all-records-details',
+                            params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: '1'}
+                        }).then(function successCallback(response) {
+                            console.log(response.data);
+                            $scope.sharedRecords = response.data.records;
+                            $scope.loading = false;
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                        $scope.loading = false;
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+                if (ab == 'sharedwithyou') {
+                    $scope.sharddbyu = true;
+                    $scope.crtedbyu = false;
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-all-records-details',
+                        params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: '1'}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.sharedRecords = response.data.records;
+                        if ($scope.records.length != 0) {
+                            if ($scope.records[0].record_metadata.length == 6) {
+                                $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                            }
+                        }
+                        $scope.createdby = response.data.createdby;
+                        $scope.doctors = response.data.doctors;
+                        $scope.patient = response.data.patient;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.shareDoctrs;
+                        $scope.loading = false;
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+            };
+            $scope.intext = 'more';
+            $scope.infomore = function (r) {
+                console.log("=== " +r+" ===");
+                jQuery('#' + r).toggleClass('active');
+                if (jQuery('#' + r).hasClass('active')) {
+                    $scope.intext = 'less'
+                } else {
+                    $scope.intext = 'more';
+                }
+
+            };
         })
 
         .controller('ConsultationProfileCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $filter, $ionicLoading, $ionicModal, $timeout, $ionicTabsDelegate) {
@@ -4121,8 +4222,8 @@ angular.module('your_app_name.controllers', [])
                     if (response.err == '') {
                         $rootScope.famHist.unshift(response.records.id);
                         $rootScope.$emit("GetFamilyDetails", {});
-                      //  jQuery('#tfamilyhistory').slideToggle("slow", function () { })
-                      jQuery('#tfamilyhistory') .removeClass('active');
+                        //  jQuery('#tfamilyhistory').slideToggle("slow", function () { })
+                        jQuery('#tfamilyhistory').removeClass('active');
                         jQuery("#addFamilyForm")[0].reset();
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -4130,7 +4231,7 @@ angular.module('your_app_name.controllers', [])
                 });
                 $timeout(function () {
                     $scope.familyknwcontion = false;
-                      $scope.addless = '+ Add';
+                    $scope.addless = '+ Add';
                 }, 2000);
 //        } else {
 //            alert('Please fill mandatory fields');
@@ -7630,13 +7731,13 @@ angular.module('your_app_name.controllers', [])
             $scope.addless = '+ Add';
 
             $scope.navtoggle = function (ab) {
-             //   jQuery(ab).toggleClass('active');
+                //   jQuery(ab).toggleClass('active');
                 if (jQuery(ab).hasClass('active')) {
                     $scope.addless = '- Less';
-                 jQuery(ab).removeClass('active');
+                    jQuery(ab).removeClass('active');
                 } else {
                     $scope.addless = '+ Add';
-                       jQuery(ab).addClass('active');
+                    jQuery(ab).addClass('active');
                 }
             };
 
