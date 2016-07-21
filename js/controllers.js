@@ -4121,7 +4121,8 @@ angular.module('your_app_name.controllers', [])
                     if (response.err == '') {
                         $rootScope.famHist.unshift(response.records.id);
                         $rootScope.$emit("GetFamilyDetails", {});
-                        jQuery('#tfamilyhistory').slideToggle("slow", function () { })
+                      //  jQuery('#tfamilyhistory').slideToggle("slow", function () { })
+                      jQuery('#tfamilyhistory') .removeClass('active');
                         jQuery("#addFamilyForm")[0].reset();
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -4129,6 +4130,7 @@ angular.module('your_app_name.controllers', [])
                 });
                 $timeout(function () {
                     $scope.familyknwcontion = false;
+                      $scope.addless = '+ Add';
                 }, 2000);
 //        } else {
 //            alert('Please fill mandatory fields');
@@ -7628,13 +7630,13 @@ angular.module('your_app_name.controllers', [])
             $scope.addless = '+ Add';
 
             $scope.navtoggle = function (ab) {
-                jQuery(ab).toggleClass('active');
+             //   jQuery(ab).toggleClass('active');
                 if (jQuery(ab).hasClass('active')) {
                     $scope.addless = '- Less';
-                    $scope.tfamilyhistory = true;
+                 jQuery(ab).removeClass('active');
                 } else {
                     $scope.addless = '+ Add';
-                    $scope.tfamilyhistory = false;
+                       jQuery(ab).addClass('active');
                 }
             };
 

@@ -9579,7 +9579,8 @@ transform: translate3d(600px, 0px, 0px);
 	.maintab .cselectn option{color:#fff;}
 
 .crighttab .item-divider{ background-color:#efefef; margin-top:10px;}
-.maintab{    margin: 0 auto 20px; width:70%; }
+.maintab{   margin: 0 10px 0px;
+    width: 100%;}
 .ctabs .card-heding{padding:0px !important;}
 .ctabs .tabs-striped .tabs{    border-bottom: 0px solid #ddd;}
 .ctabs  .item{margin:0;}
@@ -9727,7 +9728,8 @@ transform: translate3d(600px, 0px, 0px);
              padding:10px !important;
              /* font-weight:bold; */ border:0;
 }
-
+.pull-rght{float: right;}
+.brd0{border:0 !important;}
 .card-viewbtn{text-align: center;
               background: #387ef5; 
               padding: 5px;
