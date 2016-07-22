@@ -1,0 +1,133 @@
+<div class="tcontent" ng-controller="PatientHistoryCtrl" >
+    <div ng-if="abt.length != 0">
+        <input type="hidden" value="{{abt[0].record_id}}" name="patRecId" />
+    </div>
+    <div class="item item-divider">Contact Information</div>
+    <div ng-repeat="field in fields">
+        <label class="item item-input hide" ng-if="field.field == 'Doctor'">
+            <input type="hidden" ng-model="doctorId" name="{{field.name}}"  value="{{doctorId}}">
+        </label>
+        <label class="item item-input hide" ng-if="field.field == 'Patient'">
+            <input type="hidden" ng-model="patientId" value="{{patientId}}" name="{{field.name}}" />
+        </label>
+        <div ng-if="field.field == 'Mobile Number'">
+            <div ng-if="abt.length != 0">
+                <div ng-repeat="ab in abt">
+                    <div ng-if="ab.fields.field == 'Mobile Number'">
+                        <label class="item item-input" ng-if="ab.value != ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <input type="tel" name="{{field.name}}"  value="{{ab.value}}">
+                        </label>
+                        <label class="item item-input" ng-if="ab.value == ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>NA</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="abt.length == 0">
+                <label class="item item-input">
+                    <span class="input-label">{{field.field}}</span>
+                    <div>NA</div>
+                </label>                
+            </div>
+        </div>
+        <div ng-if="field.field == 'Email'">
+            <div ng-if="abt.length != 0">
+                <div ng-repeat="ab in abt">
+                    <div ng-if="ab.fields.field == 'Email'">
+                        <label class="item item-input" ng-if="ab.value != ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <input type="email" name="{{field.name}}" value="{{ab.value}}">
+                        </label>
+                        <label class="item item-input" ng-if="ab.value == ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>NA</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="abt.length == 0">
+                <label class="item item-input">
+                    <span class="input-label">{{field.field}}</span>
+                    <div>NA</div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="item item-divider" >Basic Information</div>
+    <div ng-repeat="field in fields">
+
+        <div ng-if="field.field_types.value == 'date'">
+            <div ng-if="abt.length != 0">
+                <div ng-repeat="ab in abt">
+                    <div ng-if="ab.fields.field == 'Date of Birth'">
+                        <label class="item item-input" ng-if="ab.value != ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>{{ab.value|dateFormat4}}</div>
+                        </label>
+                        <label class="item item-input" ng-if="ab.value == ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>NA</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="abt.length == 0">
+                <label class="item item-input">
+                    <span class="input-label">{{field.field}}</span>
+                    <div>NA</div>
+                </label>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'radio'">
+            <div ng-if="abt.length != 0">
+                <div ng-repeat="ab in abt">
+                    <div ng-if="ab.fields.field == 'Gender'">
+                        <label class="item item-input" ng-if="ab.value != ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>{{gender}}</div>
+                        </label>
+                        <label class="item item-input" ng-if="ab.value == ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>NA</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="abt.length == 0">
+                <label class="item item-input">
+                    <span class="input-label">{{field.field}}</span>
+                    <div>NA</div>
+                </label>
+            </div>
+        </div>
+        <div ng-if="field.field_types.value == 'select'">
+            <div ng-if="abt.length != 0">
+                <div ng-repeat="ab in abt">
+                    <div ng-if="ab.fields.field == 'Blood Group'">
+                        <label class="item item-input" ng-if="ab.value != ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>{{ab.value}}</div>
+                        </label>
+                        <label class="item item-input" ng-if="ab.value == ''">
+                            <span class="input-label">{{field.field}}</span>
+                            <div>NA</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="abt.length == 0">
+                <label class="item item-input">
+                    <span class="input-label">{{field.field}}</span>
+                    <div>NA</div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="item item-divider">Known Conditions</div>
+    <div class="knowcondition">
+        <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
+        <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
+    </div>
+</div>

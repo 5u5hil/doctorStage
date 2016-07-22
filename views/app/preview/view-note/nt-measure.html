@@ -1,0 +1,41 @@
+<div class="tcontent" ng-controller="MeasurementCtrl">
+    <div ng-repeat="record in mrecords" ng-if="abt.length != 0">
+        <div class="list card post-item greenbox" >
+            <div class="card-content p0">
+                <div class="row post-heading item item-text-wrap ">
+                    <div class="col col-75">
+                        <h2 class="post-title">{{record.category}}</h2>
+                    </div>
+                </div>
+                <div class="post-content item item-text-wrap p0" >
+                    <div ng-repeat="field in mfields[$index]">
+                        <div ng-if="field.field_types.value == 'number'">
+                            <div class="row" ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                <div class="col">{{field.field}}</div>
+                                <div class="col">: {{ab.value}}</div>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'select'">
+                            <div class="row" ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                <div class="col">{{field.field}}</div>
+                                <div class="col">: {{ab.value}}</div>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'text'">
+                            <div class="row"  ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                <div class="col">{{field.field}}</div>
+                                <div class="col">: {{ab.value}}</div>
+                            </div>
+                        </div>
+                        <div ng-if="field.field_types.value == 'date'">
+                            <div class="row" ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                                <div class="col">{{field.field}}</div>
+                                <div class="col">: {{ab.value}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

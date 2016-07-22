@@ -1,0 +1,184 @@
+<ion-view class="records-view">
+    <ion-nav-title>
+        <span>Consultation Note</span>
+    </ion-nav-title>
+    <div class="row tabnav headtab">
+        <div class="col"><span class="nbtn active" ng-click="tabclick('tabone')" rel="tabone">Info</span></div>
+        <div class="col"><span class="nbtn" ng-click="tabclick('tabtwo')"  rel="tabtwo">Note</span></div>
+        <div class="col"><span class="nbtn" rel="tabthree" ng-click="tabclick('tabthree')">Treatment Plan</span></div>
+    </div>
+
+    <ion-content> 
+        <div class="tabcon2 notetab mt60"  id="tabone">
+            <div class="fields" ng-repeat="prev in prevRecordDetails">                    
+                <div ng-if="prev.fields.field == 'Case Id'">
+                    <div class="item item-divider" ng-if="pcaseId != ''">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="ditem-content" ng-repeat="case in cases" value="{{case.record_id}}" ng-show="{{case.record_id == pcaseId}}"> {{case.value}} </div>
+                </div>
+                <div ng-if="prev.fields.field == 'Valid till'">
+                    <div class="item item-divider" id="convalid" ng-if="prev.value != ''">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="ditem-content" ng-if="prev.value != ''"> :{{prev.value|dateFormat3}}</div>
+                </div>
+                <div class="hide" ng-if="prev.fields.field == 'Includes Prescription'" id="coninprec">
+                    <div class="item item-divider">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="ditem-content"> {{prev.value}}</div>
+                </div>
+                <div class="" ng-if="prev.field_id == 'attachments-3' && isAttachment != ''">
+                    <div class="item item-divider">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="ditem-content" ng-if="isAttachment != ''">  
+                        <span class="ico cursor-pointer" ng-click="showAttach(prev.attachments)">
+                            <i class="ion-paperclip"></i> ({{prev.attachments.length}})
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!---- Notes Starts  ----->
+        <div class="tabcon2 notetab mt60" id="tabtwo" style="display:none;" >
+            <div class="item item-divider">Background</div>
+            <div class="accordiantab" ng-click="accordiantab('acpatient')">
+                <span class="icon ion-plus-circled"></span>  Patient
+            </div> 
+            <div  id="acpatient" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/p-history.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('achistory')">
+                <span class="icon ion-plus-circled"></span>  Family
+            </div> 
+            <div  id="achistory" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/f-history.html'"></div>
+            </div>
+            <div class="item item-divider">Evaluation</div>
+            <div class="accordiantab" ng-click="accordiantab('acmeasure')">
+                <span class="icon ion-plus-circled"></span>  Measurements
+            </div> 
+            <div  id="acmeasure" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-measure.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('actestresult')">
+                <span class="icon ion-plus-circled"></span>  Test Results
+            </div> 
+            <div  id="actestresult" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-testresult.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('acobservation')">
+                <span class="icon ion-plus-circled"></span>  Observations
+            </div> 
+            <div  id="acobservation" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-observation.html'"></div>
+            </div>
+            <div class="item item-divider">Diagnosis</div>           
+            <div ng-include src="'views/app/preview/view-note/nt-diagnosis.html'"></div>
+            <!-- </div>-->
+        </div>		
+
+        <div class="tabcon2 notetab mt60" id="tabthree" style="display:none;" >
+            <div class="accordiantab" ng-click="accordiantab('trinvestigation')">
+                <span class="icon ion-plus-circled"></span>  Investigation
+            </div> 
+            <div  id="trinvestigation" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-investigations.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('ntmedication')">
+                <span class="icon ion-plus-circled"></span>  Medication
+            </div> 
+            <div  id="ntmedication" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-medication.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('ntprocedure')">
+                <span class="icon ion-plus-circled"></span>  Procedure
+            </div> 
+            <div  id="ntprocedure" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-procedure.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('ntdietplan')">
+                <span class="icon ion-plus-circled"></span>  Diet Plan
+            </div> 
+            <div  id="ntdietplan" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-dietplan.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('ntlifestyle')">
+                <span class="icon ion-plus-circled"></span>  Lifestyle
+            </div> 
+            <div  id="ntlifestyle" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-lifestyle.html'"></div>
+            </div>
+            <div class="accordiantab" ng-click="accordiantab('ntrefferal')">
+                <span class="icon ion-plus-circled"></span>  Referral
+            </div>
+            <div  id="ntrefferal" class="accordiancontent">
+                <div ng-include src="'views/app/preview/view-note/nt-refferal.html'"></div>
+            </div>
+        </div>	
+
+        <!---- Notes Ends  ----->
+    </ion-content>
+    <div class="footerbar">
+        <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
+        <div class="tab-buttons">
+            <div class="fixedbar tbtn active" rel="tabone">
+                <div class="col bar button btn-share" ng-click="tabclick('tabtwo')">Next</div>
+            </div>
+            <div class="fixedbar row tbtn" rel="tabtwo">
+                <div class="col col-50 button btn-share" ng-click="tabclick('tabone')">Previous</div>
+                <div class="col col-50 button btn-add" ng-click="tabclick('tabthree')">Next</div>
+            </div>
+            <div  class="fixedbar row tbtn" rel="tabthree">
+                <div class="col col-50 button btn-share" ng-click="tabclick('tabtwo')">Previous</div>
+                <div class="col col-50 button btn-add" ng-click="goto()" ui-sref-opts="{reload: true}">Close</div>
+            </div>
+        </div>
+    </div>
+</ion-view>
+
+
+
+<script id="filesview.html" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent mt50">
+
+    <div class="viewattachfile vimgheight" ng-repeat="attach in cnAttachments">
+    <img src="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" style="border-bottom: 1px #eee solid; margin-bottom: 5px; padding: 5px 5px;"/>
+    </div>  
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;">
+    <div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div>\n\
+    </div>
+
+</script>
+<script id="singlefileview" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <!-- <iframe  type="text/html" style="width:100%; position:absolute; height:80%; top:100px;" scrolling="yes" ng-src="{{trustSrc(value)}}" allowfullscreen frameborder="0">       
+    </iframe> -->
+    <div class="viewattachfile">
+    <img src="{{attachValue}}">
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="filemodal.hide()">Cancel</div></div>
+</script>

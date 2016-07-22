@@ -558,6 +558,15 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    .state('app.preview-note', {
+                        url: "/preview-note/{id:int}/{appId:int}",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/preview/view-note/cnote-view.html",
+                                controller: 'PreviewConsultationsNoteCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.view-note', {
                         url: "/view-note/{id:int}",

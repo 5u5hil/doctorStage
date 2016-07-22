@@ -1,0 +1,83 @@
+<div class="tcontent" ng-controller="InvestigationsCtrl"> 
+        <!-- Investigation ng-controller="InvestigationsJoinCtrl" -->
+        <div>
+            <div  class="list card post-item greenbox" ng-repeat="inv in investigation">
+                <div class="card-content p0">
+                    <div class="row post-heading item item-text-wrap ">
+                        <div class="col col-75">
+                            <h2 class="post-title">Investigations {{$index + 1}}</h2>
+                        </div>
+                        <div class="col col-25 txt-right">
+                            <div class="infomore" ng-click="infomore(inv.id + 'iv')">
+                                <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content item item-text-wrap p0">
+                        <div class="row" ng-repeat="idata in invData[$index]| limitTo: 4">
+                            <div ng-if="idata.value != ''">
+                                <div class="col"><strong>{{idata.fields.field}} </strong></div>
+                                <div class="col"> 
+                                    <div ng-if="idata.fields.field == 'Related Problem'">
+                                        <div ng-repeat="problem in problems">
+                                            <div ng-if="problem.record_id == idata.value">{{problem.value}}</div>
+                                        </div>
+                                    </div>
+                                    <div ng-if="idata.fields.field_type == '8'"> {{idata.value|dateFormat3}}</div>
+                                    <div ng-if="idata.fields.field_type == '12'"> {{idata.value|time1}}</div>
+                                    <div ng-if="idata.fields.field != 'Related Problem' && idata.fields.field != 'Attachments' && idata.fields.field_type != '12' && idata.fields.field_type != '8'">
+                                        <div> {{idata.value}}</div>
+                                    </div>
+                                    <div ng-if="idata.fields.field == 'Attachments'">
+                                        <div > <div ng-repeat="attach in idata.attachments" >
+                                                <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                    <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                        <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>				  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infomore-div" id="{{inv.id}}iv">
+                            <div class="row" ng-repeat="idata in invData[$index]" ng-if="$index >= 5">
+                                <div ng-if="idata.value != ''">
+                                    <div class="col"><strong>{{idata.fields.field}} </strong></div>
+                                    <div class="col"> 
+                                        <div ng-if="idata.fields.field == 'Related Problem'">
+                                            <div ng-repeat="problem in problems">
+                                                <div ng-if="problem.record_id == idata.value">{{problem.value}}</div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="idata.fields.field_type == '8'"> {{idata.value|dateFormat3}}</div>
+                                        <div ng-if="idata.fields.field_type == '12'"> {{idata.value|time1}}</div>
+                                        <div ng-if="idata.fields.field != 'Related Problem' && idata.fields.field != 'Attachments' && idata.fields.field_type != '12' && idata.fields.field_type != '8'">
+                                            <div> {{idata.value}}</div>
+                                        </div>
+                                        <div ng-if="idata.fields.field == 'Attachments'">
+                                            <div > <div ng-repeat="attach in idata.attachments" >
+                                                    <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                        <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                            <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                                <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>				  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Investigation -->
+</div>
+

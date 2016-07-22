@@ -1955,11 +1955,13 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
             $scope.ptab = 'pbackground';
             $scope.notebackground = true;
+            $scope.createdby = [];
+            $scope.createdbyShared = [];
             console.log($scope.patientId);
             window.localStorage.setItem('patientId', $scope.patientId)
             $http({
@@ -1988,6 +1990,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.pchats = false;
                 } else if (cvalue == 'precords') {
                     $scope.subpage('createdbyu');
+                    $scope.subpage('sharedwithyou');
                     $scope.notebackground = false;
                     $scope.precordsView = true;
                     $scope.pconsultsView = false;
@@ -2051,17 +2054,18 @@ angular.module('your_app_name.controllers', [])
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.sharedRecords = response.data.records;
-                        if ($scope.records.length != 0) {
-                            if ($scope.records[0].record_metadata.length == 6) {
+                        if (response.data.records != 0) {
+                            if ($scope.sharedRecords[0].record_metadata.length == 6) {
                                 $scope.limit = 3; //$scope.records[0].record_metadata.length;
                             }
                         }
-                        $scope.createdby = response.data.createdby;
+                        $scope.createdbyShared = response.data.createdby;
                         $scope.doctors = response.data.doctors;
                         $scope.patient = response.data.patient;
                         $scope.problems = response.data.problems;
                         $scope.doctrs = response.data.shareDoctrs;
                         $scope.loading = false;
+                        //console.log($scope.createdbyShared);
                     }, function errorCallback(e) {
                         console.log(e);
                     });
@@ -2069,7 +2073,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.intext = 'more';
             $scope.infomore = function (r) {
-                console.log("=== " +r+" ===");
+                console.log("=== " + r + " ===");
                 jQuery('#' + r).toggleClass('active');
                 if (jQuery('#' + r).hasClass('active')) {
                     $scope.intext = 'less'
@@ -2078,8 +2082,213 @@ angular.module('your_app_name.controllers', [])
                 }
 
             };
+
+            // Load the modal from the given template URL
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showAttach = function (recDetails) {
+                    //console.log(path + "=====" + name);
+                    $scope.cnAttachments = recDetails;
+                    $scope.modal.show();
+                };
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $ionicModal.fromTemplateUrl('singlefileview', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.filemodal = modal;
+                $scope.showRecAttach = function (apath, aname) {
+                    alert(apath + "======" + aname);
+                    $scope.attachValue = domain + 'public' + apath + aname;
+                    //$('#recattach').modal('show');
+                    $scope.filemodal.show();
+                };
+            });
+            $scope.previewNote = function (noteId, appId) {
+                console.log(noteId + "====" + appId);
+                store({'recId': noteId});
+                $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
+            };
+
         })
 
+        .controller('PreviewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading) {
+            $scope.appId = $stateParams.appId;
+            $scope.recId = $stateParams.id;
+            $scope.testResult = {};
+            $scope.objText = {};
+            $scope.diaText = {};
+            $ionicLoading.show({template: 'Loading...'});
+            $http({
+                method: "GET",
+                url: domain + "doctrsrecords/get-app-details",
+                params: {appId: $scope.appId}
+            }).then(function successCallback(response) {
+                //console.log(response.data.patient.id);
+                $scope.patientId = response.data.patient.id;
+                $scope.doctorId = response.data.doctr.id
+                $scope.app = response.data.app;
+                $scope.prevRecord = response.data.record;
+                $scope.prevRecordDetails = response.data.recordDetails;
+                if (response.data.record != null) {
+                    $scope.precId = response.data.record.id;
+                    //$scope.proceed = true;
+                }
+                if ($scope.prevRecordDetails.length > 0) {
+                    angular.forEach($scope.prevRecordDetails, function (val, key) {
+                        if (val.fields.field == 'Case Id') {
+                            $scope.pcaseId = val.value;
+                            //$scope.casetype = 0;
+                            //jQuery('.fields #precase').removeClass('hide');
+                        }
+                        if (val.fields.field == 'Attachments') {
+                            $scope.isAttachment = val.attachments.length;
+                        }
+                    });
+                }
+                if (response.data.app.mode == 1) {
+                    $scope.mode = 'Video';
+                } else if (response.data.app.mode == 2) {
+                    $scope.mode = 'Chat';
+                } else if (response.data.app.mode = 3) {
+                    $scope.mode = 'Clinic'
+                } else if (response.data.app.mode == 4) {
+                    $scope.mode = 'Home';
+                }
+                jQuery('#convalid').addClass('hide');
+                //console.log($scope.mode);
+                $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
+                window.localStorage.setItem('patientId', $scope.patientId);
+                window.localStorage.setItem('doctorId', $scope.doctorId);
+                //console.log($scope.conDate);
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.record = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.patients = response.data.patients;
+                    $scope.cases = response.data.cases;
+                    $scope.getEvaluationDetails();
+                    $ionicLoading.hide();
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showAttach = function (recDetails) {
+                    //console.log(path + "=====" + name);
+                    $scope.cnAttachments = recDetails;
+                    $scope.modal.show();
+                };
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $ionicModal.fromTemplateUrl('singlefileview', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.filemodal = modal;
+                $scope.showRecAttach = function (apath, aname) {
+                    alert(apath + "======" + aname);
+                    $scope.attachValue = domain + 'public' + apath + aname;
+                    //$('#recattach').modal('show');
+                    $scope.filemodal.show();
+                };
+            });
+            /* new added */
+            $scope.shownext = function (bd, ab) {
+                jQuery('#' + bd).hide();
+                jQuery('#' + ab).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.headtab span[rel="' + ab + '"]').addClass('active');
+            };
+            $scope.accordiantab = function (pq) {
+                //jQuery('#'+pq).toggleClass('active');
+                jQuery('#' + pq).slideToggle();
+                // jQuery(this).toggleClass('active');
+            };
+            $scope.tabclick = function (taburl) {
+                console.log(taburl);
+                jQuery('.notetab').hide();
+                jQuery('#' + taburl).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.tab-buttons .tbtn').removeClass('active');
+                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+            };
+            $scope.gotopage = function (glink) {
+                $state.go(glink);
+            };
+            $scope.goto = function () {
+                $state.go('app.patient', ({'id': $scope.patientId}));
+            };
+            /* New Added */
+            $scope.intext = 'more';
+            $scope.infomore = function (r) {
+                console.log("=== " + r + " ===");
+                jQuery('#' + r).toggleClass('active');
+                if (jQuery('#' + r).hasClass('active')) {
+                    $scope.intext = 'less'
+                } else {
+                    $scope.intext = 'more';
+                }
+            };
+            $scope.getEvaluationDetails = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-testresult-lang',
+                    params: {userId: $scope.userId, objId: $scope.testId, recId: $scope.precId}
+                }).then(function successCallback(response) {
+                    if (response.data.recdata != '') {
+                        $scope.testId = response.data.recdata.record_id;
+                        $scope.testresult = response.data.recdata;
+                        $scope.testResult = response.data.recdata.metadata_values;
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-observations-lang',
+                    params: {userId: $scope.userId, interface: $scope.interface, objId: $scope.objId, recId: $scope.precId}
+                }).then(function successCallback(response) {
+                    if (response.data.recdata != '') {
+                        $scope.objId = response.data.recdata.record_id;
+                        $scope.observation = response.data.recdata;
+                        $scope.objText = response.data.recdata.metadata_values;
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-diagnosis-lang',
+                    params: {userId: $scope.userId, diaId: $scope.diaId, recId: $scope.precId}
+                }).then(function successCallback(response) {
+                    if (response.data.recdata != '') {
+                        $scope.diaId = response.data.recdata.record_id;
+                        $scope.diaText.value = response.data.recdata.value;
+                    }
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            };
+        })
         .controller('ConsultationProfileCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $filter, $ionicLoading, $ionicModal, $timeout, $ionicTabsDelegate) {
             $scope.apply = '0';
             $scope.discountApplied = '0';
@@ -4790,7 +4999,9 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Investigations';
+            $scope.invStatus = 'To be Conducted';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.investigation = [];
@@ -4799,7 +5010,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.records = response.data.record;
@@ -4807,6 +5018,12 @@ angular.module('your_app_name.controllers', [])
                 $scope.category = $scope.records.id;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
+                $scope.investigation = response.data.prevRec;
+                $scope.invData = response.data.prevData;
+                angular.forEach(response.data.prevRec, function (val, key) {
+                    $scope.inv.unshift(val.id);
+                });
+                console.log("INV ===" + $scope.investigation);
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -4913,6 +5130,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 });
             };
+
         })
 
         .controller('MedicationsCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter, $ionicLoading) {
@@ -4920,16 +5138,18 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Medications';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.medication = [];
             $scope.mediData = [];
             $scope.medi = [];
+            $scope.repeatFreq = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.records = response.data.record;
@@ -4937,6 +5157,18 @@ angular.module('your_app_name.controllers', [])
                 $scope.category = $scope.records.id;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
+                $scope.medication = response.data.prevRec;
+                $scope.mediData = response.data.prevData;
+                angular.forEach(response.data.prevRec, function (val, key) {
+                    $scope.medi.push(val.id);
+                });
+                angular.forEach(response.data.prevData, function (val, key) {
+                    angular.forEach(val, function (medi, k) {
+                        if (medi.field_id == 'no-of-frequency-1') {
+                            $scope.repeatFreq[(k - 1)] = medi.value;
+                        }
+                    });
+                });
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -5042,6 +5274,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Procedures';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -5051,7 +5284,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.records = response.data.record;
@@ -5059,6 +5292,11 @@ angular.module('your_app_name.controllers', [])
                 $scope.category = $scope.records.id;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
+                $scope.procedure = response.data.prevRec;
+                $scope.proData = response.data.prevData;
+                angular.forEach(response.data.prevRec, function (val, key) {
+                    $scope.proc.push(val.id);
+                });
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -5164,16 +5402,19 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.catId = 'Activity & Lifestyle';
             $scope.lifestyle = [];
             $scope.lifeData = [];
             $scope.life = [];
+            $scope.repeatFreq = [];
+            $scope.repeatNo = [];
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.records = response.data.record;
@@ -5181,6 +5422,21 @@ angular.module('your_app_name.controllers', [])
                 $scope.category = $scope.records.id;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
+                $scope.lifestyle = response.data.prevRec;
+                $scope.lifeData = response.data.prevData;
+                angular.forEach(response.data.prevRec, function (val, key) {
+                    $scope.life.push(val.id);
+                });
+                angular.forEach(response.data.prevData, function (val, key) {
+                    angular.forEach(val, function (medi, k) {
+                        if (medi.field_id == 'no-of-frequency') {
+                            $scope.repeatFreq[(k - 2)] = medi.value;
+                        }
+                        if (medi.field_id == 'no-of-times') {
+                            $scope.repeatNo[(k - 1)] = medi.value;
+                        }
+                    });
+                });
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -5286,6 +5542,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Referral';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -5295,7 +5552,7 @@ angular.module('your_app_name.controllers', [])
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid}
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
             }).then(function successCallback(response) {
                 console.log(response);
                 $scope.records = response.data.record;
@@ -5303,6 +5560,11 @@ angular.module('your_app_name.controllers', [])
                 $scope.category = $scope.records.id;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
+                $scope.referral = response.data.prevRec;
+                $scope.refData = response.data.prevData;
+                angular.forEach(response.data.prevRec, function (val, key) {
+                    $scope.refer.push(val.id);
+                });
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -5404,27 +5666,183 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('DietCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
-            $scope.patientId = window.localStorage.getItem('patientId');
             $scope.catId = 'Diet Plan';
             $scope.userId = window.localStorage.getItem('id');
-            $scope.doctorId = window.localStorage.getItem('doctorId'); //$stateParams.drId
+            $scope.doctorId = window.localStorage.getItem('id');
+            $scope.patientId = window.localStorage.getItem('patientId');
+            $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
+            $scope.day = '';
+            $scope.meals = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+            $scope.mealDetails = [];
+            $scope.dayMeal = [];
+            $scope.dietData = [];
+            $scope.diet = [];
+            $scope.dietId = [];
+            $scope.catId = 'Diet Plan';
+            $scope.curTime = new Date();
+            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.nodays = [];
+            //console.log('diet ctrl');
             $http({
                 method: 'GET',
-                url: domain + 'doctrsrecords/get-about-fields',
-                params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
+                url: domain + 'doctrsrecords/get-investigation-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
             }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.record = response.data.record;
+                //console.log(response);
+                $scope.records = response.data.record;
                 $scope.fields = response.data.fields;
+                $scope.category = $scope.records.id;
                 $scope.problems = response.data.problems;
                 $scope.doctrs = response.data.doctrs;
-                $scope.patients = response.data.patients;
-                $scope.cases = response.data.cases;
+                $scope.prevDietRec = response.data.prevRec;
+                $scope.dietRec = response.data.dietRec;
+                $scope.prevDietData = response.data.prevData;
+                $scope.dietDetails = response.data.dietDetails;
+                $scope.dayMeal = response.data.dietRec;
+                angular.forEach(response.data.prevRec, function (val, key) {
+                    $scope.dietId.push(val.id);
+                });
+                angular.forEach($scope.prevData, function (val, k) {
+                    angular.forEach(val, function (value, key) {
+                        //console.log(value.fields.name);
+                        if (value.fields.name == 'no-of-days') {
+                            $scope.nodays[key] = val.value;
+                        }
+                    });
+                });
+                //console.log("No days" + $scope.nodays);
             }, function errorCallback(response) {
                 console.log(response);
             });
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.dietmodal = modal;
+                $scope.daymodal = function (day) {
+                    console.log('Index = ' + day + ' day' + (day - 1));
+                    $scope.Mealday = day;
+                    $scope.day = 'day' + (day - 1);
+                    $scope.dietmodal.show();
+                };
+            });
+            $ionicModal.fromTemplateUrl('mealdispdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.daymodalDisp = function (pDay, day) {
+                    console.log("Display modal-----" + pDay + " --------- " + day);
+                    $scope.dietPlanDetails = [];
+                    $scope.diet = $scope.dietRec[pDay][day];
+                    $scope.Mealday = (day + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    $scope.modal.show();
+                };
+            });
+
+            $scope.dietdetails = function (days) {
+                $scope.dayMeal = [];
+                for (var i = 1, j = 1; i <= days; i++, j++) {
+                    $scope.mealDetails['day' + (i - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+                    $scope.dayMeal.push(i);
+                }
+                var stdt = $('#diet-start').val();
+                var endDate = getDayAfter(stdt, days);
+                console.log(stdt + " === " + days + " === " + endDate);
+                console.log($filter('date')(endDate, 'yyyy-MM-dd'));
+                $('#diet-end').val($filter('date')(endDate, 'yyyy-MM-dd'));
+            };
+            $scope.getEnd = function () {
+                //console.log(stdt + " === " + $scope.nodays + " === " + endDate);
+                var noDays = $('#dietdays').val();
+                var startDate = $filter('date')(($('#diet-start').val()), 'yyyy-MM-dd');
+                var enDate = getDayAfter(startDate, noDays);
+                console.log(startDate + " === " + noDays + " === " + enDate);
+                console.log($filter('date')(enDate, 'yyyy-MM-dd'));
+                $('#diet-end').val($filter('date')(enDate, 'yyyy-MM-dd'));
+            };
+            $scope.saveMeal = function (day) {
+                jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
+                jQuery('#fill' + day.charAt(day.length - 1)).removeClass('filled-data').addClass('filldata');
+//        if (checkIsMealEmpty($scope.mealDetails[day]) == 'not empty') {
+//            //console.log('Has value');
+//            jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
+//            jQuery('#fill' + day.charAt(day.length - 1)).removeClass('filled-data').addClass('filldata');
+//        } else {
+//            console.log('Empty');
+//        }
+                $scope.dietmodal.hide();
+            };
+
+            $scope.submitmodal = function () {
+                $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+                $scope.dietmodal.hide();
+                $scope.modal.hide();
+            };
+            $rootScope.$on("GetDietPlan", function () {
+                $scope.getDietPlan();
+            });
+            $scope.getDietPlan = function () {
+                $scope.recId = window.localStorage.getItem('recId');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    //console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $scope.prevDietRec = response.data.prevRec;
+                    $scope.dietRec = response.data.dietRec;
+                    $scope.prevDietData = response.data.prevData;
+                    $scope.dietDetails = response.data.dietDetails;
+                    $scope.dayMeal = response.data.dietRec;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $scope.dietId.push(val.id);
+                    });
+                    angular.forEach($scope.prevData, function (val, k) {
+                        angular.forEach(val, function (value, key) {
+                            //console.log(value.fields.name);
+                            if (value.fields.name == 'no-of-days') {
+                                $scope.nodays[key] = val.value;
+                            }
+                        });
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+
+            $rootScope.$on("saveDiet", function () {
+                $scope.saveDietplan();
+            });
+            $scope.saveDietplan = function () {
+                $scope.loading = true;
+                var data = new FormData(jQuery("#addDietForm")[0]);
+                if ($('#dietdays').val() != '' && $('#dietdays').val() > 0) {
+                    var data = new FormData(jQuery("#addDietForm")[0]);
+                    callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                        if (response.records != '') {
+                            jQuery("#addDietForm")[0].reset();
+                            $('input[name=inv]').attr('checked', false);
+                            //$rootScope.$emit("GetDietPlan", {});
+                            $scope.getDietPlan();
+                            $scope.tdiet = false;
+                            $scope.loading = false;
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                }
+            };
         })
 
         .controller('DietplanListCtrl', function ($scope, $http, $stateParams, $ionicModal) {
@@ -5979,7 +6397,6 @@ angular.module('your_app_name.controllers', [])
             $scope.itemsDisplayall = 2
             $scope.addMoreItemall = function (done) {
                 if ($scope.all_app_past.length > $scope.itemsDisplayall) {
-                    console.log('all');
                     $scope.itemsDisplayall += 2; // load number of more items
                 }
                 $scope.$broadcast('scroll.infiniteScrollComplete')
@@ -6739,6 +7156,7 @@ angular.module('your_app_name.controllers', [])
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.recId = window.localStorage.getItem('recId');
+            console.log('Inv ' + $scope.recId);
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -6858,7 +7276,6 @@ angular.module('your_app_name.controllers', [])
                 }
             };
         })
-
         .controller('MedicationsJoinCtrl', function ($scope, $http, $stateParams, $state, $rootScope, $filter, $ionicLoading) {
             $scope.userId = window.localStorage.getItem('id');
             $scope.doctorId = window.localStorage.getItem('id');

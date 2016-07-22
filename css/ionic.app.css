@@ -9780,7 +9780,9 @@ transform: translate3d(600px, 0px, 0px);
     background: #387EF5;
     color: #fff;
 }
-
+.vimgheight{height: 150px; width:100%; text-align: center; padding: 10px 0; border-bottom: 1px #eee solid;}
+.vimgheight img{width: auto; max-height: 100%;}
+.mt50{margin-top: 50px;}
 .chat-time{ float: right;
             position: absolute;
             right: 15px;

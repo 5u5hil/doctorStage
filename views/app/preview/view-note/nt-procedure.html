@@ -1,0 +1,140 @@
+<div class="tcontent" ng-controller="ProceduresCtrl"> 
+    <div  class="list card post-item greenbox" ng-repeat="proc in procedure">
+        <div class="card-content p0">
+            <div class="row post-heading item item-text-wrap ">
+                <div class="col col-75">
+                    <h2 class="post-title">Procedures {{$index + 1}}</h2>
+                </div>
+                <div class="col col-25 txt-right">
+                    <div class="infomore" ng-click="infomore(proc.id + 'proc')">
+                        <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="post-content item item-text-wrap p0">
+                <div class="row" ng-repeat="pdata in proData[$index]| limitTo: 4">
+                    <div ng-if="pdata.value != ''">
+                        <div class="col"><strong>{{pdata.fields.field}} </strong></div>
+                        <div class="col">
+                            <div ng-if="pdata.fields.field == 'Related Problem'">
+                                <div ng-repeat="problem in problems">
+                                    <div ng-if="problem.record_id == pdata.value">{{problem.value}}</div>
+                                </div>
+                            </div>
+                            <div ng-if="pdata.fields.field_type == '8'"> {{pdata.value|dateFormat3}}</div>
+                            <div ng-if="pdata.fields.field_type == '12'"> {{pdata.value|time1}}</div>
+                            <div ng-if="pdata.fields.field != 'Related Problem' && pdata.fields.field != 'Attachments' && pdata.fields.field_type != '12' && pdata.fields.field_type != '8'">
+                                <div> {{pdata.value}}</div>
+                            </div>
+                            <div ng-if="pdata.fields.field == 'Attachments'">
+                                <div > <div ng-repeat="attach in pdata.attachments" >
+                                        <div ng-init="selData = (attach.orginial_name).split('.')">
+                                            <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                    <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>				  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="infomore-div" id="{{proc.id}}proc">
+                    <div class="row" ng-repeat="pdata in proData[$index]" ng-if="$index >= 5">
+                        <div ng-if="pdata.value != ''">
+                            <div class="col"><strong>{{pdata.fields.field}} </strong></div>
+                            <div class="col">
+                                <div ng-if="pdata.fields.field == 'Related Problem'">
+                                    <div ng-repeat="problem in problems">
+                                        <div ng-if="problem.record_id == pdata.value">{{problem.value}}</div>
+                                    </div>
+                                </div>
+                                <div ng-if="pdata.fields.field_type == '8'"> {{pdata.value|dateFormat3}}</div>
+                                <div ng-if="pdata.fields.field_type == '12'"> {{pdata.value|time1}}</div>
+                                <div ng-if="pdata.fields.field != 'Related Problem' && pdata.fields.field != 'Attachments' && pdata.fields.field_type != '12' && pdata.fields.field_type != '8'">
+                                    <div> {{pdata.value}}</div>
+                                </div>
+                                <div ng-if="pdata.fields.field == 'Attachments'">
+                                    <div > <div ng-repeat="attach in pdata.attachments" >
+                                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                    <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>				  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script id="add-procedure" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Add New Procedure</h1>
+    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
+    <div class="list">
+    <div class="item item-divider">Name</div>
+    <label class="item item-input">
+    <input type="text" placeholder="Enter Name">
+    </label>
+    <div class="item item-divider">Age</div>
+    <label class="item item-input">
+    <input type="text" placeholder="Age">
+    </label>
+
+    <div class="item item-divider">Field Labels</div>
+
+    <li class="item item-toggle">
+    Option1
+    <label class="toggle toggle-assertive">
+    <input type="checkbox">
+    <div class="track">
+    <div class="handle"></div>
+    </div>
+    </label>
+    </li>
+
+    <div class="item item-divider">Field Labels</div>  
+    <label class="item item-input item-select">
+    <div class="input-label">
+    Select
+    </div>
+    <select>
+    <option selected> option1</option>
+    <option >option2</option>
+    <option>option3</option>
+    </select>
+    </label>  
+    <div class="item item-divider">Field Labels</div>
+    <ion-list>
+    <div class="row">
+    <div class="col cradio"><ion-radio ng-model="choice" ng-value="'A'" checked>Choose A</ion-radio></div>
+    <div class="col cradio"> <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio></div>
+    </div>
+    </ion-list>
+
+
+    <br/>
+    <div class="button-bar ">
+    <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
+    <a class="button button-positive">Submit</a>
+    </div>  
+    </div>
+
+    </ion-content>
+    </ion-modal-view>
+</script>
+
