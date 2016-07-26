@@ -1,96 +1,135 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
-        <span>Library</span>
-
-
+        <span>Video Article  </span>
     </ion-nav-title>
-    <ion-nav-buttons side="right"  >
-        <button  ng-click="modal.show()" class="button button-positive w100p brdradious0"> 
-            <strong>Create</strong> </button>
-    </ion-nav-buttons>
-    <ion-content class="">
-
-        <div class="row tabnav">
-            <div class="col"><a  ui-sref="app.content-library"  class="active" >Created by you</a></div>
-            <div class="col"><a  ui-sref="app.library-feed" >Shared with you</a></div>
-        </div>	
-
-
-        <div class="posts-list" ng-if="clab != ''">
-
-            <div  class="list card post-item greenbox" ng-repeat="contentLab in clab">
-                <a ui-sref="app.view-content-value({'id': contentLab.id})" class="card-content p0">
-                    <div class="row post-heading item item-text-wrap "  ng-class="{'fillbg': contentLab.content_type == 'video' }">
-                        <div class="col col-75">
-                            <h2 class="post-title">{{contentLab.content_title| capitalize}}</h2>
-                            <p class="post-author">
-                                By <span>{{contentLab.user}}</span> <span>{{contentLab.created_at| dateFormat3}}</span>
-                            </p>
-                        </div>
-                        <div class="col col-25 ">
-
-
-                            <div ng-if="contentLab.content_type == 'video'" class="indicater txt-center video">
-                                <i class="icon ion-ios-videocam f20"></i><br/>
-                               {{contentLab.duration | timesec}} 
-                            </div> 
-
-                            <div ng-if="contentLab.content_type == 'artcle'" class="indicater txt-center article">
-                                <i class="icon ion-ios-list-outline f20"></i><br/>
-                                {{contentLab.content_value.length / 1000| ceil}} min(s)
-                            </div> 
-
-                        </div>
-                    </div>
-
-                    <div class="post-content item item-text-wrap" post-content>
-                        <p class="post-excerpt pb10" dynamic-anchor-fix>
-                            {{contentLab.content_desc}}
-                        </p>
-                        <div ng-if="contentLab.content_type == 'artcle'">
-                            <p class="imgincard pb10" ng-if="contentLab.header_img != ''" >  <img src="{{attachpath}}{{contentLab.header_img}}" /></p>
-                        </div>		
-                      <!--  <div  class="framecontainer mb10"  ng-if="contentLab.content_type == 'video'"> 
-                           
-                            <video width="100%" style="min-height:50px;" controls preload="metadata">
-                                <source src="{{trustSrc(contentLab.url)}}" type="video/mp4">
-                               
-                              Your browser does not support the video tag.
-                            </video> 
-
-                        </div> -->
-                        <div class="post-actions ">
-                            <p class="pb10"> <strong>Category </strong>|  <span ng-repeat="specialisation in contentLab.spec">{{specialisation}}{{$last==true? '': ',&nbsp;'}}  </span>
-                            </p>
-                            <!--<p class="pb10"> <strong>Tags </strong>|  </p>-->
-                            <p class="pb10"> <strong>Language </strong>| <span ng-repeat="language in contentLab.lang">{{language| capitalize}} {{$last==true? '': ',&nbsp;'}} </span> </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-        </div>
+    <div class="row tabnav headtab">
+        <div class="col"><span class="nbtn active"  rel="tabone"  >1. Record Videoe</span></div>
+        <div class="col"><span class="nbtn"  rel="tabtwo"  >2. Confirm</span></div>
        
-    </ion-content>
+    </div>
+    <form name="addNewVideoArticle" id="addNewVideoArticle" enctype="multipart/form-data" novalidate>
 
+        <input type="hidden" name="docid" value="{{doctorId}}"  ng-model="doctorId"/>
+        <input type="hidden" name="viedoUrl" value="{{viedoUrl}}"  ng-model="viedoUrl"/>
+        <input type="hidden" name="archiveId" value="{{aid}}"  ng-model="aid"/>
+        <ion-content class="has-footer"> 
+
+
+
+
+
+            <div class="notetab mrl2" id="tabone" >
+                <div class="item item-divider mt15">Title</div>
+                <label class="item item-input">
+                    <input type="text" name="title" ng-model="title" placeholder="Title" maxlength="100"  required="" />
+                </label>
+
+                <div class="item item-divider mt15">Description</div>
+
+                <label class="item item-input">
+                    <input type="text" name="desc" ng-model="desc" placeholder="Description" maxlength="200"  required=""/>
+                </label>
+
+
+                <div class="item item-divider mt15">Share With </div>
+
+                <!--       <ion-list ng-init="sharewith = 2">
+                          <ion-radio name="sharewith" ng-model="sharewith"  ng-repeat="tg in target_groups" value="{{tg.id}}">{{tg.target_group}}</ion-radio>
+                      </ion-list> -->
+
+                <select name="sharewith" ng-model="sharewith"  class="cselectn" required="">
+                    <option value="" selected="selected" >Please Select</option>
+                    <option ng-repeat="tg in target_groups" value="{{tg.id}}">{{tg.target_group}}</option>
+                </select>
+
+                <div class="list"> </div>
+				<div class="footerspacer"></div>
+				
+				
+            </div>	
+
+            <div class="notetab mrl2" id="tabtwo" style="display:none;" >
+                <div class="fltr-mesg" > <span><strong>Recording:</strong> {{recording}}</span> &nbsp <span><strong>Time:</strong> {{result}}</span> </div>
+                <div class="mediascreen">
+                    <div id='subscribersDiv' class="subscribediv">Initializing Video</div> 
+                </div>
+
+                <div class="videoscreen">
+					<div class="vbtn">
+                                            <button type="button"  ng-click="playVideoPreview(aid)" >
+                            <i class="ion-play f20"></i> <br/>View
+                        </button>
+					</div>  
+
+                </div> 
+
+            </div>	
+
+			
+			
+
+            <div class="notetab mt60 mrl2" id="tabthree" style="display:none;" >
+                <div class="item item-divider mt15">Category {{catchoice}}</div>
+                <ion-list>
+                    <ion-checkbox ng-model="catchoice"  ng-click="isChecked()"  ng-checked="catId.indexOf(cats.id) !== -1" name="catchoice[]" ng-repeat="cats in category" id="check-box-{{$index}}" ng-value="{{cats.id}}" value="{{cats.id}}">{{cats.specialization}}</ion-checkbox>
+                </ion-list>
+                <div class="item item-divider mt15">Language</div>
+                <ion-list>
+                    <ion-checkbox ng-model="langchoice" ng-checked="lang.id == 1"  name="langchoice[]" ng-repeat="lang in languages" ng-value="{{lang.id}}">{{lang.language | capitalize}}</ion-checkbox>
+                </ion-list>
+            </div>	
+
+
+
+
+
+
+
+        </ion-content>
+        <div class="footerbar">
+            <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
+            <div class="tab-buttons">
+                <div class="fixedbar row tbtn active brd0" rel="tabone">
+                    <div class="col button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addNewVideoArticle.title.$invalid || addNewVideoArticle.desc.$invalid || addNewVideoArticle.sharewith.$invalid">Next</div>
+                </div>
+				
+                <div class="fixedbar row tbtn" rel="tabtwo">
+                    <div class="col  button btn-share btn-add start brd0 hide" ng-click="recordVideo()"><i class="ion-record f20"></i> Start Recording</div>
+                    <div class="col  button  btn-delete stop hide" ng-click="recordingStop()" ><i class="ion-stop f20 brd0"></i>  Stop Recording</div>
+                    <div class="col col-50 button btn-share rerecording hide brd0" ng-click="reRecording()" > <i class="ion-record f20"></i> Re-record</div>
+                    <div class="col col-50 button btn-add next brd0 hide" ng-click="tabclick('tabthree')" >Proceed</div>
+                </div>
+                <div  class="fixedbar row tbtn" rel="tabthree">
+
+                    <button type="button" class="col button btn-add" ng-disabled="checkboxval" ng-click="submitNewVideoArticle()">Submit</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
 </ion-view>
 
 
-
-<script id="create-library" type="text/ng-template">
+<script id="viewvideo" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Actions</h1>	 
+    <h1 class="title">View Recording</h1>	 
     <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
     </ion-header-bar>
     <ion-content>
 
-    <div class="row">
-    <div class="col"><div class="custombtn" ng-controller="CloseModalCtrl" ng-click="modalclose('app.newarticle')" ><i class="ion-ios-list-outline"></i> Text Article</div></div>
-    </div>
-    <div class="row">
-    <div class="col"><div class="custombtn" ng-controller="CloseModalCtrl" ng-click="modalclose('app.new-video-article')"><i class="ion-ios-videocam"></i> Video Article</div></div>
-    </div>
+
+
+
+<iframe  class="iframevideo"  frameborder="0" allowfullscreen="1" ng-src="{{trustSrc(playurl)}}"></iframe>
+
+	<!-- <video width="100%" style="min-height:50px;" controls autoplay>
+						  <source src="{{trustSrc(playurl)}}" type="video/mp4">
+						  <source src="{{trustSrc(playurl)}}" type="video/ogg">
+						  Your browser does not support the video tag.
+						</video>  -->
+
+
 
     </ion-content>
 
