@@ -475,6 +475,16 @@ angular.module('your_app_name', [
                             }
                         }
                     })
+                    .state('app.video-chat', {
+                        cache: false,
+                        url: "/video-chat",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/video-chat.html",
+                                controller: 'ChatCtrl'
+                            }
+                        }
+                    })
                     .state('app.past-chat', {
                         cache: false,
                         url: "/past-chat/{id:int}",
