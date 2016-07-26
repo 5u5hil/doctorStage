@@ -22,7 +22,7 @@
                     <div id='subscribersDiv' class="subscribediv">Initializing Video</div> 
                 </div>
 
-               <div class="videoscreen">
+                <div class="videoscreen">
                     <div class="vbtn">
                         <button type="button"  ng-click="playVideoPreview(aid)" >
                             <i class="ion-play f20"></i> <br/>View
@@ -34,14 +34,10 @@
             </div>	
 
             <div class="notetab mt60 mrl2" id="tabtwo" style="display:none;" >
-                <div class="item item-divider mt15">Category {{catchoice}}</div>
-                <ion-list>
-                    <ion-checkbox ng-model="catchoice"  ng-click="isChecked()"  ng-checked="catId.indexOf(cats.id) !== -1" name="catchoice[]" ng-repeat="cats in category" id="check-box-{{$index}}" ng-value="{{cats.id}}" value="{{cats.id}}">{{cats.specialization}}</ion-checkbox>
-                </ion-list>
-                <div class="item item-divider mt15">Language</div>
-                <ion-list>
-                    <ion-checkbox ng-model="langchoice" ng-checked="lang.id == 1"  name="langchoice[]" ng-repeat="lang in languages" ng-value="{{lang.id}}">{{lang.language| capitalize}}</ion-checkbox>
-                </ion-list>
+                <div class="item item-divider mt15">Comment </div>
+                <label class="item item-input">
+                    <textarea  col="" rows="10" placeholder="Write your article here" ng-model="content"  name="content"  required=""></textarea>
+                </label>
             </div>	
 
         </ion-content>
