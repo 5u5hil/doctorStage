@@ -6781,7 +6781,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ChatCtrl', function ($scope,$ionicModal,$ionicScrollDelegate, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+        .controller('ChatCtrl', function ($scope,$ionicModal,$ionicScrollDelegate, $sce,$ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -7123,10 +7123,7 @@ angular.module('your_app_name.controllers', [])
                 jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
                 if (taburl == 'tabtwo')
                 {
-                    
-                    
-                    
-                    
+             
                     $scope.recordVideo = function () {
                         alert('dsdg');
                         $scope.Timercounter = 0;
