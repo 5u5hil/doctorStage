@@ -2170,7 +2170,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
@@ -2259,6 +2259,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.testId = response.data.recdata.record_id;
                         $scope.testresult = response.data.recdata;
                         $scope.testResult = response.data.recdata.metadata_values;
+                    } else {
+                        $scope.testResult = '';
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -2272,6 +2274,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.objId = response.data.recdata.record_id;
                         $scope.observation = response.data.recdata;
                         $scope.objText = response.data.recdata.metadata_values;
+                    } else {
+                        $scope.objText = '';
                     }
                 }, function errorCallback(e) {
                     console.log(e);
@@ -2283,8 +2287,13 @@ angular.module('your_app_name.controllers', [])
                 }).then(function successCallback(response) {
                     if (response.data.recdata != '') {
                         $scope.diaId = response.data.recdata.record_id;
+                        $scope.diaText = response.data.recdata;
+                        console.log("Dia length " + $scope.diaText.length);
                         $scope.diaText.value = response.data.recdata.value;
+                    } else {
+                        $scope.diaText.value = '';
                     }
+                    console.log("Dia length " + $scope.diaText);
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -3740,7 +3749,7 @@ angular.module('your_app_name.controllers', [])
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId}
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId, doctorId: $scope.doctorId}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.record = response.data.record;
@@ -9215,7 +9224,7 @@ angular.module('your_app_name.controllers', [])
                     $http({
                         method: 'GET',
                         url: domain + 'doctrsrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId, doctorId: $scope.doctorId}
                     }).then(function successCallback(response) {
                         console.log(response.data);
                         $scope.record = response.data.record;

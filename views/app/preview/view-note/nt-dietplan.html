@@ -1,6 +1,7 @@
 
 <div class="tcontent" ng-controller="DietCtrl">
-    <div class="list card post-item greenbox" ng-repeat="dt in prevDietRec">
+    <div class="mt15" ng-if="prevDietRec.length == 0"> <p class="txt-center" >No records here</p></div>
+    <div class="list card post-item greenbox" ng-repeat="dt in prevDietRec" ng-if="prevDietRec.length > 0">
         <div class="card-content p0">
             <div class="row post-heading item item-text-wrap ">
                 <div class="col col-75">

@@ -1,4 +1,5 @@
 <div class="tcontent" ng-controller="MeasurementCtrl">
+    <div class="mt15" ng-if="abt.length == 0"> <p class="txt-center" >No records here</p></div>
     <div ng-repeat="record in mrecords" ng-if="abt.length != 0">
         <div class="list card post-item greenbox" >
             <div class="card-content p0">

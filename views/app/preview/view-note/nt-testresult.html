@@ -1,6 +1,7 @@
 
 <div class="tcontent" >
-    <div ng-repeat="test in testResult">
+    <div class="mt15" ng-if="testResult == ''"> <p class="txt-center" >No records here</p></div>
+    <div ng-repeat="test in testResult" ng-if="testResult != ''">
         <div class="list card post-item greenbox" >
             <div class="card-content p0">
                 <div class="row post-heading item item-text-wrap ">

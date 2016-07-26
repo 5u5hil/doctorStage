@@ -1,5 +1,6 @@
 <div class="tcontent" ng-controller="MedicationsCtrl"> 
-    <div class="list card post-item greenbox" ng-repeat="med in medication">
+    <div class="mt15" ng-if="medication.length == 0"> <p class="txt-center" >No records here</p></div>
+    <div class="list card post-item greenbox" ng-repeat="med in medication" ng-if="medication.length > 0">
         <div class="card-content p0">
             <div class="row post-heading item item-text-wrap ">
                 <div class="col col-75">

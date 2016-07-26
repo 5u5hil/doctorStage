@@ -1,4 +1,4 @@
-@charset "UTF-8";
+.ditem-contenth@charset "UTF-8";
 /*
 To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
@@ -5693,7 +5693,7 @@ input, button, select, textarea {
     margin: 0;
     padding-right: 24px;
     background-color: transparent; }
-	
+
 .item-input .button .icon {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 24px;
@@ -8464,8 +8464,8 @@ h4.subhead.inactive{opacity:0.5;}
 .cbar a{display:block; text-decoration:none;}
 /* .cdetail-list a:first-child{border-color:#fff;} */
 .fltr-mesg{
-	
-	padding: 10px 0;
+
+    padding: 10px 0;
     text-align: center;
     position: fixed;
     top: 42px;
@@ -8477,7 +8477,7 @@ h4.subhead.inactive{opacity:0.5;}
 .videoscreen{position:absolute; top:0; width:100%; height:100%;}
 .videoscreen .vbtn{margin-top:40%; text-align:center;}
 .vbtn button{
-	    border-radius: 50%;
+    border-radius: 50%;
     border: 1px #387EF5 solid;
     width: 100px;
     height: 100px;
@@ -8659,9 +8659,9 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
     background: #FFF;
     margin-bottom: 10px;
     position: relative;
-   // box-shadow: 0 -1px 3px rgba(0,0,0,0.7);
+    // box-shadow: 0 -1px 3px rgba(0,0,0,0.7);
     background-color: white;
-        border-top: 1px #eee solid;
+    border-top: 1px #eee solid;
     border-bottom: 1px #eee solid;
 
 }
@@ -8693,7 +8693,7 @@ select.selectheader{ width:80%; padding:3px; border:0; text-indent:5%;}
 
 }
 .sche-date input[type="date"]:before,.notdateicon input[type="date"]:before{
-	content:''; display:none; padding:0;
+    content:''; display:none; padding:0;
 }
 .leftarrow,.rightarrow{position:absolute; top:10px; font-size:13px; cursor: pointer; font-weight:bold;}
 .leftarrow{ left:10px}
@@ -8739,12 +8739,12 @@ input.custominput{width: 100%;
 
 .viewchats{margin-top:20px;}
 .mediascreen,.mdhight{position:relative;     /* height: 85vh; */ height: 100%;
-             -webkit-transition:all 0.3s ease-out;
+                      -webkit-transition:all 0.3s ease-out;
 }
 .mdhight{height: 86vh;}
 
 .mediascreen.minscreen, .mdhight.minscreen{height: 35vh;
-                       -webkit-transition:all 0.3s ease-in;
+                                           -webkit-transition:all 0.3s ease-in;
 }
 
 
@@ -9453,7 +9453,9 @@ h1.post-title{font-size:26px;}
 .viewattachfile{padding-top:50px;}
 .viewattachfile img{max-width:100%;}
 
+.fieldvalue{ padding:10px; float: left; width:100%;     text-indent: 6px;}
 
+.spceinfields .fieldvalue{margin-bottom: 15px; border-bottom: 1px #ddd solid;}
 input[type="date"]:before{
     font-family: "Ionicons";
     position: absolute;
@@ -9496,7 +9498,7 @@ input[type="date"]:before{
              -webkit-transform: translate(0,0);
 }
 .notetab{margin-top:45px; position: absolute;
-    width: 99%;}
+         width: 99%;}
 .footerspacer{height:30px;}
 
 .headtab{margin-top: 44px; position:relative; z-index:99;}
@@ -9510,7 +9512,8 @@ input[type="date"]:before{
     padding: 8px;
     text-align: left;
     display: block;
-    text-decoration: none; margin:8px;}	
+    text-decoration: none; margin:8px;
+}
 .accordiantab span.icon{color: #28a54c; float:right;}
 
 .accordiancontent{display:none; /* padding: 0 15px; */ margin:0 10px;}
@@ -9524,44 +9527,44 @@ input[type="date"]:before{
 
 
 
- .greentab .ctabbtn{ background: #28A54C; color:#fff; }
- .greentab .ctabbtn span{color:#fff;}
-  .sidetabcontent{/* padding: 10px; */ padding:15px 0;}
+.greentab .ctabbtn{ background: #28A54C; color:#fff; }
+.greentab .ctabbtn span{color:#fff;}
+.sidetabcontent{/* padding: 10px; */ padding:15px 0;}
 
 .crighttab{
     bottom: 0;
     position: absolute;
     right: 0;
     top: 60px;
-      height: 514px;
-   background: #F7F7F7;
+    height: 514px;
+    background: #F7F7F7;
     box-shadow: -2px 0 0px #28A54C;
     z-index: 9;
-	transition: 300ms ease-in; 
-transform: translate3d(600px, 0px, 0px);
-	
-	}
+    transition: 300ms ease-in; 
+    transform: translate3d(600px, 0px, 0px);
+
+}
 .crighttab.active{
-	transition: 300ms ease-in-out;
-	/* transform: translate3d(0px, 0px, 0px);*/
+    transition: 300ms ease-in-out;
+    /* transform: translate3d(0px, 0px, 0px);*/
 }
 .ctabbtn{padding: 10px 10px;
-    top: 0;
- 
-    position: absolute;
-    left: -40px;
-    width: 40px;
-    height: 40px;
-    color: #fff;
-    border-radius: 8px 0 0 8px;
-    text-align: center;
-    font-size: 20px;}
+         top: 0;
+
+         position: absolute;
+         left: -40px;
+         width: 40px;
+         height: 40px;
+         color: #fff;
+         border-radius: 8px 0 0 8px;
+         text-align: center;
+         font-size: 20px;}
 .fieldtab{display: block; margin: 10px 0;}
 .fieldtab input{width: 100%; border: 1px #eee solid;}
 
 .infomore-div{display:none;}
 .infomore-div.active{display: block;     display: block;
-    background: #f8f8f8;}
+                     background: #f8f8f8;}
 .theroot{position: absolute; height: 90%; width:100%;}
 .sldebxcontent{}
 .csradio .item-radio .item-content{    padding: 11px 49px 11px 16px;}
@@ -9569,18 +9572,18 @@ transform: translate3d(600px, 0px, 0px);
 .csradio .item-radio .radio-icon{       padding: 3px 10px;}
 .crighttab .cselectn{/* background:transparent; */}
 
-  .maintab .cselectn{    padding: 8px !important;
-    font-size: 15px;
-    border: 1px #eee solid;
-    font-weight: bold;
-    background: #387ef5;
-    color: #fff;
-	} 
-	.maintab .cselectn option{color:#fff;}
+.maintab .cselectn{    padding: 8px !important;
+                       font-size: 15px;
+                       border: 1px #eee solid;
+                       font-weight: bold;
+                       background: #387ef5;
+                       color: #fff;
+} 
+.maintab .cselectn option{color:#fff;}
 
 .crighttab .item-divider{ background-color:#efefef; margin-top:10px;}
 .maintab{   margin: 0 10px 0px;
-    width: 100%;}
+            width: 100%;}
 .ctabs .card-heding{padding:0px !important;}
 .ctabs .tabs-striped .tabs{    border-bottom: 0px solid #ddd;}
 .ctabs  .item{margin:0;}
@@ -9588,35 +9591,35 @@ transform: translate3d(600px, 0px, 0px);
 .mtabcon{margin-top:20px;}
 .fdropdown{position:relative;}
 .dnav{    position: absolute; display:none;
-    width: 100%;
-    background: #eee;
-    padding: 0px;
-    z-index: 99;
-    border: 1px #eeeeee solid;
-    top: 40px;
-    padding: 0px;
-    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+          width: 100%;
+          background: #eee;
+          padding: 0px;
+          z-index: 99;
+          border: 1px #eeeeee solid;
+          top: 40px;
+          padding: 0px;
+          box-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 .dnav.active{display:block;}
 .navlist{        display: block;
-    background: #ffffff;
-    padding: 10px 10px;
-    color: #040404;     border: 1px #28a54c solid;}
-	.brdgreen{    border: 1px #28a54c solid;}
+                 background: #ffffff;
+                 padding: 10px 10px;
+                 color: #040404;     border: 1px #28a54c solid;}
+.brdgreen{    border: 1px #28a54c solid;}
 
 .formcontainer{
-	padding: 15px 10px;
+    padding: 15px 10px;
     margin: 15px 0;
     border-top: 2px #ccc solid;
     border-bottom: 2px #ccc solid;
     background: #fff;
-	}
-	
-	.heading2{    font-weight: bold;
-    font-size: 15px;
-    margin: 15px;
-    text-align: center;
-	} 
+}
+
+.heading2{    font-weight: bold;
+              font-size: 15px;
+              margin: 15px;
+              text-align: center;
+} 
 
 .noinputlabel label{    padding: 10px 15px;}
 .post-heading h2.post-title{margin-top: 5px;}
@@ -9666,7 +9669,7 @@ transform: translate3d(600px, 0px, 0px);
 .greenbox .post-heading h2,.greenbox .post-heading .post-author,.greenbox .post-heading span,.greenbox .post-heading .indicater,.greenbox .post-heading .indicater .icon
 {color: #28A54C;}
 .greenbox .item{border-color:#28A54C;}
- .post-heading.fillbg h2,.post-heading.fillbg .post-author,.greenbox .post-heading.fillbg span, .post-heading.fillbg  .indicater,.post-heading.fillbg  .indicater .icon{color:#fff;}
+.post-heading.fillbg h2,.post-heading.fillbg .post-author,.greenbox .post-heading.fillbg span, .post-heading.fillbg  .indicater,.post-heading.fillbg  .indicater .icon{color:#fff;}
 
 
 .greenbox .post-heading span{font-style:italic;}
@@ -9675,9 +9678,9 @@ transform: translate3d(600px, 0px, 0px);
 
 .brd0{border:0 !important;}
 .crow{}
-	.col-half{    width: 50%;
-    float: left;
-    padding: 5px;
+.col-half{    width: 50%;
+              float: left;
+              padding: 5px;
 }
 .noteforms{display: none;}
 .noteforms.active{display: block;}
@@ -9723,10 +9726,10 @@ transform: translate3d(600px, 0px, 0px);
 
 
 .cselectn{    position: static !important;
-             width: 100%;
-             direction: ltr !important;
-             padding:10px !important;
-             /* font-weight:bold; */ border:0;
+              width: 100%;
+              direction: ltr !important;
+              padding:10px !important;
+              /* font-weight:bold; */ border:0;
 }
 .pull-rght{float: right;}
 .brd0{border:0 !important;}

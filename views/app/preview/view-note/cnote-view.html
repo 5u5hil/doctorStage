@@ -10,30 +10,30 @@
 
     <ion-content> 
         <div class="tabcon2 notetab mt60"  id="tabone">
-            <div class="fields" ng-repeat="prev in prevRecordDetails">                    
+            <div class="fields spceinfields" ng-repeat="prev in prevRecordDetails">                    
                 <div ng-if="prev.fields.field == 'Case Id'">
                     <div class="item item-divider" ng-if="pcaseId != ''">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="ditem-content" ng-repeat="case in cases" value="{{case.record_id}}" ng-show="{{case.record_id == pcaseId}}"> {{case.value}} </div>
+                    <div class="fieldvalue" ng-repeat="case in cases" value="{{case.record_id}}" ng-show="{{case.record_id == pcaseId}}"> {{case.value}} </div>
                 </div>
                 <div ng-if="prev.fields.field == 'Valid till'">
                     <div class="item item-divider" id="convalid" ng-if="prev.value != ''">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="ditem-content" ng-if="prev.value != ''"> :{{prev.value|dateFormat3}}</div>
+                    <div class="fieldvalue" ng-if="prev.value != ''"> :{{prev.value|dateFormat3}}</div>
                 </div>
                 <div class="hide" ng-if="prev.fields.field == 'Includes Prescription'" id="coninprec">
                     <div class="item item-divider">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="ditem-content"> {{prev.value}}</div>
+                    <div class="fieldvalue"> {{prev.value}}</div>
                 </div>
                 <div class="" ng-if="prev.field_id == 'attachments-3' && isAttachment != ''">
                     <div class="item item-divider">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="ditem-content" ng-if="isAttachment != ''">  
+                    <div class="fieldvalue" ng-if="isAttachment != ''">  
                         <span class="ico cursor-pointer" ng-click="showAttach(prev.attachments)">
                             <i class="ion-paperclip"></i> ({{prev.attachments.length}})
                         </span>
@@ -161,7 +161,7 @@
     </div>
     </content>
     <div class="bar bar-footer" style="z-index:999;">
-    <div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div>\n\
+    <div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div>
     </div>
 
 </script>

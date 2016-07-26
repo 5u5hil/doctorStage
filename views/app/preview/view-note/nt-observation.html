@@ -1,6 +1,7 @@
 
 <div class="tcontent" >
-    <div ng-repeat="obj in objText">
+    <div class="mt15" ng-if="objText == ''"> <p class="txt-center" >No records here</p></div>
+    <div ng-repeat="obj in objText"  ng-if="objText != ''">
         <div class="list card post-item greenbox" >
             <div class="card-content p0">
                 <div class="row post-heading item item-text-wrap ">
@@ -17,5 +18,3 @@
         </div>
     </div>
 </div>
-
-
