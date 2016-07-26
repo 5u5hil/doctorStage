@@ -3185,6 +3185,7 @@ angular.module('your_app_name.controllers', [])
                     }, function errorCallback(e) {
                         console.log(e);
                     });
+                    
                     $scope.recordVideo = function () {
                         $scope.Timercounter = 0;
                         $scope.onTimeout = function () {
@@ -3219,6 +3220,7 @@ angular.module('your_app_name.controllers', [])
                             console.log(e);
                         });
                     };
+                    
                     $scope.recordingStop = function () {
                         //alert('stoppedTimer ' + stoppedTimer);
                         // alert($scope.Timercounter);
@@ -3342,8 +3344,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.trustSrc = function (src) {
                         return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
                     }
-
-
 
                     $ionicModal.fromTemplateUrl('viewvideo', {
                         scope: $scope
@@ -6781,7 +6781,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ChatCtrl', function ($scope,$ionicScrollDelegate, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+        .controller('ChatCtrl', function ($scope,$ionicModal,$ionicScrollDelegate, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
