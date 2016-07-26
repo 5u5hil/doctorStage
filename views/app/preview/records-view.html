@@ -85,7 +85,7 @@
                                             {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}}
                                         </span>
                                         <span ng-if="detail.fields.field == 'Case Id'" >
-                                            {{cases[$parent.$parent.$index].value}}
+                                            {{cases[$parent.$parent.$parent.$index].value}}
                                         </span>
                                         <span ng-if="detail.fields.field != 'Attachments' && detail.fields.field != 'Patient' && detail.fields.field != 'Case Id' && detail.fields.field != 'Doctor' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
                                             <span ng-if="detail.fields.field_type == 8 && detail.value != ''">{{detail.value|dateFormat4}}</span>

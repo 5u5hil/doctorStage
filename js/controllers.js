@@ -2027,6 +2027,7 @@ angular.module('your_app_name.controllers', [])
                         $scope.doctors = response.data.doctors;
                         $scope.patient = response.data.patient;
                         $scope.problems = response.data.problems;
+                        $scope.cases = response.data.cases;
                         $scope.doctrs = response.data.shareDoctrs;
                         $http({
                             method: 'GET',
@@ -2289,6 +2290,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
         })
+
         .controller('ConsultationProfileCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $filter, $ionicLoading, $ionicModal, $timeout, $ionicTabsDelegate) {
             $scope.apply = '0';
             $scope.discountApplied = '0';
