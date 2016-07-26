@@ -6959,7 +6959,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.recordingStop = function () {
                         //alert('stoppedTimer ' + stoppedTimer);
                         // alert($scope.Timercounter);
-                        $timeout.cancel(stoppedTimer);
+                     
                         publisher.destroy();
                         $scope.recording = 'Off';
                         jQuery('.stop').hide();
