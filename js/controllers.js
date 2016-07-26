@@ -6952,22 +6952,9 @@ angular.module('your_app_name.controllers', [])
                     
                     
                     $scope.recordVideo = function () {
+                        alert('dsdg');
                         $scope.Timercounter = 0;
-                        $scope.onTimeout = function () {
-                            stoppedTimer = $timeout(function () {
-                                $scope.Timercounter++;
-                                $scope.seconds = $scope.Timercounter % 60;
-                                $scope.minutes = Math.floor($scope.Timercounter / 60);
-                                //  var mytimeout = $timeout($scope.onTimeout, 1000);
-                                $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
-                                $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
-                                $scope.onTimeout();
-                            }, 1000)
-                        }
-
-                        $timeout(function () {
-                            $scope.onTimeout();
-                        }, 0);
+                       
                         $scope.recording = 'On';
                         jQuery('.start').hide();
                         jQuery('.stop').show();
