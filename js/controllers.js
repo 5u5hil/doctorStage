@@ -7079,6 +7079,36 @@ angular.module('your_app_name.controllers', [])
                     $scope.trustSrc = function (src) {
                         return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
                     }
+                    
+                      $ionicModal.fromTemplateUrl('viewvideo', {
+                        scope: $scope
+                    }).then(function (modal) {
+                        $scope.modal = modal;
+                    });
+                    $scope.playVideo = function (archiveid) {
+                        $ionicLoading.show({template: 'Retriving Video...'});
+                        $http({
+                            method: 'GET',
+                            url: domain + 'contentlibrary/play-recent-video',
+                            params: {archiveId: archiveid}
+                        }).then(function sucessCallback(response) {
+                            console.log(response.data);
+                            //alert(response.data);
+                            $scope.playurl = response.data;
+                            if ($scope.playurl != '') {
+                                $ionicLoading.hide();
+                                // $scope.modal.show();
+                            } else {
+                                $scope.playVideo(archiveid);
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                    }
+
+                    $scope.playVideoPreview = function () {
+                        $scope.modal.show();
+                    }
 
             
              $scope.tabclick = function (taburl) {
