@@ -6863,19 +6863,7 @@ angular.module('your_app_name.controllers', [])
                 }
             }, 1000);
             
-             $scope.tabclick = function (taburl) {
-                $ionicScrollDelegate.resize();
-                $ionicScrollDelegate.scrollTop();
-                jQuery('.notetab').hide();
-                jQuery('#' + taburl).show();
-                console.log(taburl + 'fasdfa');
-                jQuery('.headtab span').removeClass('active');
-                jQuery('.tab-buttons .tbtn').removeClass('active');
-                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
-                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
-                if (taburl == 'tabtwo')
-                {
-                    jQuery('.videoscreen').hide();
+            jQuery('.videoscreen').hide();
                     $scope.doctorId = window.localStorage.getItem('id');
                     $http({
                         method: 'GET',
@@ -6946,6 +6934,23 @@ angular.module('your_app_name.controllers', [])
                     }, function errorCallback(e) {
                         console.log(e);
                     });
+            
+             $scope.tabclick = function (taburl) {
+                $ionicScrollDelegate.resize();
+                $ionicScrollDelegate.scrollTop();
+                jQuery('.notetab').hide();
+                jQuery('#' + taburl).show();
+                console.log(taburl + 'fasdfa');
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.tab-buttons .tbtn').removeClass('active');
+                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+                if (taburl == 'tabtwo')
+                {
+                    
+                    
+                    
+                    
                     $scope.recordVideo = function () {
                         $scope.Timercounter = 0;
                         $scope.onTimeout = function () {
