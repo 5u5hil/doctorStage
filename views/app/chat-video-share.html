@@ -9,11 +9,11 @@
         </div>
     </ion-nav-title>
     <ion-content>
-         <div class="posts-list" >
+         <div class="posts-list" ng-if="videoChatdata !=''">
 
             <div  class="list card post-item greenbox" ng-repeat="vchat in videoChatdata">
                <a ui-sref="app.view-chat-video({'id': vchat.id})" class="card-content p0">
-                    <div class="row post-heading item item-text-wrap "  ng-class="{'fillbg': vchat.user_type == 'video' }">
+                    <div class="row post-heading item item-text-wrap "  ng-class="{'fillbg': vchat.user_type == 'doctor' }">
                         <div class="col col-75">
                             <h2 class="post-title">{{vchat.created_at| dateFormat3}}</h2>
                             <p class="post-author">
@@ -53,7 +53,10 @@
             </div>
 
         </div>
-      
+      <div class="posts-list" ng-if="videoChatdata ==''">
+            No record found
+             
+        </div>
         
     </ion-content>
     <!--    <div class="footerbar fixedbar">

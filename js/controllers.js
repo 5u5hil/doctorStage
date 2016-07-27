@@ -6822,6 +6822,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
+             $scope.usertype = 'doctor';
             $scope.recording = 'Off';
 //            $scope.timer = '00:00:00';
             var stoppedTimer;
@@ -7166,7 +7167,21 @@ angular.module('your_app_name.controllers', [])
             }
 
         })
-
+        .controller('ViewVideoChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+            $scope.chatId = $stateParams.id;
+            $scope.videoChatdata = '';
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-video-chat-data',
+                params: {userId: window.localStorage.getItem('id'), chatId: $scope.chatId}
+            }).then(function sucessCallback(response) {
+                console.log("get-video-chat-share-data" + response.data);
+                $scope.videoChatdata = response.data.chatvideodata;
+                // $state.go('app.chat-video-share', {reload: true});
+            }, function errorCallback(response) {
+                console.log(response.responseText);
+            });
+        })
 
         .controller('ChatCtrl', function ($scope, $state, $ionicModal, $ionicScrollDelegate, $sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             if ($stateParams.id) {
@@ -7175,7 +7190,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.chatId = get('chatId');
 
             }
-
+            $scope.usertype = 'doctor';
             $scope.recording = 'Off';
 //            $scope.timer = '00:00:00';
             var stoppedTimer;
