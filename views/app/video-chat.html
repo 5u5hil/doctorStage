@@ -7,10 +7,10 @@
         <div class="col"><span class="nbtn"  rel="tabtwo"  >2. Confirm</span></div>
 
     </div>
-    <form name="addNewVideoArticle" id="addNewVideoArticle" enctype="multipart/form-data" novalidate>
+    <form name="addChatVideo" id="addChatVideo" enctype="multipart/form-data" novalidate>
 
         <input type="hidden" name="docid" value="{{doctorId}}"  ng-model="doctorId"/>
-        <input type="hidden" name="viedoUrl" value="{{viedoUrl}}"  ng-model="viedoUrl"/>
+        <input type="hidden" name="chatid" value="{{chatId}}"  ng-model="chatId"/>
         <input type="hidden" name="archiveId" value="{{aid}}"  ng-model="aid"/>
         <ion-content class="has-footer"> 
 
@@ -51,7 +51,7 @@
                     <div class="col col-50 button btn-add next brd0 hide" ng-click="tabclick('tabtwo')" >Proceed</div>
                 </div>
                 <div  class="fixedbar row tbtn" rel="tabtwo">
-                    <button type="button" class="col button btn-add" ng-disabled="checkboxval" ng-click="submitNewVideoArticle()">Submit</button>
+                    <button type="button" class="col button btn-add" ng-disabled="checkboxval" ng-click="submitchatVideo()">Submit</button>
                 </div>
             </div>
         </div>

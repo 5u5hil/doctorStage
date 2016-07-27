@@ -1,0 +1,66 @@
+<ion-view class="category-detail-view">
+    <ion-nav-title>
+        <span>Video Chats</span>
+        <div class="buttons buttons-right">
+            <span class="right-buttons">
+                <a ui-sref="app.video-chat"> <button class="button button-positive w100p brdradious0" >  
+                        <strong>Create</strong> </button></a> <!--app.video-chat-->
+            </span>
+        </div>
+    </ion-nav-title>
+    <ion-content>
+         <div class="posts-list" >
+
+            <div  class="list card post-item greenbox" ng-repeat="vchat in videoChatdata">
+               <a ui-sref="app.view-chat-video({'id': vchat.id})" class="card-content p0">
+                    <div class="row post-heading item item-text-wrap "  ng-class="{'fillbg': vchat.user_type == 'video' }">
+                        <div class="col col-75">
+                            <h2 class="post-title">{{vchat.created_at| dateFormat3}}</h2>
+                            <p class="post-author">
+                                By <span>{{vchat.fname}} {{vchat.lname}}</span> 
+                            </p>
+                        </div>
+                        <div class="col col-25 ">
+
+
+                            <div class="indicater txt-center video">
+                                <i class="icon ion-ios-videocam f20"></i><br/>
+                               {{vchat.duration | timesec}} 
+                            </div> 
+
+                            
+
+                        </div>
+                    </div>
+
+                    <div class="post-content item item-text-wrap" post-content>
+                        <p class="post-excerpt pb10" dynamic-anchor-fix>
+                            {{vchat.chat_comment}}
+                        </p>
+                       	
+                      <!--  <div  class="framecontainer mb10"  ng-if="contentLab.content_type == 'video'"> 
+                           
+                            <video width="100%" style="min-height:50px;" controls preload="metadata">
+                                <source src="{{trustSrc(contentLab.url)}}" type="video/mp4">
+                               
+                              Your browser does not support the video tag.
+                            </video> 
+
+                        </div> -->
+                       
+                    </div>
+                </a>
+            </div>
+
+        </div>
+      
+        
+    </ion-content>
+    <!--    <div class="footerbar fixedbar">
+            <a class="button btn-share" ><i class="icon ion-android-add-circle"></i> New</a>
+        </div>-->
+</ion-view>
+
+
+
+

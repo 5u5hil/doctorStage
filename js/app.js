@@ -467,7 +467,7 @@ angular.module('your_app_name', [
 
                     .state('app.chat', {
                         cache: false,
-                        url: "/chat/{id:int}",
+                        url: "/chat/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/chat.html",
@@ -481,7 +481,17 @@ angular.module('your_app_name', [
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/video-chat.html",
-                                controller: 'ChatCtrl'
+                                controller: 'VideoChatCtrl'
+                            }
+                        }
+                    })
+                    .state('app.chat-video-share', {
+                        cache: false,
+                        url: "/chat-video-share",
+                        views: {
+                            'menuContent': {
+                                templateUrl: "views/app/chat-video-share.html",
+                                controller: 'VideoChatShareCtrl'
                             }
                         }
                     })

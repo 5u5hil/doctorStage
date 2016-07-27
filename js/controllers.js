@@ -6789,48 +6789,49 @@ angular.module('your_app_name.controllers', [])
                 return chatParticipants;
             };
         })
+        .controller('VideoChatCtrl', function ($scope, $state, $ionicModal, $ionicScrollDelegate, $sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
 
-        .controller('ChatCtrl', function ($scope, $ionicModal, $ionicScrollDelegate, $sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
-            $scope.chatId = $stateParams.id;
+
+            $scope.$on('$destroy', function () {
+
+                try {
+                    publisher.off();
+                    //alert('EXIT : publisher off try');
+                    publisher.destroy();
+                    //alert('publisher destroy');
+                    subscriber.destroy();
+                    //alert('subscriber destroy');
+                    //session.unsubscribe();
+                    session.off();
+                    //alert('EXIT : session off');
+                    session.disconnect();
+                    // alert('session disconnected try');
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+                } catch (err) {
+                    //alert('err while exitvideo ' + err);
+                    session.off();
+                    //alert('EXIT : session off catch');
+                    session.disconnect();
+                    //alert('session disconnected');
+                    $ionicHistory.nextViewOptions({
+                        historyRoot: true
+                    })
+
+                }
+            });
             $scope.recording = 'Off';
 //            $scope.timer = '00:00:00';
             var stoppedTimer;
             $scope.Timercounter = 0;
-            window.localStorage.setItem('chatId', $stateParams.id);
-            $scope.partId = window.localStorage.getItem('id');
+            $scope.chatId = window.localStorage.getItem('chatId');
+            $scope.userId = window.localStorage.getItem('id');
             $scope.msg = '';
             var apiKey = '45121182';
             //console.log($scope.chatId);
-            $http({
-                method: 'GET',
-                url: domain + 'doctorsapp/get-chat-token',
-                params: {chatId: $scope.chatId, userId: $scope.partId}
-            }).then(function sucessCallback(response) {
-                console.log(response.data);
-                $scope.user = response.data.user;
-                $scope.otherUser = response.data.otherUser;
-                $scope.chatMsgs = response.data.chatMsgs;
-                console.log($scope.chatMsgs);
-                $scope.token = response.data.token;
-                $scope.otherToken = response.data.otherToken;
-                $scope.sessionId = response.data.chatSession;
-                window.localStorage.setItem('Toid', $scope.otherUser.id);
-                //$scope.connect("'" + $scope.token + "'");
-                $scope.apiKey = apiKey;
-                var session = OT.initSession($scope.apiKey, $scope.sessionId);
-                $scope.session = session;
-                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
-                console.log("error source 1" + chatWidget);
-                session.connect($scope.token, function (err) {
-                    if (!err) {
-                        console.log("Connection success");
-                    } else {
-                        console.error("error source 2" + err);
-                    }
-                });
-            }, function errorCallback(e) {
-                console.log(e);
-            });
+
             $scope.returnjs = function () {
                 jQuery(function () {
                     var wh = jQuery('window').height();
@@ -6987,7 +6988,7 @@ angular.module('your_app_name.controllers', [])
             $scope.recordingStop = function () {
                 //alert('stoppedTimer ' + stoppedTimer);
                 // alert($scope.Timercounter);
-                 $timeout.cancel(stoppedTimer);
+                $timeout.cancel(stoppedTimer);
                 publisher.destroy();
                 $scope.recording = 'Off';
                 jQuery('.stop').hide();
@@ -7003,20 +7004,6 @@ angular.module('your_app_name.controllers', [])
                 }).then(function sucessCallback(response) {
                     console.log(response.data);
                     $scope.playVideo($scope.aid);
-//                            $http({
-//                                method: 'GET',
-//                                url: domain + 'contentlibrary/recording-response',
-//                                params: {archiveId: $scope.aid}
-//                            }).then(function sucessCallback(response) {
-//                                console.log(response.data);
-//                                $scope.url = response.data.url;
-//                                window.localStorage.setItem('viedoUrl', $scope.url);
-//                                window.localStorage.setItem('archiveId', $scope.aid);
-//
-//
-//                            }, function errorCallback(e) {
-//                                console.log(e);
-//                            });
 
 
 
@@ -7138,202 +7125,200 @@ angular.module('your_app_name.controllers', [])
                 $scope.modal.show();
             }
 
+            $scope.submitchatVideo = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addChatVideo")[0]);
+                callAjax("POST", domain + "contentlibrary/save-chat-video", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response == '1') {
+                        $scope.archiveId = window.localStorage.removeItem('archiveId');
+                        alert('video chat added sucessfully.');
+                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                    } else {
+                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                    }
+                });
+            }
+
+            $scope.getchatsharedata = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'contentlibrary/get-video-chat-share-data',
+                    params: {userId: window.localStorage.getItem('id'), chatId: $scope.chatId}
+                }).then(function sucessCallback(response) {
+                    console.log(response.data);
+                    $scope.videodata = response.data;
+                    $state.go('app.chat-video-share', {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response.responseText);
+                });
+            }
 
             $scope.tabclick = function (taburl) {
-                $ionicScrollDelegate.resize();
-                $ionicScrollDelegate.scrollTop();
                 jQuery('.notetab').hide();
                 jQuery('#' + taburl).show();
-                console.log(taburl + 'fasdfa');
                 jQuery('.headtab span').removeClass('active');
                 jQuery('.tab-buttons .tbtn').removeClass('active');
                 jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
                 jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
-                if (taburl == 'tabtwo')
-                {
+            }
 
-                    $scope.recordVideo = function () {
-                        alert('dsdg');
-                        $scope.Timercounter = 0;
-
-                        $scope.recording = 'On';
-                        jQuery('.start').hide();
-                        jQuery('.stop').show();
-                        jQuery('.videoscreen').hide();
-                        jQuery('.mediascreen').show();
-                        jQuery('.next').hide();
-                        jQuery('.rerecording').hide();
-                        $http({
-                            method: 'GET',
-                            url: domain + 'contentlibrary/get-recording-start',
-                            params: {archive: 1, sessionId: $scope.sessionId}
-                        }).then(function sucessCallback(response) {
-                            $scope.aid = response.data;
-                        }, function errorCallback(e) {
-                            console.log(e);
-                        });
-                    };
-                    $scope.recordingStop = function () {
-                        //alert('stoppedTimer ' + stoppedTimer);
-                        // alert($scope.Timercounter);
-                        $timeout.cancel(stoppedTimer);
-                        publisher.destroy();
-                        $scope.recording = 'Off';
-                        jQuery('.stop').hide();
-                        jQuery('.mediascreen').hide();
-                        jQuery('.start').hide();
-                        jQuery('.videoscreen').show();
-                        jQuery('.next').show();
-                        jQuery('.rerecording').show();
-                        $http({
-                            method: 'GET',
-                            url: domain + 'contentlibrary/recording-stop',
-                            params: {archiveStop: 1, archiveId: $scope.aid}
-                        }).then(function sucessCallback(response) {
-                            console.log(response.data);
-                            $scope.playVideo($scope.aid);
-//                            $http({
-//                                method: 'GET',
-//                                url: domain + 'contentlibrary/recording-response',
-//                                params: {archiveId: $scope.aid}
-//                            }).then(function sucessCallback(response) {
-//                                console.log(response.data);
-//                                $scope.url = response.data.url;
-//                                window.localStorage.setItem('viedoUrl', $scope.url);
-//                                window.localStorage.setItem('archiveId', $scope.aid);
-//
-//
-//                            }, function errorCallback(e) {
-//                                console.log(e);
-//                            });
+        })
 
 
-
-                        }, function errorCallback(e) {
-                            console.log(e);
-                        });
-                    }
-
-                    $scope.reRecording = function () {
-
-                        $scope.Timercounter = 0;
-                        jQuery('.videoscreen').hide();
-                        jQuery('.mediascreen').show();
-                        jQuery('.mediascreen').html('<div id="subscribersDiv" class="subscribediv">Initializing Video</div>');
-                        jQuery('.next').hide();
-                        jQuery('.rerecording').hide();
-                        jQuery('.stop').hide();
-                        $scope.doctorId = window.localStorage.getItem('id');
-                        $http({
-                            method: 'GET',
-                            url: domain + 'contentlibrary/get-video-start',
-                            params: {doctorId: window.localStorage.getItem('id')}
-                        }).then(function sucessCallback(response) {
-                            console.log(response.data);
-                            var aid = '';
-                            var apiKey = '45121182';
-                            var sessionId = response.data.sessionId;
-                            var token = response.data.oToken;
-                            $scope.sessionId = response.data.sessionId;
-                            $scope.token = response.data.oToken;
-                            $scope.opentok = response.data.opentok;
-                            if (OT.checkSystemRequirements() == 1) {
-                                session = OT.initSession(apiKey, sessionId);
-                                $ionicLoading.hide();
-                            } else {
-                                $ionicLoading.hide();
-                                alert("Your device is not compatible");
-                            }
-                            session.on({
-                                streamCreated: function (event) {
-                                    subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"});
-                                },
-                                sessionDisconnected: function (event) {
-                                    if (event.reason === 'networkDisconnected') {
-                                        alert('You lost your internet connection.'
-                                                + 'Please check your connection and try connecting again.');
-                                    }
-                                }
-                            });
-                            session.connect(token, function (error) {
-                                if (error) {
-                                    console.log(error.message);
-                                } else {
-                                    // console.log("jhjagsdjagdhj");
-                                    publisher = OT.initPublisher('subscribersDiv', {width: "100%", height: "100%"});
-                                    session.publish(publisher);
-                                    jQuery('.start').show();
-//                                    publisher.on('streamCreated', function (event) {
-//                                        console.log('Frame rate rerecording: ' + event.stream.frameRate);
-//                                    });
-//                                    var mic = 1;
-//                                    var mute = 1;
-//                                    jQuery(".muteMic").click(function () {
-//                                        if (mic == 1) {
-//                                            publisher.publishAudio(false);
-//                                            mic = 0;
-//                                        } else {
-//                                            publisher.publishAudio(true);
-//                                            mic = 1;
-//                                        }
-//                                    });
-//                                    jQuery(".muteSub").click(function () {
-//                                        if (mute == 1) {
-//                                            subscriber.subscribeToAudio(false);
-//                                            mute = 0;
-//                                        } else {
-//                                            subscriber.subscribeToAudio(true);
-//                                            mute = 1;
-//                                        }
-//                                    });
-                                }
-                            });
-                        }, function errorCallback(e) {
-                            console.log(e);
-                        });
-                    }
-
-                    $scope.trustSrc = function (src) {
-                        return $sce.trustAsResourceUrl($filter('split')(src, '?', 0));
-                    }
-
-
-
-                    $ionicModal.fromTemplateUrl('viewvideo', {
-                        scope: $scope
-                    }).then(function (modal) {
-                        $scope.modal = modal;
-                    });
-                    $scope.playVideo = function (archiveid) {
-                        $ionicLoading.show({template: 'Retriving Video...'});
-                        $http({
-                            method: 'GET',
-                            url: domain + 'contentlibrary/play-recent-video',
-                            params: {archiveId: archiveid}
-                        }).then(function sucessCallback(response) {
-                            console.log(response.data);
-                            //alert(response.data);
-                            $scope.playurl = response.data;
-                            if ($scope.playurl != '') {
-                                $ionicLoading.hide();
-                                // $scope.modal.show();
-                            } else {
-                                $scope.playVideo(archiveid);
-                            }
-                        }, function errorCallback(e) {
-                            console.log(e);
-                        });
-                    }
-
-                    $scope.playVideoPreview = function () {
-                        $scope.modal.show();
-                    }
-
-                }
-
+        .controller('ChatCtrl', function ($scope, $state, $ionicModal, $ionicScrollDelegate, $sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+            if ($stateParams.id) {
+                $scope.chatId = $stateParams.id;
+            } else {
+                $scope.chatId = get('chatId');
 
             }
+
+            $scope.recording = 'Off';
+//            $scope.timer = '00:00:00';
+            var stoppedTimer;
+            $scope.Timercounter = 0;
+            window.localStorage.setItem('chatId', $scope.chatId);
+            $scope.partId = window.localStorage.getItem('id');
+            $scope.msg = '';
+            var apiKey = '45121182';
+            //console.log($scope.chatId);
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-chat-token',
+                params: {chatId: $scope.chatId, userId: $scope.partId}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.user = response.data.user;
+                $scope.otherUser = response.data.otherUser;
+                $scope.chatMsgs = response.data.chatMsgs;
+                console.log($scope.chatMsgs);
+                $scope.token = response.data.token;
+                $scope.otherToken = response.data.otherToken;
+                $scope.sessionId = response.data.chatSession;
+                window.localStorage.setItem('Toid', $scope.otherUser.id);
+                //$scope.connect("'" + $scope.token + "'");
+                $scope.apiKey = apiKey;
+                var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                $scope.session = session;
+                var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                console.log("error source 1" + chatWidget);
+                session.connect($scope.token, function (err) {
+                    if (!err) {
+                        console.log("Connection success");
+                    } else {
+                        console.error("error source 2" + err);
+                    }
+                });
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.returnjs = function () {
+                jQuery(function () {
+                    var wh = jQuery('window').height();
+                    jQuery('#chat').css('height', wh);
+                    //	console.log(wh);
+                })
+            };
+            $scope.returnjs();
+            $scope.iframeHeight = $(window).height() - 88;
+            $('#chat').css('height', $scope.iframeHeight);
+            //Previous Chat 
+            $scope.appendprevious = function () {
+                console.log('connectioning.....');
+                $ionicLoading.show({template: 'Retrieving messages...'});
+                $(function () {
+                    angular.forEach($scope.chatMsgs, function (value, key) {
+                        //console.log(value);
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
+                        if (value.sender_id == $scope.partId) {
+                            $ionicLoading.hide();
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        } else {
+                            $ionicLoading.hide();
+                            $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        }
+                    });
+                })
+            };
+            $scope.movebottom = function () {
+                jQuery(function () {
+                    var dh = $('.ot-bubbles').height();
+                    $('.chatscroll').scrollTop(dh);
+                    //	console.log(wh);
+
+                })
+            };
+            $timeout(function () {
+                if ($scope.chatMsgs.length > 0) {
+                    $scope.appendprevious();
+                    $scope.movebottom();
+                } else {
+                    //$('#chat').html('<p> No </p>');
+                }
+            }, 1000);
+
+
+            $scope.submitchatVideo = function () {
+                $scope.from = get('from');
+                $ionicLoading.show({template: 'Adding...'});
+                var data = new FormData(jQuery("#addChatVideo")[0]);
+                callAjax("POST", domain + "contentlibrary/save-chat-video", data, function (response) {
+                    console.log(response);
+                    $ionicLoading.hide();
+                    if (response == '1') {
+                        $scope.archiveId = window.localStorage.removeItem('archiveId');
+                        alert('video chat added sucessfully.');
+                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                    } else {
+                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                    }
+                });
+            }
+
+            $scope.getchatsharedata = function () {
+                $state.go('app.chat-video-share', {reload: true});
+//                $http({
+//                    method: 'GET',
+//                    url: domain + 'contentlibrary/get-video-chat-share-data',
+//                    params: {userId: window.localStorage.getItem('id'), chatId: $scope.chatId}
+//                }).then(function sucessCallback(response) {
+//                    console.log("sdfghjkl;"+response.data);
+//                    $scope.videoChatdata = response.data.chatvideodata;
+//                    $state.go('app.chat-video-share', {reload: true});
+//                }, function errorCallback(response) {
+//                    console.log(response.responseText);
+//                });
+            }
+
+            $scope.tabclick = function (taburl) {
+                jQuery('.notetab').hide();
+                jQuery('#' + taburl).show();
+                jQuery('.headtab span').removeClass('active');
+                jQuery('.tab-buttons .tbtn').removeClass('active');
+                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+            }
+
         })
+        .controller('VideoChatShareCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+            $scope.chatId = window.localStorage.getItem('chatId');
+    $scope.videoChatdata = '';
+            $http({
+                method: 'GET',
+                url: domain + 'contentlibrary/get-video-chat-share-data',
+                params: {userId: window.localStorage.getItem('id'), chatId: $scope.chatId}
+            }).then(function sucessCallback(response) {
+                console.log("sdfghjkl;" + response.data);
+                $scope.videoChatdata = response.data;
+                // $state.go('app.chat-video-share', {reload: true});
+            }, function errorCallback(response) {
+                console.log(response.responseText);
+            });
+        })
+
 
         .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
