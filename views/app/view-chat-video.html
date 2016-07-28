@@ -10,19 +10,16 @@
                     By <span>{{videoChatdata.fname}} {{videoChatdata.lname}}</span> 
                 </p>
                 
-                <p class="post-excerpt pb10" dynamic-anchor-fix style="font-style: italic;"> 
-                    {{videoChatdata.chat_comment}}
-                </p>
+                
                	
                 <div  class="framecontainer mb10" > 
-
                     <video width="100%" style="min-height:50px;" controls preload="metadata" autoplay>
                         <source src="{{trustSrc(videoChatdata.url)}}" type="video/mp4">
                     </video> 
 
                 </div>
                 <p class="post-text">
-                    {{cval.content_value}}
+                    {{videoChatdata.chat_comment}}
                 </p>
 
             </div>
