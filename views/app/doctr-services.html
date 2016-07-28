@@ -37,12 +37,12 @@
                                                     </ul>
                                                     <div class="clr"></div>
                                                     <div class="item item-body p0 brd-0" ng-repeat="vs in videoSch track by $index">
-                                                        <ul class="wk">
+<!--                                                        <ul class="wk">
                                                             <li ng-repeat="day in vs.service_details| orderBy:'' | groupBy:['day_of_week']">
                                                                 <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
                                                                 {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
                                                             </li>
-                                                        </ul>
+                                                        </ul>-->
                                                         <div class="sche-date">
                                                             <div class="leftarrow" ng-click="getFirstSlots(vs.supersaas_id, $index, serv)">Earliest Slot</div> 
                                                             <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>

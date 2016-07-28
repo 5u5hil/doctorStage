@@ -1924,7 +1924,6 @@ angular.module('your_app_name.controllers', [])
                                     output[lCase[0]].push(fname); //Add name to its list
                                 else
                                     output[lCase[0]] = [fname]; // Else add a key
-                                console.log(output);
                                 return output;
                             },
                             {}
@@ -2109,6 +2108,30 @@ angular.module('your_app_name.controllers', [])
                     $scope.filemodal.show();
                 };
             });
+            $ionicModal.fromTemplateUrl('patientadd', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.padd = modal;
+                $scope.showPadd = function () {
+                    $scope.padd.show();
+                };
+                $scope.go = function (goUrl) {
+                    $scope.padd.hide();
+                    console.log("== " + goUrl + " ==");
+                    if (goUrl == 'app.doctr-services')
+                        $state.go(goUrl, {'id': $scope.patientId}, {relaod: true});
+                    else if (goUrl == 'app.cnote') {
+                        store({'patientId': $scope.patientId});
+                        $state.go(goUrl, {'appId': 0}, {relaod: true});
+                    }
+                };
+
+            });
+            $scope.submitmodal = function () {
+                $scope.padd.hide();
+                $scope.modal.hide();
+                $scope.filemodal.hide();
+            };
             $scope.previewNote = function (noteId, appId) {
                 console.log(noteId + "====" + appId);
                 store({'recId': noteId});
@@ -3700,6 +3723,7 @@ angular.module('your_app_name.controllers', [])
 
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             var imgCnt = 0;
+            $ionicLoading.show({template: 'Loading...'});
             console.log("Measure = " + $rootScope.measurement + "Obj = " + $rootScope.objId + "Dia = " + $rootScope.diaId);
             if ($rootScope.diaId) {
                 //$ionicModal.hide();
@@ -3712,7 +3736,7 @@ angular.module('your_app_name.controllers', [])
             $scope.recId = $rootScope.recCId;
             $scope.caseId = '';
             $scope.userId = window.localStorage.getItem('id');
-            $scope.prescription = 'Yes';
+            $scope.prescription = 'No';
             $scope.images = [];
             $scope.image = [];
             $scope.tempImgs = [];
@@ -3778,11 +3802,13 @@ angular.module('your_app_name.controllers', [])
                                 }
                             }
                         });
+                        $ionicLoading.hide();
                     }, function errorCallback(response) {
                         console.log(response);
                     });
                 }, function errorCallback(e) {
                     console.log(e);
+                    $ionicLoading.hide();
                 });
             } else {
                 store({'from': 'app.homepage'});
@@ -3804,7 +3830,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId}
+                    params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId, recId: $scope.recId, doctorId: $scope.userId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
@@ -3877,6 +3903,7 @@ angular.module('your_app_name.controllers', [])
                                 {}
                         );
                     }
+                    $ionicLoading.hide();
                 }, function errorCallback(response) {
                     console.log(response);
                 });
@@ -4202,14 +4229,8 @@ angular.module('your_app_name.controllers', [])
                     //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    if (($("#camera-status").html()) != '') {
-                        jQuery('#convalid').removeClass('hide');
-                        jQuery('#coninprec').removeClass('hide');
-                    } else {
-                        jQuery('#convalid').addClass('hide');
-                        jQuery('#coninprec').addClass('hide');
-                    }
-                    //jQuery('#valid-till').attr('required', false);
+                    jQuery('#convalid').addClass('hide');
+                    jQuery('#coninprec').addClass('hide');
                 }
                 if (typeof (FileReader) != "undefined") {
                     //loop for each file selected for uploaded.
@@ -4250,7 +4271,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.getPrescription = function (pre) {
                 console.log('pre ' + pre);
-                if (pre === ' No') {
+                if (pre === 'No') {
                     console.log("no");
                     jQuery('#convalid').addClass('hide');
                 } else if (pre === 'Yes') {
@@ -6822,7 +6843,7 @@ angular.module('your_app_name.controllers', [])
 
                 }
             });
-             $scope.usertype = 'doctor';
+            $scope.usertype = 'doctor';
             $scope.recording = 'Off';
 //            $scope.timer = '00:00:00';
             var stoppedTimer;
@@ -7320,7 +7341,7 @@ angular.module('your_app_name.controllers', [])
         })
         .controller('VideoChatShareCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = window.localStorage.getItem('chatId');
-    $scope.videoChatdata = '';
+            $scope.videoChatdata = '';
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/get-video-chat-share-data',
