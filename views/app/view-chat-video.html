@@ -1,11 +1,11 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
-        <span>Video Chat </span>
+        <span>Record</span>
     </ion-nav-title>
     <ion-content class="bgwhite">
         <div class="posts-list" style="padding-bottom:60px;">
             <div class="post-view  post-content item-text-wrap p10">
-                <h2 class="post-title">{{videoChatdata.created_at}}</h2>
+                <h2 class="post-title">{{videoChatdata.created_at| dateFormat6}}</h2>
                 <p class="post-author">
                     By <span>{{videoChatdata.fname}} {{videoChatdata.lname}}</span> 
                 </p>
@@ -18,8 +18,6 @@
 
                     <video width="100%" style="min-height:50px;" controls preload="metadata" autoplay>
                         <source src="{{trustSrc(videoChatdata.url)}}" type="video/mp4">
-
-                       
                     </video> 
 
                 </div>
