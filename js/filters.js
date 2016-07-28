@@ -247,6 +247,19 @@ angular.module('your_app_name.filters', [])
 
             };
         })
+        .filter('dateFormat6', function ($filter) {
+            return function (input)
+            {
+                if (input == null) {
+                    return "";
+                }
+
+                var _date = $filter('date')(new Date(input), 'dd MMM, yyyy hh:mm a');
+
+                return _date.toUpperCase();
+
+            };
+        })
         //Serach filter
 
         .filter('split', function () {
