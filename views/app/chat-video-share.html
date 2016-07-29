@@ -1,13 +1,12 @@
 <ion-view class="category-detail-view">
     <ion-nav-title>
         <span>Video Chat Record</span>
-        <div class="buttons buttons-right">
-            <span class="right-buttons">
-                <a ui-sref="app.video-chat"> <button class="button button-positive w100p brdradious0" >  
-                        <strong>Create</strong> </button></a> <!--app.video-chat-->
-            </span>
-        </div>
+       
     </ion-nav-title>
+    <ion-nav-buttons side="right">
+         <a ui-sref="app.video-chat"> <button class="button button-positive w100p brdradious0" >  
+                        <strong>Create</strong> </button></a> 
+    </ion-nav-buttons>
     <ion-content>
          <div class="posts-list" ng-if="videoChatdata !=''">
 
