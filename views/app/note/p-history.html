@@ -26,19 +26,15 @@
                             </label>
                             <label class="item item-input" ng-if="ab.value == ''">
                                 <span class="input-label">{{field.field}}</span>
-                                <input type="tel" name="{{field.name}}" value="{{patients[0].phone}}">
+                                <input type="tel" name="{{field.name}}"  value="{{ab.value}}">
                             </label>
                         </div>
                     </div>
                 </div>
                 <div ng-if="abt.length == 0">
-                    <label class="item item-input" ng-if="patients[0].phone != ''">
+                    <label class="item item-input">
                         <span class="input-label">{{field.field}}</span>
-                        <input type="tel" name="{{field.name}}"  value="{{patients[0].phone}}">
-                    </label>
-                    <label class="item item-input" ng-if="patients[0].phone == ''">
-                        <span class="input-label">{{field.field}}</span>
-                        <input type="tel" name="{{field.name}}" >
+                        <input type="tel" name="{{field.name}}"  value="{{ab.value}}" />
                     </label>
                 </div>
             </div>
@@ -48,30 +44,25 @@
                         <div ng-if="ab.fields.field == 'Email'">
                             <label class="item item-input" ng-if="ab.value != ''">
                                 <span class="input-label">{{field.field}}</span>
-                                <input type="email" name="{{field.name}}" value="{{ab.value}}">
+                                <input type="email" name="{{field.name}}" value="{{ab.value}}" />
                             </label>
                             <label class="item item-input" ng-if="ab.value == ''">
                                 <span class="input-label">{{field.field}}</span>
-                                <input type="email" name="{{field.name}}" value="{{patients[0].email}}" >
+                                <input type="email" name="{{field.name}}" />
                             </label>
                         </div>
                     </div>
                 </div>
                 <div ng-if="abt.length == 0">
-                    <label class="item item-input" ng-if="patients[0].email != ''">
+                    <label class="item item-input" >
                         <span class="input-label">{{field.field}}</span>
-                        <input type="email" name="{{field.name}}" value="{{patients[0].email}}">
-                    </label>
-                    <label class="item item-input" ng-if="patients[0].email == ''">
-                        <span class="input-label">{{field.field}}</span>
-                        <input type="email" name="{{field.name}}" >
+                        <input type="email" name="{{field.name}}" />
                     </label>
                 </div>
             </div>
         </div>
         <div class="item item-divider" >Basic Information</div>
         <div ng-repeat="field in fields">
-
             <div ng-if="field.field_types.value == 'date'">
                 <div ng-if="abt.length != 0">
                     <div ng-repeat="ab in abt">
@@ -86,7 +77,7 @@
                 <div ng-if="abt.length == 0">
                     <label class="item item-input">
                         <span class="input-label">{{field.field}}</span>
-                        <input type="date" name="{{field.name}}" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat4}}">
+                        <input type="date" name="{{field.name}}" ng-model="curTime" placeholder="{{field.field}}" >
                     </label>
                 </div>
             </div>
@@ -156,25 +147,38 @@
             </div>
         </div>
         <div class="item item-divider">Known Conditions
-            <button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-controller="knowConditionCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>
+            <!--<button class="Cstmbutn button-small mb15 col-25" style="float:right; padding:0;" ng-controller="knowConditionCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> Add </button>-->
         </div>
         <div class="knowcondition">
             <input type="hidden" ng-model="conIds" id="selcon" value="" name="conditions" />
-            <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>
+            <!--            <ul><li ng-repeat="sel in selConditions">{{sel.condition}}</li></ul>-->
+            <ion-list>
+                <div class="crow">
+                    <div class="col-half" ng-repeat="con in conditions track by $index">
+                        <ion-checkbox ng-model="filter.red" ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                    </div>
+                </div>
+            </ion-list>
         </div>
-        <div class="flexcont">
-            <div class="innerdiv col-50 brdright">
-                <div class="item item-divider">Allergies</div>
-                <div class="p10">
-                    <button  class="Cstmbutn button-small mb15"><span class="icon ion-plus-circled"></span> Add</button>
-                    <!--<div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  -->
-                </div>
-            </div>
-            <div class="innerdiv col-50">
-                <div class="item item-divider">Vaccinations</div>
-                <div class="p10">
-                    <button class="Cstmbutn button-small mb15"><span class="icon ion-plus-circled"></span> Add </button>	
-                </div>
+        <!--        <div class="flexcont">
+                    <div class="innerdiv col-50 brdright">
+                        <div class="item item-divider">Allergies</div>
+                        <div class="p10">
+                            <button  class="Cstmbutn button-small mb15"><span class="icon ion-plus-circled"></span> Add</button>
+                            <div class="custombtn" ng-click="gotopage('app.patient-history')">Patient</div>  
+                        </div>
+                    </div>
+                    <div class="innerdiv col-50">
+                        <div class="item item-divider">Vaccinations</div>
+                        <div class="p10">
+                            <button class="Cstmbutn button-small mb15"><span class="icon ion-plus-circled"></span> Add </button>	
+                        </div>
+                    </div>
+                </div>-->
+        <div class="row">
+            <div class="col">
+                <button class="button button-block button-positive mtop20" ng-click="savePatientHistory()"> Save</button>
+                <div class="foterspacing"></div>
             </div>
         </div>
     </form>

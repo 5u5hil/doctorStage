@@ -1,136 +1,114 @@
 <div class="tcontent" ng-controller="ProceduresCtrl"> 
     <div class="row cbtn3">
-        <button class="col button" ng-controller="AddprocedureCtrl" ng-click="modal.show()">
+        <button class="col button" ng-controller="AddtreatmenttCtrl" ng-click="modal.show()">
             <span class="icon ion-plus-circled"></span> Add 
         </button>
-
     </div>
 
-    <div class="posts-list" >
-        <div  class="list card post-item">
+    <div  class="list card post-item greenbox" ng-repeat="proc in procedure">
+        <div class="card-content p0">
+            <div class="row post-heading item item-text-wrap ">
+                <div class="col col-75">
+                    <h2 class="post-title">Procedures {{$index + 1}}</h2>
+                </div>
+                <div class="col col-25 txt-right">
+                    <div class="infomore" ng-click="infomore(proc.id + 'proc')">
+                        <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                    </div>
+                </div>
+            </div>
             <div class="post-content item item-text-wrap p0">
-                <div  class="card-content paraspacing">
-                    <div class="cardheading mb5">Procedure 1</div>
-                    <div class="row txt-left">
+                <div class="row" ng-repeat="pdata in proData[$index]| limitTo: 4">
+                    <div ng-if="pdata.value != ''">
+                        <div class="col"><strong>{{pdata.fields.field}} </strong></div>
                         <div class="col">
-                            <p><strong>Name</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-
-                        </div>
-                        <div class="col">
-                            <p><strong>Age</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                            <div ng-if="pdata.fields.field == 'Related Problem'">
+                                <div ng-repeat="problem in problems">
+                                    <div ng-if="problem.record_id == pdata.value">{{problem.value}}</div>
+                                </div>
+                            </div>
+                            <div ng-if="pdata.fields.field_type == '8'"> {{pdata.value|dateFormat3}}</div>
+                            <div ng-if="pdata.fields.field_type == '12'"> {{pdata.value|time1}}</div>
+                            <div ng-if="pdata.fields.field != 'Related Problem' && pdata.fields.field != 'Attachments' && pdata.fields.field_type != '12' && pdata.fields.field_type != '8'">
+                                <div> {{pdata.value}}</div>
+                            </div>
+                            <div ng-if="pdata.fields.field == 'Attachments'">
+                                <div > <div ng-repeat="attach in pdata.attachments" >
+                                        <div ng-init="selData = (attach.orginial_name).split('.')">
+                                            <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                    <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>				  
+                            </div>
                         </div>
                     </div>
-                    <div class="clr"></div>
+                </div>
+                <div class="infomore-div" id="{{proc.id}}proc">
+                    <div class="row" ng-repeat="pdata in proData[$index]" ng-if="$index >= 5">
+                        <div ng-if="pdata.value != ''">
+                            <div class="col"><strong>{{pdata.fields.field}} </strong></div>
+                            <div class="col">
+                                <div ng-if="pdata.fields.field == 'Related Problem'">
+                                    <div ng-repeat="problem in problems">
+                                        <div ng-if="problem.record_id == pdata.value">{{problem.value}}</div>
+                                    </div>
+                                </div>
+                                <div ng-if="pdata.fields.field_type == '8'"> {{pdata.value|dateFormat3}}</div>
+                                <div ng-if="pdata.fields.field_type == '12'"> {{pdata.value|time1}}</div>
+                                <div ng-if="pdata.fields.field != 'Related Problem' && pdata.fields.field != 'Attachments' && pdata.fields.field_type != '12' && pdata.fields.field_type != '8'">
+                                    <div> {{pdata.value}}</div>
+                                </div>
+                                <div ng-if="pdata.fields.field == 'Attachments'">
+                                    <div > <div ng-repeat="attach in pdata.attachments" >
+                                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                    <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>				  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="posts-list" >
-        <div  class="list card post-item">
-            <div class="post-content item item-text-wrap p0">
-                <div  class="card-content paraspacing">
-                    <div class="cardheading mb5">Procedure 2</div>
-                    <div class="row txt-left">
-                        <div class="col">
-                            <p><strong>Name</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-
-                        </div>
-                        <div class="col">
-                            <p><strong>Age</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                        </div>
-                    </div>
-                    <div class="clr"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="posts-list" >
-        <div  class="list card post-item">
-            <div class="post-content item item-text-wrap p0">
-                <div  class="card-content paraspacing">
-                    <div class="cardheading mb5">Procedure 3</div>
-                    <div class="row txt-left">
-                        <div class="col">
-                            <p><strong>Name</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-
-                        </div>
-                        <div class="col">
-                            <p><strong>Age</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                        </div>
-                    </div>
-                    <div class="clr"></div>
-                </div>
-            </div>
-        </div>
-    </div>	
 </div>
 
 
-<script id="add-procedure" type="text/ng-template">
+<script id="add-treatmentplan" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Add New Procedure</h1>
+    <h1 class="title">Procedure</h1>
     <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
-    <div class="list">
-    <div class="item item-divider">Name</div>
-    <label class="item item-input">
-    <input type="text" placeholder="Enter Name">
-    </label>
-    <div class="item item-divider">Age</div>
-    <label class="item item-input">
-    <input type="text" placeholder="Age">
-    </label>
-
-    <div class="item item-divider">Field Labels</div>
-
-    <li class="item item-toggle">
-    Option1
-    <label class="toggle toggle-assertive">
-    <input type="checkbox">
-    <div class="track">
-    <div class="handle"></div>
+    <form name="addProcedureForm" id="addProcedureForm" enctype="multipart/form-data" novalidate >
+    <div class="box-body">
+    <div class="form-horizontal">
+    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+    <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+    <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+    <input type="hidden" value="{{appId}}" name="appId" />
+    <input type="hidden" value="{{category}}" name="recordCat" />
+    <input type="hidden" value="{{recId}}" name="recId" />
+    <div ng-include src="'views/app/video-note/fields.html'"></div>
     </div>
-    </label>
-    </li>
-
-    <div class="item item-divider">Field Labels</div>  
-    <label class="item item-input item-select">
-    <div class="input-label">
-    Select
-    </div>
-    <select>
-    <option selected> option1</option>
-    <option >option2</option>
-    <option>option3</option>
-    </select>
-    </label>  
-    <div class="item item-divider">Field Labels</div>
-    <ion-list>
-    <div class="row">
-    <div class="col cradio"><ion-radio ng-model="choice" ng-value="'A'" checked>Choose A</ion-radio></div>
-    <div class="col cradio"> <ion-radio ng-model="choice" ng-value="'B'">Choose B</ion-radio></div>
-    </div>
-    </ion-list>
-
-
-    <br/>
-    <div class="button-bar ">
-    <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
-    <a class="button button-positive">Submit</a>
-    </div>  
-    </div>
-
+    </div>     
+    </form>
     </ion-content>
+    <div class="button-bar fixed footerbar">
+    <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
+    <a class="button button-positive" ng-click="saveProcedure()">Submit</a>
+    </div>
     </ion-modal-view>
 </script>
 

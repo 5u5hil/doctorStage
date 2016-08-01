@@ -110,3 +110,26 @@
     </ion-content>
     </ion-modal-view>
 </script>
+<script id="mealdetails" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="modalhead txt-center">Meal Details - {{Mealday}}</h1>
+    <button class="button button-clear pull-left" ng-click="submitmodal()">Cancel</button>
+    <div class="buttons buttons-right pull-right"><span class="right-buttons">
+    <button type="submit" ng-click="saveMeal(day)" class="button button-positive w100p brdradious0"> 
+    <strong>Save</strong> </button>
+    </span></div>
+    </ion-header-bar>
+    <ion-content>
+    <div ng-repeat="meal in mealDetails[day]">
+    <div class="item item-divider mt15">Meal {{$index+1}}</div>
+    <label class="item item-input">
+    <input type="time" placeholder="Time" ng-model="mealDetails[day][$index].time"  required="">
+    </label>
+    <label class="item item-input">
+    <textarea placeholder="Notes" name="" ng-model="mealDetails[day][$index].details" maxlength="" rows="2" cols="50"></textarea>
+    </label>
+    </div>  
+    </ion-content>
+    </ion-modal-view>
+</script>

@@ -1,96 +1,121 @@
 <div class="tcontent" ng-controller="LifeStyleCtrl" > 
     <div class="row cbtn3">
-        <button class="col button" ng-controller="AddLifestyleCtrl" ng-click="modal.show()">
+        <button class="col button" ng-controller="AddtreatmenttCtrl" ng-click="modal.show()">
             <span class="icon ion-plus-circled"></span> Add 
         </button>
     </div>
-    <div class="posts-list" >
-        <div  class="list card post-item">
+    <div  class="list card post-item greenbox" ng-repeat="life in lifestyle">
+        <div class="card-content p0">
+            <div class="row post-heading item item-text-wrap ">
+                <div class="col col-75">
+                    <h2 class="post-title">Life Style {{$index + 1}}</h2>
+                </div>
+                <div class="col col-25 txt-right">
+                    <div class="infomore" ng-click="infomore(life.id + 'life')">
+                        <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>
+                    </div>
+                </div>
+            </div>
             <div class="post-content item item-text-wrap p0">
-                <div  class="card-content paraspacing">
-                    <div class="cardheading mb5">Lifestyle 1</div>
-                    <div class="row txt-left">
-                        <div class="col">
-                            <p><strong>Name</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                        </div>
-                        <div class="col">
-                            <p><strong>Age</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
+                <div class="row" ng-repeat="ldata in lifeData[$index]| limitTo: 4">
+                    <div ng-if="ldata.value != '' && ldata.fields.name != 'no-of-frequency' && ldata.fields.name != 'no-of-times'">
+                        <div class="col"><strong>{{ldata.fields.field}} </strong></div>
+                        <div class="col"> 
+                            <div ng-if="ldata.fields.field == 'Related Problem'">
+                                <div ng-repeat="problem in problems">
+                                    <div ng-if="problem.record_id == ldata.value"> {{problem.value}}</div>
+                                </div>
+                            </div>
+                            <div ng-if="ldata.fields.field == 'Frequency'"> 
+                                <div ng-if="ldata.value == 'Repeat'">{{ldata.value}} in {{repeatNo[$index]}} {{repeatFreq[$index]}}</div>
+                                <div ng-if="ldata.value != 'Repeat'">{{ldata.value}}</div>
+                            </div>
+                            <div ng-if="ldata.fields.field_type == '8'"> {{ldata.value|dateFormat3}}</div>
+                            <div ng-if="ldata.fields.field_type == '12'"> {{ldata.value|time1}}</div>
+                            <div ng-if="ldata.fields.name != 'no-of-times' && ldata.fields.field != 'Frequency' && ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
+                                <div> {{ldata.value}}</div>
+                            </div>
+                            <div ng-if="ldata.fields.field == 'Attachments'">
+                                <div > <div ng-repeat="attach in ldata.attachments" >
+                                        <div ng-init="selData = (attach.orginial_name).split('.')">
+                                            <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                    <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>				  
+                            </div>
                         </div>
                     </div>
-                    <div class="clr"></div>
+                </div>
+                <div class="infomore-div" id="{{life.id}}life">
+                    <div class="row" ng-repeat="ldata in lifeData[$index]" ng-if="$index >= 5">
+                        <div ng-if="ldata.value != '' && ldata.fields.name != 'no-of-frequency' && ldata.fields.name != 'no-of-times'">
+                            <div class="col"><strong>{{ldata.fields.field}} </strong></div>
+                            <div class="col"> 
+                                <div ng-if="ldata.fields.field == 'Related Problem'">
+                                    <div ng-repeat="problem in problems">
+                                        <div ng-if="problem.record_id == ldata.value">{{problem.value}}</div>
+                                    </div>
+                                </div>
+                                <div ng-if="ldata.fields.field == 'Frequency'"> 
+                                    <div ng-if="ldata.value == 'Repeat'">{{ldata.value}} in {{repeatNo[$index]}} {{repeatFreq[$index]}}</div>
+                                    <div ng-if="ldata.value != 'Repeat'">{{ldata.value}}</div>
+                                </div>
+                                <div ng-if="ldata.fields.field_type == '8'"> {{ldata.value|dateFormat3}}</div>
+                                <div ng-if="ldata.fields.field_type == '12'"> {{ldata.value|time1}}</div>
+                                <div ng-if="ldata.fields.name != 'no-of-times' && ldata.fields.field != 'Frequency' && ldata.fields.field != 'Related Problem' && ldata.fields.field != 'Attachments' && ldata.fields.field_type != '12' && ldata.fields.field_type != '8'">
+                                    <div> {{ldata.value}}</div>
+                                </div>
+                                <div ng-if="ldata.fields.field == 'Attachments'">
+                                    <div > <div ng-repeat="attach in ldata.attachments" >
+                                            <div ng-init="selData = (attach.orginial_name).split('.')">
+                                                <div ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
+                                                    <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>				  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="posts-list" >
-        <div  class="list card post-item">
-            <div class="post-content item item-text-wrap p0">
-                <div  class="card-content paraspacing">
-                    <div class="cardheading mb5">Lifestyle 2</div>
-                    <div class="row txt-left">
-                        <div class="col">
-                            <p><strong>Name</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-
-                        </div>
-                        <div class="col">
-                            <p><strong>Age</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                        </div>
-                    </div>
-                    <div class="clr"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="posts-list" >
-        <div  class="list card post-item">
-            <div class="post-content item item-text-wrap p0">
-                <div  class="card-content paraspacing">
-                    <div class="cardheading mb5">Lifestyle 3</div>
-                    <div class="row txt-left">
-                        <div class="col">
-                            <p><strong>Name</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-
-                        </div>
-                        <div class="col">
-                            <p><strong>Age</strong>:  Leena</p>
-                            <p><strong>Title</strong>:  Lorem Ipsum is simply dummy</p>
-                        </div>
-                    </div>
-                    <div class="clr"></div>
-                </div>
-            </div>
-        </div>
-    </div>	
 </div>
 
 
-<script id="add-lifestyle" type="text/ng-template">
+<script id="add-treatmentplan" type="text/ng-template">
     <ion-modal-view>
     <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Add New Lifestyle</h1>
+    <h1 class="title">Lifestyle</h1>
     <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
     </ion-header-bar>
     <ion-content class="padding">
-    <div class="list">
     <form name="addLifeStyleForm" id="addLifeStyleForm" enctype="multipart/form-data" novalidate >
-    <input type="hidden" value="category" name="recordCat" />
-    <div ng-include src="'views/app/consultation-note/fields.html'"></div>
+    <div class="box-body">
+    <div class="form-horizontal">
+    <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+    <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
+    <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
+    <input type="hidden" value="{{appId}}" name="appId" />
+    <input type="hidden" value="{{category}}" name="recordCat" />
+    <input type="hidden" value="{{recId}}" name="recId" />
+    <div ng-include src="'views/app/video-note/fields.html'"></div>
+    </div>
+    </div>
     </form>
-    <br/>
-    <div class="button-bar ">
+    </ion-content>
+    <div class="button-bar fixed footerbar">
     <a class="button button-assertive"  ng-click="submitmodal()">Cancel</a>
     <a class="button button-positive" ng-click="saveLifestyle()">Submit</a>
-    </div>  
-    </div>
-
-    </ion-content>
+    </div> 
     </ion-modal-view>
 </script>
 

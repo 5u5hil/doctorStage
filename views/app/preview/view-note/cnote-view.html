@@ -17,6 +17,46 @@
                     </div>
                     <div class="fieldvalue" ng-repeat="case in cases" value="{{case.record_id}}" ng-show="{{case.record_id == pcaseId}}"> {{case.value}} </div>
                 </div>
+                <div ng-if="prev.fields.field == 'Patient'">
+                    <div class="item item-divider " ng-if="prev.value != ''">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="fieldvalue" ng-repeat="p in patientName">
+                        {{p.name}}
+                    </div>
+                </div>
+                <div ng-if="prev.fields.field == 'Consultation Date'">
+                    <div class="item item-divider " ng-if="prev.value != ''">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="fieldvalue" ng-if="prev.value != ''">
+                        {{prev.value|dateFormat3}}
+                    </div>
+                </div>
+                <div ng-if="prev.fields.field == 'Mode'">
+                    <div class="item item-divider " ng-if="prev.value != ''">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="fieldvalue" ng-if="prev.value != ''">
+                        {{prev.value}}
+                    </div>
+                </div>
+                <div ng-if="prev.fields.field == 'Patient Type'">
+                    <div class="item item-divider " ng-if="prev.value != ''">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="fieldvalue" ng-if="prev.value != ''">
+                        {{prev.value}}
+                    </div>
+                </div>
+                <div ng-if="prev.fields.field == 'Consultation Time'">
+                    <div class="item item-divider " ng-if="prev.value != ''">
+                        <strong>{{prev.fields.field}}</strong>
+                    </div>
+                    <div class="fieldvalue" ng-if="prev.value != ''">
+                        {{prev.value|timeN}}
+                    </div>
+                </div>
                 <div ng-if="prev.fields.field == 'Valid till'">
                     <div class="item item-divider" id="convalid" ng-if="prev.value != ''">
                         <strong>{{prev.fields.field}}</strong>
@@ -144,7 +184,17 @@
     </div>
 </ion-view>
 
+<script id="add-treatmentplan" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Add Treatment Plan</h1>
+    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content class="padding">
 
+    </ion-content>
+    </ion-modal-view>
+</script>
 
 <script id="filesview.html" type="text/ng-template">
     <div class="modal">

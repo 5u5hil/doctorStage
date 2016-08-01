@@ -27,12 +27,12 @@
                                 </div>
                             </div>
                             
-                            <div class="col col-30 txt-right" ng-if="rec.category == '8' && rec.appointment_id != '0'">
+                            <div class="col col-30 txt-right" ng-if="rec.category == '8'">
                                 <div class="row">
                                 <div class="col-20 text-right" ng-if="rec.attachments.length > '0'" ng-click="showAttach(rec.attachments)">
                                     <span class="ico"><i class="ion-paperclip"></i> ({{rec.attachments.length}})</span>
                                 </div>
-                                <div class="col-80 text-right" ng-if="rec.attachments.length > '0'" >
+                                    <div class="col-80 text-right" >
                                     <span class="btn crdview-plus" ng-click="previewNote(rec.id, rec.appointment_id)">View Note</span> <br/>
                                      <div class="infomore mt10" ng-click="infomore(rec.id + 'created')" ng-if="rec.record_metadata.length > 3">
                                         <span class="infb"> {{intext}}</span> <i class="ion-android-arrow-forward"></i>

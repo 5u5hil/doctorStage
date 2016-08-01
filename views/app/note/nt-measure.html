@@ -1,81 +1,90 @@
-<form name="addMeasureForm" id="addMeasureForm" enctype="multipart/form-data" novalidate >
-    <div class="tcontent" ng-controller="MeasurementCtrl">
 
+<div class="tcontent" ng-controller="MeasurementCtrl">
+    <form name="addMeasureForm" id="addMeasureForm" enctype="multipart/form-data" novalidate >
         <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
         <input type="hidden" value="{{catId}}" name="rectype" />
-        <input type="hidden" class="cnoteid" name="cnId" />
-        <input type="hidden" id="patientId" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
+        <input type="hidden" ng-model="record.recordPatient" value="{{patientId}}" name="patient" />
         <input type="hidden" ng-model="record.recordPatient" value="{{doctorId}}" name="doctor" />
         <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
+        <input type="hidden" value="{{recId}}" name="cnId" />
+        <input type="hidden" value="{{appId}}" name="appId" />
         <input type="hidden" ng-model="record.mid" value="{{mid}}" name="mid" />
-        <input type="hidden" value="{{measure}}" name="measurement" />           
-        <div ng-repeat="record in records">
-            <div class="item item-divider">{{record.category}}</div>
-            <div ng-repeat="field in fields[$index]">
+        <input type="hidden" value="{{measure}}" name="measure" />
+        <div  ng-repeat="record in mrecords">
+            <div class="heading2">{{record.category}}</div>
+            <div class="mt20" ng-repeat="field in mfields[$index]">
                 <div ng-if="field.field_types.value == 'number'">
                     <div ng-if="abt.length != 0">
-                        <div ng-repeat="ab in abt">
-                            <label class="item item-input" ng-if="ab.field_id == field.name">
-                                <input type="number" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}" />
+                        <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                            <div class="item item-divider">{{field.field}}</div>
+                            <label class="item item-input">
+                                <input class="form-control" type="number" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}" />
                             </label>
                         </div>
                     </div>
                     <div ng-if="abt.length == 0">
-                        <label class="item item-input" >
-                            <input type="number" placeholder="{{field.field}}" name="{{field.name}}">
+                        <div class="item item-divider">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input class="form-control" type="number" placeholder="{{field.field}}" name="{{field.name}}" />
                         </label>
                     </div>
                 </div>
                 <div ng-if="field.field_types.value == 'select'">
                     <div ng-if="abt.length != 0">
-                        <div ng-repeat="ab in abt">
-                            <label class="item item-input item-select" ng-if="ab.field_id == field.name">
-                                <div class="input-label">{{field.field}}</div>
-                                <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
-                                    <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="sel == ab.value"> {{sel}} </option>
-                                </select>
-                            </label>
+                        <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                            <div class="item item-divider">{{field.field}}</div>
+                            <select class="form-control cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                                <option ng-repeat="sel in selData" value="{{sel}}" ng-selected="sel == ab.value"> {{sel}} </option>
+                            </select>
                         </div>
                     </div>
                     <div ng-if="abt.length == 0">
-                        <label class="item item-input item-select">
-                            <div class="input-label">{{field.field}}</div>
-                            <select class="cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
-                                <option value="" ng-selected="1"> Select {{field.field}}</option>
-                                <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
-                            </select>
-                        </label>
+                        <div class="item item-divider">{{field.field}}</div>
+                        <select class="form-control cselect" ng-init="selData = (field.field_values).split(',')" name="{{field.name}}">
+                            <option value="" ng-selected="1"> Select {{field.field}}</option>
+                            <option ng-repeat="sel in selData" value="{{sel}}"> {{sel}} </option>
+                        </select>
                     </div>
                 </div>
                 <div ng-if="field.field_types.value == 'text'">
                     <div ng-if="abt.length != 0">
-                        <div ng-repeat="ab in abt">
-                            <label class="item item-input" ng-if="ab.field_id == field.name">
-                                <input type="text" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}">
+                        <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                            <div class="item item-divider">{{field.field}}</div>
+                            <label class="item item-input">
+                                <input class="form-control" type="text" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}" />
                             </label>
                         </div>
                     </div>
                     <div ng-if="abt.length == 0">
-                        <label class="item item-input" >
-                            <input type="text" placeholder="{{field.field}}" name="{{field.name}}">
+                        <div class="item item-divider">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input class="form-control" type="text" placeholder="{{field.field}}" name="{{field.name}}" />
                         </label>
                     </div>
                 </div>
                 <div ng-if="field.field_types.value == 'date'">
                     <div ng-if="abt.length != 0">
-                        <div ng-repeat="ab in abt">
-                            <label class="item item-input" ng-if="ab.field_id == field.name">
-                                <input type="date" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}">
+                        <div ng-repeat="ab in abt" ng-if="ab.field_id == field.name">
+                            <div class="item item-divider">{{field.field}}</div>
+                            <label class="item item-input">
+                                <input class="form-control" type="date" placeholder="{{field.field}}" name="{{field.name}}" value="{{ab.value}}" />
                             </label>
                         </div>
                     </div>
                     <div ng-if="abt.length == 0">
-                        <label class="item item-input" >
-                            <input type="date" placeholder="{{field.field}}" name="{{field.name}}">
+                        <div class="item item-divider">{{field.field}}</div>
+                        <label class="item item-input">
+                            <input class="form-control" type="date" placeholder="{{field.field}}" name="{{field.name}}" />
                         </label>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+        <div class="row">
+            <div class="col">
+                <button class="button button-block button-positive mtop20" ng-click="saveMeasurements()"> Save</button>
+                <div class="foterspacing"></div>
+            </div>
+        </div>
+    </form>
+</div>

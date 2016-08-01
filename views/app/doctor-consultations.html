@@ -50,7 +50,7 @@
                                                 </a>
                                             </div>
                                             <div class="col txt-center" ng-if="td.todays_note.length > 0">
-                                                <a  class="btn crdview-plus" ng-click="viewNote(td.todays_note[0].id)">
+                                                <a  class="btn crdview-plus" ng-click="viewNote(td.todays_note[0].id, td.app.id)">
                                                     <span class="icon ion-eye"></span> View Note
                                                 </a>
                                             </div>
@@ -117,7 +117,7 @@
                                                 </a>
                                             </div>
                                             <div class="col txt-center" ng-if="app.week_note.length > 0">
-                                                <a class="btn crdview-plus" ng-click="viewNote(app.week_note[0].id)">
+                                                <a class="btn crdview-plus" ng-click="viewNote(app.week_note[0].id, app.app.id)">
                                                     <span class="icon ion-eye"></span>View Note
                                                 </a>
                                             </div>
@@ -183,7 +183,7 @@
                                                 </a>
                                             </div>
                                             <div class="col txt-center" ng-if="app.all_note.length > 0">
-                                                <a class="btn crdview-plus" ng-click="viewNote(app.all_note[0].id)">
+                                                <a class="btn crdview-plus" ng-click="viewNote(app.all_note[0].id, app.app.id)">
                                                     <span class="icon ion-eye"></span> View Note
                                                 </a>
                                             </div>

@@ -1,11 +1,15 @@
 <div class="tcontent" ng-controller="DiagnosisTextCtrl">
-    <div class="list">
-        <label class="item item-input">
-            <textarea type="text" ng-model="diaText.value" col="" rows="10" placeholder="Enter"></textarea>
-        </label>
-        <div class="mtb20">
-            <ion-checkbox ng-model="filter.makesummary">Mark as Summary </ion-checkbox>
+    <div class="item item-divider">Diagnosis</div> 	
+    <label class="item item-input">
+        <textarea rows="4" placeholder="Enter" ng-model="diaTextValue">{{diaTextValue}}</textarea>	
+    </label>            
+    <div class="row">
+        <div class="col">
+            <button class="button button-block button-positive" ng-click="saveDDiagnosis(diaTextValue)">Save</button>
         </div>
+<!--        <div class="col">
+            <button class="button button-block button-assertive" ng-click="modal.hide()">Cancel</button>
+        </div>-->
     </div>
 </div>
 

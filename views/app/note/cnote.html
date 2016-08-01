@@ -14,33 +14,59 @@
                 <input type="hidden" ng-model="record.recordUser" value="{{userId}}" name="userId" />
                 <input type="hidden" value="{{patientId}}" name="patientId" />
                 <input type="hidden" value="{{doctorId}}" name="doctorId" />
-                <input type="hidden" value="{{app.id}}" name="appId" />
-                <input type="hidden" value="{{measurement}}" name="measurement" />
+                <input type="hidden" value="{{appId}}" name="appId" />
+                <input type="hidden" value="{{mid}}" name="measurement" />
                 <input type="hidden" value="{{objId}}" name="objId" />
                 <input type="hidden" value="{{diaId}}" name="diaId" />
                 <input type="hidden" value="{{testId}}" name="testId" />
-                <input type="hidden" value="{{measurement}},{{objId}},{{diaId}},{{testId}}" name="noteRecs" />
+                <input type="hidden" value="{{allInv}}" name="invId" />
+                <input type="hidden" value="{{allMedi}}" name="mediId" />
+                <input type="hidden" value="{{allLife}}" name="lifeId" />
+                <input type="hidden" value="{{allProc}}" name="procId" />
+                <input type="hidden" value="{{allRef}}" name="refId" />
+                <input type="hidden" value="{{allDiet}}" name="dietId" />
+                <input type="hidden" value="{{recId}}" name="recId" />
                 <input type="hidden" value="Consultation" name="rectype" />
                 <input type="hidden" ng-model="record.recordCat" value="{{record.id}}" name="recordCat" />
                 <div class="fields" ng-repeat="field in fields">                    
                     <div ng-if="field.field == 'Case Id'">
-                        <div class="item item-divider" >Case</div>    
-                        <ion-list>
-                            <div class="row">
-                                <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New</ion-radio></div>
-                                <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing </ion-radio></div>
-                            </div>
-                        </ion-list>
-                        <label class="item item-input item-select hide" id="precase">
-                            <div class="input-label">{{field.field}}</div>
-                            <select class="cselect Ditemselect"  name="pre-{{field.name}}">
-                                <option value="" >Select </option>
-                                <option ng-repeat="case in cases" value="{{case.record_id}}">{{case.value}}</option>
-                            </select>
-                        </label>
-                        <label class="item item-input hide" id="newcase">
-                            <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
-                        </label>
+                        <div class="item item-divider" >Case</div>
+                        <div ng-if="caseId != ''">
+                            <ion-list>
+                                <div class="row">
+                                    <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New</ion-radio></div>
+                                    <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing </ion-radio></div>
+                                </div>
+                            </ion-list>
+                            <label class="item item-input item-select" id="precase">
+                                <div class="input-label">{{field.field}}</div>
+                                <select class="cselect Ditemselect"  name="pre-{{field.name}}">
+                                    <option value="" >Select </option>
+                                    <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                                </select>
+                            </label>
+                            <label class="item item-input hide" id="newcase">
+                                <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                            </label>
+                        </div>
+                        <div ng-if="caseId == ''">
+                            <ion-list>
+                                <div class="row">
+                                    <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New</ion-radio></div>
+                                    <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing </ion-radio></div>
+                                </div>
+                            </ion-list>
+                            <label class="item item-input item-select hide" id="precase">
+                                <div class="input-label">{{field.field}}</div>
+                                <select class="cselect Ditemselect"  name="pre-{{field.name}}">
+                                    <option value="" >Select </option>
+                                    <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
+                                </select>
+                            </label>
+                            <label class="item item-input hide" id="newcase">
+                                <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                            </label>
+                        </div>
                     </div>
                     <div ng-if="field.field != 'Case Id'">
                         <div ng-if="field.field_types.value == 'text'">
@@ -61,8 +87,8 @@
                             </div>
                             <div ng-if="appId == 0">
                                 <div class="" ng-if="field.field == 'Patient'">
-                                    <div class="item item-divider" ng-click="modal.show()" >Patient 
-                                        <div class="selectopt">Select Patient</div>
+                                    <div class="item item-divider" >Patient 
+                                        <div class="selectopt {{(backUrl != 'patient')? '': 'hide'}}" ng-click="modal.show()">Select Patient</div>
                                     </div>
                                     <div class="ditem-content" ng-repeat="p in patientName">{{p.name}}</div>
                                     <select class="cselect Ditemselect hide"  ng-model="patientId" name="{{field.name}}" ng-change="getPatientId(patientId)" id="patient">
@@ -93,7 +119,7 @@
                                 <div ng-if="field.field == 'Consultation Date'">
                                     <div class="item item-divider">{{field.field}}</div>
                                     <div class="item item-input">
-                                        <input type="date" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required />
+                                        <input type="text" ng-model="conDate" placeholder="{{field.field}}" value="{{conDate|dateFormat3}}"  name="{{field.name}}" required />
                                     </div>
 
                                 </div>
@@ -101,7 +127,7 @@
                             <div ng-if="field.field == 'Valid till'">
                                 <div class="hide" id="convalid">
                                     <div class="item item-divider">{{field.field}} </div>
-                                    <input type="date" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />
+                                    <input type="text" ng-model="curTime" placeholder="{{field.field}}" value="{{curTime|dateFormat3}}"  name="{{field.name}}" />
                                 </div>
                             </div>
                         </div>
@@ -115,7 +141,7 @@
                             <div ng-if="appId == 0">
                                 <div class="item item-divider">{{field.field}}</div> 
                                 <div class="ditem-content">
-                                    <input type="time" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />
+                                    <input type="text" placeholder="{{field.field}}" ng-model="curTimeo" value="{{curTimeo}}" name="{{field.name}}" />
                                 </div>  
                             </div>
                         </div>
@@ -171,55 +197,32 @@
                             <div  ng-if="field.multi_value == 0">
                                 <!--                                <div class="item item-divider">Images</div><span class="input-label dblock" >{{field.field}}</span>-->
                                 <div class="item item-divider">{{field.field}} 
-                                <div class="filelabel">
-                                    <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" id="presciption" ng-model="prescription"/>
-                                    <label for="attachfile">Upload Files</label>
-                                </div>     
-                                    </div>
+                                    <div class="filelabel">
+                                        <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" id="presciption" ng-model="prescription"/>
+                                        <label for="attachfile">Upload Files</label>
+                                    </div>     
+                                </div>
                                 <div class="holderattach" id="image-holder"></div> 
-                                <!--                                    <div class="row p0">
-                                                                        <div class="col col-50 pl0"> 
-                                                                        <div class="filelabel">
-                                                                            <input type="file" placeholder="{{field.field}}" name="{{field.name}}" onchange="angular.element(this).scope().setFile(this)" id="presciption" ng-model="prescription" />
-                                                                            <label for="attachfile">File Selector</label>
-                                                                        </div><br/>
-                                                                        <div id="image-holder"></div>
-                                                                    </div>
-                                                                    <div class="col col-50">
-                                                                        <div class="btncamera" ng-click="takePict('{{field.name}}')"><i class="ion-android-camera"></i></div>
-                                                                                                                        <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images| json}}" />
-                                                                        <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
-                                                                    </div><br/>
-                                                                    <div id="camera-status"></div></div>
-                                --->
-
                             </div>
                             <div ng-if="field.multi_value == 1">
                                 <!--                                <span class="input-label dblock" >{{field.field}}</span>-->
                                 <div class="item item-divider">{{field.field}} 
-                                <div class="filelabel">
-                                    <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}" id="presciption" ng-model="prescription"/>
-                                    <label for="attachfile">Upload Files</label>
-                                </div>    
-                                    </div>
+                                    <div class="filelabel">
+                                        <input type="file" placeholder="{{field.field}}" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" id="presciption" ng-model="prescription"/>
+                                        <label for="attachfile">Upload Files</label>
+                                    </div>    
+                                </div>
                                 <div class="holderattach" id="image-holder"></div>
-                                <!--                                <div class="row p0">
-                                                                    <div class="col col-50 pl0"> 
-                                                                        <div class="filelabel">
-                                                                            <input type="file" placeholder="{{field.field}}" multiple="" onchange="angular.element(this).scope().setFile(this)" name="{{field.name}}[]" ng-model="prescription"/>
-                                                                            <label for="attachfile">Select Files</label>
-                                                                        </div><br/>
-                                                                        <div id="image-holder"></div>
-                                                                    </div>
-                                                                    <div class="col col-50">
-                                                                        <div class="btncamera" ng-click="takePict('{{field.name}}')" > <i class="ion-android-camera"></i> Camera</div>
-                                                                                                                        <input class="" type="text" ng-model="images" name="cam-{{field.name}}" id="camfile" value="{{images | json}}" />
-                                                                        <input class="" type="hidden" name="camm-{{field.name}}" id="camfilee"  />
-                                                                        <br/>
-                                                                        <div id="camera-status"></div>
-                                                                    </div>
-                                                                </div>-->
                             </div>
+                            <div class="row">
+                                <div class="btncamera" ng-repeat="prev in prevRecordDetails" ng-if="prev.field_id == 'attachments-3'">Previous Files
+                                    <div ng-if="isAttachment != ''">
+                                        <a class="filelink" ng-click="showAttach()" >
+                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{prev.attachments.length}})
+                                        </a>
+                                    </div>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -289,14 +292,7 @@
             </div> 
             <div  id="ntprocedure" class="accordiancontent">
                 <div ng-include src="'views/app/note/nt-procedure.html'"></div>
-            </div>
-            <div class="clr"></div>
-            <div class="accordiantab" ng-click="accordiantab('ntdietplan')">
-                <span class="icon ion-plus-circled"></span>  Diet Plan
-            </div> 
-            <div  id="ntdietplan" class="accordiancontent">
-                <div ng-include src="'views/app/note/nt-dietplan.html'"></div>
-            </div>
+            </div>            
             <div class="clr"></div>
             <div class="accordiantab" ng-click="accordiantab('ntlifestyle')">
                 <span class="icon ion-plus-circled"></span>  Lifestyle
@@ -309,6 +305,13 @@
             </div>
             <div  id="ntrefferal" class="accordiancontent">
                 <div ng-include src="'views/app/note/nt-refferal.html'"></div>
+            </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('ntdietplan')">
+                <span class="icon ion-plus-circled"></span>  Diet Plan
+            </div> 
+            <div  id="ntdietplan" class="accordiancontent">
+                <div ng-include src="'views/app/note/nt-dietplan.html'"></div>
             </div>
         </div>	
 
@@ -331,8 +334,92 @@
         </div>
     </div>
 </ion-view>
+<script id="filesview.html" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <div class="viewattachfile" ng-repeat="attach in cnAttachments">
+    <img src="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}" style="border-bottom: 1px #eee solid; margin-bottom: 5px; padding: 5px 5px;"/>
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="modal.hide()">Cancel</div></div>
+</script>
+<script id="singlefileview" type="text/ng-template">
+    <div class="modal">
+    <header class="bar bar-header bar-positive">
+    <h1 class="title">Attached Files</h1>
+    <button class="button" ng-click="print()">Print</button>
+    </header>
+    <content has-header="true" padding="true" class="fullwh">
+    <div class="mcontent">
+    <!-- <iframe  type="text/html" style="width:100%; position:absolute; height:80%; top:100px;" scrolling="yes" ng-src="{{trustSrc(value)}}" allowfullscreen frameborder="0">       
+    </iframe> -->
+    <div class="viewattachfile">
+    <img src="{{attachValue}}">
+    </div>
+    </div>
+    </content>
+    <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="filemodal.hide()">Cancel</div></div>
+</script>
+
+<script id="selectpatient" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Select Patient</h1>
+    </ion-header-bar>
+    <ion-content>
+    <div class="list list-inset">
+    <label class="item item-input">
+    <i class="icon ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search" ng-model="search">
+    </label>
+    </div>
+
+    <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
+    <div class="item item-divider">{{header}}</div>
+    <a class="item" ng-repeat="users in data| filter:search" ng-click="selPatient({{users.id}}, '{{users.fname}} {{users.lname}}')" >
+    <h2>{{users.fname}} {{users.lname}}</h2>
+    <p> +91 {{users.phone}}</p> <!--{{users.email}}, &nbsp;  -->
+    </a>
+    </div>
+    <div class="list mb0" ng-if="users.length == 0">
+    <p>No patients</p>
+    </div>
 
 
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
+    </div>
+    </ion-modal-view>
+</script>
+
+
+<script id="knowcondition" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Known Conditions</h1>	 
+    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+    </ion-header-bar>
+    <ion-content>
+
+    <ion-list>
+    <ion-checkbox ng-repeat="con in conditions track by $index" ng-model="conId[con.id]" ng-click="getCondition({{con.id}},'{{con.condition}}')" ng-checked="getPreCon({{con.id}})" >{{con.condition}}</ion-checkbox>
+    </ion-list>
+
+
+    </ion-content>
+    <div class="fixedbar">
+    <div class="button btn-add"  ng-click="modal.hide()" ><i class="ion-check"></i> Submit</div>
+
+    </div>
+    </ion-modal-view>
+</script>
 
 <script id="addeval" type="text/ng-template">
     <ion-modal-view>
@@ -424,220 +511,3 @@
     </div>
     </ion-modal-view>
 </script>
-
-<script id="notetype" type="text/ng-template">
-    <ion-modal-view>
-    <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Select Category</h1>	 
-
-    </ion-header-bar>
-    <ion-content>
-
-    <div class="item item-divider">Background</div>
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.patient-history')"><span class="icon ion-plus-circled"></span>  Patient</div> 
-    </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.family-history')"><span class="icon ion-plus-circled"></span>  Family</div> 
-    </div>
-    </div>
-
-    <div class="item item-divider">Evaluation</div>
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.measurement')"><span class="icon ion-plus-circled"></span> Measurements</div> 
-    </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.testresult')"> <span class="icon ion-plus-circled"></span> Test Results</div> 
-    </div>
-    </div>	
-
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.observation')"> <span class="icon ion-plus-circled"></span> Observations</div> 
-    </div>
-    </div>
-
-    <div class="item item-divider">Diagnosis</div>  
-    <!----<div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-controller="SnowmedtCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> SNOMED</div> 
-    </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-controller="IcdCtrl" ng-click="modal.show()"><span class="icon ion-plus-circled"></span> ICD</div> 
-    </div>
-    </div>--->		 
-
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.diagnosis')"> <span class="icon ion-plus-circled"></span> Text</div> 
-    </div>
-    </div>
-    </ion-content>
-    <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="submitmodal()" ><i class="icon ion-ios-arrow-back"></i> Back</div>
-
-    </div>
-    </ion-modal-view>
-</script>
-
-<script id="treatmentp" type="text/ng-template">
-    <ion-modal-view>
-    <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Select Category</h1>
-    </ion-header-bar>
-    <ion-content>
-    <div class="item item-divider">Treatment Plan</div>  
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.investigations')"><span class="icon ion-plus-circled"></span> Investigation</div> 
-    </div>
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.medication')"><span class="icon ion-plus-circled"></span> Medication</div> 
-    </div>
-    </div>
-
-    <div class="row cbtn3 ">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.procedure')"><span class="icon ion-plus-circled"></span> Procedure</div> </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.dietplan')"> <span class="icon ion-plus-circled"></span> Diet Plan</div> 
-    </div>
-    </div>
-
-
-
-    <div class="row cbtn3">
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.medication')"><span class="icon ion-plus-circled"></span> Lifestyle</div> 
-    </div>
-
-    <div class="col">
-    <div class="Cstmbutn button-small" ng-click="modalclose('app.procedure')"><span class="icon ion-plus-circled"></span> Referral</div> 
-    </div>
-    </div>
-
-
-    </ion-content>
-    <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
-    </div>
-    </ion-modal-view>
-</script>
-
-<script id="selectpatient" type="text/ng-template">
-    <ion-modal-view>
-    <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Select Patient</h1>
-    </ion-header-bar>
-    <ion-content>
-    <div class="list list-inset">
-    <label class="item item-input">
-    <i class="icon ion-search placeholder-icon"></i>
-    <input type="text" placeholder="Search" ng-model="search">
-    </label>
-    </div>
-
-    <div class="list mb0" ng-repeat="(header,data) in users | orderBy: ['data.fname', 'data.lname']" ng-if="users.length != 0">
-    <div class="item item-divider">{{header}}</div>
-    <a class="item" ng-repeat="users in data| filter:search" ng-click="selPatient({{users.id}}, '{{users.fname}} {{users.lname}}')" >
-    <h2>{{users.fname}} {{users.lname}}</h2>
-    <p> +91 {{users.phone}}</p> <!--{{users.email}}, &nbsp;  -->
-    </a>
-    </div>
-    <div class="list mb0" ng-if="users.length == 0">
-    <p>No patients</p>
-    </div>
-
-
-    </ion-content>
-    <div class="fixedbar">
-    <div class="button btn-delete" nav-clear ng-click="modal.hide()" ><i class="ion-close"></i> Cancel</div>
-    </div>
-    </ion-modal-view>
-</script>
-
-
-<script id="knowcondition" type="text/ng-template">
-    <ion-modal-view>
-    <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Known Conditions</h1>	 
-    <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
-    </ion-header-bar>
-    <ion-content>
-
-    <ion-list>
-    <ion-checkbox ng-repeat="con in conditions track by $index" ng-model="conId[con.id]" ng-click="getCondition({{con.id}},'{{con.condition}}')" ng-checked="getPreCon({{con.id}})" >{{con.condition}}</ion-checkbox>
-    </ion-list>
-
-
-    </ion-content>
-    <div class="fixedbar">
-    <div class="button btn-add"  ng-click="modal.hide()" ><i class="ion-check"></i> Submit</div>
-
-    </div>
-    </ion-modal-view>
-</script>
-
-<!----<script id="addrelation" type="text/ng-template">
-    <ion-modal-view>
-    <ion-header-bar class="bar app-top-bar">
-    <h1 class="title">Add New Relation</h1>
-    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
-    </ion-header-bar>
-    <ion-content class="padding">
-    <div class="list">
-    <label class="item item-input item-select">
-    <div class="input-label">
-    Select Relation
-    </div>
-    <select>
-    <option selected>Father</option>
-    <option >Mother</option>
-    <option>Brother</option>
-    <option>Grand Father</option>
-
-    </select>
-    </label>
-
-    <label class="item item-input">
-    <span class="input-label">Age</span>
-    <input type="text" placeholder="Enter Age">
-    </label>
-    <div class="item item-divider prelative">
-    Know Conditions 
-    <a ui-sref="#" class="addbtn2"><i class="ion-plus-circled"></i></a>
-    </div>
-
-    <div class="addremoverow first">
-    <label class="item item-input">
-    <input type="text" placeholder="Enter Condition">
-    </label>
-    </div>
-
-    <div class="addremoverow">
-    <label class="item item-input">
-    <input type="text" placeholder="Enter Condition">
-    </label>
-    <a ui-sref="#" class="addremovebtn"><i class="ion-minus-circled"></i></a>
-    </div>
-
-    <div class="item item-divider prelative">
-    Other Information
-    </div>
-    <label class="item item-input">
-    <textarea row="5"></textarea>
-    </label>
-
-
-
-    <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
-    </div>
-    </ion-content>
-    </ion-modal-view>
-</script>--->
