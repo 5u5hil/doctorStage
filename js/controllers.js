@@ -1982,7 +1982,7 @@ angular.module('your_app_name.controllers', [])
             $scope.changemaincate = function (cvalue) {
                 console.log(cvalue);
                 if (cvalue == 'pbackground') {
-                    $scope.notebackground = true;
+                    $scope.pnotebackground = true;
                     $scope.precords = false;
                     $scope.pconsults = false;
                     $scope.pchats = false;
@@ -4936,7 +4936,7 @@ angular.module('your_app_name.controllers', [])
                     if (angular.isObject(response.records)) {
                         //alert("Patient History saved successfully!");
                     } else if (response.err != '') {
-                       // alert('Please fill mandatory fields');
+                        // alert('Please fill mandatory fields');
                     }
                 });
             };
@@ -6250,6 +6250,223 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
+        .controller('DietViewCtrl', function ($scope, $http, $state, $stateParams, $compile, $filter, $timeout, $rootScope, $ionicLoading, $ionicModal) {
+            $scope.day = '';
+            $scope.meals = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+            $scope.mealDetails = [];
+            $scope.dayMeal = [];
+            $scope.dietData = [];
+            $scope.diet = [];
+            $scope.dietId = [];
+            $scope.catId = 'Diet Plan';
+            $scope.curTime = new Date();
+            $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
+            $scope.nodays = [];
+            $scope.editdiet = false;
+            $scope.recId = window.localStorage.getItem('recId');
+            //console.log('diet ctrl');
+            $http({
+                method: 'GET',
+                url: domain + 'doctrsrecords/get-investigation-fields',
+                params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+            }).then(function successCallback(response) {
+                //console.log(response);
+                $scope.records = response.data.record;
+                $scope.fields = response.data.fields;
+                $scope.category = $scope.records.id;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.doctrs;
+                $rootScope.prevDietRec = response.data.prevRec;
+                $rootScope.dietRec = response.data.dietRec;
+                $rootScope.prevDietData = response.data.prevData;
+                $rootScope.dietDetails = response.data.dietDetails;
+                $scope.dayMeal = response.data.dietRec;
+                angular.forEach(response.data.prevRec, function (val, key) {
+                    $scope.dietId.push(val.id);
+                    $rootScope.allDiet.push(val.id);
+                });
+                angular.forEach($scope.prevData, function (val, k) {
+                    angular.forEach(val, function (value, key) {
+                        //console.log(value.fields.name);
+                        if (value.fields.name == 'no-of-days') {
+                            $scope.nodays[key] = val.value;
+                        }
+                    });
+                });
+                //console.log("No days" + $scope.nodays);
+            }, function errorCallback(response) {
+                console.log(response);
+            });
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.dietmodal = modal;
+                $scope.daymodal = function (day) {
+                    console.log('Index = ' + day + ' day' + (day - 1));
+                    $scope.Mealday = day;
+                    $scope.day = 'day' + (day - 1);
+                    $scope.dietmodal.show();
+                };
+            });
+            $ionicModal.fromTemplateUrl('mealdispdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.daymodalDisp = function (pDay, day) {
+                    console.log("Display modal-----" + pDay + " --------- " + day);
+                    $scope.dietPlanDetails = [];
+                    $scope.diet = $scope.dietRec[pDay][day];
+                    $scope.Mealday = (day + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    $scope.modal.show();
+                };
+            });
+            $scope.dietdetails = function (days) {
+                $scope.dayMeal = [];
+                for (var i = 1, j = 1; i <= days; i++, j++) {
+                    $scope.mealDetails['day' + (i - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+                    $scope.dayMeal.push(i);
+                }
+                var stdt = $('#diet-start').val();
+                var endDate = getDayAfter(stdt, days);
+                console.log(stdt + " === " + days + " === " + endDate);
+                console.log($filter('date')(endDate, 'yyyy-MM-dd'));
+                $('#diet-end').val($filter('date')(endDate, 'yyyy-MM-dd'));
+            };
+            $scope.getEnd = function () {
+                //console.log(stdt + " === " + $scope.nodays + " === " + endDate);
+                var noDays = $('#dietdays').val();
+                var startDate = $filter('date')(($('#diet-start').val()), 'yyyy-MM-dd');
+                var enDate = getDayAfter(startDate, noDays);
+                console.log(startDate + " === " + noDays + " === " + enDate);
+                console.log($filter('date')(enDate, 'yyyy-MM-dd'));
+                $('#diet-end').val($filter('date')(enDate, 'yyyy-MM-dd'));
+            };
+            $scope.saveMeal = function (day) {
+                jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
+                jQuery('#fill' + day.charAt(day.length - 1)).removeClass('filled-data').addClass('filldata');
+//        if (checkIsMealEmpty($scope.mealDetails[day]) == 'not empty') {
+//            //console.log('Has value');
+//            jQuery('#' + day).val(JSON.stringify($scope.mealDetails[day]));
+//            jQuery('#fill' + day.charAt(day.length - 1)).removeClass('filled-data').addClass('filldata');
+//        } else {
+//            console.log('Empty');
+//        }
+                $scope.dietmodal.hide();
+            };
+            $ionicModal.fromTemplateUrl('add-treatmentplan', {
+                scope: $scope
+            }).then(function (modal) {
+                console.log("Treatment Plan");
+                $scope.addtreatmentmodal = modal;
+                $scope.showAddTreat = function () {
+                    console.log("Treatment Plan");
+                    $scope.addtreatmentmodal.show();
+                };
+            });
+            $scope.closemodal = function () {
+                $scope.addtreatmentmodal.hide();
+            };
+            $scope.submitmodal = function () {
+                $scope.mealDetails[($scope.day - 1)] = [{time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}, {time: '', details: ''}];
+                $scope.dietmodal.hide();
+                $scope.modal.hide();
+            };
+            $rootScope.$on("GetDietPlan", function () {
+                $scope.getDietPlan();
+            });
+            $scope.getDietPlan = function () {
+                $scope.recId = window.localStorage.getItem('recId');
+                $http({
+                    method: 'GET',
+                    url: domain + 'doctrsrecords/get-investigation-fields',
+                    params: {patient: $scope.patientId, userId: $scope.userId, doctor: $scope.doctorId, catId: $scope.catId, mid: $stateParams.mid, recId: $scope.recId}
+                }).then(function successCallback(response) {
+                    //console.log(response);
+                    $scope.records = response.data.record;
+                    $scope.fields = response.data.fields;
+                    $scope.category = $scope.records.id;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.doctrs;
+                    $rootScope.prevDietRec = response.data.prevRec;
+                    $rootScope.dietRec = response.data.dietRec;
+                    $rootScope.prevDietData = response.data.prevData;
+                    $rootScope.dietDetails = response.data.dietDetails;
+                    $scope.dayMeal = response.data.dietRec;
+                    angular.forEach(response.data.prevRec, function (val, key) {
+                        $scope.dietId.push(val.id);
+                        $rootScope.allDiet.push(val.id);
+                    });
+                    angular.forEach($scope.prevData, function (val, k) {
+                        angular.forEach(val, function (value, key) {
+                            //console.log(value.fields.name);
+                            if (value.fields.name == 'no-of-days') {
+                                $scope.nodays[key] = val.value;
+                            }
+                        });
+                    });
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            };
+            $rootScope.$on("saveDiet", function () {
+                $scope.saveDietplan();
+            });
+            $scope.saveDietplan = function () {
+                $ionicLoading.show({template: 'Loading...'});
+                var data = new FormData(jQuery("#addDietForm")[0]);
+                if ($('#dietdays').val() != '' && $('#dietdays').val() > 0) {
+                    var data = new FormData(jQuery("#addDietForm")[0]);
+                    callAjax("POST", domain + "doctrsrecords/save-treatment-plan", data, function (response) {
+                        if (response.records != '') {
+                            jQuery("#addDietForm")[0].reset();
+                            $('input[name=inv]').attr('checked', false);
+                            //$rootScope.$emit("GetDietPlan", {});
+                            $scope.closemodal();
+                            $scope.getDietPlan();
+                            $scope.tdiet = false;
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                }
+            };
+            $scope.setFile = function (element) {
+                $scope.currentFile = element.files[0];
+                console.log('length = ' + element.files.length);
+                var image_holder = $("#addDietForm #image-holder");
+                image_holder.empty();
+                if (element.files.length > 0) {
+                    jQuery('#convalid').removeClass('hide');
+                    jQuery('#coninprec').removeClass('hide');
+                    //jQuery('#valid-till').attr('required', true);
+                    image_holder.append('<button class="button button-positive remove" onclick="removedFile(\'addDietForm\')">Remove Files</button><br/>');
+                } else {
+                    jQuery('#convalid').addClass('hide');
+                    jQuery('#coninprec').addClass('hide');
+                }
+                if (typeof (FileReader) != "undefined") {
+                    //loop for each file selected for uploaded.
+                    for (var i = 0; i < element.files.length; i++) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+//                            $("<img />", {
+//                                "src": e.target.result,
+//                                "class": "thumb-image"
+//                            }).appendTo(image_holder);
+                            //$scope.images.push(e.target.result);
+                            $('<span class="upattach"><i class="ion-paperclip"></i></span>').appendTo(image_holder);
+                        }
+                        image_holder.show();
+                        reader.readAsDataURL(element.files[0]);
+                    }
+                }
+            };
+        })
+
         .controller('DietCtrl', function ($scope, $http, $stateParams, $ionicModal, $rootScope, $filter) {
             $scope.catId = 'Diet Plan';
             $scope.userId = window.localStorage.getItem('id');
@@ -7362,6 +7579,7 @@ angular.module('your_app_name.controllers', [])
                 return chatParticipants;
             };
         })
+
         .controller('VideoChatCtrl', function ($scope, $state, $ionicModal, $ionicScrollDelegate, $sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
 
 
@@ -7734,7 +7952,8 @@ angular.module('your_app_name.controllers', [])
             }
 
         })
-        .controller('ViewVideoChatCtrl', function ($scope,$sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+
+        .controller('ViewVideoChatCtrl', function ($scope, $sce, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             $scope.videoChatdata = '';
             $http({
@@ -7748,7 +7967,7 @@ angular.module('your_app_name.controllers', [])
             }, function errorCallback(response) {
                 console.log(response.responseText);
             });
-              $scope.trustSrc = function (src) {
+            $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
             };
         })
@@ -7885,6 +8104,7 @@ angular.module('your_app_name.controllers', [])
             }
 
         })
+
         .controller('VideoChatShareCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = window.localStorage.getItem('chatId');
             $scope.videoChatdata = '';
@@ -7900,7 +8120,6 @@ angular.module('your_app_name.controllers', [])
                 console.log(response.responseText);
             });
         })
-
 
         .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
@@ -9250,7 +9469,7 @@ angular.module('your_app_name.controllers', [])
             $scope.togglemenu = function (ab) {
                 jQuery('#' + ab).toggleClass('active');
             }
-
+            $scope.ptab = 'pbackground';
             $scope.addless = '+ Add';
             $scope.navtoggle = function (ab) {
                 //   jQuery(ab).toggleClass('active');
@@ -9429,7 +9648,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.Tdietplan = true;
                 }
             };
-            $scope.changemaincate = function (cvalue) {
+            $scope.changejoincate = function (cvalue) {
                 if (cvalue == 'ntcase') {
                     $scope.notetcase = true
                     $scope.notebackground = false
@@ -9882,15 +10101,17 @@ angular.module('your_app_name.controllers', [])
             // Load the modal from the given template URL
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
-                $scope.showAttach = function () {
+                $scope.showAttach = function (recDetails) {
                     //console.log(path + "=====" + name);
-                    angular.forEach($scope.prevRecordDetails, function (val, key) {
-                        if (val.fields.field == 'Attachments') {
-                            console.log(val.attachments);
-                            $scope.cnAttachments = val.attachments;
-                            $scope.modal.show();
-                        }
-                    });
+                    $scope.cnAttachments = recDetails;
+                    $scope.modal.show();
+//                    angular.forEach($scope.prevRecordDetails, function (val, key) {
+//                        if (val.fields.field == 'Attachments') {
+//                            console.log(val.attachments);
+//                            $scope.cnAttachments = val.attachments;
+//                            $scope.modal.show();
+//                        }
+//                    });
                 };
             }, {
                 // Use our scope for the scope of the modal to keep it simple
@@ -10150,6 +10371,7 @@ angular.module('your_app_name.controllers', [])
             sidetab('#cstab1');
             sidetab('#cstab2');
             $scope.pulltab = function (d) {
+                console.log(d);
                 var ww = (jQuery(window).width()) - 40;
                 jQuery('#' + d).toggleClass('active');
                 if (jQuery('#' + d).hasClass('active')) {
@@ -10157,8 +10379,9 @@ angular.module('your_app_name.controllers', [])
                 } else {
                     jQuery('#' + d).css('transform', 'translate3d(' + ww + 'px, 0px, 0px)')
                 }
-
-
+                if (d == 'cstab2') {
+                    $scope.changemaincate('pbackground');
+                }
             };
             /* end of rightsidetab */
             $scope.getEvaluationDetails = function () {
@@ -10445,6 +10668,132 @@ angular.module('your_app_name.controllers', [])
                     $scope.mdlnote = false;
                 }
             }
+            $scope.changemaincate = function (cvalue) {
+                console.log(cvalue);
+                if (cvalue == 'pbackground') {
+                    $scope.pnotebackground = true;
+                    $scope.precords = false;
+                    $scope.pconsults = false;
+                    $scope.pchats = false;
+                } else if (cvalue == 'precords') {
+                    $scope.subpage('createdbyu');
+                    $scope.subpage('sharedwithyou');
+                    $scope.pnotebackground = false;
+                    $scope.precordsView = true;
+                    $scope.pconsultsView = false;
+                    $scope.pchatsView = false;
+                } else if (cvalue == 'pconsults') {
+                    $scope.pnotebackground = false;
+                    $scope.precordsView = false;
+                    $scope.pconsultsView = true;
+                    $scope.pchatsView = false;
+                } else if (cvalue == 'pchats') {
+                    $scope.pnotebackground = false;
+                    $scope.precordsView = false;
+                    $scope.pconsultsView = false;
+                    $scope.pchatsView = true;
+                }
+            };
+            $scope.subpage = function (ab) {
+                if (ab == 'createdbyu') {
+                    $scope.crtedbyu = true;
+                    $scope.sharddbyu = false;
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-all-records-details',
+                        params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.records = response.data.records;
+                        if ($scope.records.length != 0) {
+                            if ($scope.records[0].record_metadata.length == 6) {
+                                $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                            }
+                        }
+                        $scope.createdby = response.data.createdby;
+                        $scope.doctors = response.data.doctors;
+                        $scope.patient = response.data.patient;
+                        $scope.problems = response.data.problems;
+                        $scope.cases = response.data.cases;
+                        $scope.doctrs = response.data.shareDoctrs;
+                        $http({
+                            method: 'GET',
+                            url: domain + 'doctrsrecords/get-all-records-details',
+                            params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: '1'}
+                        }).then(function successCallback(response) {
+                            console.log(response.data);
+                            $scope.sharedRecords = response.data.records;
+                            $scope.loading = false;
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+                        $scope.loading = false;
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+                if (ab == 'sharedwithyou') {
+                    $scope.sharddbyu = true;
+                    $scope.crtedbyu = false;
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-all-records-details',
+                        params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: '1'}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.sharedRecords = response.data.records;
+                        if (response.data.records != 0) {
+                            if ($scope.sharedRecords[0].record_metadata.length == 6) {
+                                $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                            }
+                        }
+                        $scope.createdbyShared = response.data.createdby;
+                        $scope.doctors = response.data.doctors;
+                        $scope.patient = response.data.patient;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.shareDoctrs;
+                        $scope.loading = false;
+                        //console.log($scope.createdbyShared);
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }
+            };
+            // Load the modal from the given template URL
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.modal = $ionicModal;
+                $scope.showAttach = function (recDetails) {
+                    //console.log(path + "=====" + name);
+                    $scope.cnAttachments = recDetails;
+                    $scope.modal.show();
+                };
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $ionicModal.fromTemplateUrl('singlefileview', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.filemodal = modal;
+                $scope.showRecAttach = function (apath, aname) {
+                    alert(apath + "======" + aname);
+                    $scope.attachValue = domain + 'public' + apath + aname;
+                    //$('#recattach').modal('show');
+                    $scope.filemodal.show();
+                };
+            });
+            $scope.submitmodal = function () {
+                $scope.padd.hide();
+                $scope.modal.hide();
+                $scope.filemodal.hide();
+            };
+            $scope.previewNote = function (noteId, appId) {
+                console.log(noteId + "====" + appId);
+                store({'noteId': noteId});
+                $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
+            };
         })
         .controller('viewModalCtrl', function ($scope, $http, $stateParams, $ionicModal) {
             $ionicModal.fromTemplateUrl('singlefileview', {

@@ -28,7 +28,7 @@
                 <ion-scroll direction="y" class="theroot"> 
                     <div class="row">
                         <div class="maintab">
-                            <select class="cselectn" ng-model="mntab"  ng-change="changemaincate(mntab)">
+                            <select class="cselectn" ng-model="mntab"  ng-change="changejoincate(mntab)">
                                 <option value="ntcase" selected>Case</option>
                                 <option value="ntbackground" >Background</option>
                                 <option value="ntnote" >Notes</option>
@@ -56,34 +56,34 @@
         </div>
 
         <div class="crighttab greentab" id="cstab2" >
-            <!--              <div class="ctabbtn" ng-click="pulltab('cstab2')" style="top:45px;">
-                               <span class="ion-chevron-left"></span>
-                           </div> -->
-            <!--           <div class="sidetabcontent">
-                            <ion-scroll direction="y" class="theroot"> 
-                                <div class="maintab">
-                                    <select class="cselectn" ng-model="ovtab"  ng-change="changeoveview(ovtab)">
-                                        <option value="oabout" selected>About </option>
-                                        <option value="orecord" >Records</option>
-                                        <option value="oconsult" >Consults</option>
-                                        <option value="ochats">Chats</option>
-                                    </select>
-                                </div>
-                                <div class="sldebxcontent" ng-show="ovabout">
-                                  <div ng-include src="'views/app/video-note/overview-about.html'" ></div> 
-                                   
-                                </div>
-                                <div class="sldebxcontent" ng-show="ovrecord">
-                                  <div ng-include src="'views/app/video-note/overview-records.html'" ></div>
-                                   </div>
-                                <div class="sldebxcontent" ng-show="ovconsult">
-                                    <div ng-include src="'views/app/video-note/overview-records.html'" ></div>                         
-                                </div>  
-                                <div class="sldebxcontent" ng-show="ovchats">
-                                    <div ng-include src="'views/app/video-note/overview-records.html'" ></div>                        
-                                </div>
-                            </ion-scroll>
-                        </div>-->
+            <div class="ctabbtn" ng-click="pulltab('cstab2')" style="top:45px;">
+                <span class="ion-chevron-left"></span>
+            </div> 
+            <div class="sidetabcontent">
+                <ion-scroll direction="y" class="theroot"> 
+                    <div class="maintab row">
+                        <select class="cselectn" ng-model="ptab" ng-change="changemaincate(ptab)">
+                            <option value="pbackground" selected>Background</option>
+                            <option value="precords" >Records</option>
+                            <option value="pconsults" >Consults</option>
+                            <option value="pchats" >Chats</option>
+                        </select>
+                    </div>
+                    <div class="clr"></div><div class="clr"></div>
+                    <div class="sldebxcontent" ng-show="pnotebackground">
+                        <div ng-include src="'views/app/preview/note-background.html'" ></div>                        
+                    </div>
+                    <div class="sldebxcontent" ng-show="precordsView">
+                        <div ng-include src="'views/app/preview/records-view.html'" ></div>                        
+                    </div>
+                    <div class="sldebxcontent" ng-show="pconsultsView">
+                        <div ng-include src="'views/app/preview/consults-view.html'" ></div>                        
+                    </div>
+                    <div class="sldebxcontent" ng-show="pchatsView">
+                        <div ng-include src="'views/app/preview/chats-view.html'" ></div>                        
+                    </div>
+                </ion-scroll>
+            </div>
             <div class="clr"></div>
         </div>
     </ion-content>
