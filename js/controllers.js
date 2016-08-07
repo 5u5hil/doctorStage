@@ -2131,7 +2131,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.previewNote = function (noteId, appId) {
                 console.log(noteId + "====" + appId);
-                store({'recId': noteId});
+                store({'noteId': noteId});
                 $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
             };
         })
@@ -2189,6 +2189,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.prevRecordDetails = response.data.recordDetails;
                     if (response.data.record != null) {
                         $scope.precId = response.data.record.id;
+                        store({'noteId': $scope.prevRecord.id});
                         //$scope.proceed = true;
                     }
                     if ($scope.prevRecordDetails.length > 0) {
@@ -2263,6 +2264,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.prevRecord = response.data.recordData;
                     $scope.prevRecordDetails = response.data.recordDetails;
                     if ($scope.prevRecordDetails.length > 0) {
+                        store({'noteId': $scope.prevRecord.id});
                         angular.forEach($scope.prevRecordDetails, function (val, key) {
                             console.log(val.value);
                             if (val.fields.field == 'Case Id') {
@@ -3864,11 +3866,11 @@ angular.module('your_app_name.controllers', [])
         .controller('ConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $cordovaCamera, $ionicLoading) {
             var imgCnt = 0;
             $ionicLoading.show({template: 'Loading...'});
-            var rec = get('recId');
+            var rec = get('noteId');
             console.log(rec + " rec");
             if (rec !== null) {
                 console.log('hhhhhh');
-                $scope.recId = get('recId');
+                $scope.recId = get('noteId');
             } else {
                 console.log('fdasdsad');
                 $scope.recId = '';
@@ -5325,7 +5327,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = window.localStorage.getItem('noteId');
             $scope.catId = 'Investigations';
             $scope.invStatus = 'To be Conducted';
             $scope.curTime = new Date();
@@ -5506,7 +5508,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = window.localStorage.getItem('noteId');
             $scope.catId = 'Medications';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -5686,7 +5688,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = window.localStorage.getItem('noteId');
             $scope.catId = 'Procedures';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -5845,6 +5847,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('noteId');
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.endtime = '';
@@ -5854,7 +5857,6 @@ angular.module('your_app_name.controllers', [])
             $scope.assignfor = 'Self';
             $scope.status = 'Active';
             $scope.catId = 'Task'; // Bhavana
-            $scope.recId = window.localStorage.getItem('recId');
             $http({
                 method: 'GET',
                 url: domain + 'doctrsrecords/get-investigation-fields',
@@ -6073,7 +6075,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = window.localStorage.getItem('noteId');
             $scope.catId = 'Referral';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -6263,7 +6265,7 @@ angular.module('your_app_name.controllers', [])
             $scope.curTimeo = $filter('date')(new Date(), 'HH:mm');
             $scope.nodays = [];
             $scope.editdiet = false;
-            $scope.recId = window.localStorage.getItem('recId');
+            $scope.recId = window.localStorage.getItem('noteId');
             //console.log('diet ctrl');
             $http({
                 method: 'GET',
