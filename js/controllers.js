@@ -1956,8 +1956,6 @@ angular.module('your_app_name.controllers', [])
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
             unset(['backurl']);
-            $scope.ptab = 'pbackground';
-            $scope.notebackground = true;
             $scope.createdby = [];
             $scope.createdbyShared = [];
             console.log($scope.patientId);
@@ -1976,6 +1974,8 @@ angular.module('your_app_name.controllers', [])
                 $scope.activeAppCnt = response.data.activeAppCnt;
                 $scope.pastAppCnt = response.data.pastAppCnt;
                 $scope.patientDetails = response.data.patientDetails;
+                $scope.ptab = 'pbackground';
+                $scope.pnotebackground = true;
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -1988,18 +1988,18 @@ angular.module('your_app_name.controllers', [])
                     $scope.pchats = false;
                 } else if (cvalue == 'precords') {
                     $scope.subpage('createdbyu');
-                    $scope.subpage('sharedwithyou');
-                    $scope.notebackground = false;
+                    //$scope.subpage('sharedwithyou');
+                    $scope.pnotebackground = false;
                     $scope.precordsView = true;
                     $scope.pconsultsView = false;
                     $scope.pchatsView = false;
                 } else if (cvalue == 'pconsults') {
-                    $scope.notebackground = false;
+                    $scope.pnotebackground = false;
                     $scope.precordsView = false;
                     $scope.pconsultsView = true;
                     $scope.pchatsView = false;
                 } else if (cvalue == 'pchats') {
-                    $scope.notebackground = false;
+                    $scope.pnotebackground = false;
                     $scope.precordsView = false;
                     $scope.pconsultsView = false;
                     $scope.pchatsView = true;
@@ -2027,6 +2027,8 @@ angular.module('your_app_name.controllers', [])
                         $scope.problems = response.data.problems;
                         $scope.cases = response.data.cases;
                         $scope.doctrs = response.data.shareDoctrs;
+                        $scope.createdietRec = response.data.dietRec;
+                        $scope.createdietDetails = response.data.dietDetails;
                         $http({
                             method: 'GET',
                             url: domain + 'doctrsrecords/get-all-records-details',
@@ -2034,7 +2036,20 @@ angular.module('your_app_name.controllers', [])
                         }).then(function successCallback(response) {
                             console.log(response.data);
                             $scope.sharedRecords = response.data.records;
+                            if (response.data.records != 0) {
+                                if ($scope.sharedRecords[0].record_metadata.length == 6) {
+                                    $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                                }
+                            }
+                            $scope.createdbyShared = response.data.createdby;
+                            $scope.sharedoctors = response.data.doctors;
+                            $scope.sharepatient = response.data.patient;
+                            $scope.shareproblems = response.data.problems;
+                            $scope.sharedoctrs = response.data.shareDoctrs;
+                            $scope.sharedietRec = response.data.dietRec;
+                            $scope.sharedietDetails = response.data.dietDetails;
                             $scope.loading = false;
+                            //console.log($scope.createdbyShared);
                         }, function errorCallback(e) {
                             console.log(e);
                         });
@@ -2046,28 +2061,6 @@ angular.module('your_app_name.controllers', [])
                 if (ab == 'sharedwithyou') {
                     $scope.sharddbyu = true;
                     $scope.crtedbyu = false;
-                    $http({
-                        method: 'GET',
-                        url: domain + 'doctrsrecords/get-all-records-details',
-                        params: {userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: '1'}
-                    }).then(function successCallback(response) {
-                        console.log(response.data);
-                        $scope.sharedRecords = response.data.records;
-                        if (response.data.records != 0) {
-                            if ($scope.sharedRecords[0].record_metadata.length == 6) {
-                                $scope.limit = 3; //$scope.records[0].record_metadata.length;
-                            }
-                        }
-                        $scope.createdbyShared = response.data.createdby;
-                        $scope.doctors = response.data.doctors;
-                        $scope.patient = response.data.patient;
-                        $scope.problems = response.data.problems;
-                        $scope.doctrs = response.data.shareDoctrs;
-                        $scope.loading = false;
-                        //console.log($scope.createdbyShared);
-                    }, function errorCallback(e) {
-                        console.log(e);
-                    });
                 }
             };
             $scope.intext = 'more';
@@ -2100,12 +2093,45 @@ angular.module('your_app_name.controllers', [])
             }).then(function (modal) {
                 $scope.filemodal = modal;
                 $scope.showRecAttach = function (apath, aname) {
-                    alert(apath + "======" + aname);
+                    //alert(apath + "======" + aname);
                     $scope.attachValue = domain + 'public' + apath + aname;
                     //$('#recattach').modal('show');
                     $scope.filemodal.show();
                 };
             });
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.dietmodal = modal;
+                $scope.dayDetailsDisp = function (day, ind) {
+                    $scope.dietPlanDetails = [];
+                    console.log($scope.createdietRec[day][ind]);
+                    $scope.diet = $scope.createdietRec[day][ind];
+                    console.log('Day ' + day);
+                    $scope.Mealday = (ind + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    console.log($scope.dietPlanDetails);
+                    $scope.dietmodal.show();
+                };
+                $scope.sdayDetailsDisp = function (day, ind) {
+                    console.log("Index -> "+ind+" ============= "+day);
+                    $scope.dietPlanDetails = [];
+                    console.log($scope.sharedietRec[day][ind]);
+                    $scope.diet = $scope.sharedietRec[day][ind];
+                    console.log('Day ' + day);
+                    $scope.Mealday = (ind + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    console.log($scope.dietPlanDetails);
+                    $scope.dietmodal.show();
+                };
+            });
+
             $ionicModal.fromTemplateUrl('patientadd', {
                 scope: $scope
             }).then(function (modal) {
@@ -2128,11 +2154,37 @@ angular.module('your_app_name.controllers', [])
                 $scope.padd.hide();
                 $scope.modal.hide();
                 $scope.filemodal.hide();
+                $scope.dietmodal.hide();
             };
             $scope.previewNote = function (noteId, appId) {
                 console.log(noteId + "====" + appId);
                 store({'noteId': noteId});
                 $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
+            };
+        })
+
+        .controller('mealDetailsCtrl', function ($scope, $ionicModal) {
+            $ionicModal.fromTemplateUrl('mealdetails', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+                $scope.dayDetailsDisp = function (day) {
+                    $scope.dietPlanDetails = [];
+                    console.log($scope.sharedietDetails[day]);
+                    $scope.diet = $scope.sharedietDetails[day];
+                    console.log('Day ' + day);
+                    $scope.Mealday = (day + 1);
+                    var i, j, temparray, chunk = 4;
+                    for (i = 0, j = $scope.diet.length; i < j; i += chunk) {
+                        $scope.dietPlanDetails.push($scope.diet.slice(i, i + chunk));
+                    }
+                    console.log($scope.dietPlanDetails);
+                    $scope.modal.show();
+                };
+            });
+            $scope.submitmodal = function () {
+                //console.log($scope.catIds);
+                $scope.modal.hide();
             };
         })
 

@@ -121,3 +121,27 @@
     </content>
     <div class="bar bar-footer" style="z-index:999;"><div class="button button-positive" style="width:100%;" ng-click="filemodal.hide()">Cancel</div></div>
 </script>
+<script id="mealdetails" type="text/ng-template">
+    <ion-modal-view>
+    <ion-header-bar class="bar app-top-bar">
+    <h1 class="title">Meal Details - Day {{Mealday}}</h1>
+    <button class="button button-clear pull-left" ng-click="dietmodal.hide()">Cancel</button>
+    </ion-header-bar>
+    <ion-content>
+    <div ng-if="dietPlanDetails.length==0"><p class="text-center">No data added</p></div>
+    <div ng-repeat="diet in dietPlanDetails" > <!--- ng-if="diet[1].value!='' -->
+    <div class="item item-divider mt15">Meal {{$index+1}}</div>
+    <div ng-repeat="meal in diet">   
+    <label class="item item-input" ng-if="meal.fields.name=='meal-1' || meal.fields.name=='value'">
+    <div ng-if="meal.fields.field=='Time'">
+    <div ng-if="meal.value == ''"> NA </div>
+    <div ng-if="meal.value == '00:00:00'"> NA </div>
+    <div ng-if="meal.value != '00:00:00' && meal.value != ''">{{meal.value|time1}}</div>
+    </div>
+    <div ng-if="meal.fields.field!='Time'">{{meal.value==''? 'NA':meal.value}}</div>    
+    </label>
+    </div>
+    </div>  
+    </ion-content>
+    </ion-modal-view>
+</script>
