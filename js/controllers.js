@@ -2117,7 +2117,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.dietmodal.show();
                 };
                 $scope.sdayDetailsDisp = function (day, ind) {
-                    console.log("Index -> "+ind+" ============= "+day);
+                    console.log("Index -> " + ind + " ============= " + day);
                     $scope.dietPlanDetails = [];
                     console.log($scope.sharedietRec[day][ind]);
                     $scope.diet = $scope.sharedietRec[day][ind];
@@ -7036,6 +7036,7 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.drId = get('id');
             $scope.userId = get('id');
+            $scope.interface = get('interface_id');
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $http({
                 method: 'GET',
@@ -7104,7 +7105,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctorsapp/dr-approve-app',
-                    params: {appId: appId, prodId: prodId, userId: $scope.userId}
+                    params: {appId: appId, prodId: prodId, userId: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     if (response.data.update_status == 'success') {
@@ -7560,7 +7561,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('ChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter, $state) {
-            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             if (session) {
                 session.disconnect();
             }
