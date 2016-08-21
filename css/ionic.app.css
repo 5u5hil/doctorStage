@@ -8575,7 +8575,7 @@ a.posts-list{text-decoration:none;}
 
 .tabcontainer{position:static;}
 
-.tabcon2{padding:0 0px; }
+.tabcon2{padding:0 0px; padding-bottom: 60px;}
 .searchbox{margin-bottom:15px;}
 .stitle{    font-weight: bold;
             font-size: 16px;}
