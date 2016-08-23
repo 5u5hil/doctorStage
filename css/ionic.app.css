@@ -6044,7 +6044,8 @@ input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="rad
     position: absolute;
     top: 50%;
     right: 8px;
-    left: 8px;
+    left: 0px;
+    /*left: 8px;*/
     z-index: 3;
     margin-top: -21px; }
 
@@ -9565,7 +9566,7 @@ input[type="date"]:before{
 .infomore-div{display:none;}
 .infomore-div.active{display: block;     display: block;
                      background: #f8f8f8;}
-.theroot{position: absolute; height: 90%; width:100%;}
+.theroot{position: absolute; height: 70vh; width:100%; overflow-y: scroll;}
 .sldebxcontent{}
 .csradio .item-radio .item-content{    padding: 11px 49px 11px 16px;}
 .csradio  .item.item-radio{   border-color: #efefef;}
@@ -9624,7 +9625,7 @@ input[type="date"]:before{
 .noinputlabel label{    padding: 10px 15px;}
 .post-heading h2.post-title{margin-top: 5px;}
 .crdRbtn{background: #eee; text-align: center;}
-
+.mlr10{margin-right: 10px; margin-left: 10px;}
 
 
 /* endcss */
