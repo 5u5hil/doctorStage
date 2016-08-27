@@ -286,9 +286,15 @@ angular.module('your_app_name.controllers', [])
                         console.log(response);
                     });
                 };
-                $scope.addRecord = function ($ab) {
-                    $state.go('app.add-category', {'id': $ab}, {reload: true});
+                $scope.addRecord = function (ab) {
+                    console.log(ab + " catID");
                     $scope.modal.hide();
+                    $scope.padd.hide();
+                    if (ab != '8') {
+                        $state.go('app.add-category', {'id': ab}, {reload: true});
+                    } else if (ab == '8') {
+                        $state.go('app.cnote', {'appId': 0}, {reload: true});
+                    }
                 };
             }, {
                 // Use our scope for the scope of the modal to keep it simple
@@ -401,18 +407,19 @@ angular.module('your_app_name.controllers', [])
                                 historyRoot: true
                             });
                             $scope.recIds = response.records.id;
-                            var confirm = window.confirm("Do you really want to share?");
+                            var confirm = window.confirm("Do you really want to share this with patient?");
                             if (confirm) {
                                 console.log($scope.recIds);
                                 $http({
                                     method: 'POST',
                                     url: domain + 'doctrsrecords/share',
-                                    params: {id: $scope.recIds, userId: $scope.userId, docId: $scope.patientId, shared: 0}
+                                    params: {id: $scope.recIds, userId: $scope.userId, docId: $scope.userId, patientId: $scope.patientId, shared: 0}
                                 }).then(function successCallback(response) {
                                     console.log(response);
                                     if (response.data == 'Success') {
                                         alert("Records shared successfully!");
-                                        $state.go('app.records-view', {'id': $scope.categoryId, 'patientId': $scope.patientId, 'shared': 0}, {}, {reload: true});
+                                        $state.go('app.patient', {'id': $scope.patientId}, {reload: true});
+                                        //$state.go('app.records-view', {'id': $scope.categoryId, 'patientId': $scope.patientId, 'shared': 0}, {}, {reload: true});
                                     }
                                 }, function errorCallback(e) {
                                     console.log(e);
@@ -1988,6 +1995,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.pconsults = false;
                     $scope.pchats = false;
                 } else if (cvalue == 'precords') {
+                    console.log('Cat change');
                     $scope.subpage('createdbyu');
                     //$scope.subpage('sharedwithyou');
                     $scope.pnotebackground = false;
@@ -2069,9 +2077,9 @@ angular.module('your_app_name.controllers', [])
                 console.log("=== " + r + " ===");
                 jQuery('#' + r).toggleClass('active');
                 if (jQuery('#' + r).hasClass('active')) {
-                    $scope.intext = 'less'
+                    jQuery('#arr' + r).html('Less');
                 } else {
-                    $scope.intext = 'more';
+                    jQuery('#arr' + r).html('More');
                 }
 
             };
@@ -2079,7 +2087,7 @@ angular.module('your_app_name.controllers', [])
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showAttach = function (recDetails) {
-                    //console.log(path + "=====" + name);
+                    console.log("show Attachments");
                     $scope.cnAttachments = recDetails;
                     $scope.modal.show();
                 };
@@ -2132,7 +2140,6 @@ angular.module('your_app_name.controllers', [])
                     $scope.dietmodal.show();
                 };
             });
-
             $ionicModal.fromTemplateUrl('patientadd', {
                 scope: $scope
             }).then(function (modal) {
@@ -2161,6 +2168,38 @@ angular.module('your_app_name.controllers', [])
                 console.log(noteId + "====" + appId);
                 store({'noteId': noteId});
                 $state.go("app.preview-note", {'id': noteId, 'appId': appId}, {reload: true});
+            };
+            $scope.print = function (attachValue) {
+                console.log("Print function => " + attachValue);
+                var print_page = '<img src="' + attachValue + '" height="600" width="300" />';
+                //console.log(print_page);  
+                cordova.plugins.printer.print(print_page, 'alpha', function () {
+                    alert('printing finished or canceled');
+                });
+            };
+            //Share all records by Category
+            $scope.share = function (recId) {
+                if ($scope.patientId != '') {
+                    var confirm = window.confirm("Do you really want to share this with patient?");
+                    if (confirm) {
+                        console.log($scope.recordId);
+                        $http({
+                            method: 'POST',
+                            url: domain + 'doctrsrecords/share',
+                            params: {id: recId, userId: $scope.userId, docId: $scope.userId, patientId: $scope.patientId, shared: 0}
+                        }).then(function successCallback(response) {
+                            console.log(response);
+                            if (response.data == 'Success') {
+                                alert("Records shared successfully!");
+                            }
+                        }, function errorCallback(e) {
+                            console.log(e);
+                        });
+
+                    }
+                } else {
+                    alert("Please select doctor to share with!");
+                }
             };
         })
 
@@ -3980,6 +4019,8 @@ angular.module('your_app_name.controllers', [])
             $rootScope.dietRec = [];
             $rootScope.dietDetails = [];
             $rootScope.allDiet = [];
+            $scope.conDate = $filter('date')(new Date(), 'dd-MM-yyyy');
+            $scope.curTime = $filter('date')(new Date(), 'hh:mm a');
             if ($scope.appId != 0) {
                 console.log('get appointment details' + $scope.appId);
                 $http({
@@ -4063,9 +4104,9 @@ angular.module('your_app_name.controllers', [])
                     $scope.doctorId = get('id');
                     store({'patientId': get('patientId'), 'doctorId': get('id')});
                 }
-                $scope.conDate = new Date();
-                $scope.curTime = new Date();
-                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                $scope.conDate = $filter('date')(new Date(), 'dd-MM-yyyy');
+                $scope.curTime = $filter('date')(new Date(), 'hh:mm a');
+                $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-fields',
@@ -4117,8 +4158,9 @@ angular.module('your_app_name.controllers', [])
                             }
                         });
                     } else {
-                        $scope.conDate = new Date();
-                        $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
+                        $scope.conDate = $filter('date')(new Date(), 'dd-MM-yyyy');
+                        $scope.curTime = $filter('date')(new Date(), 'hh:mm a');
+                        $scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
                     }
                     console.log("Con date " + $scope.conDate);
                     console.log("Con Time " + $scope.curTimeo);
@@ -6388,7 +6430,7 @@ angular.module('your_app_name.controllers', [])
                 var stdt = $('#diet-start').val();
                 var endDate = getDayAfter(stdt, days);
                 console.log(stdt + " === " + days + " === " + endDate);
-                console.log($filter('date')(endDate, 'yyyy-MM-dd'));
+                //console.log($filter('date')(endDate, 'yyyy-MM-dd'));
                 $('#diet-end').val($filter('date')(endDate, 'yyyy-MM-dd'));
             };
             $scope.getEnd = function () {

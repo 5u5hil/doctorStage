@@ -981,7 +981,7 @@ angular.module('your_app_name', [
                     })
 
                     .state('app.patient', {
-                        url: "/patient/{id:int}",
+                        url: "/patient/{id:string}",
                         views: {
                             'menuContent': {
                                 templateUrl: "views/app/patient.html",

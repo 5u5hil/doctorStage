@@ -1,0 +1,157 @@
+<div>
+    <my-tabs class="ctabs">
+        <my-tab title="Active">
+            <div class="mtabcon" ng-controller="DoctorConsultationsActiveCtrl">
+                <div class="tabcontainer p0">
+                    <h4 class="txt-center"> {{all_data.length==0? 'No appointments': ''}}</h4>
+                    <div class="posts-list"  ><!---->
+                        <div  class="list card post-item" ng-repeat="app in all_data| filter:filterall">
+                            <div class="post-content item item-text-wrap p0">
+                                <a ui-sref="app.doctor-current-tab({'id': app.app.id})" class="card-content p0">
+                                    <div class="item item-divider">
+                                        <span>
+                                            {{app.app.scheduled_start_time|dateFormat3}} 
+                                            {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}}
+                                        </span>
+                                        <div class="cardmode"><span class="{{app.app.mode==1? 'ion-ios-videocam': app.app.mode==3? 'ion-medkit': app.app.mode==4? 'Home': app.app.mode==2? 'ion-chatbubbles':''}}"></span></div>
+                                    </div>   
+                                    <div class="p5 brd-bottom">
+                                        <div class="row" ng-repeat="user in app.all_usersData">
+                                            <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
+                                            <div class="col txt-right">
+                                                {{user.phone}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col txt-center" ng-if="app.all_medicine.length > 0">
+                                            <a  class="btn crdview-plus" ng-click="viewMedicine(app.all_medicine[0].consultation_id)">
+                                                <span class="icon ion-eye"></span> View Medicine
+                                            </a>
+                                        </div>
+                                        <div class="col txt-center" ng-if="app.all_note.length > 0">
+                                            <a class="btn crdview-plus" ng-click="previewNote(app.all_note[0].id, app.app.id)">
+                                                <span class="icon ion-eye"></span> View Note
+                                            </a>
+                                        </div>
+                                        <div class="col txt-center" ng-if="app.all_note.length == 0">
+                                            <a ng-click="addCnote(app.app.id, 'act')" class="btn crdview-plus">
+                                                <span class="icon ion-plus-circled"></span> Note
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="clr"></div>
+                                </a>
+                                <div class="post-actions p0">
+                                    <div class="row cardbtn-small p0">
+                                        <div class="col" ng-if="app.app.mode == 1">
+                                            <a class="cbtn cancel" confirmed-click="cancelAppointment(app.app.id, app.all_product.user_id, app.app.mode, app.app.scheduled_start_time)" ng-confirm-click="Do you really want to cancel?"><i class="ion-close"></i> Cancel</a>
+                                        </div>
+                                        <div class="col" ng-if="app.app.mode == 1">
+                                            <a  ng-click="joinVideo(app.app.mode, app.all_time, app.all_end_time, app.app.id)" class="cbtn join"><i class="ion-ios-videocam"></i> Join</a>
+                                        </div>                                            
+                                        <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4">
+                                            <a ng-if="app.app.status == 0" class="cbtn cancel" confirmed-click="rejectAppointment(app.app.id,app.all_product.id,app.app.mode, app.app.scheduled_start_time, app.app.scheduled_end_time)" ng-confirm-click="Do you really want to reject appointment?"><i class="ion-close"></i> Reject</a>
+                                            <a ng-if="app.app.status != 0" class="cbtn cancel" ng-controller="CancelDctrCtrl" ng-click="cancelApp(app.app.id, prod.user_id, app.app.mode, app.app.scheduled_start_time)"><i class="ion-close"></i> Cancel</a>
+                                        </div>
+                                        <div class="col" ng-if="app.app.mode == 3 || app.app.mode == 4">
+                                            <a ng-if="app.app.status == 0" class="cbtn conduct" confirmed-click="approveAppointment(app.app.id,app.all_product.id,app.app.mode, app.app.scheduled_start_time, app.app.scheduled_end_time)" ng-confirm-click="Do you really want to approve appointment?" id="{{app.app.id}}"><i class="ion-checkmark"></i> Approve</a> 
+                                            <a ng-if="app.app.status != 0" class="cbtn conduct">Conduct</a>
+                                        </div>
+                                    </div>
+                                    <!-------- ng-if="curTime >= all_time[$index] && curTime <= all_end_time[$index]" ui-sref="app.doctor-join({'id': app.id, 'res': 'json'})"   -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </my-tab>
+        <my-tab title="Past">
+            <div class="mtabcon" ng-controller="DoctorConsultationsPastCtrl">
+                <div class="clr"></div>
+                <div class="tabcontainer p0">
+                    <h4 class="txt-center"> {{all_past_data.length==0? 'No appointments': ''}}</h4>
+                    <div class="posts-list"  ><!---->
+                        <div  class="list card post-item" ng-repeat="app in all_past_data| filter:filterall | limitTo:itemsDisplayall" >
+                            <div class="post-content item item-text-wrap p0">
+                                <div class="card-content p0">
+                                    <div class="item item-divider">
+                                        {{app.app.scheduled_start_time|dateFormat3}} 
+                                        {{app.app.scheduled_start_time|time1}} to {{app.app.scheduled_end_time|time1}} 
+                                        <div class="cardmode"><span class=" {{app.app.mode==1? 'ion-ios-videocam': app.app.mode==3? 'ion-medkit': app.app.mode==4? 'Home': app.app.mode==2? 'Chat':''}}"></span></div>
+                                    </div>
+                                    <div class="p5 brd-bottom">
+                                        <div class="row" ng-repeat="user in app.all_usersData_past">
+                                            <div class="col"><strong>{{user.fname}} {{user.lname}}</strong></div>
+                                            <div class="col txt-right">
+                                                {{user.phone}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div ng-if="app.all_medicine_past.length > 0">
+                                            <a class="btn crdview-plus" ng-click="viewMedicine(app.all_medicine_past[0].consultation_id)">
+                                                <span class="icon ion-plus-circled"></span>View Medicine
+                                            </a>
+                                        </div>
+                                        <div class="col txt-center" ng-if="app.all_note_past.length > 0">
+                                            <span class="btn crdview" ng-click="previewNote(app.all_note_past[0].id, app.app.id)">
+                                                <span class="icon ion-plus-circled"></span>View Note
+                                            </span>
+                                        </div>
+                                        <div class="col txt-center" ng-if="app.all_note_past.length == 0">
+                                            <span class="btn crdview-plus" ng-click="addCnote(app.app.id)">
+                                                <span class="icon ion-plus-circled"></span> Note
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="clr"></div>
+                                </div>
+                                <div class="post-actions  post-footer p0">
+                                    <div class="row cardbtn-small p0">
+                                        <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':''}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <ion-infinite-scroll on-infinite="addMoreItemall()" ng-if="all_past_data.length" distance="1%">
+                        </ion-infinite-scroll>
+                    </div>
+                </div>
+            </div>
+        </my-tab>
+    </my-tabs>
+    <script id="canceldctr" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Doctor Consultations</h1>  
+        <button class="button button-clear" ng-click="closeCdctr()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list">
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="7" value="7">Your No Show</ion-radio>
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="6" value="6">Patient No Show</ion-radio>
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+        <ion-radio ng-model="can.opt" class="can-opt" name="can-option" ng-value="1" value="1">Cancelled by you</ion-radio>
+        </div>
+        <button class="button button-full button-positive" ng-click="submitmodal(canoption)">Submit</button>
+        </ion-content>
+        </ion-modal-view>
+    </script>
+    <script id="canceldr" type="text/ng-template">
+        <ion-modal-view>
+        <ion-header-bar class="bar app-top-bar">
+        <h1 class="title">Doctor Consultations</h1>  
+        <button class="button button-clear" ng-click="closeCdr()">Cancel</button>
+        </ion-header-bar>
+        <ion-content>
+        <div class="list">
+        <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="2" value="2">Cancelled by Patient</ion-radio>
+        <ion-radio ng-model="can.opt" name="can-option" class="can-opt" ng-value="1" value="1">Cancelled by you</ion-radio>
+        </div>
+        <button class="button button-full button-positive" ng-click="submitmodal()">Submit</button>
+        </ion-content>
+        </ion-modal-view>
+    </script>
+</div>
