@@ -1933,7 +1933,7 @@ angular.module('your_app_name.controllers', [])
                             },
                             {}
                     );
-                  
+
                 }
             }, function errorCallback(e) {
                 console.log(e);
@@ -4359,13 +4359,9 @@ angular.module('your_app_name.controllers', [])
                 var image_holder = $("#image-holder");
                 image_holder.empty();
                 if (element.files.length > 0) {
-                    //console.log($("#camera-status").html());
-                    jQuery('#convalid').removeClass('hide');
                     jQuery('#coninprec').removeClass('hide');
-                    //jQuery('#valid-till').attr('required', true);
                     image_holder.append('<button class="button button-positive remove" onclick="removeFile()">Remove Files</button><br/>');
                 } else {
-                    jQuery('#convalid').addClass('hide');
                     jQuery('#coninprec').addClass('hide');
                 }
                 if (typeof (FileReader) != "undefined") {
@@ -4436,16 +4432,26 @@ angular.module('your_app_name.controllers', [])
                 // jQuery(this).toggleClass('active');
             };
             $scope.tabclick = function (taburl) {
-                if ($scope.recId == '') {
+                if ($scope.recId == '' && $scope.caseId != '') {
                     $scope.saveConsult();
+                    console.log(taburl);
+                    jQuery('.notetab').hide();
+                    jQuery('#' + taburl).show();
+                    jQuery('.headtab span').removeClass('active');
+                    jQuery('.tab-buttons .tbtn').removeClass('active');
+                    jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                    jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+                } else {
+                    alert("Save case first!");
+//                    console.log(taburl);
+//                    jQuery('.notetab').hide();
+//                    jQuery('#' + taburl).show();
+//                    jQuery('.headtab span').removeClass('active');
+//                    jQuery('.tab-buttons .tbtn').removeClass('active');
+//                    jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+//                    jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
                 }
-                console.log(taburl);
-                jQuery('.notetab').hide();
-                jQuery('#' + taburl).show();
-                jQuery('.headtab span').removeClass('active');
-                jQuery('.tab-buttons .tbtn').removeClass('active');
-                jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
-                jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+
             };
             /* end*/
             $scope.getCnDetails = function () {
