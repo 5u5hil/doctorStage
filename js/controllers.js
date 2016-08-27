@@ -5636,7 +5636,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('noteId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Medications';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -5816,7 +5816,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('noteId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Procedures';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -5975,7 +5975,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('noteId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
             $scope.endtime = '';
@@ -6203,7 +6203,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('noteId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Referral';
             $scope.curTime = new Date();
             $scope.curTimeo = $filter('date')(new Date(), 'hh:mm');
@@ -8168,14 +8168,13 @@ angular.module('your_app_name.controllers', [])
                         //console.log(value);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
-                            $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         } else {
-                            $ionicLoading.hide();
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
                         }
                     });
-                })
+                    $ionicLoading.hide();
+                });
             };
             $scope.movebottom = function () {
                 jQuery(function () {
@@ -8190,7 +8189,7 @@ angular.module('your_app_name.controllers', [])
                     $scope.appendprevious();
                     $scope.movebottom();
                 } else {
-                    //$('#chat').html('<p> No </p>');
+                    $('#chat').html('<p> No previous messages</p>');
                 }
             }, 1000);
             $scope.submitchatVideo = function () {
@@ -8319,9 +8318,12 @@ angular.module('your_app_name.controllers', [])
                 })
             };
             $timeout(function () {
-
-                $scope.appendprevious();
-                $scope.movebottom();
+                if ($scope.chatMsgs.length > 0) {
+                    $scope.appendprevious();
+                    $scope.movebottom();
+                } else {
+                    $('#chat').html('<p> No previous messages</p>');
+                }
             }, 1000);
         })
 
@@ -10215,6 +10217,7 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.saveConsult = function () {
+                //alert((jQuery('#newprecase').val()) +" cnote "+ (jQuery('#newpcase').val()));
                 if ((jQuery('#newprecase').val()) != '' || (jQuery('#newpcase').val()) != '') {
                     $ionicLoading.show({template: 'Saving...'});
                     var data = new FormData(jQuery("#addRecordForm")[0]);
