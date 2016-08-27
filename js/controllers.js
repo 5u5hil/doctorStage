@@ -8052,7 +8052,7 @@ angular.module('your_app_name.controllers', [])
                     $ionicLoading.hide();
                     if (response == '1') {
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
-                        alert('video chat added sucessfully.');
+                        alert('Chat recording added successfully.');
                         $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
                     } else {
                         $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
@@ -8252,7 +8252,7 @@ angular.module('your_app_name.controllers', [])
             });
         })
 
-        .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+        .controller('PastChatCtrl', function ($scope, $state,$ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -8326,6 +8326,20 @@ angular.module('your_app_name.controllers', [])
                     $('#chat').html('<p> No previous messages</p>');
                 }
             }, 1000);
+            
+             $scope.getchatsharedata = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'contentlibrary/get-video-chat-share-data',
+                    params: {userId: window.localStorage.getItem('id'), chatId: $scope.chatId}
+                }).then(function sucessCallback(response) {
+                    console.log(response.data);
+                    $scope.videodata = response.data;
+                    $state.go('app.chat-video-share', {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response.responseText);
+                });
+            }
         })
 
         .controller('AssistantChatListCtrl', function ($scope, $http, $stateParams, $rootScope, $filter) {
