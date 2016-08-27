@@ -4020,6 +4020,7 @@ angular.module('your_app_name.controllers', [])
             $rootScope.dietDetails = [];
             $rootScope.allDiet = [];
             $scope.conDate = $filter('date')(new Date(), 'dd-MM-yyyy');
+            $scope.curDate = $filter('date')(new Date(), 'dd-MM-yyyy');
             $scope.curTime = $filter('date')(new Date(), 'hh:mm a');
             if ($scope.appId != 0) {
                 console.log('get appointment details' + $scope.appId);
