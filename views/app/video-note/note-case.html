@@ -29,13 +29,13 @@
                     </ion-list>
                     <label class="item item-input item-select" id="precase">
                         <div class="input-label">{{field.field}}</div>
-                        <select name="pre-{{field.name}}" ng-model="cases">
+                        <select name="pre-{{field.name}}" ng-model="cases" id="newprecase">
                             <option value="" >Select </option>
                             <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
                         </select>
                     </label>
                     <label class="item item-input hide" id="newcase">
-                        <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" id="newpcase" >
                     </label>
                 </div>
                 <div ng-if="caseId == ''">
@@ -47,13 +47,13 @@
                     </ion-list>
                     <label class="item item-input item-select hide" id="precase">
                         <div class="input-label">{{field.field}}</div>
-                        <select name="pre-{{field.name}}">
+                        <select name="pre-{{field.name}}" ng-model="cases" id="newprecase">
                             <option value="" >Select </option>
                             <option ng-repeat="case in cases" value="{{case.record_id}}" ng-selected="{{case.record_id == caseId}}">{{case.value}}</option>
                         </select>
                     </label>
                     <label class="item item-input hide" id="newcase">
-                        <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" >
+                        <input type="text" placeholder="Case" name="new-{{field.name}}" ng-model="formCase" id="newpcase" >
                     </label>
                 </div>
             </div>

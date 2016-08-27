@@ -4262,21 +4262,29 @@ angular.module('your_app_name.controllers', [])
                 }
             };
             //Save first
-            $scope.saveConsult = function () {
-                $ionicLoading.show({template: 'Saving...'});
-                var data = new FormData(jQuery("#addRecordForm")[0]);
-                callAjax("POST", domain + "doctrsrecords/save-first-consultation", data, function (response) {
-                    //console.log(response);
-                    $ionicLoading.hide();
-                    if (angular.isObject(response.records)) {
-                        store({'recId': response.records.id});
-                        $scope.recId = response.records.id;
-                        $scope.getCnDetails();
-                        //alert("Consultation Note added successfully!");
-                    } else if (response.err != '') {
-                        //alert('Please fill mandatory fields');
-                    }
-                });
+            var saveConsult = function () {
+                alert(jQuery('#newprecase').val());
+                if ((jQuery('#newprecase').val()) != '' || (jQuery('#newpcase').val()) != '') {
+                    $ionicLoading.show({template: 'Saving...'});
+                    var data = new FormData(jQuery("#addRecordForm")[0]);
+                    callAjax("POST", domain + "doctrsrecords/save-first-consultation", data, function (response) {
+                        //console.log(response);
+                        $ionicLoading.hide();
+                        if (angular.isObject(response.records)) {
+                            store({'recId': response.records.id});
+                            $scope.recId = response.records.id;
+                            $scope.getCnDetails();
+                            //alert("Consultation Note added successfully!");
+                        } else if (response.err != '') {
+                            //alert('Please fill mandatory fields');
+                        }
+
+                    });
+                    return 1;
+                } else {
+                    return 0
+                    //alert("Please select case first!");
+                }
             };
             //Save FormData
             $scope.submit = function () {
@@ -4433,17 +4441,34 @@ angular.module('your_app_name.controllers', [])
                 // jQuery(this).toggleClass('active');
             };
             $scope.tabclick = function (taburl) {
-                if ($scope.recId == '' && $scope.caseId != '') {
-                    $scope.saveConsult();
-                    console.log(taburl);
-                    jQuery('.notetab').hide();
-                    jQuery('#' + taburl).show();
-                    jQuery('.headtab span').removeClass('active');
-                    jQuery('.tab-buttons .tbtn').removeClass('active');
-                    jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
-                    jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+                if ($scope.recId == '' || $scope.caseId != '') {
+                    var savecn = saveConsult();
+                    alert("case note " + savecn + "case note");
+                    if (savecn) {
+                        console.log(taburl);
+                        jQuery('.notetab').hide();
+                        jQuery('#' + taburl).show();
+                        jQuery('.headtab span').removeClass('active');
+                        jQuery('.tab-buttons .tbtn').removeClass('active');
+                        jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                        jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+                    } else {
+                        alert("Please select case first!");
+                    }
                 } else {
-                    alert("Save case first!");
+                    var savecn = saveConsult();
+                    alert("case note " + savecn + "case note");
+                    if (savecn) {
+                        console.log(taburl);
+                        jQuery('.notetab').hide();
+                        jQuery('#' + taburl).show();
+                        jQuery('.headtab span').removeClass('active');
+                        jQuery('.tab-buttons .tbtn').removeClass('active');
+                        jQuery('.headtab span[rel="' + taburl + '"]').addClass('active');
+                        jQuery('.tab-buttons .tbtn[rel="' + taburl + '"]').addClass('active');
+                    } else {
+                        alert("Please select case first!");
+                    }
 //                    console.log(taburl);
 //                    jQuery('.notetab').hide();
 //                    jQuery('#' + taburl).show();
@@ -5052,6 +5077,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Measurements';
             $http({
                 method: 'GET',
@@ -5429,7 +5455,7 @@ angular.module('your_app_name.controllers', [])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.patientId = window.localStorage.getItem('patientId');
             $scope.appId = window.localStorage.getItem('appId');
-            $scope.recId = window.localStorage.getItem('noteId');
+            $scope.recId = window.localStorage.getItem('recId');
             $scope.catId = 'Investigations';
             $scope.invStatus = 'To be Conducted';
             $scope.curTime = new Date();
@@ -5545,7 +5571,7 @@ angular.module('your_app_name.controllers', [])
                         $rootScope.invData.unshift(response.recordsData);
                         $rootScope.inv.unshift(response.records.id);
                         $rootScope.allInv.unshift(response.records.id);
-                        jQuery("#addMedicationForm")[0].reset();
+                        jQuery("#addInvForm")[0].reset();
                         $scope.submitmodal();
                     } else if (response.err != '') {
                         alert('Please fill mandatory fields');
@@ -10189,19 +10215,23 @@ angular.module('your_app_name.controllers', [])
                 });
             };
             $scope.saveConsult = function () {
-                $ionicLoading.show({template: 'Saving...'});
-                var data = new FormData(jQuery("#addRecordForm")[0]);
-                callAjax("POST", domain + "doctrsrecords/save-first-consultation", data, function (response) {
-                    //console.log(response);
-                    $ionicLoading.hide();
-                    $scope.recId = response.records.id;
-                    if (angular.isObject(response.records)) {
-                        $scope.getCnDetails();
-                        //alert("Consultation Note added successfully!");
-                    } else if (response.err != '') {
-                        alert('Please fill mandatory fields');
-                    }
-                });
+                if ((jQuery('#newprecase').val()) != '' || (jQuery('#newpcase').val()) != '') {
+                    $ionicLoading.show({template: 'Saving...'});
+                    var data = new FormData(jQuery("#addRecordForm")[0]);
+                    callAjax("POST", domain + "doctrsrecords/save-first-consultation", data, function (response) {
+                        //console.log(response);
+                        $ionicLoading.hide();
+                        $scope.recId = response.records.id;
+                        if (angular.isObject(response.records)) {
+                            $scope.getCnDetails();
+                            //alert("Consultation Note added successfully!");
+                        } else if (response.err != '') {
+                            alert('Please fill mandatory fields');
+                        }
+                    });
+                } else {
+                    alert("Please select case first!");
+                }
             };
             // Load the modal from the given template URL
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
