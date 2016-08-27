@@ -10006,6 +10006,7 @@ angular.module('your_app_name.controllers', [])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
+                                                     $ionicLoading.hide();
                                                     $http({
                                                         method: 'GET',
                                                         url: domain + 'log/stats-log',
