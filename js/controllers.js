@@ -70,6 +70,7 @@ angular.module('your_app_name.controllers', [])
         })
         //LOGIN
         .controller('LoginCtrl', function ($scope, $http, $state, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+            window.localStorage.setItem('interface_id', '8');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userType = 'doctor';
             $scope.action = 'login';
@@ -10385,67 +10386,71 @@ angular.module('your_app_name.controllers', [])
                     $state.go('app.consultations-current', {}, {reload: true});
                 });
             };
-            $scope.addnote = function () {
-
-                //Consusltation note details fetch
-                $http({
-                    method: "GET",
-                    url: domain + "doctrsrecords/get-app-details",
-                    params: {appId: $scope.appId}
-                }).then(function successCallback(response) {
-                    console.log(response.data.patient.id);
-                    $scope.patientId = response.data.patient.id;
-                    $scope.doctorId = response.data.doctr.id
-                    $scope.app = response.data.app;
-                    $scope.record = response.data.record;
-                    $scope.recordDetails = response.data.recordDetails;
-                    if ($scope.recordDetails.length > 0) {
-                        angular.forEach($scope.recordDetails, function (val, key) {
-                            if (val.fields.field == 'Case Id') {
-                                $scope.caseId = val.value;
-                                $scope.casetype = 0;
-                                jQuery('.fields #precase').removeClass('hide');
-                            }
-                        });
-                        $scope.recId = response.data.record.id;
-                    }
-                    if (response.data.app.mode == 1) {
-                        $scope.mode = 'Video';
-                    } else if (response.data.app.mode == 2) {
-                        $scope.mode = 'Chat';
-                    } else if (response.data.app.mode = 3) {
-                        $scope.mode = 'Clinic'
-                    } else if (response.data.app.mode == 4) {
-                        $scope.mode = 'Home';
-                    }
-                    console.log($scope.mode);
-                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
-                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
-                    window.localStorage.setItem('patientId', $scope.patientId);
-                    window.localStorage.setItem('doctorId', $scope.doctorId);
-                    console.log($scope.conDate);
-                    $http({
-                        method: 'GET',
-                        url: domain + 'doctrsrecords/get-fields',
-                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
-                    }).then(function successCallback(response) {
-                        console.log(response.data);
-                        $scope.record = response.data.record;
-                        $scope.fields = response.data.fields;
-                        $scope.problems = response.data.problems;
-                        $scope.doctrs = response.data.doctrs;
-                        $scope.patients = response.data.patients;
-                        $scope.cases = response.data.cases;
-                    }, function errorCallback(response) {
-                        console.log(response);
-                    });
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
-                jQuery('.mediascreen').toggleClass('minscreen');
-                jQuery('#consultnote-slide').toggleClass('active');
-                jQuery('#inventory-slide').removeClass('active');
-            };
+            
+            
+            
+            
+//            $scope.addnote = function () {
+//
+//                //Consusltation note details fetch
+//                $http({
+//                    method: "GET",
+//                    url: domain + "doctrsrecords/get-app-details",
+//                    params: {appId: $scope.appId}
+//                }).then(function successCallback(response) {
+//                    console.log(response.data.patient.id);
+//                    $scope.patientId = response.data.patient.id;
+//                    $scope.doctorId = response.data.doctr.id
+//                    $scope.app = response.data.app;
+//                    $scope.record = response.data.record;
+//                    $scope.recordDetails = response.data.recordDetails;
+//                    if ($scope.recordDetails.length > 0) {
+//                        angular.forEach($scope.recordDetails, function (val, key) {
+//                            if (val.fields.field == 'Case Id') {
+//                                $scope.caseId = val.value;
+//                                $scope.casetype = 0;
+//                                jQuery('.fields #precase').removeClass('hide');
+//                            }
+//                        });
+//                        $scope.recId = response.data.record.id;
+//                    }
+//                    if (response.data.app.mode == 1) {
+//                        $scope.mode = 'Video';
+//                    } else if (response.data.app.mode == 2) {
+//                        $scope.mode = 'Chat';
+//                    } else if (response.data.app.mode = 3) {
+//                        $scope.mode = 'Clinic'
+//                    } else if (response.data.app.mode == 4) {
+//                        $scope.mode = 'Home';
+//                    }
+//                    console.log($scope.mode);
+//                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+//                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
+//                    window.localStorage.setItem('patientId', $scope.patientId);
+//                    window.localStorage.setItem('doctorId', $scope.doctorId);
+//                    console.log($scope.conDate);
+//                    $http({
+//                        method: 'GET',
+//                        url: domain + 'doctrsrecords/get-fields',
+//                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+//                    }).then(function successCallback(response) {
+//                        console.log(response.data);
+//                        $scope.record = response.data.record;
+//                        $scope.fields = response.data.fields;
+//                        $scope.problems = response.data.problems;
+//                        $scope.doctrs = response.data.doctrs;
+//                        $scope.patients = response.data.patients;
+//                        $scope.cases = response.data.cases;
+//                    }, function errorCallback(response) {
+//                        console.log(response);
+//                    });
+//                }, function errorCallback(e) {
+//                    console.log(e);
+//                });
+//                jQuery('.mediascreen').toggleClass('minscreen');
+//                jQuery('#consultnote-slide').toggleClass('active');
+//                jQuery('#inventory-slide').removeClass('active');
+//            };
             $scope.removenoteslide = function () {
                 jQuery('.mediascreen').removeClass('minscreen');
                 jQuery('#consultnote-slide').removeClass('active');

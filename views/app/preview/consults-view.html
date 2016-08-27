@@ -23,7 +23,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <!--<div class="row">
                                         <div class="col txt-center" ng-if="app.all_medicine.length > 0">
                                             <a  class="btn crdview-plus" ng-click="viewMedicine(app.all_medicine[0].consultation_id)">
                                                 <span class="icon ion-eye"></span> View Medicine
@@ -39,7 +39,7 @@
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </a>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="clr"></div>
                                 </a>
                                 <div class="post-actions p0">
@@ -89,7 +89,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <!--<div class="row">
                                         <div ng-if="app.all_medicine_past.length > 0">
                                             <a class="btn crdview-plus" ng-click="viewMedicine(app.all_medicine_past[0].consultation_id)">
                                                 <span class="icon ion-plus-circled"></span>View Medicine
@@ -105,10 +105,10 @@
                                                 <span class="icon ion-plus-circled"></span> Note
                                             </span>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="clr"></div>
                                 </div>
-                                <div class="post-actions  post-footer p0">
+                                <div class="post-actions p0"><!--post-actions-->
                                     <div class="row cardbtn-small p0">
                                         <div class="cardpast-bar {{app.app.status==3?'fgreen':'fred'}}"><i class="{{app.app.status==3?'ion-checkmark':'ion-close'}}"></i> {{app.app.status==3?'Consulted':app.app.status==4?'Cancelled':app.app.status==6?'Patient no-show':app.app.status==7?'Doctor no-show':''}}</div>
                                     </div>
