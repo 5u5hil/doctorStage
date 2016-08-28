@@ -3,7 +3,7 @@
         <span>Consultation Note</span>
     </ion-nav-title>
     <div class="row tabnav headtab">
-        <div class="col"><span class="nbtn active" ng-click="tabclick('tabone')" rel="tabone">Info</span></div>
+        <div class="col"><span class="nbtn active" ng-click="tabclick('tabone')" rel="tabone" ng-disabled="addRecordForm.$invalid">Info</span></div>
         <div class="col"><span class="nbtn" ng-click="tabclick('tabtwo')"  rel="tabtwo">Note</span></div>
         <div class="col"><span class="nbtn" rel="tabthree" ng-click="tabclick('tabthree')">Treatment Plan</span></div>
     </div>
@@ -34,8 +34,8 @@
                         <div ng-if="caseId != ''">
                             <ion-list>
                                 <div class="row">
-                                    <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New</ion-radio></div>
-                                    <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing </ion-radio></div>
+                                    <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" ng-required="!casetype">New</ion-radio></div>
+                                    <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-required="!casetype">Ongoing </ion-radio></div>
                                 </div>
                             </ion-list>
                             <label class="item item-input item-select" id="precase">
@@ -52,8 +52,8 @@
                         <div ng-if="caseId == ''">
                             <ion-list>
                                 <div class="row">
-                                    <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New</ion-radio></div>
-                                    <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing </ion-radio></div>
+                                    <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" ng-required="!casetype">New</ion-radio></div>
+                                    <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-required="!casetype">Ongoing </ion-radio></div>
                                 </div>
                             </ion-list>
                             <label class="item item-input item-select hide" id="precase">
@@ -295,7 +295,7 @@
             </div>            
             <div class="clr"></div>
             <div class="accordiantab" ng-click="accordiantab('ntlifestyle')">
-                <span class="icon ion-plus-circled"></span>  Lifestyle
+                <span class="icon ion-plus-circled"></span>  Task
             </div> 
             <div  id="ntlifestyle" class="accordiancontent">
                 <div ng-include src="'views/app/note/nt-lifestyle.html'"></div>
@@ -321,7 +321,7 @@
         <!-- <button type="submit" ng-click="submit()" class="button button-positive"  style="width:100%" ng-disabled="addRecordForm.$invalid">Submit</button> -->
         <div class="tab-buttons">
             <div class="fixedbar tbtn active" rel="tabone">
-                <div class="col bar button btn-share" ng-click="tabclick('tabtwo')">Next</div>
+                <div class="col bar button btn-share" ng-click="tabclick('tabtwo')" ng-disabled="addRecordForm.$invalid">Next</div>
             </div>
             <div class="fixedbar row tbtn" rel="tabtwo">
                 <div class="col col-50 button btn-share" ng-click="tabclick('tabone')">Previous</div>

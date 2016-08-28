@@ -23,8 +23,8 @@
                 <div ng-if="caseId != ''">
                     <ion-list>
                         <div class="row">
-                            <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
-                            <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-checked="true" required>Ongoing Case</ion-radio></div>
+                            <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" ng-required="!casetype">New Case</ion-radio></div>
+                            <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-checked="true" ng-required="!casetype">Ongoing Case</ion-radio></div>
                         </div>
                     </ion-list>
                     <label class="item item-input item-select" id="precase">
@@ -41,8 +41,8 @@
                 <div ng-if="caseId == ''">
                     <ion-list>
                         <div class="row">
-                            <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" required>New Case</ion-radio></div>
-                            <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" required>Ongoing Case</ion-radio></div>
+                            <div class="col cradio"><ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'1'"  value="1" ng-change="getCase(casetype)" ng-required="!casetype">New Case</ion-radio></div>
+                            <div class="col cradio"> <ion-radio ng-model="casetype" name="{{field.name}}" ng-value="'0'" value="0" ng-change="getCase(casetype)" ng-required="!casetype">Ongoing Case</ion-radio></div>
                         </div>
                     </ion-list>
                     <label class="item item-input item-select hide" id="precase">

@@ -15,14 +15,14 @@ angular.module('your_app_name.controllers', [])
         .controller('AppCtrl', function ($scope, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $timeout, $ionicHistory) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
-            $scope.userId = window.localStorage.getItem('id');
+            $scope.userId = get('id');
             $scope.userType = 'doctor';
             $scope.action = 'logout';
-            $scope.interface = window.localStorage.getItem('interface_id');
-            if (window.localStorage.getItem('id') != null) {
+            $scope.interface = get('interface_id');
+            if (get('id') != null) {
                 $rootScope.userLogged = 1;
-                $rootScope.username = window.localStorage.getItem('fname');
-                $rootScope.userimage = window.localStorage.getItem('image');
+                $rootScope.username = get('fname');
+                $rootScope.userimage = get('image');
             }
             $ionicLoading.show({template: 'Loading..'});
             $http({
@@ -42,7 +42,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'get-login-logout-log',
-                    params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                    params: {userId: get('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
                 }).then(function successCallback(response) {
                 }, function errorCallback(e) {
                     console.log(e);
@@ -51,7 +51,7 @@ angular.module('your_app_name.controllers', [])
                 $http({
                     method: 'GET',
                     url: domain + 'doctors/doctor-logout',
-                    params: {docId: window.localStorage.getItem('id')}
+                    params: {docId: get('id')}
                 }).then(function successCallback(response) {
                     window.localStorage.clear();
                     $rootScope.userLogged = 0;
@@ -396,7 +396,6 @@ angular.module('your_app_name.controllers', [])
             $scope.submit = function () {
                 //console.log(jQuery("#addRecordForm")[0].length);                
                 //alert($scope.tempImgs.length);
-
                 if (jQuery("#addRecordForm")[0].length > 2) {
                     $ionicLoading.show({template: 'Adding...'});
                     var data = new FormData(jQuery("#addRecordForm")[0]);
@@ -437,8 +436,6 @@ angular.module('your_app_name.controllers', [])
                         }
                     });
                 }
-
-
                 function getImgUrl(imageName) {
                     var name = imageName.substr(imageName.lastIndexOf('/') + 1);
                     var trueOrigin = cordova.file.dataDirectory + name;
@@ -4264,7 +4261,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Save first
             var saveConsult = function () {
-                alert(jQuery('#newprecase').val());
+                //alert(jQuery('#newprecase').val());
                 if ((jQuery('#newprecase').val()) != '' || (jQuery('#newpcase').val()) != '') {
                     $ionicLoading.show({template: 'Saving...'});
                     var data = new FormData(jQuery("#addRecordForm")[0]);
@@ -4441,10 +4438,20 @@ angular.module('your_app_name.controllers', [])
                 jQuery('#' + pq).slideToggle();
                 // jQuery(this).toggleClass('active');
             };
+//            $scope.tabs = [{
+//                    title: 'Info',
+//                    url: 'one.tpl.html'
+//                }, {
+//                    title: 'Note',
+//                    url: 'note/consultation-note.html'
+//                }, {
+//                    title: 'Treatment',
+//                    url: 'three.tpl.html'
+//                }];
             $scope.tabclick = function (taburl) {
                 if ($scope.recId == '' || $scope.caseId != '') {
                     var savecn = saveConsult();
-                    alert("case note " + savecn + "case note");
+                    //alert("case note " + savecn + "case note");
                     if (savecn) {
                         console.log(taburl);
                         jQuery('.notetab').hide();
@@ -4458,7 +4465,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 } else {
                     var savecn = saveConsult();
-                    alert("case note " + savecn + "case note");
+                    //alert("case note " + savecn + "case note");
                     if (savecn) {
                         console.log(taburl);
                         jQuery('.notetab').hide();
@@ -10401,11 +10408,7 @@ angular.module('your_app_name.controllers', [])
                     $state.go('app.consultations-current', {}, {reload: true});
                 });
             };
-            
-            
-            
-            
-//            $scope.addnote = function () {
+            //$scope.addnote = function () {
 //
 //                //Consusltation note details fetch
 //                $http({

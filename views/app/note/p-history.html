@@ -155,7 +155,7 @@
             <ion-list>
                 <div class="crow">
                     <div class="col-half" ng-repeat="con in conditions track by $index">
-                        <ion-checkbox ng-model="filter.red" ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
+                        <ion-checkbox ng-model="conId[con.id]" ng-click="getCondition(con.id, con.condition)" ng-checked="getPreCon({{con.id}})">{{con.condition}}</ion-checkbox>
                     </div>
                 </div>
             </ion-list>
