@@ -137,7 +137,8 @@
                 </div>-->
             </div>
         </my-tab>
-        <my-tab title="Shared with you ({{sharedRecords.length}})"> <!----ng-click="subpage('sharedwithyou')"---->
+        <my-tab title="Shared with you ({{sharedRecords.length}})"> 
+        <!-- ng-click="subpage('sharedwithyou')" -->
             <div>
                 <p ng-if="records.length == 0">No record(s) found.</p>
                 <div class="list card post-item greenbox" ng-repeat="rec in sharedRecords track by $index" ng-if="records.length > 0">
