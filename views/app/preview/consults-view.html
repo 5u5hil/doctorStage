@@ -1,7 +1,7 @@
 <div>
     <my-tabs class="ctabs">
         <my-tab title="Active">
-            <div class="mtabcon" ng-controller="DoctorConsultationsActiveCtrl">
+            <div class="mtabcon" ng-controller="DoctorConsultationsActiveJoinPageCtrl">
                 <div class="tabcontainer p0">
                     <h4 class="txt-center"> {{all_data.length==0? 'No appointments': ''}}</h4>
                     <div class="posts-list"  ><!---->
@@ -68,7 +68,7 @@
             </div>
         </my-tab>
         <my-tab title="Past">
-            <div class="mtabcon" ng-controller="DoctorConsultationsPastCtrl">
+            <div class="mtabcon" ng-controller="DoctorConsultationsPastJoinPageCtrl">
                 <div class="clr"></div>
                 <div class="tabcontainer p0">
                     <h4 class="txt-center"> {{all_past_data.length==0? 'No appointments': ''}}</h4>
