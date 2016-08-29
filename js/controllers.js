@@ -9977,6 +9977,7 @@ angular.module('your_app_name.controllers', [])
                         session.unsubscribe();
                     },
                     streamCreated: function (event) {
+                         $ionicLoading.hide();
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {subscribeToAudio: true, insertMode: "replace", width: "100%", height: "100%"},
                                 function (error) {
                                     if (error) {

@@ -16,7 +16,7 @@
 
 
 
-                    <div ng-if="k == 'Status'">
+                    <div  ng-if="k == 'Status'">
 
                         <div class="item item-divider mt15">Status</div>
                         <ion-list>
@@ -26,29 +26,27 @@
                         </ion-list>
 
                     </div>
+                    
                     <div ng-if="k == 'Instant Video'">
-                        <div class="item item-divider mt15" >Instant Video </div>
-                       
-
+                        <div class="item item-divider" >Instant Video </div>
                         <div ng-repeat="videoval in val">
-                          
                             <div class="item item-divider" ng-if="videoval.control == 'Details Instant Video'"  ng-click="doc_services_setting(videoval.edit, 'Instant Video')" style="background-color: #fff" >
-                                {{videoval.control}}   </div>
-                            
-                            <ion-toggle ng-disabled="videoval.edit == '0'" ng-model="instant_permission.instant_permission" ng-disabled="videoval.edit == 0"  ng-if="videoval.control == 'Enable Instant Video'" ng-checked="instant_permission.instant_permission == '1'" ng-click="checkinstantpermission(instant_permission.instant_permission)" name="permission" ng-value="{{instant_permission.instant_permission}}"  toggle-class="toggle-positive"> Allow Instant Video </ion-toggle>
+                                Instant Video Details   </div>
+                            <ion-toggle ng-disabled="videoval.edit == '0'" ng-model="instant_permission.instant_permission" ng-disabled="videoval.edit == 0"  ng-if="videoval.control == 'Enable Instant Video'" ng-checked="instant_permission.instant_permission == '1'" ng-click="checkinstantpermission(instant_permission.instant_permission)" name="permission" ng-value="{{instant_permission.instant_permission}}"  toggle-class="toggle-positive"> Enable </ion-toggle>
                         </div>
                     </div>
+                    
                     <div ng-if="k == 'Video'">
-                        <div class="item item-divider mt15 ">Video  </div>
+
 
                         <div ng-repeat="dServ in docServices"> 
 
                             <div ng-if="dServ.service.service == 'Video'"> 
                                 <div ng-repeat="videoval in val">
                                     <div class="item item-divider" ng-if="videoval.control == 'Details Video'"  ng-click="doc_services_setting(videoval.edit, 'Video')" style="background-color: #fff">
-                                        {{videoval.control}}   </div>
+                                        Video Details</div>
                                     <div class="item item-divider"  ng-if="videoval.control != 'Details Video'" style="background-color: #fff">
-                                        {{videoval.control}}   </div>
+                                        Video </div>
                                     <ion-toggle ng-model="video" ng-if="videoval.control == 'Enable Video'" ng-disabled="videoval.edit == 0" ng-checked="video == 1" ng-click="checkService(video, userId, '1')" name="{{serv.service.service}}"  toggle-class="toggle-positive">Enable</ion-toggle>
                                 </div>
                             </div>
@@ -62,14 +60,14 @@
                         </div>
                     </div>
                     <div ng-if="k == 'Chat'">
-                        <div class="item item-divider mt15">Chat </div>
+
                         <div ng-repeat="dServ in docServices" > 
                             <div ng-if="dServ.service.service == k">
                                 <div ng-repeat="videoval in val">
                                     <div class="item item-divider" ng-if="videoval.control == 'Details Chat'"  ng-click="doc_services_setting(videoval.edit, 'Chat')" style="background-color: #fff">
-                                        {{videoval.control}}   </div>
+                                        Chat Details </div>
                                     <div class="item item-divider"  ng-if="videoval.control != 'Details Chat'" style="background-color: #fff" >
-                                        {{videoval.control}}   </div>
+                                        Chat  </div>
                                     <ion-toggle ng-model="chat" ng-checked="chat == 1" ng-disabled="videoval.edit == 0" ng-if="videoval.control == 'Enable Chat'" name="{{serv.service.service}}" ng-click="checkService(chat, userId, '2')" toggle-class="toggle-positive">Enable </ion-toggle>
                                 </div>
                             </div>
@@ -84,15 +82,15 @@
 
                     </div>
                     <div ng-if="k == 'Clinic'">
-                        <div class="item item-divider mt15">Clinic </div>
+                       
 
                         <div ng-repeat="dServ in docServices" ng-if="dServ.service.service == k" >
                             <div ng-if="dServ.service.service == k" >
                                 <div ng-repeat="videoval in val">
                                     <div class="item item-divider" ng-if="videoval.control == 'Details Clinic'"  ng-click="doc_services_setting(videoval.edit, 'Clinic')" style="background-color: #fff" >
-                                        {{videoval.control}}   </div>
+                                       Clinic Details </div>
                                     <div class="item item-divider"  ng-if="videoval.control != 'Details Clinic'" style="background-color: #fff" >
-                                        {{videoval.control}}   </div>
+                                       Clinic  </div>
                                     <ion-toggle ng-model="clinic" ng-checked="clinic == 1" ng-disabled="videoval.edit == 0" ng-if="videoval.control == 'Enable Clinic'" name="{{serv.service.service}}" ng-click="checkService(clinic, userId, '3')" toggle-class="toggle-positive"> Enable </ion-toggle>
                                 </div>
                             </div>
@@ -108,15 +106,15 @@
 
                     </div>
                     <div ng-if="k == 'Home'">
-                        <div class="item item-divider mt15"> Home </div>
+                        
                         <div ng-repeat="dServ in docServices"> 
 
                             <div ng-if="dServ.service.service == k" >
                                 <div ng-repeat="videoval in val">
                                     <div class="item item-divider" ng-if="videoval.control == 'Details Home'"  ng-click="doc_services_setting(videoval.edit, 'Home')" style="background-color: #fff" >
-                                        {{videoval.control}}   </div>
+                                      Home Details  </div>
                                     <div class="item item-divider"  ng-if="videoval.control != 'Details Home'" style="background-color: #fff" >
-                                        {{videoval.control}}   </div>
+                                       Home    </div>
                                     <ion-toggle ng-model="home" ng-checked="home == 1" ng-disabled="videoval.edit == 0" ng-if="videoval.control == 'Enable Home'" name="{{serv.service.service}}" ng-click="checkService(home, userId, '4')" toggle-class="toggle-positive"> Enable </ion-toggle>
                                 </div>
                             </div>
@@ -139,7 +137,7 @@
 
                         </div>
                     </div>
-                   
+
                 </div>
             </ul>
         </div>
