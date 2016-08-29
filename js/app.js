@@ -192,13 +192,13 @@ angular.module('your_app_name', [
                 }
                 //PushNotificationsService.register();
             });
-            $rootScope.$on('loading:show', function () {
-                $ionicLoading.show({template: 'Loading'})
-            })
-
-            $rootScope.$on('loading:hide', function () {
-                $ionicLoading.hide()
-            })
+//            $rootScope.$on('loading:show', function () {
+//                $ionicLoading.show({template: 'Loading'})
+//            })
+//
+//            $rootScope.$on('loading:hide', function () {
+//                $ionicLoading.hide()
+//            })
             // This fixes transitions for transparent background views
             $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
                 if (toState.name.indexOf('auth.walkthrough') > -1)

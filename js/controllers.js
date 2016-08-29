@@ -172,6 +172,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('CreatedbyuCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+            $ionicLoading.show({template: 'Loading..'});
             $scope.patientId = $stateParams.id;
             $scope.shared = 0;
             $scope.catIds = [];
@@ -188,6 +189,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.doctrs = response.data.doctrs;
                 $scope.userRecords = response.data.recordCount;
                 $scope.patient = response.data.patient;
+                $ionicLoading.hide();
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -211,11 +213,13 @@ angular.module('your_app_name.controllers', [])
                     var confirm = window.confirm("Do you really want to delete?");
                     if (confirm) {
                         console.log($scope.catIds);
+                        $ionicLoading.show({template: 'Loading..'});
                         $http({
                             method: 'POST',
                             url: domain + 'doctrsrecords/delete-all',
                             params: {ids: JSON.stringify($scope.catIds), userId: $scope.userid, shared: $scope.shared}
                         }).then(function successCallback(response) {
+                            $ionicLoading.hide();
                             alert("Records deleted successfully!");
                             $state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
                         }, function errorCallback(e) {
@@ -233,16 +237,17 @@ angular.module('your_app_name.controllers', [])
                         var confirm = window.confirm("Do you really want to share?");
                         if (confirm) {
                             console.log($scope.catIds);
+                            $ionicLoading.show({template: 'Loading..'});
                             $http({
                                 method: 'POST',
                                 url: domain + 'doctrsrecords/share-all',
                                 params: {ids: JSON.stringify($scope.catIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
                                 console.log(response);
+                                $ionicLoading.hide();
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
                                     window.location.reload();
-                                    //$state.go('app.createdbyu', {id: $scope.patientId}, {reload: true});
                                 }
                             }, function errorCallback(e) {
                                 console.log(e);
@@ -280,9 +285,6 @@ angular.module('your_app_name.controllers', [])
                     }).then(function successCallback(response) {
                         $scope.cats = response.data;
                         $scope.modal.show();
-                        // angular.forEach(response.data, function (value, key) {
-                        // $scope.cats.push({text: value.category, id: value.id});
-                        // });
                     }, function errorCallback(response) {
                         console.log(response);
                     });
@@ -306,6 +308,7 @@ angular.module('your_app_name.controllers', [])
         })
 
         .controller('AddRecordCtrl', function ($scope, $http, $state, $stateParams, $compile, $ionicModal, $ionicHistory, $filter, $timeout, $ionicLoading, $cordovaCamera, $cordovaFile, $rootScope) {
+            $ionicLoading.show({template: 'Loading..'});
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.images = [];
             $scope.image = [];
@@ -438,12 +441,6 @@ angular.module('your_app_name.controllers', [])
                     });
                 }
 
-
-                function getImgUrl(imageName) {
-                    var name = imageName.substr(imageName.lastIndexOf('/') + 1);
-                    var trueOrigin = cordova.file.dataDirectory + name;
-                    return trueOrigin;
-                }
             };
             $scope.getPrescription = function (pre) {
                 console.log('pre ' + pre);
@@ -736,7 +733,8 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout) {
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $cordovaPrinter, $ionicModal, $timeout, $ionicLoading) {
+            $ionicLoading.show({template: 'Loading..'});
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.category = [];
             $scope.catId = $stateParams.id;
@@ -782,13 +780,13 @@ angular.module('your_app_name.controllers', [])
                 $scope.cases = response.data.cases;
                 $scope.patient = response.data.patient;
                 $scope.doctrs = response.data.shareDoctrs;
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
             $scope.getRecords = function (cat) {
                 console.log(cat);
                 $scope.catId = cat;
-                //$stateParams.id = cat;
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-records-details',
@@ -802,16 +800,13 @@ angular.module('your_app_name.controllers', [])
                         }
                     }
                     $scope.doctrs = response.data.shareDoctrs;
-                    //$scope.category = response.data.category;
                     console.log($scope.catId);
                 }, function errorCallback(response) {
                     console.log(response);
                 });
                 $rootScope.$digest;
             };
-//            $scope.addRecord = function () {
-//                $state.go('app.add-category', {'id': button.id}, {reload: true});
-//            };
+
             //Delete Records by Category
             $scope.getRecIds = function (id) {
                 console.log(id);
@@ -833,11 +828,13 @@ angular.module('your_app_name.controllers', [])
                     var confirm = window.confirm("Do you really want to delete?");
                     if (confirm) {
                         console.log($scope.recIds);
+                        $ionicLoading.show({template: 'Loading..'});
                         $http({
                             method: 'POST',
                             url: domain + 'doctrsrecords/delete-by-category',
                             params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, shared: $scope.shared}
                         }).then(function successCallback(response) {
+                            $ionicLoading.hide();
                             alert("Records deleted successfully!");
                             window.location.reload();
                         }, function errorCallback(e) {
@@ -855,12 +852,14 @@ angular.module('your_app_name.controllers', [])
                         var confirm = window.confirm("Do you really want to share?");
                         if (confirm) {
                             console.log($scope.recIds);
+                            $ionicLoading.show({template: 'Loading..'});
                             $http({
                                 method: 'POST',
                                 url: domain + 'doctrsrecords/share-by-category',
                                 params: {ids: JSON.stringify($scope.recIds), userId: $scope.userId, patientId: $scope.patientId, docId: $scope.docId, shared: $scope.shared}
                             }).then(function successCallback(response) {
-                                console.log(response);
+                                console.log(response)
+                                $ionicLoading.hide();
                                 if (response.data == 'Success') {
                                     alert("Records shared successfully!");
                                     window.location.reload();
@@ -914,7 +913,8 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+        .controller('RecordDetailsCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce, $ionicLoading) {
+            $ionicLoading.show({template: 'Loading..'});
             $scope.recordId = $stateParams.id;
             $scope.catId = $stateParams.catId;
             $scope.userId = get('id');
@@ -956,6 +956,7 @@ angular.module('your_app_name.controllers', [])
                         }
                     });
                 }
+                $ionicLoading.hide();
             }, function errorCallback(response) {
                 console.log(response);
             });
@@ -1045,7 +1046,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('shareModalCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+        .controller('shareModalCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce, $ionicLoading) {
             //Show share model
             $ionicModal.fromTemplateUrl('share', {
                 scope: $scope,
@@ -1058,7 +1059,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('SharedwithuCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce) {
+        .controller('SharedwithuCtrl', function ($scope, $http, $state, $stateParams, $timeout, $ionicModal, $rootScope, $sce, $ionicLoading) {
             $scope.patientId = $stateParams.id;
             $scope.shared = 1;
             $scope.userId = get('id');
@@ -1157,7 +1158,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+        .controller('InventoryCtrl', function ($scope, $http, $stateParams, $ionicModal, $state, $ionicLoading) {
             $http({
                 method: 'GET',
                 url: domain + 'inventory/get-all-phc-location',
@@ -1192,7 +1193,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('InventorySearchCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+        .controller('InventorySearchCtrl', function ($scope, $http, $stateParams, $ionicModal, $state, $ionicLoading) {
             //$scope.getMedicine = [];
             $scope.searchkey = $stateParams.key;
             console.log("@@@@@@@" + $scope.searchkey);
@@ -1266,17 +1267,17 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ContentLibraryListCtrl', function ($scope, $http, $stateParams) {
+        .controller('ContentLibraryListCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('ContentLibraryDetailsCtrl', function ($scope, $http, $stateParams) {
+        .controller('ContentLibraryDetailsCtrl', function ($scope, $http, $stateParams, $ionicLoading) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
 
-        .controller('PatientAddCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('PatientAddCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
             $ionicModal.fromTemplateUrl('patient-add', {
@@ -1291,7 +1292,7 @@ angular.module('your_app_name.controllers', [])
 
         })
 
-        .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal) {
+        .controller('PatientRecordCtrl', function ($scope, $http, $stateParams, $ionicModal, $ionicLoading) {
             $scope.category_sources = [];
             $scope.categoryId = $stateParams.categoryId;
         })
@@ -1961,7 +1962,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal, $state) {
+        .controller('PatientCtrl', function ($scope, $http, $stateParams, $ionicModal, $state, $ionicLoading) {
             $scope.patientId = $stateParams.id;
             $scope.userId = get('id');
             unset(['backurl']);
@@ -2204,7 +2205,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('mealDetailsCtrl', function ($scope, $ionicModal) {
+        .controller('mealDetailsCtrl', function ($scope, $ionicModal, $ionicLoading) {
             $ionicModal.fromTemplateUrl('mealdetails', {
                 scope: $scope
             }).then(function (modal) {
@@ -3003,7 +3004,7 @@ angular.module('your_app_name.controllers', [])
             };
         })
 
-        .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory) {
+        .controller('ThankyouCtrl', function ($scope, $http, $state, $location, $stateParams, $rootScope, $ionicGesture, $timeout, $sce, $ionicHistory, $ionicLoading) {
             console.log($stateParams.data);
             $scope.id = window.localStorage.getItem('id');
             $scope.data = $stateParams.data;
@@ -10095,26 +10096,26 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.changejoincate = function (cvalue) {
                 if (cvalue == 'ntcase') {
-                    $scope.notetcase = true
-                    $scope.notebackground = false
-                    $scope.notetnote = false
-                    $scope.notetreatment = false
+                    $scope.notetcase = true;
+                    $scope.notebackground = false;
+                    $scope.notetnote = false;
+                    $scope.notetreatment = false;
                 } else if (cvalue == 'ntbackground') {
-                    $scope.notetcase = false
-                    $scope.notebackground = true
-                    $scope.notetnote = false
-                    $scope.notetreatment = false
+                    $scope.notetcase = false;
+                    $scope.notebackground = true;
+                    $scope.notetnote = false;
+                    $scope.notetreatment = false;
                 } else if (cvalue == 'ntnote') {
-                    $scope.notetcase = false
-                    $scope.notebackground = false
-                    $scope.notetnote = true
-                    $scope.notetreatment = false
+                    $scope.notetcase = false;
+                    $scope.notebackground = false;
+                    $scope.notetnote = true;
+                    $scope.notetreatment = false;
                 }
                 if (cvalue == 'nttreatment') {
-                    $scope.notetcase = false
-                    $scope.notebackground = false
-                    $scope.notetnote = false
-                    $scope.notetreatment = true
+                    $scope.notetcase = false;
+                    $scope.notebackground = false;
+                    $scope.notetnote = false;
+                    $scope.notetreatment = true;
                 }
             };
             $scope.ovtab = 'oabout';
@@ -10122,26 +10123,26 @@ angular.module('your_app_name.controllers', [])
             // overview 
             $scope.changeoveview = function (ovalue) {
                 if (ovalue == 'oabout') {
-                    $scope.ovabout = true
-                    $scope.ovrecord = false
-                    $scope.ovconsult = false
-                    $scope.ovchats = false
+                    $scope.ovabout = true;
+                    $scope.ovrecord = false;
+                    $scope.ovconsult = false;
+                    $scope.ovchats = false;
                 } else if (ovalue == 'orecord') {
-                    $scope.ovabout = false
-                    $scope.ovrecord = true
-                    $scope.ovconsult = false
-                    $scope.ovchats = false
+                    $scope.ovabout = false;
+                    $scope.ovrecord = true;
+                    $scope.ovconsult = false;
+                    $scope.ovchats = false;
                 } else if (ovalue == 'oconsult') {
-                    $scope.ovabout = false
-                    $scope.ovrecord = false
-                    $scope.ovconsult = true
-                    $scope.ovchats = false
+                    $scope.ovabout = false;
+                    $scope.ovrecord = false;
+                    $scope.ovconsult = true;
+                    $scope.ovchats = false;
                 }
                 if (ovalue == 'ochats') {
-                    $scope.ovabout = false
-                    $scope.ovrecord = false
-                    $scope.ovconsult = false
-                    $scope.ovchats = true
+                    $scope.ovabout = false;
+                    $scope.ovrecord = false;
+                    $scope.ovconsult = false;
+                    $scope.ovchats = true;
                 }
             };
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -10316,7 +10317,7 @@ angular.module('your_app_name.controllers', [])
                                                             audioBitRate: audioBitRate
                                                         }
                                                     }).then(function successCallback(response) {
-                                                        $ionicLoading.hide();
+                                                        //$ionicLoading.hide();
                                                     }, function errorCallback(e) {
 
                                                     });
@@ -10331,7 +10332,6 @@ angular.module('your_app_name.controllers', [])
                         var subscribers3 = session.getSubscribersForStream(event.stream);
                         console.log('sessionDisconnected : ' + subscribers3);
                         if (event.reason === 'networkDisconnected') {
-                            $ionicLoading.hide();
                             alert('You lost your internet connection.'
                                     + 'Please check your connection and try connecting again.');
                             var subscribers4 = session.getSubscribersForStream(event.stream);
@@ -10344,8 +10344,8 @@ angular.module('your_app_name.controllers', [])
                         $ionicLoading.hide();
                         alert("Error connecting session doctors: ", error.code, error.message);
                     } else {
+                        $ionicLoading.hide();
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
-                        //  session.publish(publisher);
                         session.publish(publisher, function (error) {
                             if (error) {
                                 console.log("publisher Error code/msg: ", error.code, error.message);
@@ -10360,7 +10360,6 @@ angular.module('your_app_name.controllers', [])
                                             $scope.Timercounter++;
                                             $scope.seconds = $scope.Timercounter % 60;
                                             $scope.minutes = Math.floor($scope.Timercounter / 60);
-                                            //  var mytimeout = $timeout($scope.onTimeout, 1000);
                                             $scope.result = ($scope.minutes < 10 ? "0" + $scope.minutes : $scope.minutes);
                                             $scope.result += ":" + ($scope.seconds < 10 ? "0" + $scope.seconds : $scope.seconds);
                                             $scope.onTimeout();
@@ -10384,22 +10383,13 @@ angular.module('your_app_name.controllers', [])
                                 });
                                 publisher.on('streamCreated', function (event) {
                                     var subscribers5 = session.getSubscribersForStream(event.stream);
-                                    //console.log('on publish: ' + subscribers5);
                                     console.log('on publish lenghth.' + subscribers5.length);
-                                    //  alert('APK on publish lenghth.');
-                                    //  console.log('stream created: ' + subscribers5);
                                 });
                                 publisher.on('streamDestroyed', function (event) {
                                     var subscribers6 = session.getSubscribersForStream(event.stream);
                                     console.log('on Destroy: ' + subscribers6);
-                                    // alert('on Destroy: ' + subscribers6)
                                     console.log('on Destroy reason: ' + event.reason);
-                                    //alert('on Destroy reason: ' + event.reason);
-                                    //  session.unsubscribe();
                                     subscriber.destroy();
-                                    // alert("publisher.destroy");
-                                    // console.log("subscriber.destroy" + subscriber.destroy);
-                                    // session.disconnect()
                                 });
                                 var mic = 1;
                                 var mute = 1;
