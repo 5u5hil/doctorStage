@@ -8252,7 +8252,7 @@ angular.module('your_app_name.controllers', [])
             });
         })
 
-        .controller('PastChatCtrl', function ($scope, $state, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+        .controller('PastChatCtrl', function ($scope, $state,$ionicLoading, $http, $stateParams, $timeout, $filter) {
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -8326,8 +8326,8 @@ angular.module('your_app_name.controllers', [])
                     $('#chat').html('<p> No previous messages</p>');
                 }
             }, 1000);
-
-            $scope.getchatsharedata = function () {
+            
+             $scope.getchatsharedata = function () {
                 $http({
                     method: 'GET',
                     url: domain + 'contentlibrary/get-video-chat-share-data',
@@ -9798,26 +9798,26 @@ angular.module('your_app_name.controllers', [])
             };
             $scope.changejoincate = function (cvalue) {
                 if (cvalue == 'ntcase') {
-                    $scope.notetcase = true;
-                    $scope.notebackground = false;
-                    $scope.notetnote = false;
-                    $scope.notetreatment = false;
+                    $scope.notetcase = true
+                    $scope.notebackground = false
+                    $scope.notetnote = false
+                    $scope.notetreatment = false
                 } else if (cvalue == 'ntbackground') {
-                    $scope.notetcase = false;
-                    $scope.notebackground = true;
-                    $scope.notetnote = false;
-                    $scope.notetreatment = false;
+                    $scope.notetcase = false
+                    $scope.notebackground = true
+                    $scope.notetnote = false
+                    $scope.notetreatment = false
                 } else if (cvalue == 'ntnote') {
-                    $scope.notetcase = false;
-                    $scope.notebackground = false;
-                    $scope.notetnote = true;
-                    $scope.notetreatment = false;
+                    $scope.notetcase = false
+                    $scope.notebackground = false
+                    $scope.notetnote = true
+                    $scope.notetreatment = false
                 }
                 if (cvalue == 'nttreatment') {
-                    $scope.notetcase = false;
-                    $scope.notebackground = false;
-                    $scope.notetnote = false;
-                    $scope.notetreatment = true;
+                    $scope.notetcase = false
+                    $scope.notebackground = false
+                    $scope.notetnote = false
+                    $scope.notetreatment = true
                 }
             };
             $scope.ovtab = 'oabout';
@@ -9825,26 +9825,26 @@ angular.module('your_app_name.controllers', [])
             // overview 
             $scope.changeoveview = function (ovalue) {
                 if (ovalue == 'oabout') {
-                    $scope.ovabout = true;
-                    $scope.ovrecord = false;
-                    $scope.ovconsult = false;
-                    $scope.ovchats = false;
+                    $scope.ovabout = true
+                    $scope.ovrecord = false
+                    $scope.ovconsult = false
+                    $scope.ovchats = false
                 } else if (ovalue == 'orecord') {
-                    $scope.ovabout = false;
-                    $scope.ovrecord = true;
-                    $scope.ovconsult = false;
-                    $scope.ovchats = false;
+                    $scope.ovabout = false
+                    $scope.ovrecord = true
+                    $scope.ovconsult = false
+                    $scope.ovchats = false
                 } else if (ovalue == 'oconsult') {
-                    $scope.ovabout = false;
-                    $scope.ovrecord = false;
-                    $scope.ovconsult = true;
-                    $scope.ovchats = false;
+                    $scope.ovabout = false
+                    $scope.ovrecord = false
+                    $scope.ovconsult = true
+                    $scope.ovchats = false
                 }
                 if (ovalue == 'ochats') {
-                    $scope.ovabout = false;
-                    $scope.ovrecord = false;
-                    $scope.ovconsult = false;
-                    $scope.ovchats = true;
+                    $scope.ovabout = false
+                    $scope.ovrecord = false
+                    $scope.ovconsult = false
+                    $scope.ovchats = true
                 }
             };
             $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -9957,8 +9957,10 @@ angular.module('your_app_name.controllers', [])
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
                 var token = response.data.oToken;
                 if (OT.checkSystemRequirements() == 1) {
-                    session = OT.initSession(apiKey, sessionId);                    
+                    session = OT.initSession(apiKey, sessionId);
+                    $ionicLoading.hide();
                 } else {
+                    $ionicLoading.hide();
                     alert("Your device is not compatible");
                 }
                 session.on({
@@ -9988,6 +9990,7 @@ angular.module('your_app_name.controllers', [])
                                         console.log('stream created: ' + subscribers2);
                                         var prevStats;
                                         statstimer = window.setInterval(function () {
+                                            $ionicLoading.hide();
                                             subscriber.getStats(function (error, stats) {
                                                 if (error) {
                                                     console.error('Error getting subscriber stats. ', error.message);
@@ -10004,6 +10007,7 @@ angular.module('your_app_name.controllers', [])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
+                                                     $ionicLoading.hide();
                                                     $http({
                                                         method: 'GET',
                                                         url: domain + 'log/stats-log',
@@ -10015,7 +10019,7 @@ angular.module('your_app_name.controllers', [])
                                                             audioBitRate: audioBitRate
                                                         }
                                                     }).then(function successCallback(response) {
-                                                        console.log("Add stats");
+                                                        $ionicLoading.hide();
                                                     }, function errorCallback(e) {
 
                                                     });
@@ -10030,6 +10034,7 @@ angular.module('your_app_name.controllers', [])
                         var subscribers3 = session.getSubscribersForStream(event.stream);
                         console.log('sessionDisconnected : ' + subscribers3);
                         if (event.reason === 'networkDisconnected') {
+                            $ionicLoading.hide();
                             alert('You lost your internet connection.'
                                     + 'Please check your connection and try connecting again.');
                             var subscribers4 = session.getSubscribersForStream(event.stream);
@@ -10039,9 +10044,9 @@ angular.module('your_app_name.controllers', [])
                 });
                 session.connect(token, function (error) {
                     if (error) {
+                        $ionicLoading.hide();
                         alert("Error connecting session doctors: ", error.code, error.message);
                     } else {
-                        $ionicLoading.hide();
                         publisher = OT.initPublisher('myPublisherDiv', {width: "30%", height: "30%"});
                         //  session.publish(publisher);
                         session.publish(publisher, function (error) {
@@ -10134,7 +10139,6 @@ angular.module('your_app_name.controllers', [])
                         });
                     }
                 });
-                
                 $scope.getCnDetails();
             }, function errorCallback(e) {
                 console.log(e);
@@ -10398,6 +10402,71 @@ angular.module('your_app_name.controllers', [])
                     $state.go('app.consultations-current', {}, {reload: true});
                 });
             };
+            
+            
+            
+            
+//            $scope.addnote = function () {
+//
+//                //Consusltation note details fetch
+//                $http({
+//                    method: "GET",
+//                    url: domain + "doctrsrecords/get-app-details",
+//                    params: {appId: $scope.appId}
+//                }).then(function successCallback(response) {
+//                    console.log(response.data.patient.id);
+//                    $scope.patientId = response.data.patient.id;
+//                    $scope.doctorId = response.data.doctr.id
+//                    $scope.app = response.data.app;
+//                    $scope.record = response.data.record;
+//                    $scope.recordDetails = response.data.recordDetails;
+//                    if ($scope.recordDetails.length > 0) {
+//                        angular.forEach($scope.recordDetails, function (val, key) {
+//                            if (val.fields.field == 'Case Id') {
+//                                $scope.caseId = val.value;
+//                                $scope.casetype = 0;
+//                                jQuery('.fields #precase').removeClass('hide');
+//                            }
+//                        });
+//                        $scope.recId = response.data.record.id;
+//                    }
+//                    if (response.data.app.mode == 1) {
+//                        $scope.mode = 'Video';
+//                    } else if (response.data.app.mode == 2) {
+//                        $scope.mode = 'Chat';
+//                    } else if (response.data.app.mode = 3) {
+//                        $scope.mode = 'Clinic'
+//                    } else if (response.data.app.mode == 4) {
+//                        $scope.mode = 'Home';
+//                    }
+//                    console.log($scope.mode);
+//                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+//                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
+//                    window.localStorage.setItem('patientId', $scope.patientId);
+//                    window.localStorage.setItem('doctorId', $scope.doctorId);
+//                    console.log($scope.conDate);
+//                    $http({
+//                        method: 'GET',
+//                        url: domain + 'doctrsrecords/get-fields',
+//                        params: {patient: $scope.patientId, userId: $scope.userId, catId: $scope.catId}
+//                    }).then(function successCallback(response) {
+//                        console.log(response.data);
+//                        $scope.record = response.data.record;
+//                        $scope.fields = response.data.fields;
+//                        $scope.problems = response.data.problems;
+//                        $scope.doctrs = response.data.doctrs;
+//                        $scope.patients = response.data.patients;
+//                        $scope.cases = response.data.cases;
+//                    }, function errorCallback(response) {
+//                        console.log(response);
+//                    });
+//                }, function errorCallback(e) {
+//                    console.log(e);
+//                });
+//                jQuery('.mediascreen').toggleClass('minscreen');
+//                jQuery('#consultnote-slide').toggleClass('active');
+//                jQuery('#inventory-slide').removeClass('active');
+//            };
             $scope.removenoteslide = function () {
                 jQuery('.mediascreen').removeClass('minscreen');
                 jQuery('#consultnote-slide').removeClass('active');
