@@ -1,6 +1,7 @@
 <div>
     <my-tabs class="ctabs">
-        <my-tab title="Created by you ({{records.length}})"> <!-----------ng-click="subpage('createdbyu')" ------->
+        <my-tab title="Created by you ({{records.length}})"> 
+       <!--  ng-click="subpage('createdbyu')"  -->
             <div>
                 <p ng-if="records.length == 0">No record(s) found.</p>
                 <div class="list card post-item greenbox" ng-repeat="rec in records track by $index" ng-if="records.length > 0">
@@ -123,7 +124,7 @@
                             <div class="post-footer p0">
                                 <div class="row">
                                     <div class="col-80 ">Created {{rec.created_at| datetime3 }} by {{userId==createdby[$index].id? 'You': createdby[$index].fname}}</div>
-                                    <div class="col-20 text-right"><span class="btn crdview-plus" ng-click="share(rec.id)"> <i class="icon ion-android-share-alt"></i> Share</span></div>
+                                    <div class="col-20 text-right"><button class="btn crdview-plus" ng-click="share(rec.id)"> <i class="icon ion-android-share-alt"></i> Share</button></div>
                                 </div>
                             </div>
                         </div>
