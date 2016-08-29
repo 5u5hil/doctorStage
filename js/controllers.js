@@ -4265,7 +4265,7 @@ angular.module('your_app_name.controllers', [])
             };
             //Save first
             var saveConsult = function () {
-                alert(jQuery('#newprecase').val());
+                //alert(jQuery('#newprecase').val());
                 if ((jQuery('#newprecase').val()) != '' || (jQuery('#newpcase').val()) != '') {
                     $ionicLoading.show({template: 'Saving...'});
                     var data = new FormData(jQuery("#addRecordForm")[0]);
@@ -4445,7 +4445,7 @@ angular.module('your_app_name.controllers', [])
             $scope.tabclick = function (taburl) {
                 if ($scope.recId == '' || $scope.caseId != '') {
                     var savecn = saveConsult();
-                    alert("case note " + savecn + "case note");
+                    //alert("case note " + savecn + "case note");
                     if (savecn) {
                         console.log(taburl);
                         jQuery('.notetab').hide();
@@ -4459,7 +4459,7 @@ angular.module('your_app_name.controllers', [])
                     }
                 } else {
                     var savecn = saveConsult();
-                    alert("case note " + savecn + "case note");
+                    //alert("case note " + savecn + "case note");
                     if (savecn) {
                         console.log(taburl);
                         jQuery('.notetab').hide();
