@@ -7976,6 +7976,7 @@ angular.module('your_app_name.controllers', [])
                 console.log(e);
             });
             $scope.goChat = function (chatId, chatStart, chatDate) {
+                console.log(chatId+"====="+chatStart+"========"+chatDate);
                 //var chatDate = $filter('date')(chatStart, 'MMM dd, yyyy - HH:mm a');
                 if (chatStart <= $scope.curDate)
                     $state.go('app.chat', {'id': chatId}, {reload: true});
@@ -10249,7 +10250,7 @@ angular.module('your_app_name.controllers', [])
                 window.localStorage.setItem('patientId', $scope.patientId);
                 window.localStorage.setItem('doctorId', $scope.doctorId);
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
-                var apiKey = '45121182';
+                var apiKey = response.data.key;  //'45121182';
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
                 var token = response.data.oToken;
                 if (OT.checkSystemRequirements() == 1) {
