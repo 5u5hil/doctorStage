@@ -211,7 +211,7 @@ angular.module('your_app_name', [
                     }, 0);
                 }
                 try {
-                    if (toState.name == "app.doctor-join")
+                    if (toState.name == "app.doctor-join" || toState.name == "app.chat")
                     {
                         console.log("false state");
                         window.plugins.OneSignal.enableInAppAlertNotification(false);
@@ -222,6 +222,8 @@ angular.module('your_app_name', [
                 } catch (err) {
 
                 }
+                
+                
             });
             $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
                 if (toState.name.indexOf('app.feeds-categories') > -1)
