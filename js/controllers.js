@@ -30,9 +30,10 @@ angular.module('your_app_name.controllers', [])
                 url: domain + 'get-dr-sidemenu',
                 params: {id: $scope.userId, interface: $scope.interface}
             }).then(function successCallback(response) {
+                $ionicLoading.hide();
                 if (response.data) {
                     $scope.menuItem = response.data.menuItem;
-                    $ionicLoading.hide();
+                    
                 } else {
                 }
             }, function errorCallback(response) {
@@ -3236,6 +3237,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.unreadCnt = response.data;
                 $ionicLoading.hide();
             }, function errorCallback(e) {
+                $ionicLoading.hide();
                 console.log(e);
             });
             $http({

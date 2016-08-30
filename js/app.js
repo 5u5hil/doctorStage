@@ -1,6 +1,6 @@
 // Ionic Starter App
-var domain = "http://stage.doctrs.in/";
-//var domain = "http://192.168.2.169/doctors/";
+var domain = "https://hope.arth.tech";
+//var domain = "http://stage.doctrs.in/";
 angular.module('underscore', [])
         .factory('_', function () {
             return window._; // assumes underscore has already been loaded on the page
