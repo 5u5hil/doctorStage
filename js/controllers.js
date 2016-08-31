@@ -8538,6 +8538,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
+                 $scope.chatActive = response.data.chatActive;
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -8674,6 +8675,7 @@ angular.module('your_app_name.controllers', [])
                 $scope.otherUser = response.data.otherUser;
                 $scope.chatMsgs = response.data.chatMsgs;
                 $scope.sessionId = response.data.chatSession;
+                $scope.chatActive = response.data.chatActive;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
                 //  console.log("error source 1" + chatWidget);
