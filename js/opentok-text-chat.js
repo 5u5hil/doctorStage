@@ -168,6 +168,7 @@ ChatUI = function (ChatMessage) {
             _this._showError();
             _this.enableSending();
           }, _this.timeout);
+          contents=encrypt(contents);
           var sent = _this.onMessageReadyToSend(contents, function (err) {
             clearTimeout(timeout);
             if (err) {
@@ -523,6 +524,7 @@ ChatWidget = function (Chat, ChatUI, ChatMessage) {
     renderMessage: function (raw) {
       var output;
       // Allow multiline
+      raw=decrypt(raw);
       output = raw.replace(/(\r\n|\r|\n)/g, '<br/>');
       // Detect links
       output = output.replace(links, function (href) {

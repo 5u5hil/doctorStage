@@ -8176,7 +8176,7 @@ angular.module('your_app_name.controllers', [])
                 console.log('connectioning.....');
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
-                    angular.forEach($scope.chatMsgs, function (value, key) {
+                   angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
@@ -8571,8 +8571,21 @@ angular.module('your_app_name.controllers', [])
                 console.log('connectioning.....');
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
+                    var phone1 =  $scope.user.phone;
+                    var phone2 =  $scope.otherUser.phone;
+                    var passphrase = "9773001965";
+                    if (phone1>phone2){
+                        passphrase =  phone1 + phone2;
+                    }
+                    else{
+                        passphrase = phone2 + phone1;
+                    }
+                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                    publicKey = cryptico.publicKeyString(privateKey);  
+
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
+                        value.message = decrypt(value.message);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
                             $('#chat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
