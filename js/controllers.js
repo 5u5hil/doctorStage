@@ -8538,7 +8538,20 @@ angular.module('your_app_name.controllers', [])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
-                 $scope.chatActive = response.data.chatActive;
+                $scope.chatActive = response.data.chatActive;
+
+                    var phone1 =  $scope.user.phone;
+                    var phone2 =  $scope.otherUser.phone;
+                    var passphrase = "9773001965";
+                    if (phone1>phone2){
+                        passphrase =  phone1 + phone2;
+                    }
+                    else{
+                        passphrase = phone2 + phone1;
+                    }
+                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                    publicKey = cryptico.publicKeyString(privateKey);
+
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -8571,18 +8584,6 @@ angular.module('your_app_name.controllers', [])
                 console.log('connectioning.....');
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
-                    var phone1 =  $scope.user.phone;
-                    var phone2 =  $scope.otherUser.phone;
-                    var passphrase = "9773001965";
-                    if (phone1>phone2){
-                        passphrase =  phone1 + phone2;
-                    }
-                    else{
-                        passphrase = phone2 + phone1;
-                    }
-                    privateKey =  cryptico.generateRSAKey(passphrase, 1024);
-                    publicKey = cryptico.publicKeyString(privateKey);  
-
                     angular.forEach($scope.chatMsgs, function (value, key) {
                         //console.log(value);
                         value.message = decrypt(value.message);
